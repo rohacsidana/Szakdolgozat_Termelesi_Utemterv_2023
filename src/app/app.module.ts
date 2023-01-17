@@ -9,7 +9,6 @@ import { LdComponent } from './ld/ld.component';
 import { UserComponent } from './user/user.component';
 import { PtComponent } from './pt/pt.component';
 import { PsComponent } from './pt/ps/ps.component';
-import { ClearComponent } from './clear/clear.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +18,7 @@ import { ClearComponent } from './clear/clear.component';
     UserComponent,
     PtComponent,
     PsComponent,
-    ClearComponent,
+  
   ],
   imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
   providers: [],
