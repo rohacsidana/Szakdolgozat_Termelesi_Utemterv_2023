@@ -4,27 +4,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PtComponentComponent } from './pt-component/pt-component.component';
-import { PsComponentComponent } from './pt-component/ps-component/ps-component.component';
-import { UserComponentComponent } from './user-component/user-component.component';
-import { LdComponentComponent } from './ld-component/ld-component.component';
-import { HeaderComponentComponent } from './header-component/header-component.component';
+import { HeaderComponent } from './header/header.component';
+import { LdComponent } from './ld/ld.component';
+import { UserComponent } from './user/user.component';
+import { PtComponent } from './pt/pt.component';
+import { PsComponent } from './pt/ps/ps.component';
+import { ClearComponent } from './clear/clear.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PtComponentComponent,
-    PsComponentComponent,
-    UserComponentComponent,
-    LdComponentComponent,
-    HeaderComponentComponent
+    HeaderComponent,
+    LdComponent,
+    UserComponent,
+    PtComponent,
+    PsComponent,
+    ClearComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PsComponentComponent } from './ps-component.component';
+import { UserComponent } from './user.component';
 
-describe('PsComponentComponent', () => {
-  let component: PsComponentComponent;
-  let fixture: ComponentFixture<PsComponentComponent>;
+describe('UserComponent', () => {
+  let component: UserComponent;
+  let fixture: ComponentFixture<UserComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PsComponentComponent ]
+      declarations: [ UserComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PsComponentComponent);
+    fixture = TestBed.createComponent(UserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
