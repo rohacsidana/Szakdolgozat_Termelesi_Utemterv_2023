@@ -22,6 +22,7 @@ import { LadComponent } from './wo/lad/lad.component';
 import { WodComponent } from './wo/wod/wod.component';
 import { WoListComponent } from './wo-list/wo-list.component';
 import { XWoCoponent } from './xwo/xwo.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { XWoCoponent } from './xwo/xwo.component';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent],
