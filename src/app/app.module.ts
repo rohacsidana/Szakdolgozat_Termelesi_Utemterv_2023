@@ -16,6 +16,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { AuthComponent } from './auth/auth.component';
+import { WoComponent } from './wo/wo.component';
+import { LadComponent } from './wo/lad/lad.component';
+import { WodComponent } from './wo/wod/wod.component';
+import { WoListComponent } from './wo-list/wo-list.component';
+import { XWoCoponent } from './xwo/xwo.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +31,12 @@ import { MatListModule } from '@angular/material/list';
     UserComponent,
     PtComponent,
     PsComponent,
+    AuthComponent,
+    WoComponent,
+    LadComponent,
+    WodComponent,
+    WoListComponent,
+    XWoCoponent,
   ],
   imports: [
     BrowserModule,
