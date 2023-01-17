@@ -22,6 +22,11 @@ import { LadComponent } from './wo/lad/lad.component';
 import { WodComponent } from './wo/wod/wod.component';
 import { WoListComponent } from './wo-list/wo-list.component';
 import { XWoCoponent } from './xwo/xwo.component';
+import { LnComponent } from './ln/ln.component';
+import { LndComponent } from './lnd/lnd.component';
+import { ChgComponent } from './chg/chg.component';
+import { HomeComponent } from './home/home.component';
+
 
 @NgModule({
   declarations: [
@@ -37,6 +42,11 @@ import { XWoCoponent } from './xwo/xwo.component';
     WodComponent,
     WoListComponent,
     XWoCoponent,
+    LnComponent,
+    LndComponent,
+    ChgComponent,
+    HomeComponent
+
   ],
   imports: [
     BrowserModule,
