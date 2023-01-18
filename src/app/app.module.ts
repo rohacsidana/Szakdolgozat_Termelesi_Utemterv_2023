@@ -28,6 +28,10 @@ import { ChgComponent } from './chg/chg.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { UserTableComponent } from './user/user-table/user-table.component';
 
 @NgModule({
   declarations: [
@@ -46,8 +50,8 @@ import { RouterModule } from '@angular/router';
     LnComponent,
     LndComponent,
     ChgComponent,
-    HomeComponent
-
+    HomeComponent,
+    UserTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,10 @@ import { RouterModule } from '@angular/router';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    RouterModule
+    RouterModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
