@@ -29,7 +29,6 @@
             <div class="row">
               <div class="col-xs-4">
                 <div class="form-group">
-
                   <div class="input-group">
                     <!-- <label for="woLot">Gyr szám:</label> -->
                     <span class="input-group-addon">Gyr szám:</span>
@@ -47,10 +46,17 @@
                       </button>
                     </div>
                   </div>
-                  
                 </div>
               </div>
-              <button [className]="isSearchingMode? 'btn btn-success':'btn btn-danger'" (click)="changeMode()" type="button"> {{ isSearchingMode ? 'Új': 'Mégse'}}</button>
+              <button
+                [className]="
+                  isSearchingMode ? 'btn btn-success' : 'btn btn-danger'
+                "
+                (click)="changeMode()"
+                type="button"
+              >
+                {{ isSearchingMode ? "Új" : "Mégse" }}
+              </button>
             </div>
 
             <div class="row">
@@ -239,6 +245,20 @@
           </form>
         </div>
       </div>
+      <hr>
+      <!-- GYR-hez tartozó adatok -->
+      <div class="row">
+        <div class="col-lg-12">
+          <app-wod></app-wod>
+          
+        </div>
+      </div>
+      <hr>
+      <!-- <div class="row">
+        <div class="col-lg-12">
+          <app-lad></app-lad>
+        </div>
+      </div> -->
     </div>
   </div>
 </div>
