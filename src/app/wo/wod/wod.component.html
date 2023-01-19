@@ -22,15 +22,24 @@
     <th mat-sort-header="wod_qty_rjct">Visszautasított egység</th>
   </tr>
 
-  <tr *ngFor="let wod of  sortedMockData">
-    <td>{{wod.wod_part}}</td>
-    <td>{{wod.part_name}}</td>
-    <td>{{wod.wod_par}}</td>
-    <td>{{wod.par_name}}</td>
-    <td>{{wod.wod_qty_req}}</td>
-    <td>{{wod.gy_req}} * 10</td>
-    <td>{{wod.part_um}}</td>
-    <td>{{wod.wod_qty_compl}}</td>
+  <tr *ngFor="let wod of viewData">
+    <td>{{ wod.wod_part }}</td>
+    <td>{{ wod.part_name }}</td>
+    <td>{{ wod.wod_par }}</td>
+    <td>{{ wod.par_name }}</td>
+    <td>{{ wod.wod_qty_req }}</td>
+    <td>{{ wod.gy_req }} * 10</td>
+    <td>{{ wod.part_um }}</td>
+    <td>{{ wod.wod_qty_compl }}</td>
     <td>{{ wod.wod_qty_rjct }}</td>
   </tr>
 </table>
+<mat-paginator
+  [pageSizeOptions]="pageSizeOptions"
+  [pageIndex]="pageIndex"
+  [length]="length"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements"
+  (page)="handlePageEvent($event)"
+>
+</mat-paginator>
