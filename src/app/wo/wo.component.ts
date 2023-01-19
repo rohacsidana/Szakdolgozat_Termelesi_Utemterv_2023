@@ -9,5 +9,14 @@ import {NgForm} from "@angular/forms";
 
 
 export class WoComponent{
+    isSearchingMode: boolean = true;
 
+    onSubmit(form: NgForm){
+        console.log(form);
+        console.log(form.value);
+    }
+
+    changeMode(){
+        this.isSearchingMode = !this.isSearchingMode;
+    }
 }
