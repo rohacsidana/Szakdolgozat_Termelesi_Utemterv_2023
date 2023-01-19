@@ -1,9 +1,9 @@
 
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
 import { Subscription } from "rxjs-compat";
-import { DataTables } from "../data-table/data-table.component";
+import { DataTables, DataTableService } from "../data-table/data-table.service";
 @Component({
     selector: 'app-wo',
     templateUrl: 'wo.component.html',
@@ -11,7 +11,7 @@ import { DataTables } from "../data-table/data-table.component";
 })
 
 
-export class WoComponent implements OnInit {
+export class WoComponent implements OnInit, OnDestroy {
     isSearchingMode: boolean = true;
     dtsSub: Subscription;
     wodData: DataTables[] = [
@@ -29,25 +29,29 @@ export class WoComponent implements OnInit {
     ];
 
     wodHeaders = [
-        {name: 'a1', szoveg: 'b1'},
-        {name: 'a2', szoveg: 'b2'},
-        {name: 'a3', szoveg: 'b3'},
-        {name: 'a4', szoveg: 'b4'},
-        {name: 'a5', szoveg: 'b5'},
-        {name: 'a6', szoveg: 'b6'},
-        {name: 'a7', szoveg: 'b7'},
-        {name: 'a8', szoveg: 'b8'},
-        {name: 'a9', szoveg: 'b9'},
+        {name: 'wod_part', szoveg: 'Tétetel szám'},
+        {name: 'part_name', szoveg: 'Tétetel név'},
+        {name: 'wod_par', szoveg: 'Szülő tétel'},
+        {name: 'par_name', szoveg: 'Szülő név'},
+        {name: 'wod_qty_req', szoveg: 'Szükséges menny. szül.'},
+        {name: 'part_um', szoveg: 'Szükséges menny. gyrt.'},
+        {name: 'gy_req', szoveg: 'Mértékegység'},
+        {name: 'wod_qty_compl', szoveg: 'Kész egység'},
+        {name: 'wod_qty_rjct', szoveg: 'Visszautasított egység'},
     ];
     
     sortedWodData: DataTables[];
-
-    constructor() {
+    getItemSub: Subscription;
+    constructor(private dtTblService: DataTableService) {
         this.sortedWodData = this.wodData.slice();
     }
 
     ngOnInit() {
-        
+        this.getItemSub = this.dtTblService.getData.subscribe(
+            ()=>{
+                this.dtTblService.sortedDataEmit(this.sortedWodData.slice());
+            }
+        );
     }
 
     onSubmit(form: NgForm) {
@@ -62,11 +66,12 @@ export class WoComponent implements OnInit {
     
 
     sortData(sort: Sort) {
-
+        
 
         const data = this.wodData.slice();
         if (!sort.active || sort.direction === '') {
             this.sortedWodData = data;
+            this.dtTblService.sortedDataEmit(this.sortedWodData.slice());
             return;
         }
 
@@ -97,10 +102,29 @@ export class WoComponent implements OnInit {
                 }
             }
         );
-        //this.viewData = this.sortedMockData.slice(this.kezdIndex, this.vegIndex);
+        
+        this.sortedWodData = data.slice();
+        this.dtTblService.sortedDataEmit(this.sortedWodData.slice());
+        
        
     }
+
     compare(a: number | string, b: number | string, isAsc: boolean) {
         return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
     }
+
+    ngOnDestroy(): void {
+        this.dtsSub.unsubscribe();
+    }
+}
+export interface Wod {
+    wod_part: number;
+    part_name: string;
+    wod_par: number;
+    par_name: string;
+    wod_qty_req: number;
+    part_um: string;
+    gy_req: number;
+    wod_qty_compl: number;
+    wod_qty_rjct: number;
 }

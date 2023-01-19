@@ -11,6 +11,7 @@ import { WoComponent } from './wo/wo.component';
 import { XWoCoponent } from './xwo/xwo.component';
 import { LdComponent } from './ld/ld.component';
 import { UserComponent } from './user/user.component';
+import { WoListComponent } from './wo-list/wo-list.component';
 
 
 const routes: Routes = [
@@ -28,7 +29,12 @@ const routes: Routes = [
     {path: 'change', component: ChgComponent},
     {path: 'rate', component: LndComponent},
   ]},
-  {path: 'workorder', component: WoComponent}, 
+  {path: 'workorder', children:[ 
+    {path: '',component: WoListComponent},
+    {path: 'list', component: WoComponent}, 
+    {path: ':part', component: WoComponent}, 
+  
+  ]}, 
   {path: 'prodsch', component: XWoCoponent},
   {path: 'user', component: UserComponent}
 

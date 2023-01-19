@@ -1,24 +1,22 @@
-/* import { Injectable } from "@angular/core";
-import { Sort } from "@angular/material/sort";
+import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
-
+import { Wod } from "../wo/wo.component";
 
 @Injectable()
-export class DataTableService {
+export class DataTableService{
 
-
-    sortTableEvent = new Subject<Sort>();
     sortedData = new Subject<DataTables[]>();
-    
-    sortTable(sort: Sort){
-        this.sortTableEvent.next(sort);
-    }
-
-    emitSortedData(data: DataTables[]){
+    getData = new Subject<any>();
+    sortedDataEmit(data: DataTables[]){
         this.sortedData.next(data);
     }
 
+    getDataEmit(){
+        this.getData.next();
+    }
 }
 
 
- */
+export type DataTables =
+    | Wod
+    ;
