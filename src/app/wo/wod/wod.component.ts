@@ -1,9 +1,9 @@
 
-import { Component, ViewChild, OnInit, AfterViewInit } from "@angular/core";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { Component,  } from "@angular/core";
+import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
-import { Subscription, take } from 'rxjs';
-interface MockWod {
+
+export interface Wod {
     wod_part: number;
     part_name: string;
     wod_par: number;
@@ -21,8 +21,8 @@ interface MockWod {
     styleUrls: ['wod.component.css']
 })
 
-export class WodComponent implements AfterViewInit {
-    mockData: MockWod[] = [
+export class WodComponent {
+    mockData: Wod[] = [
         { wod_part: 1, part_name: 'teszt1', wod_par: 2, par_name: "teszt2", wod_qty_req: 1, part_um: 'db', gy_req: 1, wod_qty_compl: 0, wod_qty_rjct: 0 },
         { wod_part: 2, part_name: 'teszt2', wod_par: 3, par_name: "teszt3", wod_qty_req: 1, part_um: 'db', gy_req: 1, wod_qty_compl: 0, wod_qty_rjct: 0 },
         { wod_part: 3, part_name: 'teszt3', wod_par: null, par_name: null, wod_qty_req: 1, part_um: 'db', gy_req: 1, wod_qty_compl: 0, wod_qty_rjct: 0 },
@@ -36,8 +36,8 @@ export class WodComponent implements AfterViewInit {
         { wod_part: 11, part_name: 'teszt6', wod_par: null, par_name: null, wod_qty_req: 1, part_um: 'db', gy_req: 1, wod_qty_compl: 0, wod_qty_rjct: 0 },
     ];
 
-    sortedMockData: MockWod[];
-    viewData: MockWod[];
+    sortedMockData: Wod[];
+    viewData: Wod[];
 
     length = this.mockData.length;
     pageSize = 5;
@@ -47,17 +47,15 @@ export class WodComponent implements AfterViewInit {
     kezdIndex;// = this.pageIndex * this.pageSize * this.previousPageIndex;
     vegIndex;// = this.pageIndex === 0 ? this.pageSize : this.pageIndex * this.pageSize;
     constructor() {
+        
         this.sortedMockData = this.mockData.slice();
         this.kezdIndex = this.pageIndex * this.pageSize;
-        this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex*2;
+        this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex * 2;
         this.viewData = this.sortedMockData.slice(this.kezdIndex, this.vegIndex);
 
     }
 
-    ngAfterViewInit() {
-        //console.log();
 
-    }
 
     sortData(sort: Sort) {
 
@@ -103,15 +101,13 @@ export class WodComponent implements AfterViewInit {
     }
 
     handlePageEvent(e: PageEvent) {
-        console.log(e);
         this.pageIndex = e.pageIndex;
         this.length = e.length;
         this.pageSize = e.pageSize;
         this.kezdIndex = this.pageIndex * this.pageSize;
-        this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex*2;
-        console.log(this.kezdIndex);
-        console.log(this.vegIndex);
-        
+        this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex * 2;
+
         this.viewData = this.sortedMockData.slice(this.kezdIndex, this.vegIndex);
     }
+    
 }

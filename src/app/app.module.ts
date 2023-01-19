@@ -33,6 +33,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { UserTableComponent } from './user/user-table/user-table.component';
 import { FormsModule } from '@angular/forms';
+import { DataTableComponent } from './data-table/data-table.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { FormsModule } from '@angular/forms';
     ChgComponent,
     HomeComponent,
     UserTableComponent,
+    DataTableComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,8 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    FormsModule
+    FormsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent],

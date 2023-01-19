@@ -1,0 +1,40 @@
+<!--
+    wod_part: number;
+    part_name: string;
+    wod_par: number;
+    par_name: string;
+    wod_qty_req: number;
+    wom_req: number;
+    part_um: string;
+    wod_qty_compl: number;
+    wod_qty_rjct: number;
+ -->
+<table matSort (matSortChange)="handleSortData($event)">
+  <tr>
+    <th *ngFor="let head of headers" mat-sort-header="{{ head.name }}">
+      {{ head.szoveg }}
+    </th>
+  </tr>
+
+  <tr *ngFor="let wod of viewData">
+    <!--  <td key>{{col}}</td> --> 
+    <!-- <td>{{ wod.wod_part }}</td>
+     <td>{{ wod.part_name }}</td>
+    <td>{{ wod.wod_par }}</td>
+    <td>{{ wod.par_name }}</td>
+    <td>{{ wod.wod_qty_req }}</td>
+    <td>{{ wod.gy_req }} * 10</td>
+    <td>{{ wod.part_um }}</td>
+    <td>{{ wod.wod_qty_compl }}</td>
+    <td>{{ wod.wod_qty_rjct }}</td> -->
+  </tr>
+</table>
+<mat-paginator
+  [pageSizeOptions]="pageSizeOptions"
+  [pageIndex]="pageIndex"
+  [length]="length"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements"
+  (page)="handlePageEvent($event)"
+>
+</mat-paginator>
