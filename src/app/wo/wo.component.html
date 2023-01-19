@@ -1,14 +1,240 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col-xs-12">
-    <h3>Wo component működik</h3>
-    <hr>    
+    <h2 class="center">Wo component működik</h2>
+    <hr />
     <div class="row">
       <div class="col-md-12">
         <app-lad></app-lad>
 
+        <app-wod></app-wod>
+      </div>
+    </div>
+  </div>
+</div>
+ -->
 
-            <app-wod></app-wod>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 style="text-align: center">Gyártási Rendelés</h2>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-xs-12">
+          <form #woForm="ngForm">
+            <!-- Kereső rész -->
+            <div class="row">
+              <div class="col-xs-4">
+                <div class="form-group">
+
+                  <div class="input-group">
+                    <!-- <label for="woLot">Gyr szám:</label> -->
+                    <span class="input-group-addon">Gyr szám:</span>
+                    <input
+                      type="text"
+                      id="woLot"
+                      name="woLot"
+                      class="form-control"
+                      ngModel
+                      required
+                    />
+                    <div class="input-group-btn">
+                      <button class="btn btn-primary" type="submit">
+                        <i class="glyphicon glyphicon-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <!-- GYR részletei -->
+                <div class="form-group">
+                  <div class="col-xs-4">
+                    <label for="order">Rendelés:</label>
+                    <input
+                      type="text"
+                      id="order"
+                      name="order"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="part">Tétel:</label>
+                    <input
+                      type="text"
+                      id="part"
+                      name="part"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="status">Státusz:</label>
+                    <input
+                      type="text"
+                      name="status"
+                      id="status"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="line">Gyártósor:</label>
+                    <input
+                      type="text"
+                      name="line"
+                      id="line"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="qtyOrd">Rendelt mennyiség:</label>
+                    <input
+                      type="text"
+                      name="qtyOrd"
+                      id="qtyOrd"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="ordDate">Rendelési dátum:</label>
+                    <input
+                      type="text"
+                      name="ordDate"
+                      id="ordDate"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="estTime">Várható elk. idő:</label>
+                    <input
+                      type="time"
+                      name="estTime"
+                      id="estTime"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="seq">Sorszám:</label>
+                    <input
+                      type="number"
+                      name="seq"
+                      id="seq"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="dueDate">Határidő:</label>
+                    <input
+                      type="date"
+                      name="dueDate"
+                      id="dueDate"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="startDate">Gyártás kezdet:</label>
+                    <input
+                      type="date"
+                      name="startDate"
+                      id="startDate"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="startTime">Kezdési idő:</label>
+                    <input
+                      type="date"
+                      name="startTime"
+                      id="startTime"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="endTime">Végzési idő:</label>
+                    <input
+                      type="datetime"
+                      name="endTime"
+                      id="endTime"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="pldDown">Tervezett állási idő:</label>
+                    <input
+                      type="time"
+                      name="pldDown"
+                      id="pldDown"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="unpldDown">Nem tervezett állási idő:</label>
+                    <input
+                      type="time"
+                      name="unpldDown"
+                      id="unpldDown"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="activated">Élesítet:</label>
+                    <input
+                      type="checkbox"
+                      name="activated"
+                      id="activated"
+                      class="form-control"
+                      ngModel
+                      disabled
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="relDate">Kib. dátum:</label>
+                    <input
+                      type="date"
+                      name="relDate"
+                      id="relDate"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <!-- User csak akkor ha nem új GYR-t  veszünk fel -->
+                  <div class="col-xs-4">
+                    <label for="user">User:</label>
+                    <input
+                      type="text"
+                      name="user"
+                      id="user"
+                      class="form-control"
+                      ngModel
+                      [disabled]="true"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
   </div>
 </div>
