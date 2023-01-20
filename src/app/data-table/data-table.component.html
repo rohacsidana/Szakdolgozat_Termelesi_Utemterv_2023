@@ -9,7 +9,11 @@
   </thead>
 <tbody>
   <tr *ngFor="let item of viewData" (click)="selectRow(item)">
-    <td *ngFor="let col of item | keyvalue : natural" >{{ col.value }}</td>
+    <td *ngFor="let col of item | keyvalue : natural">
+      {{ col.value }}
+      <!-- <div *ngIf="!col.value; instanceof: Date">{{ col.value }}</div>
+         <div *ngIf="col.value; instanceof: Date">{{ col.value | date }}</div> -->
+    </td>
   </tr>
 </tbody>
 </table>
