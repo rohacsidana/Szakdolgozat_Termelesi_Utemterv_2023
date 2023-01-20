@@ -1,16 +1,17 @@
 <div class = "table-responsive">
-<table matSort (matSortChange)="handleSortData($event)" class="table">
-  <thead class="">
+<table matSort (matSortChange)="handleSortData($event)" class="table table-hover">
+  <thead class="thead-dark">
     <tr >
-      <th *ngFor="let head of headers" mat-sort-header="{{ head.name }}">
+      <th *ngFor="let head of headers" mat-sort-header="{{ head.name }}" style="white-space: nowrap;;">
         {{ head.szoveg }}
       </th>
     </tr>
   </thead>
-
+<tbody>
   <tr *ngFor="let item of viewData" (click)="selectRow(item)">
-    <td *ngFor="let col of item | keyvalue : natural">{{ col.value }}</td>
+    <td *ngFor="let col of item | keyvalue : natural" >{{ col.value }}</td>
   </tr>
+</tbody>
 </table>
 
 </div>
