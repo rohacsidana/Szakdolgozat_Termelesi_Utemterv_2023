@@ -1,4 +1,123 @@
-<app-data-table
-  [headers]="userHeaders"
-  (sortEvent)="sortData($event)"
-></app-data-table>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 style="text-align: center">Felhasználók</h2>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-xs-12">
+          <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+            <!-- Kereső rész -->
+            <div class="row">
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon">Felhasználó szám:</span>
+                    <input
+                      style="z-index: auto"
+                      type="number"
+                      id="woLot"
+                      name="woLot"
+                      class="form-control"
+                      ngModel
+                      required
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-primary"
+                        type="submit"
+                        style="z-index: auto"
+                      >
+                        <i class="glyphicon glyphicon-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <button
+                [className]="
+                  isSearchingMode ? 'btn btn-success' : 'btn btn-danger'
+                "
+                (click)="changeMode()"
+                type="button"
+              >
+                {{ isSearchingMode ? "Új" : "Mégse" }}
+              </button> -->
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <!-- user részletek -->
+                <div class="form-group">
+                  <div class="col-xs-4">
+                    <label for="name">Név:</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      class="form-control"
+                      ngModel
+                      maxlength="18"
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="birth_date">Születési Dátum:</label>
+                    <input
+                      type="date"
+                      id="birth_date"
+                      name="birth_date"
+                      class="form-control"
+                      ngModel
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="email">Email:</label>
+                    <input
+                      type="text"
+                      name="email"
+                      id="email"
+                      class="form-control"
+                      ngModel
+                      maxlength="10"
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="post">Besorolás:</label>
+                    <input
+                      type="text"
+                      name="post"
+                      id="post"
+                      class="form-control"
+                      ngModel
+                      maxlength="8"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr />
+      <!-- GYR-hez tartozó adatok -->
+      <div class="row">
+        <div class="col-lg-12">
+          <!-- <app-wod></app-wod> -->
+          <app-data-table
+            [headers]="userHeaders"
+            (sortEvent)="sortData($event)"
+          ></app-data-table>
+        </div>
+      </div>
+      <hr />
+      <!-- <div class="row">
+        <div class="col-lg-12">
+          <app-lad></app-lad>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

@@ -65,6 +65,7 @@ export class DataTableComponent implements OnDestroy , OnInit{
 
     this.viewData = this.sortedMockData.slice(this.kezdIndex, this.vegIndex);
   }
+
   ngOnDestroy() {
     this.dtSub.unsubscribe();
   }
