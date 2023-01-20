@@ -31,6 +31,8 @@ import { UserTableComponent } from './user/user-table/user-table.component';
 import { FormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
 import { DataTableService } from './data-table/data-table.service';
+import { GysModComponent } from './ln/gys-mod/gys-mod.component';
+import { GysComponent } from './ln/gys/gys.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { DataTableService } from './data-table/data-table.service';
     HomeComponent,
     UserTableComponent,
     DataTableComponent,
+    GysModComponent,
+    GysComponent,
   ],
   imports: [
     BrowserModule,

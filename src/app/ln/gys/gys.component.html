@@ -1,0 +1,62 @@
+<!-- <div class="container" >
+  <div>
+    <label for="gyartosor">Gyártósor</label>
+    <input type="text" id="gyartosor" class="form-controll" />
+    <button type="button" class="btn btn-primary">Keresés</button>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Gyártósor</th>
+          <th>Leírás</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let gyr of gyartosorok">
+        <tr>
+          <td>{{ gyr.id }}</td>
+          <td>{{ gyr.desc }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-warning"
+              (click)="onModositas()"
+            >
+              Módosítás
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+<app-gys-mod *ngIf="modositas"></app-gys-mod>
+  
+</div> -->
+<div class="row">
+  <div class="col-xs-12">
+    <!-- <label for="gyartosor">Gyártósor</label>
+    <input type="text" id="gyartosor" class="form-controll" />
+    <button type="button" class="btn btn-primary">Keresés</button> -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Gyártósor</th>
+          <th>Leírás</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let gyr of gyartosorok">
+        <tr>
+          <td>{{ gyr.id }}</td>
+          <td>{{ gyr.desc }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-warning"
+              (click)="onModositas()"
+            >
+              Módosítás
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
