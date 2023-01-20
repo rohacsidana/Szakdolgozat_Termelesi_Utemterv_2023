@@ -5,7 +5,7 @@
     </th>
   </tr>
 
-  <tr *ngFor="let item of viewData">
+  <tr *ngFor="let item of viewData" (click)="valami(item)">
     <td *ngFor="let col of item | keyvalue : natural">{{ col.value }}</td>
   </tr>
 </table>

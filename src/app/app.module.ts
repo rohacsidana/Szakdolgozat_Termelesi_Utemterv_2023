@@ -30,6 +30,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
 import { DataTableService } from './data-table/data-table.service';
+import { WodComponent } from './wo/wod/wod.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DataTableService } from './data-table/data-table.service';
     ChgComponent,
     HomeComponent,
     DataTableComponent,
+    WodComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +68,7 @@ import { DataTableService } from './data-table/data-table.service';
     MatSortModule,
     FormsModule,
   ],
-  providers: [DataTableService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

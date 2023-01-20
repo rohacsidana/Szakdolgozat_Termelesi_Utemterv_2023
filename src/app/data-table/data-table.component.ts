@@ -1,3 +1,4 @@
+import { KeyValuePipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -17,7 +18,6 @@ import { DataTables, DataTableService } from './data-table.service';
   styleUrls: ['data-table.component.css'],
 })
 export class DataTableComponent implements OnDestroy , OnInit{
-  //mockData: DataTables[];
   @Input() headers: { name: string; szoveg: string }[];
   @Output() sortEvent = new EventEmitter<Sort>();
 
@@ -42,11 +42,9 @@ export class DataTableComponent implements OnDestroy , OnInit{
       this.setView();
     });
     this.dataTblService.getDataEmit();
-    //this.setView();
   }
 
   handleSortData(sort: Sort) {
-    //this.dataTableService.sortTable(sort);
     this.sortEvent.emit(sort);
   }
 
@@ -70,4 +68,10 @@ export class DataTableComponent implements OnDestroy , OnInit{
   ngOnDestroy() {
     this.dtSub.unsubscribe();
   }
+
+  valami(item: DataTables){
+    this.dataTblService.emitSelectedRow(item);
+  }
+
+
 }
