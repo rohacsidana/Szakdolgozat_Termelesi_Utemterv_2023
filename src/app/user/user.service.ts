@@ -40,6 +40,8 @@ export class UserService {
     }
   }
 
+  saveUser() {}
+
   deleteUser(id: number) {
     this.userData.splice(this.userData.indexOf(this.getUser(id)), 1);
   }

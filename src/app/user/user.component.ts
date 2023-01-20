@@ -15,6 +15,7 @@ export class UserComponent implements OnInit, OnDestroy {
   loadedUser: DataTableService.User;
   userFound: boolean = true;
   searchMode: boolean = true;
+  userExists: boolean = false;
   getItemSub: Subscription;
   sortedUserData: DataTableService.User[];
   user_id = new FormControl('');
