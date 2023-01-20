@@ -27,12 +27,15 @@ import { RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { UserTableComponent } from './user/user-table/user-table.component';
 import { FormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
 import { DataTableService } from './data-table/data-table.service';
+<<<<<<< HEAD
 import { GysModComponent } from './ln/gys-mod/gys-mod.component';
 import { GysComponent } from './ln/gys/gys.component';
+=======
+import { WodComponent } from './wo/wod/wod.component';
+>>>>>>> b216a0fd1c8d9f2c90c41c016e723dde3f258c4f
 
 @NgModule({
   declarations: [
@@ -51,10 +54,13 @@ import { GysComponent } from './ln/gys/gys.component';
     LndComponent,
     ChgComponent,
     HomeComponent,
-    UserTableComponent,
     DataTableComponent,
+<<<<<<< HEAD
     GysModComponent,
     GysComponent,
+=======
+    WodComponent
+>>>>>>> b216a0fd1c8d9f2c90c41c016e723dde3f258c4f
   ],
   imports: [
     BrowserModule,
@@ -72,7 +78,7 @@ import { GysComponent } from './ln/gys/gys.component';
     MatSortModule,
     FormsModule,
   ],
-  providers: [DataTableService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
