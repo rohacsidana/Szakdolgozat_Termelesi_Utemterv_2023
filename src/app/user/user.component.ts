@@ -13,10 +13,14 @@ import { UserService } from './user.service';
 })
 export class UserComponent implements OnInit, OnDestroy {
   loadedUser: DataTableService.User;
+  loadedUserToucher: boolean = false;
+
   userFound: boolean = true;
   searchMode: boolean = true;
+  userExists: boolean = false;
   getItemSub: Subscription;
   sortedUserData: DataTableService.User[];
+
   user_id = new FormControl('');
   name = new FormControl('');
   birth_date = new FormControl('');
@@ -39,8 +43,6 @@ export class UserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getItemSub = this.dtTblService.getData.subscribe(() => {
-      //console.log(this.sortedUserData);
-
       this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
     });
   }
@@ -82,6 +84,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   onChangeMode() {
     this.clearForm();
+    this.user_id.setValue('');
     this.searchMode = !this.searchMode;
   }
 
@@ -103,19 +106,43 @@ export class UserComponent implements OnInit, OnDestroy {
 
   onDelete() {
     this.userService.deleteUser(Number(this.user_id.value));
-    //console.log(this.userService.getUsers());
-    this.sortedUserData = this.userService.getUsers();
-    this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
+    this.userDataChanged();
+    this.clearForm();
+    this.user_id.setValue('');
+    this.loadedUser = null;
   }
 
-  onSubmit(form: NgForm) {}
+  checkUserExists() {
+    if (this.userService.getUser(Number(this.user_id.value))) {
+      this.userExists = true;
+    } else {
+      this.userExists = false;
+    }
+  }
+
+  onSubmit(form: NgForm) {
+    this.userService.saveUser({
+      user_id: Number(this.user_id.value),
+      name: this.name.value,
+      birth_date: new Date(this.birth_date.value),
+      email: this.email.value,
+      post: this.post.value,
+    });
+    this.userDataChanged();
+  }
 
   clearForm() {
+    this.userExists = false;
     this.userFound = true;
     this.name.setValue('');
     this.birth_date.setValue('');
     this.email.setValue('');
     this.post.setValue('');
+  }
+
+  userDataChanged() {
+    this.sortedUserData = this.userService.getUsers();
+    this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
   }
 
   ngOnDestroy(): void {

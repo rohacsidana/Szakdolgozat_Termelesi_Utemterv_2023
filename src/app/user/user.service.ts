@@ -40,7 +40,18 @@ export class UserService {
     }
   }
 
+  saveUser(user: User) {
+    if (this.getUser(user.user_id)) {
+      this.userData[this.userData.indexOf(user)] = user;
+      console.log(this.userData[this.userData.indexOf(user)]);
+    }
+  }
+
   deleteUser(id: number) {
-    this.userData.splice(this.userData.indexOf(this.getUser(id)), 1);
+    if (this.getUser(id)) {
+      this.userData.splice(this.userData.indexOf(this.getUser(id)), 1);
+    }
+
+    console.log(this.userData.indexOf(this.getUser(id)));
   }
 }
