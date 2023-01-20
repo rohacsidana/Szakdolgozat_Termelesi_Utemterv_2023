@@ -1,37 +1,5 @@
-<!-- <div class="container" >
-  <div>
-    <label for="gyartosor">Gyártósor</label>
-    <input type="text" id="gyartosor" class="form-controll" />
-    <button type="button" class="btn btn-primary">Keresés</button>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Gyártósor</th>
-          <th>Leírás</th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let gyr of gyartosorok">
-        <tr>
-          <td>{{ gyr.id }}</td>
-          <td>{{ gyr.desc }}</td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-warning"
-              (click)="onModositas()"
-            >
-              Módosítás
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-</div>
-<app-gys-mod *ngIf="modositas"></app-gys-mod>
-  
-</div> -->
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-xs-5">
     <!-- <label for="gyartosor">Gyártósor</label>
     <input type="text" id="gyartosor" class="form-controll" />
     <button type="button" class="btn btn-primary">Keresés</button> -->
@@ -42,21 +10,19 @@
           <th>Leírás</th>
         </tr>
       </thead>
-      <tbody *ngFor="let gyr of gyartosorok">
+      <tbody *ngFor="let gys of gyartosorok">
         <tr>
-          <td>{{ gyr.id }}</td>
-          <td>{{ gyr.desc }}</td>
+          <td>{{ gys.ln_id }}</td>
+          <td>{{ gys.ln_desc | rovidit }}</td>
           <td>
-            <button
-              type="button"
-              class="btn btn-warning"
-              (click)="onModositas()"
-            >
-              Módosítás
-            </button>
+            <button type="button" class="btn btn-warning" (click)="onModositas()">Módosítás</button>
+            <button type="button" class="btn btn-primary" (click)="onReszletek(gys.ln_desc)">Részletek</button>
           </td>
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="col-xs-7">
+    <app-gys-mod *ngIf="modositas"></app-gys-mod>
   </div>
 </div>

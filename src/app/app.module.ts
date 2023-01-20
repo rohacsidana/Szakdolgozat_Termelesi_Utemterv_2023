@@ -29,9 +29,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
+import { WodComponent } from './wo/wod/wod.component';
 import { GysModComponent } from './ln/gys-mod/gys-mod.component';
 import { GysComponent } from './ln/gys/gys.component';
-import { WodComponent } from './wo/wod/wod.component';
+import { Rovidit } from './ln/gys/shorten-pipe';
+import { Gys } from './ln/gys/gys.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { WodComponent } from './wo/wod/wod.component';
     DataTableComponent,
     GysModComponent,
     GysComponent,
-    WodComponent
+    WodComponent,
+    Rovidit
   ],
   imports: [
     BrowserModule,
@@ -72,7 +75,7 @@ import { WodComponent } from './wo/wod/wod.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [Gys],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
