@@ -5,13 +5,10 @@ import {
   Output,
   OnDestroy,
   OnInit,
-  AfterViewChecked,
-  AfterViewInit,
 } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
 import { DataTables, DataTableService } from './data-table.service';
 
 @Component({
@@ -67,7 +64,7 @@ export class DataTableComponent implements OnDestroy , OnInit{
   setView() {
     this.kezdIndex = this.pageIndex * this.pageSize;
     this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex * 2;
-   
+
     this.viewData = this.sortedMockData.slice(this.kezdIndex, this.vegIndex);
   }
   ngOnDestroy() {

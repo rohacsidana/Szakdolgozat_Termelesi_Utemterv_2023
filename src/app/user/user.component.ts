@@ -1,12 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Sort } from '@angular/material/sort';
+import { Subscription } from 'rxjs';
+import * as DataTableService from '../data-table/data-table.service';
+
+
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
 })
-export class UserComponent {
-  users = [
+export class UserComponent implements OnInit, OnDestroy {
+  getItemSub: Subscription;
+  sortedUserData: DataTableService.User[];
+  userData: DataTableService.User[] = [
     {
       user_id: 1,
       name: 'Rohácsi Daniella',
@@ -29,4 +36,66 @@ export class UserComponent {
       post: '3',
     },
   ];
+
+  userHeaders = [
+    { name: 'user_id', szoveg: 'Felhasználó ID' },
+    { name: 'name', szoveg: 'Név' },
+    { name: 'birth_date', szoveg: 'Születési dátum' },
+    { name: 'email', szoveg: 'Email' },
+    { name: 'post', szoveg: 'Besorolás' },
+  ];
+  constructor(private dtTblService: DataTableService.DataTableService) {
+    this.sortedUserData = this.userData.slice();
+  }
+
+  ngOnInit(): void {
+    this.getItemSub = this.dtTblService.getData.subscribe(() => {
+      console.log(this.sortedUserData);
+
+      this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
+    });
+  }
+
+  sortData(sort: Sort) {
+    const data = this.userData.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedUserData = data;
+      this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
+      return;
+    }
+
+    this.sortedUserData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'user_id':
+          return this.compare(a.user_id, b.user_id, isAsc);
+        case 'name':
+          return this.compare(a.name, b.name, isAsc);
+        case 'birth_date':
+          return this.compare(
+            a.birth_date.toDateString(),
+            b.birth_date.toDateString(),
+            isAsc
+          );
+        case 'email':
+          return this.compare(a.email, b.email, isAsc);
+        case 'post':
+          return this.compare(a.post, b.post, isAsc);
+
+        default:
+          return 0;
+      }
+    });
+
+    this.sortedUserData = data.slice();
+    this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  ngOnDestroy(): void {
+    this.getItemSub.unsubscribe();
+  }
 }

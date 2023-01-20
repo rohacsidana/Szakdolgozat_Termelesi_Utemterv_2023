@@ -1,15 +1,12 @@
-
-<table matSort (matSortChange)="handleSortData($event)" >
+<table matSort (matSortChange)="handleSortData($event)">
   <tr>
-    <th *ngFor="let head of headers" mat-sort-header="{{ head.name }}" >
+    <th *ngFor="let head of headers" mat-sort-header="{{ head.name }}">
       {{ head.szoveg }}
     </th>
   </tr>
 
-  <tr *ngFor="let wod of  viewData" >
-    
-     <td *ngFor="let col of (wod | keyvalue: natural)" >{{col.value}}</td> 
-     
+  <tr *ngFor="let item of viewData">
+    <td *ngFor="let col of item | keyvalue : natural">{{ col.value }}</td>
   </tr>
 </table>
 <mat-paginator

@@ -1,1 +1,4 @@
-<user-table></user-table>
+<app-data-table
+  [headers]="userHeaders"
+  (sortEvent)="sortData($event)"
+></app-data-table>
