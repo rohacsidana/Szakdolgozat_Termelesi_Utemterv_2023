@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import * as DataTableService from '../data-table/data-table.service';
-
-
 
 @Component({
   selector: 'app-user',
@@ -72,11 +71,7 @@ export class UserComponent implements OnInit, OnDestroy {
         case 'name':
           return this.compare(a.name, b.name, isAsc);
         case 'birth_date':
-          return this.compare(
-            a.birth_date.toDateString(),
-            b.birth_date.toDateString(),
-            isAsc
-          );
+          return 0;
         case 'email':
           return this.compare(a.email, b.email, isAsc);
         case 'post':
@@ -94,6 +89,8 @@ export class UserComponent implements OnInit, OnDestroy {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+
+  onSubmit(form: NgForm) {}
 
   ngOnDestroy(): void {
     this.getItemSub.unsubscribe();

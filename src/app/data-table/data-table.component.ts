@@ -16,7 +16,7 @@ import { DataTables, DataTableService } from './data-table.service';
   templateUrl: 'data-table.component.html',
   styleUrls: ['data-table.component.css'],
 })
-export class DataTableComponent implements OnDestroy , OnInit{
+export class DataTableComponent implements OnDestroy, OnInit {
   //mockData: DataTables[];
   @Input() headers: { name: string; szoveg: string }[];
   @Output() sortEvent = new EventEmitter<Sort>();
@@ -67,6 +67,7 @@ export class DataTableComponent implements OnDestroy , OnInit{
 
     this.viewData = this.sortedMockData.slice(this.kezdIndex, this.vegIndex);
   }
+
   ngOnDestroy() {
     this.dtSub.unsubscribe();
   }
