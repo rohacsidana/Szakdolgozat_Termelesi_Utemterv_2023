@@ -126,19 +126,11 @@ export class WoListComponent {
     ngOnDestroy() {
         this.getItemSub.unsubscribe();
     }
-    filterData(arg) {
-        let data = this.sortedWoData.slice();
-        //console.log(value);
+    filterData(arg: number) {
+        const data = this.sortedWoData.slice();
         let filter = arg.toString();
-        data.filter(
-
-            (value) => {
-                console.log( value.wo_lot + '|'+ filter +'|' + value.wo_lot.toString().includes(filter));
-                
-                return (value.wo_lot.toString()).includes(filter)}
-            );
-        this.dtTblService.sortedDataEmit(data);
-
+        const results = data.filter( value => value.wo_lot.toString().includes(filter));
+        this.dtTblService.sortedDataEmit(results.slice());
     }
 
 }

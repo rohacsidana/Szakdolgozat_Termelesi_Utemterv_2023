@@ -21,7 +21,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
   @Output() sortEvent = new EventEmitter<Sort>();
 
   length: number;
-  sortedMockData: DataTables[];
+  data: DataTables[];
   viewData: DataTables[];
 
   pageSize = 5;
@@ -31,13 +31,18 @@ export class DataTableComponent implements OnDestroy, OnInit {
   vegIndex;
 
   dtSub: Subscription;
-
+  filterSub: Subscription;
   constructor(private dataTblService: DataTableService) { }
 
   ngOnInit() {
     this.dtSub = this.dataTblService.sortedData.subscribe((data) => {
-      this.sortedMockData = data.slice();
-      this.length = this.sortedMockData.length;
+      this.data = data.slice();
+      this.length = this.data.length;
+      this.setView();
+    });
+    this.filterSub = this.dataTblService.filterChanged.subscribe((data)=>{
+      this.data = data.slice();
+      this.length = this.data.length;
       this.setView();
     });
     this.dataTblService.getDataEmit();
@@ -64,11 +69,12 @@ export class DataTableComponent implements OnDestroy, OnInit {
     this.kezdIndex = this.pageIndex * this.pageSize;
     this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex * 2;
 
-    this.viewData = this.sortedMockData.slice(this.kezdIndex, this.vegIndex);
+    this.viewData = this.data.slice(this.kezdIndex, this.vegIndex);
   }
 
   ngOnDestroy() {
     this.dtSub.unsubscribe();
+    this.filterSub.unsubscribe();
   }
 
   selectRow(item: DataTables) {
