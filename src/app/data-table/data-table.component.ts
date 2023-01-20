@@ -4,6 +4,9 @@ import {
   Input,
   Output,
   OnDestroy,
+  OnInit,
+  AfterViewChecked,
+  AfterViewInit,
 } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -16,7 +19,7 @@ import { DataTables, DataTableService } from './data-table.service';
   templateUrl: 'data-table.component.html',
   styleUrls: ['data-table.component.css'],
 })
-export class DataTableComponent implements OnDestroy {
+export class DataTableComponent implements OnDestroy , OnInit{
   //mockData: DataTables[];
   @Input() headers: { name: string; szoveg: string }[];
   @Output() sortEvent = new EventEmitter<Sort>();
@@ -42,7 +45,7 @@ export class DataTableComponent implements OnDestroy {
       this.setView();
     });
     this.dataTblService.getDataEmit();
-    this.setView();
+    //this.setView();
   }
 
   handleSortData(sort: Sort) {

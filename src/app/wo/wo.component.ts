@@ -13,7 +13,7 @@ import { DataTables, DataTableService } from "../data-table/data-table.service";
 
 export class WoComponent implements OnInit, OnDestroy {
     isSearchingMode: boolean = true;
-    dtsSub: Subscription;
+    //dtsSub: Subscription;
     wodData: DataTables[] = [
         { wod_part: 1, part_name: 'teszt1', wod_par: 2, par_name: "teszt2", wod_qty_req: 1, part_um: 'db', gy_req: 1, wod_qty_compl: 0, wod_qty_rjct: 0 },
         { wod_part: 2, part_name: 'teszt2', wod_par: 3, par_name: "teszt3", wod_qty_req: 1, part_um: 'db', gy_req: 1, wod_qty_compl: 0, wod_qty_rjct: 0 },
@@ -113,8 +113,8 @@ export class WoComponent implements OnInit, OnDestroy {
         return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
     }
 
-    ngOnDestroy(): void {
-        this.dtsSub.unsubscribe();
+    ngOnDestroy() {
+        this.getItemSub.unsubscribe();
     }
 }
 export interface Wod {
