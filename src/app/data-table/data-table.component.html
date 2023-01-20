@@ -1,8 +1,8 @@
 <div class = "table-responsive">
 <table matSort (matSortChange)="handleSortData($event)" class="table table-hover">
-  <thead class="thead-dark">
+  <thead>
     <tr >
-      <th *ngFor="let head of headers" mat-sort-header="{{ head.name }}" style="white-space: nowrap;;">
+      <th *ngFor="let head of headers" mat-sort-header="{{ head.name }}" style="white-space: nowrap;">
         {{ head.szoveg }}
       </th>
     </tr>

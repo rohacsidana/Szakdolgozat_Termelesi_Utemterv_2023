@@ -32,7 +32,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
 
   dtSub: Subscription;
 
-  constructor(private dataTblService: DataTableService) {}
+  constructor(private dataTblService: DataTableService) { }
 
   ngOnInit() {
     this.dtSub = this.dataTblService.sortedData.subscribe((data) => {
