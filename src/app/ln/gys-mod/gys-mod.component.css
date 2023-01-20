@@ -1,0 +1,11 @@
+textarea { 
+    resize: none; 
+}
+
+input {
+    width: 150px;
+}
+
+button {
+    margin: 5px;
+}
