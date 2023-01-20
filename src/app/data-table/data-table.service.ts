@@ -20,7 +20,7 @@ export interface Wod {
   wod_qty_rjct: number;
 }
 export interface Wo {
-  wo_lot: Number;
+  wo_lot: number;
   wo_nbr: string;
   wo_user: number;
   wo_part: number;

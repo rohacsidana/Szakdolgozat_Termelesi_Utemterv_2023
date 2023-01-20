@@ -1,4 +1,3 @@
-import { KeyValuePipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -17,7 +16,7 @@ import { DataTables, DataTableService } from './data-table.service';
   templateUrl: 'data-table.component.html',
   styleUrls: ['data-table.component.css'],
 })
-export class DataTableComponent implements OnDestroy , OnInit{
+export class DataTableComponent implements OnDestroy, OnInit {
   @Input() headers: { name: string; szoveg: string }[];
   @Output() sortEvent = new EventEmitter<Sort>();
 
@@ -33,7 +32,7 @@ export class DataTableComponent implements OnDestroy , OnInit{
 
   dtSub: Subscription;
 
-  constructor(private dataTblService: DataTableService) {}
+  constructor(private dataTblService: DataTableService) { }
 
   ngOnInit() {
     this.dtSub = this.dataTblService.sortedData.subscribe((data) => {
@@ -70,9 +69,7 @@ export class DataTableComponent implements OnDestroy , OnInit{
     this.dtSub.unsubscribe();
   }
 
-  selectRow(item: DataTables){
+  selectRow(item: DataTables) {
     this.dataTblService.emitSelectedRow(item);
   }
-
-
 }
