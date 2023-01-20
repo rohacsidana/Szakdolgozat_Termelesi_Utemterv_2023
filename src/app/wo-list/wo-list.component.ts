@@ -44,8 +44,9 @@ export class WoListComponent {
         { wo_lot: 1, wo_nbr: 'nbr1', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 16, wo_qty_ord: 10, wo_ord_date: '20201222', wo_due_date: '20201222', wo_start_date: '20201222', wo_rel_date: '20201222', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: true, wo_status: 'asd' },
         { wo_lot: 1, wo_nbr: 'nbr1', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 17, wo_qty_ord: 10, wo_ord_date: '20201222', wo_due_date: '20201222', wo_start_date: '20201222', wo_rel_date: '20201222', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: false, wo_status: 'asd' },
     ]
-
+    woLot: number = 22;
     sortedWoData: DataTableService.Wo[];
+
     getItemSub: Subscription;
     constructor(private dtTblService: DataTableService.DataTableService) {
         this.sortedWoData = this.woData.slice();
@@ -64,6 +65,7 @@ export class WoListComponent {
 
 
     sortData(sort: Sort) {
+
         const data = this.woData.slice();
         if (!sort.active || sort.direction === '') {
             this.sortedWoData = data;
@@ -124,7 +126,20 @@ export class WoListComponent {
     ngOnDestroy() {
         this.getItemSub.unsubscribe();
     }
+    filterData(arg) {
+        let data = this.sortedWoData.slice();
+        //console.log(value);
+        let filter = arg.toString();
+        data.filter(
 
+            (value) => {
+                console.log( value.wo_lot + '|'+ filter +'|' + value.wo_lot.toString().includes(filter));
+                
+                return (value.wo_lot.toString()).includes(filter)}
+            );
+        this.dtTblService.sortedDataEmit(data);
+
+    }
 
 }
 

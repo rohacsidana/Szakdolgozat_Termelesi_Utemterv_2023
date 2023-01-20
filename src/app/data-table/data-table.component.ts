@@ -44,6 +44,8 @@ export class DataTableComponent implements OnDestroy, OnInit {
   }
 
   handleSortData(sort: Sort) {
+    
+    
     this.sortEvent.emit(sort);
   }
 
