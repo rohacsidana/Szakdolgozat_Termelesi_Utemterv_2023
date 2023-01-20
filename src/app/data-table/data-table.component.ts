@@ -1,4 +1,3 @@
-import { KeyValuePipe } from '@angular/common';
 import {
   Component,
   EventEmitter,

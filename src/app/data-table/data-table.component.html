@@ -1,14 +1,19 @@
-<table matSort (matSortChange)="handleSortData($event)">
-  <tr>
-    <th *ngFor="let head of headers" mat-sort-header="{{ head.name }}">
-      {{ head.szoveg }}
-    </th>
-  </tr>
+<div class = "table-responsive">
+<table matSort (matSortChange)="handleSortData($event)" class="table">
+  <thead class="">
+    <tr >
+      <th *ngFor="let head of headers" mat-sort-header="{{ head.name }}">
+        {{ head.szoveg }}
+      </th>
+    </tr>
+  </thead>
 
   <tr *ngFor="let item of viewData" (click)="selectRow(item)">
     <td *ngFor="let col of item | keyvalue : natural">{{ col.value }}</td>
   </tr>
 </table>
+
+</div>
 <mat-paginator
   [pageSizeOptions]="pageSizeOptions"
   [pageIndex]="pageIndex"
