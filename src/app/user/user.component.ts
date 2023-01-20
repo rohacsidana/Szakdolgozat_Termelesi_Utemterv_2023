@@ -81,15 +81,12 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   onChangeMode() {
-    this.userFound = true;
-    this.name.setValue('');
-    this.birth_date.setValue('');
-    this.email.setValue('');
-    this.post.setValue('');
+    this.clearForm();
     this.searchMode = !this.searchMode;
   }
 
   onSearchUser() {
+    this.clearForm();
     this.loadedUser = this.userService.getUser(Number(this.user_id.value));
     if (this.userService.getUsers().indexOf(this.loadedUser) != -1) {
       this.userFound = true;
@@ -105,6 +102,14 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {}
+
+  clearForm() {
+    this.userFound = true;
+    this.name.setValue('');
+    this.birth_date.setValue('');
+    this.email.setValue('');
+    this.post.setValue('');
+  }
 
   ngOnDestroy(): void {
     this.getItemSub.unsubscribe();
