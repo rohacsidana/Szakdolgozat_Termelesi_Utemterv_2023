@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./ln.component.css']
 })
 export class LnComponent {
+  
 
 }

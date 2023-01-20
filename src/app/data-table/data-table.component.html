@@ -5,10 +5,8 @@
     </th>
   </tr>
 
-  <tr *ngFor="let item of viewData">
-    <td *ngFor="let col of item | keyvalue : natural">
-      {{ col.value }}
-    </td>
+  <tr *ngFor="let item of viewData" (click)="selectRow(item)">
+    <td *ngFor="let col of item | keyvalue : natural">{{ col.value }}</td>
   </tr>
 </table>
 <mat-paginator
