@@ -1,40 +1,27 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import * as DataTableService from '../data-table/data-table.service';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
+  providers: [UserService],
 })
 export class UserComponent implements OnInit, OnDestroy {
+  loadedUser: DataTableService.User;
+  userFound: boolean = true;
+  searchMode: boolean = true;
   getItemSub: Subscription;
   sortedUserData: DataTableService.User[];
-  userData: DataTableService.User[] = [
-    {
-      user_id: 1,
-      name: 'Rohácsi Daniella',
-      birth_date: new Date('2002-03-24'),
-      email: 'rohacsi.dana@gmail.com',
-      post: '1',
-    },
-    {
-      user_id: 2,
-      name: 'Koncsik Benedek',
-      birth_date: new Date('2001-05-11'),
-      email: 'kncsk.benedek@gmail.com',
-      post: '2',
-    },
-    {
-      user_id: 3,
-      name: 'Berényi Péter Ferenc',
-      birth_date: new Date('2003-01-10'),
-      email: 'berenyi.peter@gmail.com',
-      post: '3',
-    },
-  ];
+  user_id = new FormControl('');
+  name = new FormControl('');
+  birth_date = new FormControl('');
+  email = new FormControl('');
+  post = new FormControl('');
 
   userHeaders = [
     { name: 'user_id', szoveg: 'Felhasználó ID' },
@@ -43,8 +30,11 @@ export class UserComponent implements OnInit, OnDestroy {
     { name: 'email', szoveg: 'Email' },
     { name: 'post', szoveg: 'Besorolás' },
   ];
-  constructor(private dtTblService: DataTableService.DataTableService) {
-    this.sortedUserData = this.userData.slice();
+  constructor(
+    private userService: UserService,
+    private dtTblService: DataTableService.DataTableService
+  ) {
+    this.sortedUserData = userService.getUsers();
   }
 
   ngOnInit(): void {
@@ -56,7 +46,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   sortData(sort: Sort) {
-    const data = this.userData.slice();
+    const data = this.userService.getUsers();
     if (!sort.active || sort.direction === '') {
       this.sortedUserData = data;
       this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
@@ -88,6 +78,30 @@ export class UserComponent implements OnInit, OnDestroy {
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  onChangeMode() {
+    this.userFound = true;
+    this.name.setValue('');
+    this.birth_date.setValue('');
+    this.email.setValue('');
+    this.post.setValue('');
+    this.searchMode = !this.searchMode;
+  }
+
+  onSearchUser() {
+    this.loadedUser = this.userService.getUser(Number(this.user_id.value));
+    if (this.userService.getUsers().indexOf(this.loadedUser) != -1) {
+      this.userFound = true;
+      this.name.setValue(this.loadedUser.name);
+      this.birth_date.setValue(
+        this.loadedUser.birth_date.toISOString().split('T')[0]
+      );
+      this.email.setValue(this.loadedUser.email);
+      this.post.setValue(this.loadedUser.post);
+    } else {
+      this.userFound = false;
+    }
   }
 
   onSubmit(form: NgForm) {}

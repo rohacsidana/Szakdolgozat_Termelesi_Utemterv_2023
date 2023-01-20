@@ -27,7 +27,7 @@ import { RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
 import { DataTableService } from './data-table/data-table.service';
 
@@ -65,6 +65,7 @@ import { DataTableService } from './data-table/data-table.service';
     MatPaginatorModule,
     MatSortModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [DataTableService],
   bootstrap: [AppComponent],

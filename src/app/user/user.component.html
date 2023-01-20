@@ -24,12 +24,15 @@
                       class="form-control"
                       ngModel
                       required
+                      [formControl]="user_id"
                     />
                     <div class="input-group-btn">
                       <button
                         class="btn btn-primary"
-                        type="submit"
+                        type="button"
                         style="z-index: auto"
+                        *ngIf="searchMode"
+                        (click)="onSearchUser()"
                       >
                         <i class="glyphicon glyphicon-search"></i>
                       </button>
@@ -37,20 +40,32 @@
                   </div>
                 </div>
               </div>
-              <!-- <button
-                [className]="
-                  isSearchingMode ? 'btn btn-success' : 'btn btn-danger'
-                "
-                (click)="changeMode()"
+              <button
+                *ngIf="!searchMode"
+                class="btn btn-primary"
+                type="submit"
+                style="z-index: auto"
+              >
+                Mentés
+              </button>
+              <button
+                [className]="searchMode ? 'btn btn-success' : 'btn btn-danger'"
+                (click)="onChangeMode()"
                 type="button"
               >
-                {{ isSearchingMode ? "Új" : "Mégse" }}
-              </button> -->
+                {{ searchMode ? "Új" : "Mégse" }}
+              </button>
             </div>
-
             <div class="row">
               <div class="col-xs-12">
-                <!-- user részletek -->
+                <p *ngIf="!userFound">
+                  Nem található ilyen azonosítójú felhasználó!
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <!-- user-re vonatkozo inputok -->
                 <div class="form-group">
                   <div class="col-xs-4">
                     <label for="name">Név:</label>
@@ -61,6 +76,7 @@
                       class="form-control"
                       ngModel
                       maxlength="18"
+                      [formControl]="name"
                     />
                   </div>
                   <div class="col-xs-4">
@@ -71,6 +87,7 @@
                       name="birth_date"
                       class="form-control"
                       ngModel
+                      [formControl]="birth_date"
                     />
                   </div>
                   <div class="col-xs-4">
@@ -82,6 +99,7 @@
                       class="form-control"
                       ngModel
                       maxlength="10"
+                      [formControl]="email"
                     />
                   </div>
                   <div class="col-xs-4">
@@ -93,6 +111,7 @@
                       class="form-control"
                       ngModel
                       maxlength="8"
+                      [formControl]="post"
                     />
                   </div>
                 </div>
@@ -112,12 +131,6 @@
           ></app-data-table>
         </div>
       </div>
-      <hr />
-      <!-- <div class="row">
-        <div class="col-lg-12">
-          <app-lad></app-lad>
-        </div>
-      </div> -->
     </div>
   </div>
 </div>
