@@ -29,13 +29,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
-import { DataTableService } from './data-table/data-table.service';
-<<<<<<< HEAD
+import { WodComponent } from './wo/wod/wod.component';
 import { GysModComponent } from './ln/gys-mod/gys-mod.component';
 import { GysComponent } from './ln/gys/gys.component';
-=======
-import { WodComponent } from './wo/wod/wod.component';
->>>>>>> b216a0fd1c8d9f2c90c41c016e723dde3f258c4f
 
 @NgModule({
   declarations: [
@@ -55,12 +51,9 @@ import { WodComponent } from './wo/wod/wod.component';
     ChgComponent,
     HomeComponent,
     DataTableComponent,
-<<<<<<< HEAD
     GysModComponent,
     GysComponent,
-=======
-    WodComponent
->>>>>>> b216a0fd1c8d9f2c90c41c016e723dde3f258c4f
+    WodComponent,
   ],
   imports: [
     BrowserModule,

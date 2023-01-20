@@ -9,7 +9,7 @@ import { UserService } from './user.service';
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
-  providers: [UserService],
+  providers: [UserService, DataTableService.DataTableService],
 })
 export class UserComponent implements OnInit, OnDestroy {
   loadedUser: DataTableService.User;
@@ -39,7 +39,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getItemSub = this.dtTblService.getData.subscribe(() => {
-      console.log(this.sortedUserData);
+      //console.log(this.sortedUserData);
 
       this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
     });
@@ -99,6 +99,13 @@ export class UserComponent implements OnInit, OnDestroy {
     } else {
       this.userFound = false;
     }
+  }
+
+  onDelete() {
+    this.userService.deleteUser(Number(this.user_id.value));
+    //console.log(this.userService.getUsers());
+    this.sortedUserData = this.userService.getUsers();
+    this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
   }
 
   onSubmit(form: NgForm) {}

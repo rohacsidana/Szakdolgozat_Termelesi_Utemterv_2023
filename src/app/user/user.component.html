@@ -10,7 +10,6 @@
       <div class="row">
         <div class="col-xs-12">
           <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
-            <!-- Kereső rész -->
             <div class="row">
               <div class="col-xs-4">
                 <div class="form-group">
@@ -54,6 +53,14 @@
                 type="button"
               >
                 {{ searchMode ? "Új" : "Mégse" }}
+              </button>
+              <button
+                class="btn btn-danger"
+                (click)="onDelete()"
+                type="button"
+                [disabled]="!loadedUser"
+              >
+                Törlés
               </button>
             </div>
             <div class="row">
