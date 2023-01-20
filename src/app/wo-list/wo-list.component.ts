@@ -1,10 +1,12 @@
 
 import { Component } from "@angular/core";
+import { DataTableService } from "../data-table/data-table.service";
 
 @Component({
     selector: 'app-wo-list',
     templateUrl: 'wo-list.component.html',
-    styleUrls: ['wo-list.component.css']
+    styleUrls: ['wo-list.component.css'],
+    providers: [DataTableService]
 })
 
 export class WoListComponent {

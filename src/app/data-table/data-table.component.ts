@@ -70,7 +70,7 @@ export class DataTableComponent implements OnDestroy , OnInit{
     this.dtSub.unsubscribe();
   }
 
-  valami(item: DataTables){
+  selectRow(item: DataTables){
     this.dataTblService.emitSelectedRow(item);
   }
 
