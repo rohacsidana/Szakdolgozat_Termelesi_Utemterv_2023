@@ -24,6 +24,7 @@
                       ngModel
                       required
                       [formControl]="user_id"
+                      (change)="checkUserExists()"
                     />
                     <div class="input-group-btn">
                       <button
@@ -41,10 +42,10 @@
               </div>
               <button
                 *ngIf="!searchMode"
-                class="btn btn-primary"
+                class="btn btn-success"
                 type="submit"
                 style="z-index: auto"
-                [disabled]="searchMode || userExists"
+                [disabled]="!userForm.valid || userExists"
               >
                 Mentés
               </button>
@@ -60,14 +61,26 @@
                 (click)="onDelete()"
                 type="button"
                 [disabled]="!loadedUser"
+                *ngIf="searchMode && loadedUser"
               >
                 Törlés
+              </button>
+              <button
+                class="btn btn-warning"
+                type="submit"
+                [disabled]="!userForm.valid && !loadedUser"
+                *ngIf="searchMode && loadedUser"
+              >
+                Módosítások mentése
               </button>
             </div>
             <div class="row">
               <div class="col-xs-12">
                 <p *ngIf="!userFound">
                   Nem található ilyen azonosítójú felhasználó!
+                </p>
+                <p *ngIf="userExists && !searchMode">
+                  Már létezik ilyen azonosítójú felhasználó!
                 </p>
               </div>
             </div>
