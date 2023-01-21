@@ -147,17 +147,18 @@ export class WodComponent implements OnInit, OnDestroy{
         { name: 'wod_qty_compl', szoveg: 'Kész egység' },
         { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység' },
       ];
-    
-      sortedWodData: DataTableService.Wod[];
       getItemSub: Subscription;
+      sortedWodData: DataTableService.Wod[];
+     
       constructor(private dtTblService: DataTableService.DataTableService) {
         this.sortedWodData = this.wodData.slice();
       }
     
       ngOnInit() {
         this.getItemSub = this.dtTblService.getData.subscribe(() => {
-          this.dtTblService.sortedDataEmit(this.sortedWodData.slice());
+          this.dtTblService.emitDataChanged(this.sortedWodData.slice());
         });
+        this.dtTblService.emitDataChanged(this.sortedWodData.slice());
       }
     
       onSubmit(form: NgForm) {
@@ -170,7 +171,7 @@ export class WodComponent implements OnInit, OnDestroy{
         const data = this.wodData.slice();
         if (!sort.active || sort.direction === '') {
           this.sortedWodData = data;
-          this.dtTblService.sortedDataEmit(this.sortedWodData.slice());
+          this.dtTblService.emitDataChanged(this.sortedWodData.slice());
           return;
         }
     
@@ -201,7 +202,7 @@ export class WodComponent implements OnInit, OnDestroy{
         });
     
         this.sortedWodData = data.slice();
-        this.dtTblService.sortedDataEmit(this.sortedWodData.slice());
+        this.dtTblService.emitDataChanged(this.sortedWodData.slice());
       }
     
       compare(a: number | string, b: number | string, isAsc: boolean) {

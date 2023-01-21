@@ -31,26 +31,23 @@ export class DataTableComponent implements OnDestroy, OnInit {
   vegIndex;
 
   dtSub: Subscription;
-  filterSub: Subscription;
-  constructor(private dataTblService: DataTableService) { }
+
+  constructor(private dataTblService: DataTableService) {
+    console.log('data-table const');
+  }
 
   ngOnInit() {
-    this.dtSub = this.dataTblService.sortedData.subscribe((data) => {
+    this.dtSub = this.dataTblService.dataChanged.subscribe((data) => {
       this.data = data.slice();
       this.length = this.data.length;
       this.setView();
     });
-    this.filterSub = this.dataTblService.filterChanged.subscribe((data)=>{
-      this.data = data.slice();
-      this.length = this.data.length;
-      this.setView();
-    });
+    console.log('data-table ng on init');
+
     this.dataTblService.getDataEmit();
   }
 
   handleSortData(sort: Sort) {
-    
-    
     this.sortEvent.emit(sort);
   }
 
@@ -74,7 +71,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.dtSub.unsubscribe();
-    this.filterSub.unsubscribe();
+
   }
 
   selectRow(item: DataTables) {

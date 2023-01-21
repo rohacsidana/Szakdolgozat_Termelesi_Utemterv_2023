@@ -50,12 +50,14 @@ export interface Lad {
 }
 @Injectable()
 export class DataTableService {
-  sortedData = new Subject<DataTables[]>();
+  dataChanged = new Subject<DataTables[]>();
   getData = new Subject<any>();
   selectRow = new Subject<DataTables>();
-  filterChanged = new Subject<DataTables[]>();
-  sortedDataEmit(data: DataTables[]) {
-    this.sortedData.next(data);
+
+  
+
+  emitDataChanged(data: DataTables[]) {
+    this.dataChanged.next(data);
   }
 
   getDataEmit() {
@@ -66,9 +68,7 @@ export class DataTableService {
     this.selectRow.next(data);
   }
 
-  emitFilteredData(data: DataTables[]){
-    this.filterChanged.next(data);
-  }
+
 
 }
 

@@ -38,15 +38,16 @@ export class LadComponent implements OnInit, OnDestroy{
   
     ngOnInit() {
       this.getItemSub = this.dtTblService.getData.subscribe(() => {
-        this.dtTblService.sortedDataEmit(this.sortedLadData.slice());
+        this.dtTblService.emitDataChanged(this.sortedLadData.slice());
       });
+      this.dtTblService.emitDataChanged(this.sortedLadData.slice());
     }
   
     sortData(sort: Sort) {
       const data = this.ladData.slice();
       if (!sort.active || sort.direction === '') {
         this.sortedLadData = data;
-        this.dtTblService.sortedDataEmit(this.sortedLadData.slice());
+        this.dtTblService.emitDataChanged(this.sortedLadData.slice());
         return;
       }
   
@@ -74,7 +75,7 @@ export class LadComponent implements OnInit, OnDestroy{
       });
   
       this.sortedLadData = data.slice();
-      this.dtTblService.sortedDataEmit(this.sortedLadData.slice());
+      this.dtTblService.emitDataChanged(this.sortedLadData.slice());
     }
   
     compare(a: number | string, b: number | string, isAsc: boolean) {

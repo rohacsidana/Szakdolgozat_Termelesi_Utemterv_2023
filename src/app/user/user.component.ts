@@ -43,15 +43,16 @@ export class UserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getItemSub = this.dtTblService.getData.subscribe(() => {
-      this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
+      this.dtTblService.emitDataChanged(this.sortedUserData.slice());
     });
+    this.dtTblService.emitDataChanged(this.sortedUserData.slice());
   }
 
   sortData(sort: Sort) {
     const data = this.userService.getUsers();
     if (!sort.active || sort.direction === '') {
       this.sortedUserData = data;
-      this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
+      this.dtTblService.emitDataChanged(this.sortedUserData.slice());
       return;
     }
 
@@ -75,7 +76,7 @@ export class UserComponent implements OnInit, OnDestroy {
     });
 
     this.sortedUserData = data.slice();
-    this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
+    this.dtTblService.emitDataChanged(this.sortedUserData.slice());
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -142,7 +143,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   userDataChanged() {
     this.sortedUserData = this.userService.getUsers();
-    this.dtTblService.sortedDataEmit(this.sortedUserData.slice());
+    this.dtTblService.emitDataChanged(this.sortedUserData.slice());
   }
 
   ngOnDestroy(): void {
