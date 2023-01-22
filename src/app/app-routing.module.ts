@@ -12,6 +12,9 @@ import { LdComponent } from './ld/ld.component';
 import { UserComponent } from './user/user.component';
 import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WoComponent } from './workorder/wo/wo.component';
+import { WodComponent } from './workorder/wo/wod/wod.component';
+import { LadComponent } from './workorder/wo/lad/lad.component';
+import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
 
 
 const routes: Routes = [
@@ -34,11 +37,24 @@ const routes: Routes = [
     ]
   },
 
-  { path: 'workorder', component: WoListComponent, pathMatch: 'full' },
-  { path: 'workorder/list', component: WoComponent },
-  { path: 'workorder/:part', component: WoComponent }
-
-  ,
+  { path: 'workorder',  children:[
+    { path: '', component: WoComponent, pathMatch: 'full'},
+    { path: 'new', component: WoComponent},
+    { path: 'list', component: WoListComponent },
+    { path: ':part', component: WoComponent , children:[
+      {path:'',outlet: 'wod', component:WodComponent},
+      {path:'',outlet: 'lad', component:LadComponent},
+      
+      
+    ]},
+  ]},
+  /* { path: 'workorder/new', component: WoComponent}, */
+  /* { path: 'workorder/list', component: WoListComponent, pathMatch: 'full' }, */
+  /* { path: ':part', component: WoComponent , children:[
+    {path: '', component: WodComponent},
+    {path: '',component: LadComponent}
+  ]}, */
+  
   { path: 'prodsch', component: XWoCoponent },
   { path: 'user', component: UserComponent }
 

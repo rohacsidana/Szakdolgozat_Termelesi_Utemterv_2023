@@ -1,18 +1,3 @@
-<!-- <div class="row">
-  <div class="col-xs-12">
-    <h2 class="center">Wo component működik</h2>
-    <hr />
-    <div class="row">
-      <div class="col-md-12">
-        <app-lad></app-lad>
-
-        <app-wod></app-wod>
-      </div>
-    </div>
-  </div>
-</div>
- -->
-
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
@@ -24,243 +9,33 @@
     <div class="col-lg-12">
       <div class="row">
         <div class="col-xs-12">
-          <form #woForm="ngForm" (ngSubmit)="onSubmit(woForm)">
-            <!-- Kereső rész -->
-            <div class="row">
-              <div class="col-xs-4">
-                <div class="form-group">
-                  <div class="input-group">
-                    <!-- <label for="woLot">Gyr szám:</label> -->
-                    <span class="input-group-addon">Gyr szám:</span>
-                    <input
-                    style="z-index: auto;"
-                      type="number"
-                      id="woLot"
-                      name="woLot"
-                      class="form-control"
-                      ngModel
-                      required
-                    />
-                    <div class="input-group-btn">
-                      <button class="btn btn-primary" type="submit" style="z-index: auto;">
-                        <i class="glyphicon glyphicon-search" ></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <button
-                [className]="
-                  isSearchingMode ? 'btn btn-success' : 'btn btn-danger'
-                "
-                (click)="changeMode()"
-                type="button"
-              >
-                {{ isSearchingMode ? "Új" : "Mégse" }}
-              </button>
-            </div>
-
-            <div class="row">
-              <div class="col-xs-12">
-                <!-- GYR részletei -->
-                <div class="form-group">
-                  <div class="col-xs-4">
-                    <label for="order">Rendelés:</label>
-                    <input
-                      type="text"
-                      id="order"
-                      name="order"
-                      class="form-control"
-                      ngModel
-                      maxlength="18"
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="part">Tétel:</label>
-                    <input
-                      type="number"
-                      id="part"
-                      name="part"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="status">Státusz:</label>
-                    <input
-                      type="text"
-                      name="status"
-                      id="status"
-                      class="form-control"
-                      ngModel
-                      maxlength="10"
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="line">Gyártósor:</label>
-                    <input
-                      type="text"
-                      name="line"
-                      id="line"
-                      class="form-control"
-                      ngModel
-                      maxlength="8"
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="qtyOrd">Rendelt mennyiség:</label>
-                    <input
-                      type="number"
-                      name="qtyOrd"
-                      id="qtyOrd"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="ordDate">Rendelési dátum:</label>
-                    <input
-                      type="datetime"
-                      name="ordDate"
-                      id="ordDate"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="estTime">Várható elk. idő:</label>
-                    <input
-                      type="time"
-                      name="estTime"
-                      id="estTime"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="seq">Sorszám:</label>
-                    <input
-                      type="number"
-                      name="seq"
-                      id="seq"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="dueDate">Határidő:</label>
-                    <input
-                      type="date"
-                      name="dueDate"
-                      id="dueDate"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="startDate">Gyártás kezdet:</label>
-                    <input
-                      type="date"
-                      name="startDate"
-                      id="startDate"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="startTime">Kezdési idő:</label>
-                    <input
-                      type="time"
-                      name="startTime"
-                      id="startTime"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="endTime">Végzési idő:</label>
-                    <input
-                      type="datetime"
-                      name="endTime"
-                      id="endTime"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="pldDown">Tervezett állási idő:</label>
-                    <input
-                      type="time"
-                      name="pldDown"
-                      id="pldDown"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="unpldDown">Nem tervezett állási idő:</label>
-                    <input
-                      type="time"
-                      name="unpldDown"
-                      id="unpldDown"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="activated">Élesítet:</label>
-                    <input
-                      type="checkbox"
-                      name="activated"
-                      id="activated"
-                      class="form-control"
-                      ngModel
-                      disabled
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="relDate">Kib. dátum:</label>
-                    <input
-                      type="date"
-                      name="relDate"
-                      id="relDate"
-                      class="form-control"
-                      ngModel
-                    />
-                  </div>
-                  <!-- User csak akkor ha nem új GYR-t  veszünk fel -->
-                  <div class="col-xs-4">
-                    <label for="user">User:</label>
-                    <input
-                      type="number"
-                      name="user"
-                      id="user"
-                      class="form-control"
-                      ngModel
-                      [disabled]="true"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
+          <app-wo-form></app-wo-form>
         </div>
       </div>
-      <hr>
+      <hr />
       <!-- GYR-hez tartozó adatok -->
+      
+
+      
       <div class="row">
         <div class="col-lg-12">
           <!-- <app-wod></app-wod> -->
           <!-- <app-data-table [headers]="wodHeaders" (sortEvent)="sortData($event)"></app-data-table> -->
-          <app-wod></app-wod>
+          <router-outlet name="wod"></router-outlet>
+          
+          
         </div>
       </div>
-      <hr>
+      <hr />
       <div class="row">
         <div class="col-lg-12">
-          <app-lad></app-lad>
+          <router-outlet name="lad"></router-outlet>
+
+          <!-- <app-lad></app-lad> -->
         </div>
       </div>
+    
+    
     </div>
   </div>
 </div>

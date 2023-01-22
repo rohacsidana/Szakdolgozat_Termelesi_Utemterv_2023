@@ -1,9 +1,12 @@
 
+import { ThisReceiver } from "@angular/compiler";
 import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import * as  DataTableService from "../../data-table/data-table.service";
+import { WoService } from "../wo.service";
 
 @Component({
     selector: 'app-wo-list',
@@ -32,36 +35,46 @@ export class WoListComponent {
         { name: 'wo_unpld_downtime', szoveg: 'Tervezetlen átállásidő' },
         { name: 'wo_activated', szoveg: 'Élesítve' },
         { name: 'wo_status', szoveg: 'státusz' },
-    ]
+    ];
 
-    woData: DataTableService.Wo[] = [
-        { wo_lot: 1, wo_nbr: 'nbr1', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 11, wo_qty_ord: 10, wo_ord_date: '20201222', wo_due_date: '20201222', wo_start_date: '20201222', wo_rel_date: '20201222', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: false, wo_status: 'asd' },
-        { wo_lot: 1, wo_nbr: 'nbr1', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 12, wo_qty_ord: 10, wo_ord_date: '20201222', wo_due_date: '20201222', wo_start_date: '20201222', wo_rel_date: '20201222', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: false, wo_status: 'asd' },
-        { wo_lot: 1, wo_nbr: 'nbr1', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 13, wo_qty_ord: 10, wo_ord_date: '20201222', wo_due_date: '20201222', wo_start_date: '20201222', wo_rel_date: '20201222', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: true, wo_status: 'asd' },
-        { wo_lot: 1, wo_nbr: 'nbr1', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 14, wo_qty_ord: 10, wo_ord_date: '20201222', wo_due_date: '20201222', wo_start_date: '20201222', wo_rel_date: '20201222', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: false, wo_status: 'asd' },
-        { wo_lot: 1, wo_nbr: 'nbr1', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 15, wo_qty_ord: 10, wo_ord_date: '20201222', wo_due_date: '20201222', wo_start_date: '20201222', wo_rel_date: '20201222', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: true, wo_status: 'asd' },
-        { wo_lot: 1, wo_nbr: 'nbr1', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 16, wo_qty_ord: 10, wo_ord_date: '20201222', wo_due_date: '20201222', wo_start_date: '20201222', wo_rel_date: '20201222', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: true, wo_status: 'asd' },
-        { wo_lot: 1, wo_nbr: 'nbr1', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 17, wo_qty_ord: 10, wo_ord_date: '20201222', wo_due_date: '20201222', wo_start_date: '20201222', wo_rel_date: '20201222', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: false, wo_status: 'asd' },
-    ]
+    woData: DataTableService.Wo[];
+    
+    woDataChangedSub: Subscription;
     sortSub: Subscription;
+    
     woLot: number = 22;
     sortedWoData: DataTableService.Wo[];
-
     getItemSub: Subscription;
-    constructor(private dtTblService: DataTableService.DataTableService) {
-        this.sortedWoData = this.woData.slice();
-       
-
+    selectRow: Subscription;
+    constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private router: Router, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
+        this.woDataChangedSub = this.woService.woDataChanged.subscribe(
+            ()=>{
+                this.woData = this.woService.getWoData();
+            }
+        );
+        this.woService.setWoData();
+        this.woData = this.woService.getWoData();
+        this.sortedWoData = this.woData.slice();
+        
         this.getItemSub = this.dtTblService.getData.subscribe(() => {
             this.dtTblService.emitDataChanged(this.sortedWoData.slice());
         });
+
         this.dtTblService.emitDataChanged(this.sortedWoData.slice());
+
         this.sortSub = this.dtTblService.sortData.subscribe(
             (sort: Sort)=>{
                 this.sortData(sort);
+            }
+        );
+
+        this.selectRow = this.dtTblService.selectRow.subscribe(
+            (selectedRow: DataTableService.Wo)=>{
+                let pk =  selectedRow.wo_lot
+                this.router.navigate(['../', pk], {relativeTo: this.route});
             }
         );
     }
@@ -132,7 +145,8 @@ export class WoListComponent {
 
     ngOnDestroy() {
         this.getItemSub.unsubscribe();
-        this.sortSub.unsubscribe();
+        this.sortSub.unsubscribe(); 
+        this.woDataChangedSub.unsubscribe(); 
     }
     filterData(arg: number) {
         const data = this.sortedWoData.slice();

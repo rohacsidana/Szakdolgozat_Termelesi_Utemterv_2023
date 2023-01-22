@@ -35,6 +35,7 @@ import { WoComponent } from './workorder/wo/wo.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
 import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
+import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { WodComponent } from './workorder/wo/wod/wod.component';
     GysModComponent,
     GysComponent,
     WodComponent,
-    Rovidit
+    Rovidit,
+    WoFormComponent
   ],
   imports: [
     BrowserModule,
