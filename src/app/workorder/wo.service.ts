@@ -6,11 +6,8 @@ import * as DataTableService from "../data-table/data-table.service";
 export class WoService{
 
     woData: DataTableService.Wo[];
-
     selectedWo: DataTableService.Wo;
-
     wodData: DataTableService.Wod[];
-
     ladData: DataTableService.Lad[];
 
     getWoData(){

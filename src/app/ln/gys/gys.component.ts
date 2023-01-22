@@ -15,7 +15,6 @@ export class GysComponent implements OnInit {
 
   ngOnInit(): void {
     this.gyartosorok = this.gyartosorokService.gyartosorok
-    //console.log(this.gyartosorokService.gyartosorok);
     
   }
 

@@ -148,6 +148,7 @@ export class WodComponent implements OnInit, OnDestroy{
         { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység' },
       ];
       getItemSub: Subscription;
+      sortSub: Subscription;
       sortedWodData: DataTableService.Wod[];
      
       constructor(private dtTblService: DataTableService.DataTableService) {
@@ -159,11 +160,15 @@ export class WodComponent implements OnInit, OnDestroy{
           this.dtTblService.emitDataChanged(this.sortedWodData.slice());
         });
         this.dtTblService.emitDataChanged(this.sortedWodData.slice());
+        this.sortSub = this.dtTblService.sortData.subscribe(
+          (sort: Sort)=>{
+              this.sortData(sort);
+          }
+      );
       }
     
       onSubmit(form: NgForm) {
-        console.log(form);
-        console.log(form.value);
+        
       }
     
       
@@ -211,6 +216,7 @@ export class WodComponent implements OnInit, OnDestroy{
     
       ngOnDestroy() {
         this.getItemSub.unsubscribe();
+        this.sortSub.unsubscribe();
       }
     
 }

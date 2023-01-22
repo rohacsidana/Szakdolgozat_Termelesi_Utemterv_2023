@@ -19,6 +19,7 @@ export class UserComponent implements OnInit, OnDestroy {
   searchMode: boolean = true;
   userExists: boolean = false;
   getItemSub: Subscription;
+  sortSub: Subscription;
   sortedUserData: DataTableService.User[];
 
   user_id = new FormControl('');
@@ -46,6 +47,11 @@ export class UserComponent implements OnInit, OnDestroy {
       this.dtTblService.emitDataChanged(this.sortedUserData.slice());
     });
     this.dtTblService.emitDataChanged(this.sortedUserData.slice());
+    this.sortSub = this.dtTblService.sortData.subscribe(
+      (sort: Sort)=>{
+          this.sortData(sort);
+      }
+  );
   }
 
   sortData(sort: Sort) {
@@ -148,5 +154,6 @@ export class UserComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getItemSub.unsubscribe();
+    this.sortSub.unsubscribe();
   }
 }

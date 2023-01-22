@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
 })
 export class LnComponent {
   modositas(m: boolean) {
-    console.log("adadadss");
     
   }
 

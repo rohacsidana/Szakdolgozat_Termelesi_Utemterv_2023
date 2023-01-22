@@ -18,7 +18,7 @@ import { DataTables, DataTableService } from './data-table.service';
 })
 export class DataTableComponent implements OnDestroy, OnInit {
   @Input() headers: { name: string; szoveg: string }[];
-  @Output() sortEvent = new EventEmitter<Sort>();
+
 
   length: number;
   data: DataTables[];
@@ -33,7 +33,6 @@ export class DataTableComponent implements OnDestroy, OnInit {
   dtSub: Subscription;
 
   constructor(private dataTblService: DataTableService) {
-    console.log('data-table const');
   }
 
   ngOnInit() {
@@ -42,13 +41,13 @@ export class DataTableComponent implements OnDestroy, OnInit {
       this.length = this.data.length;
       this.setView();
     });
-    console.log('data-table ng on init');
 
     this.dataTblService.getDataEmit();
   }
 
   handleSortData(sort: Sort) {
-    this.sortEvent.emit(sort);
+    //this.sortEvent.emit(sort);
+    this.dataTblService.sortData.next(sort);
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {

@@ -32,6 +32,7 @@ export class LadComponent implements OnInit, OnDestroy{
 
     sortedLadData: DataTableService.Lad[];
     getItemSub: Subscription;
+    sortSub: Subscription;
     constructor(private dtTblService: DataTableService.DataTableService) {
       this.sortedLadData = this.ladData.slice();
     }
@@ -41,6 +42,11 @@ export class LadComponent implements OnInit, OnDestroy{
         this.dtTblService.emitDataChanged(this.sortedLadData.slice());
       });
       this.dtTblService.emitDataChanged(this.sortedLadData.slice());
+      this.sortSub = this.dtTblService.sortData.subscribe(
+        (sort: Sort)=>{
+            this.sortData(sort);
+        }
+    );
     }
   
     sortData(sort: Sort) {
@@ -84,6 +90,7 @@ export class LadComponent implements OnInit, OnDestroy{
   
     ngOnDestroy() {
       this.getItemSub.unsubscribe();
+      this.sortSub.unsubscribe();
     }
 
 }
