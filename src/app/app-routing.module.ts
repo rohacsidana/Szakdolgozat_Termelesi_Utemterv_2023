@@ -7,11 +7,11 @@ import { PsComponent } from './parts/ps/ps.component';
 import { PtComponent } from './parts/pt/pt.component';
 import { LndComponent } from './lnd/lnd.component';
 import { ChgComponent } from './chg/chg.component';
-import { WoComponent } from './wo/wo.component';
 import { XWoCoponent } from './xwo/xwo.component';
 import { LdComponent } from './ld/ld.component';
 import { UserComponent } from './user/user.component';
-import { WoListComponent } from './wo-list/wo-list.component';
+import { WoListComponent } from './workorder/wo-list/wo-list.component';
+import { WoComponent } from './workorder/wo/wo.component';
 
 
 const routes: Routes = [

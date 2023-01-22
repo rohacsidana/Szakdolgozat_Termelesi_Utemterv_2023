@@ -15,9 +15,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { AuthComponent } from './auth/auth.component';
-import { WoComponent } from './wo/wo.component';
-import { LadComponent } from './wo/lad/lad.component';
-import { WoListComponent } from './wo-list/wo-list.component';
+
 import { XWoCoponent } from './xwo/xwo.component';
 import { LnComponent } from './ln/ln.component';
 import { LndComponent } from './lnd/lnd.component';
@@ -29,11 +27,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
-import { WodComponent } from './wo/wod/wod.component';
 import { GysModComponent } from './ln/gys-mod/gys-mod.component';
 import { GysComponent } from './ln/gys/gys.component';
 import { Rovidit } from './ln/gys/shorten-pipe';
 import { Gys } from './ln/gys/gys.service';
+import { WoComponent } from './workorder/wo/wo.component';
+import { LadComponent } from './workorder/wo/lad/lad.component';
+import { WoListComponent } from './workorder/wo-list/wo-list.component';
+import { WodComponent } from './workorder/wo/wod/wod.component';
+
 
 @NgModule({
   declarations: [
