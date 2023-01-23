@@ -6,6 +6,7 @@ import * as DataTableService from "../data-table/data-table.service";
 })
 export class WoService{
 
+
     woData: DataTableService.Wo[] = [
         { wo_lot: 1, wo_nbr: 'nbr1', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 11, wo_qty_ord: 10, wo_ord_date: '2020-12-22', wo_due_date: '2020-12-22', wo_start_date: '2020-12-22', wo_rel_date: '2020-12-22', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: false, wo_status: 'asd' },
         { wo_lot: 2, wo_nbr: 'nbr2', wo_user: 1, wo_part: 2, wo_line: 'line1', wo_seq: 12, wo_qty_ord: 10, wo_ord_date: '2020-12-22', wo_due_date: '2020-12-22', wo_start_date: '2020-12-22', wo_rel_date: '2020-12-22', wo_est_run: '01:11', wo_start_time: '01:11', wo_end_time: '01:11', wo_pld_downtime: '01:11', wo_unpld_downtime: '01:11', wo_activated: false, wo_status: 'asd' },
@@ -18,7 +19,12 @@ export class WoService{
     woDataChanged = new Subject<any>();
     wodData: DataTableService.Wod[];
     ladData: DataTableService.Lad[];
+    newModeChange = new Subject<boolean>();
+
+
+
     
+
     getWoData(){
         return this.woData.slice();
     }

@@ -1,238 +1,245 @@
 <form [formGroup]="woForm" (ngSubmit)="onSubmit()">
-    <!-- Kereső rész -->
-    <div class="row">
-      <div class="col-xs-4">
-        <div class="form-group">
-          <div class="input-group">
-            <!-- <label for="woLot">Gyr szám:</label> -->
-            <span class="input-group-addon">Gyr szám:</span>
-            <!-- req -->
-            <input
+  <!-- Kereső rész -->
+  <div class="row">
+    <div class="col-xs-4">
+      <div class="form-group">
+        <div class="input-group">
+          <!-- <label for="woLot">Gyr szám:</label> -->
+          <span class="input-group-addon">Gyr szám:</span>
+          <!-- req -->
+          <input
+            style="z-index: auto"
+            type="number"
+            id="woLot"
+            formControlName="woLot"
+            class="form-control"
+          />
+
+          <div class="input-group-btn">
+            <button
+              class="btn btn-primary"
+              type="button"
               style="z-index: auto"
-              type="number"
-              id="woLot"
-              formControlName="woLot"
-              class="form-control"
-            />
-
-            <div class="input-group-btn">
-              <button
-                class="btn btn-primary"
-                type="button"
-                style="z-index: auto"
-                [disabled]="edit"
-                (click)="search()"
-              >
-                <i class="glyphicon glyphicon-search"></i>
-              </button>
-            </div>
+              (click)="search()"
+            >
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
           </div>
         </div>
       </div>
-      <button *ngIf="!edit" class="btn btn-success" type="button" (click)="new()">
-        Új
-      </button>
-      <button
-        *ngIf="selectedMode && !edit"
-        class="btn btn-primary"
-        type="button"
-        (click)="editing()"
-      >
-        Szerkesztés
-      </button>
-      <button
-
-        *ngIf="edit"
-        type="submit"
-        class="btn btn-success"
-        [disabled]="!woForm.valid"
-      >
-        Mentés
-      </button>
     </div>
 
-    <div class="row">
-      <div class="col-xs-12">
-        <!-- GYR részletei -->
-        <div class="form-group">
-          <div class="col-xs-4">
-            <label for="order">Rendelés:</label>
-            <input
-              type="text"
-              id="order"
-              formControlName="order"
-              class="form-control"
-              [disabled]="!edit"
-            />
-            <!-- ngModel
+    <button
+      *ngIf="!editing"
+      class="btn btn-success"
+      type="button"
+      (click)="new()"
+    >
+      Új
+    </button>
+
+    <button
+      *ngIf="editing"
+      class="btn btn-danger"
+      type="button"
+      (click)="cancel()"
+    >
+      Mégse
+    </button>
+
+    <button
+      *ngIf="selectedMode && !editing"
+      class="btn btn-primary"
+      type="button"
+      (click)="edit()"
+    >
+      Szerkesztés
+    </button>
+
+    <button
+      *ngIf="editing"
+      class="btn btn-success"
+      type="button"
+      (click)="save()"
+    >
+      Mentés
+    </button>
+
+    <button
+      *ngIf="selectedMode && editing"
+      class="btn btn-danger"
+      type="button"
+      (click)="delete()"
+    >
+      Törlés
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- GYR részletei -->
+      <div class="form-group">
+        <div class="col-xs-4">
+          <label for="order">Rendelés:</label>
+          <input
+            type="text"
+            id="order"
+            formControlName="order"
+            class="form-control"
+          />
+          <!-- ngModel
               maxlength="18" -->
-          </div>
-          <div class="col-xs-4">
-            <label for="part">Tétel:</label>
-            <input
-              type="number"
-              id="part"
-              formControlName="part"
-              class="form-control"
-              [disabled]="!edit"
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="status">Státusz:</label>
-            <input
-              type="text"
-              formControlName="status"
-              id="status"
-              class="form-control"
-              [disabled]="!edit"
-            />
-            <!--  ngModel
+        </div>
+        <div class="col-xs-4">
+          <label for="part">Tétel:</label>
+          <input
+            type="number"
+            id="part"
+            formControlName="part"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="status">Státusz:</label>
+          <input
+            type="text"
+            formControlName="status"
+            id="status"
+            class="form-control"
+          />
+          <!--  ngModel
               maxlength="10" -->
-          </div>
-          <div class="col-xs-4">
-            <label for="line">Gyártósor:</label>
-            <input
-              type="text"
-              formControlName="line"
-              id="line"
-              class="form-control"
-              [disabled]="!edit"
-            />
-            <!-- ngModel
+        </div>
+        <div class="col-xs-4">
+          <label for="line">Gyártósor:</label>
+          <input
+            type="text"
+            formControlName="line"
+            id="line"
+            class="form-control"
+          />
+          <!-- ngModel
               maxlength="8" -->
-          </div>
-          <div class="col-xs-4">
-            <label for="qtyOrd">Rendelt mennyiség:</label>
-            <input
-              type="number"
-              formControlName="qtyOrd"
-              id="qtyOrd"
-              class="form-control"
-              [disabled]="!edit"
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="ordDate">Rendelési dátum:</label>
-            <input
-              type="datetime"
-              formControlName="ordDate"
-              id="ordDate"
-              class="form-control"
-              disabled
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="estTime">Várható elk. idő:</label>
-            <input
-              type="time"
-              formControlName="estTime"
-              id="estTime"
-              class="form-control"
-              disabled
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="seq">Sorszám:</label>
-            <input
-              type="number"
-              formControlName="seq"
-              id="seq"
-              class="form-control"
-              disabled
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="dueDate">Határidő:</label>
-            <input
-              type="date"
-              formControlName="dueDate"
-              id="dueDate"
-              class="form-control"
-              [disabled]="!edit"
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="startDate">Gyártás kezdet:</label>
-            <input
-              type="date"
-              formControlName="startDate"
-              id="startDate"
-              class="form-control"
-              disabled
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="startTime">Kezdési idő:</label>
-            <input
-              type="time"
-              formControlName="startTime"
-              id="startTime"
-              class="form-control"
-              disabled=""
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="endTime">Végzési idő:</label>
-            <input
-              type="datetime"
-              formControlName="endTime"
-              id="endTime"
-              class="form-control"
-              disabled
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="pldDown">Tervezett állási idő:</label>
-            <input
-              type="time"
-              formControlName="pldDown"
-              id="pldDown"
-              class="form-control"
-              disabled
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="unpldDown">Nem tervezett állási idő:</label>
-            <input
-              type="time"
-              formControlName="unpldDown"
-              id="unpldDown"
-              class="form-control"
-              disabled
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="activated">Élesítet:</label>
-            <input
-              type="checkbox"
-              formControlName="activated"
-              id="activated"
-              class="form-control"
-              disabled
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="relDate">Kib. dátum:</label>
-            <input
-              type="date"
-              formControlName="relDate"
-              id="relDate"
-              class="form-control"
-              [disabled]="!edit"
-            />
-          </div>
-          <!-- User csak akkor ha nem új GYR-t  veszünk fel -->
-          <div class="col-xs-4">
-            <label for="user">User:</label>
-            <input
-              type="number"
-              formControlName="user"
-              id="user"
-              class="form-control"
-              disabled
-            />
-          </div>
+        </div>
+        <div class="col-xs-4">
+          <label for="qtyOrd">Rendelt mennyiség:</label>
+          <input
+            type="number"
+            formControlName="qtyOrd"
+            id="qtyOrd"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="ordDate">Rendelési dátum:</label>
+          <input
+            type="datetime"
+            formControlName="ordDate"
+            id="ordDate"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="estTime">Várható elk. idő:</label>
+          <input
+            type="time"
+            formControlName="estTime"
+            id="estTime"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="seq">Sorszám:</label>
+          <input
+            type="number"
+            formControlName="seq"
+            id="seq"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="dueDate">Határidő:</label>
+          <input
+            type="date"
+            formControlName="dueDate"
+            id="dueDate"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="startDate">Gyártás kezdet:</label>
+          <input
+            type="date"
+            formControlName="startDate"
+            id="startDate"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="startTime">Kezdési idő:</label>
+          <input
+            type="time"
+            formControlName="startTime"
+            id="startTime"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="endTime">Végzési idő:</label>
+          <input
+            type="datetime"
+            formControlName="endTime"
+            id="endTime"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="pldDown">Tervezett állási idő:</label>
+          <input
+            type="time"
+            formControlName="pldDown"
+            id="pldDown"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="unpldDown">Nem tervezett állási idő:</label>
+          <input
+            type="time"
+            formControlName="unpldDown"
+            id="unpldDown"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="activated">Élesítet:</label>
+          <input
+            type="checkbox"
+            formControlName="activated"
+            id="activated"
+            class="form-control"
+          />
+        </div>
+        <div class="col-xs-4">
+          <label for="relDate">Kib. dátum:</label>
+          <input
+            type="date"
+            formControlName="relDate"
+            id="relDate"
+            class="form-control"
+          />
+        </div>
+        <!-- User csak akkor ha nem új GYR-t  veszünk fel -->
+        <div class="col-xs-4">
+          <label for="user">User:</label>
+          <input
+            type="number"
+            formControlName="user"
+            id="user"
+            class="form-control"
+          />
         </div>
       </div>
     </div>
-  </form>
+  </div>
+</form>
