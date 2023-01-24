@@ -130,7 +130,7 @@
             class="form-control"
           />
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" *ngIf="selectedMode">
           <label for="ordDate">Rendelési dátum:</label>
           <input
             type="datetime"
@@ -139,7 +139,7 @@
             class="form-control"
           />
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" *ngIf="selectedMode">
           <label for="estTime">Várható elk. idő:</label>
           <input
             type="time"
@@ -148,7 +148,7 @@
             class="form-control"
           />
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" *ngIf="selectedMode">
           <label for="seq">Sorszám:</label>
           <input
             type="number"
@@ -175,7 +175,7 @@
             class="form-control"
           />
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" *ngIf="selectedMode">
           <label for="startTime">Kezdési idő:</label>
           <input
             type="time"
@@ -184,7 +184,7 @@
             class="form-control"
           />
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" *ngIf="selectedMode">
           <label for="endTime">Végzési idő:</label>
           <input
             type="datetime"
@@ -193,7 +193,7 @@
             class="form-control"
           />
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" *ngIf="selectedMode">
           <label for="pldDown">Tervezett állási idő:</label>
           <input
             type="time"
@@ -202,7 +202,7 @@
             class="form-control"
           />
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" *ngIf="selectedMode">
           <label for="unpldDown">Nem tervezett állási idő:</label>
           <input
             type="time"
@@ -211,7 +211,7 @@
             class="form-control"
           />
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" *ngIf="selectedMode">
           <label for="activated">Élesítet:</label>
           <input
             type="checkbox"
@@ -230,7 +230,7 @@
           />
         </div>
         <!-- User csak akkor ha nem új GYR-t  veszünk fel -->
-        <div class="col-xs-4">
+        <div class="col-xs-4" *ngIf="selectedMode">
           <label for="user">User:</label>
           <input
             type="number"

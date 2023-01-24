@@ -36,8 +36,12 @@ import { LadComponent } from './workorder/wo/lad/lad.component';
 import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
 import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
-
-
+import { HttpClientModule } from '@angular/common/http';
+import {MatExpansionModule} from "@angular/material/expansion";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,8 +80,14 @@ import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatExpansionModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
+    MatFormFieldModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatInputModule
   ],
   providers: [Gys],
   bootstrap: [AppComponent],

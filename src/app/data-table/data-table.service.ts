@@ -2,6 +2,54 @@ import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 
+
+@Injectable()
+export class DataTableService {
+  dataChanged = new Subject<DataTables[]>();
+  getData = new Subject<any>();
+  selectRow = new Subject<DataTables>();
+  sortData = new Subject<Sort>();
+  
+
+  emitDataChanged(data: DataTables[]) {
+    this.dataChanged.next(data);
+  }
+
+  getDataEmit() {
+    this.getData.next();
+  }
+
+  emitSelectedRow(data: DataTables) {
+    this.selectRow.next(data);
+  }
+
+
+
+}
+
+export type DataTables = Wod | User | Wo | Lad;
+
+export interface XWo {
+  wo_lot: number;
+  wo_nbr: string;
+  wo_part: number;
+  pt_desc: string;
+  wo_qty_ord: number;
+  part_um: string;
+  wo_line: string;
+  ln_desc: string;
+  item_per_hour: number;
+  wo_est_run: string;
+  wo_seq: number;
+  wo_rel_date: string;
+  wo_start_date: string;
+  wo_start_time: string;
+  wo_end_time: string;
+  wo_pld_downtime: string;
+  wo_unpld_downtime: string;
+  wo_activated: boolean;
+}
+
 export interface User {
   user_id: number;
   name: string;
@@ -49,29 +97,3 @@ export interface Lad {
   lad_expire: number; //Ld_expire
   lad_qty_rsrv: number //Foglalt
 }
-@Injectable()
-export class DataTableService {
-  dataChanged = new Subject<DataTables[]>();
-  getData = new Subject<any>();
-  selectRow = new Subject<DataTables>();
-  sortData = new Subject<Sort>();
-  
-
-  emitDataChanged(data: DataTables[]) {
-    this.dataChanged.next(data);
-  }
-
-  getDataEmit() {
-    this.getData.next();
-  }
-
-  emitSelectedRow(data: DataTables) {
-    this.selectRow.next(data);
-  }
-
-
-
-}
-
-export type DataTables = Wod | User | Wo | Lad;
-

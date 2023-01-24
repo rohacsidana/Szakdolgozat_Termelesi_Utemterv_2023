@@ -1,1 +1,164 @@
-<h3>XWO működik</h3>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 style="text-align: center">Gyártási Rendelés</h2>
+    </div>
+  </div>
+  <hr />
+
+  <div class="row">
+    <div class="col-xs-4">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon">Gyártósor:</span>
+          <input
+            style="z-index: auto"
+            type="number"
+            id="woLot"
+            class="form-control"
+            min="1"
+            max="53"
+          />
+          <span class="input-group-addon">Hét:</span>
+          <input
+            style="z-index: auto"
+            type="number"
+            id="woLot"
+            class="form-control"
+            min="1"
+            max="53"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <button class="btn btn-primary">Keresés</button>
+    </div>
+  </div>
+  <hr />
+  <!-- Xwo table -->
+  <div class="table-responsive">
+    <table matSort class="table">
+      <thead>
+        <tr>
+          <th mat-sort-header="wo_lot">GYR azon</th>
+          <!-- wo_lot -->
+          <th mat-sort-header="wo_nbr">GYR szám</th>
+          <!-- wo_nbr -->
+          <th mat-sort-header="wo_part">GYR tételkód</th>
+          <!-- wo_part -->
+
+          <th mat-sort-header="pt_desc">Megnevezés</th>
+          <!-- pt_desc -->
+          <th mat-sort-header="wo_qty_ord">Mennyiség</th>
+          <!-- wo_qty_ord -->
+          <th mat-sort-header="part_um">Mértékegység</th>
+          <!-- pt_um -->
+          <th mat-sort-header="wo_line">Gyártósor</th>
+          <!-- wo_line -->
+          <th mat-sort-header="ln_desc">Gyártósor megnevezés</th>
+          <!-- ln_desc -->
+
+          <th mat-sort-header="item_per_hour">Óránkénti elkészülési egység</th>
+          <!-- számított -->
+          <th mat-sort-header="wo_est_run">Várható elkészülési idő</th>
+          <!-- wo_est_run -->
+          <th mat-sort-header="wo_seq">sorrend</th>
+          <!-- wo_seq -->
+          <th mat-sort-header="wo_rel_date">Kibocsátási dátum</th>
+          <!-- wo_rel_date -->
+          <th mat-sort-header="wo_start_date">Esedékesség dátum</th>
+          <!-- wo_start_date-->
+
+          <th mat-sort-header="wo_start_time">Kezdési idő</th>
+          <!-- wo_start_time első beírható csak-->
+          <th mat-sort-header="wo_end_time">Végzési idő</th>
+          <!--  wo_end_time -->
+          <th mat-sort-header="wo_pld_downtime">Tervezett állási idő</th>
+          <!-- wo_pld_downtime -->
+          <th mat-sort-header="wo_unpld_downtime">Nem tervezett állási idő</th>
+          <!-- wo_unpld_downtime -->
+          <th mat-sort-header="wo_activated">élesítve</th>
+          <!-- wo_activated -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let wo of woData">
+          <td>{{ wo.wo_lot }}</td>
+          <td>{{ wo.wo_nbr }}</td>
+          <td>{{ wo.wo_part }}</td>
+          <td>{{ wo.pt_desc }}</td>
+          <td>{{ wo.wo_qty_ord }}</td>
+          <td>{{ wo.part_um }}</td>
+          <td>{{ wo.wo_line }}</td>
+          <td>{{ wo.ln_desc }}</td>
+          <td>{{ wo.item_per_hour }}</td>
+          <td>{{ wo.wo_est_run }}</td>
+          <td>
+            <mat-form-field>
+                <input
+                  matInput
+                  type="text"
+                  color="white"
+                  [value]="wo.wo_seq"
+                />
+              </mat-form-field>
+          </td>
+          <td>{{ wo.wo_rel_date }}</td>
+          <td>{{ wo.wo_start_date }}</td>
+          <td>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                color="white"
+                [value]="wo.wo_start_time"
+              />
+            </mat-form-field>
+          </td>
+          <td>{{ wo.wo_end_time }}</td>
+          <td>{{ wo.wo_pld_downtime }}</td>
+          <td>{{ wo.wo_unpld_downtime }}</td>
+          <td>{{ wo.wo_activated }}</td>
+          <!-- <td>
+              <mat-form-field>
+                <input matInput type="text" color="white" />
+              </mat-form-field>
+            </td> -->
+        </tr>
+        <tr *ngFor="let wo of woData">
+          <td>{{ wo.wo_lot }}</td>
+          <td>{{ wo.wo_nbr }}</td>
+          <td>{{ wo.wo_part }}</td>
+          <td>{{ wo.pt_desc }}</td>
+          <td>{{ wo.wo_qty_ord }}</td>
+          <td>{{ wo.part_um }}</td>
+          <td>{{ wo.wo_line }}</td>
+          <td>{{ wo.ln_desc }}</td>
+          <td>{{ wo.item_per_hour }}</td>
+          <td>{{ wo.wo_est_run }}</td>
+          <td><mat-form-field>
+            <input
+              matInput
+              type="text"
+              color="white"
+              [value]="wo.wo_seq"
+            />
+          </mat-form-field></td>
+          <td>{{ wo.wo_rel_date }}</td>
+          <td>{{ wo.wo_start_date }}</td>
+          <td>{{ wo.wo_start_time }}</td>
+          <td>{{ wo.wo_end_time }}</td>
+          <td>{{ wo.wo_pld_downtime }}</td>
+          <td>{{ wo.wo_unpld_downtime }}</td>
+          <td>{{ wo.wo_activated }}</td>
+          <!-- <td>
+            <mat-form-field>
+              <input matInput type="text" color="white" />
+            </mat-form-field>
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { WoService } from '../../wo.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class WoFormComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private woService: WoService
+    private woService: WoService,
+    private DataStorageService: DataStorageService
   ) {}
   ngOnInit() {
     /* this.newMode = this.woService.newMode; */
@@ -87,8 +89,6 @@ export class WoFormComponent implements OnInit, OnDestroy {
     }else{
       if(this.newMode){
         this.editing = true;
-      }else{
-        this.editing = false;
       }
     }
     console.log("vég");
@@ -98,24 +98,24 @@ export class WoFormComponent implements OnInit, OnDestroy {
     console.log('selected mode:' + this.selectedMode);
 
     this.woForm = new FormGroup({
-      woLot: new FormControl({value: woLot, disabled: false}),
-      order: new FormControl({value: order, disabled:true}),
-      part: new FormControl({value:part, disabled:true}),
-      status: new FormControl({value:status, disabled:true}),
-      line: new FormControl({value: line, disabled:true}),
-      qtyOrd: new FormControl({value: qtyOrd, disabled:true}),
-      ordDate: new FormControl({value: ordDate, disabled:true}),
-      estTime: new FormControl({value:estTime, disabled:true}),
-      seq: new FormControl({value:seq, disabled:true}),
-      dueDate: new FormControl({value:dueDate, disabled:true}),
-      startDate: new FormControl({value:startDate, disabled:true}),
-      startTime: new FormControl({value:startTime, disabled:true}),
-      endTime: new FormControl({value:endTime, disabled:true}),
-      pldDown: new FormControl({value:pldDown, disabled:true}),
-      unpldDown: new FormControl({value:unpldDown, disabled:true}),
-      activated: new FormControl({value:activated, disabled:true}),
-      relDate: new FormControl({value:relDate, disabled:true}),
-      user: new FormControl({value:user, disabled:true}),
+      woLot: new FormControl({value: woLot, disabled: this.editing}),
+      order: new FormControl({value: order, disabled: !this.editing}),
+      part: new FormControl({value:part, disabled: !this.editing}),
+      status: new FormControl({value:status, disabled: !this.editing}),
+      line: new FormControl({value: line, disabled: !this.editing}),
+      qtyOrd: new FormControl({value: qtyOrd, disabled: !this.editing}),
+      ordDate: new FormControl({value: ordDate, disabled: true}),
+      estTime: new FormControl({value:estTime, disabled: true}),
+      seq: new FormControl({value:seq, disabled: true}),
+      dueDate: new FormControl({value:dueDate, disabled: !this.editing}),
+      startDate: new FormControl({value:startDate, disabled: !this.editing}),
+      startTime: new FormControl({value:startTime, disabled: true}),
+      endTime: new FormControl({value:endTime, disabled: true}),
+      pldDown: new FormControl({value:pldDown, disabled: true}),
+      unpldDown: new FormControl({value:unpldDown, disabled: true}),
+      activated: new FormControl({value:activated, disabled: true}),
+      relDate: new FormControl({value:relDate, disabled: !this.editing}),
+      user: new FormControl({value:user, disabled: true}),
     });
   }
 
@@ -148,22 +148,26 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
   edit(){
     this.editing = true;
+    console.log(this.editing);
+    this.initForm();
+    
     //formot enable
   }
 
   save(){
-   /*  if(this.newMode){
-
+    //this.editing = false;
+    if(this.editing){
+      this.DataStorageService.updateWo(this.woForm.value);
     }else{
+      this.DataStorageService.postWo(this.woForm.value);
+      //this.router.navigate(['workorder']);
+    }
 
-    } */
-    this.editing = false;
-
-    
-    
   }
  
   delete(){
+    this.DataStorageService.deleteWo(this.woForm.value.woLot)
+
     this.editing=false;
   }
 

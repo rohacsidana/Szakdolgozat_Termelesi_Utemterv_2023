@@ -14,7 +14,7 @@ import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WoComponent } from './workorder/wo/wo.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
-import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
+import { WoListResolverService } from './workorder/wo-list/wo-list.resolver';
 
 
 const routes: Routes = [
