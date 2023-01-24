@@ -2,33 +2,6 @@ import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 
-
-@Injectable()
-export class DataTableService {
-  dataChanged = new Subject<DataTables[]>();
-  getData = new Subject<any>();
-  selectRow = new Subject<DataTables>();
-  sortData = new Subject<Sort>();
-  
-
-  emitDataChanged(data: DataTables[]) {
-    this.dataChanged.next(data);
-  }
-
-  getDataEmit() {
-    this.getData.next();
-  }
-
-  emitSelectedRow(data: DataTables) {
-    this.selectRow.next(data);
-  }
-
-
-
-}
-
-export type DataTables = Wod | User | Wo | Lad;
-
 export interface XWo {
   wo_lot: number;
   wo_nbr: string;
@@ -97,3 +70,29 @@ export interface Lad {
   lad_expire: number; //Ld_expire
   lad_qty_rsrv: number //Foglalt
 }
+@Injectable()
+export class DataTableService {
+  dataChanged = new Subject<DataTables[]>();
+  getData = new Subject<any>();
+  selectRow = new Subject<DataTables>();
+  sortData = new Subject<Sort>();
+  
+  rowClick(data) {}
+  emitDataChanged(data: DataTables[]) {
+    this.dataChanged.next(data);
+  }
+
+  getDataEmit() {
+    this.getData.next();
+  }
+
+  emitSelectedRow(data: DataTables) {
+    this.selectRow.next(data);
+  }
+
+
+
+}
+
+export type DataTables = Wod | User | Wo | Lad;
+
