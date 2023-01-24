@@ -24,6 +24,9 @@ export class UserComponent implements OnInit, OnDestroy {
   sortSub: Subscription;
   sortedUserData: DataTableService.User[];
 
+  selectedData: DataTableService.User;
+  rowSelectSubscription: Subscription;
+
   userHeaders = [
     { name: 'user_id', szoveg: 'Felhasználó ID' },
     { name: 'name', szoveg: 'Név' },
@@ -48,6 +51,20 @@ export class UserComponent implements OnInit, OnDestroy {
       this.sortData(sort);
     });
     this.initForm();
+
+    this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
+      (data: DataTableService.User) => {
+        this.myGroup = new FormGroup({
+          user_id: new FormControl(data.user_id, Validators.required),
+          name: new FormControl(data.name, Validators.required),
+          email: new FormControl(data.email, Validators.required),
+          birth_date: new FormControl(data.birth_date, Validators.required),
+          post: new FormControl(data.post, Validators.required),
+        });
+        this.onSearchUser();
+        console.log(data);
+      }
+    );
   }
 
   initForm() {
@@ -171,5 +188,6 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.getItemSub.unsubscribe();
     this.sortSub.unsubscribe();
+    this.rowSelectSubscription.unsubscribe();
   }
 }

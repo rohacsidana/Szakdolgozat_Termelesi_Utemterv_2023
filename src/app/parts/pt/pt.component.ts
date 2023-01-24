@@ -22,6 +22,9 @@ export class PtComponent {
   sortSub: Subscription;
   sortedPartData: DataTableService.Pt[];
 
+  selectedData: DataTableService.Pt;
+  rowSelectSubscription: Subscription;
+
   partHeaders = [
     {
       name: 'pt_part',
@@ -47,6 +50,17 @@ export class PtComponent {
       this.sortData(sort);
     });
     this.initForm();
+    this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
+      (data: DataTableService.Pt) => {
+        this.myGroup = new FormGroup({
+          pt_part: new FormControl(data.pt_part, Validators.required),
+          pt_desc: new FormControl(data.pt_desc, Validators.required),
+          pt_um: new FormControl(data.pt_um, Validators.required),
+        });
+        this.onSearchPart();
+        console.log(data);
+      }
+    );
   }
 
   initForm() {
@@ -154,5 +168,6 @@ export class PtComponent {
   ngOnDestroy(): void {
     this.getItemSub.unsubscribe();
     this.sortSub.unsubscribe();
+    this.rowSelectSubscription.unsubscribe();
   }
 }

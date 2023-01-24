@@ -1,9 +1,4 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
@@ -41,6 +36,10 @@ export class DataTableComponent implements OnDestroy, OnInit {
     });
 
     this.dataTblService.getDataEmit();
+  }
+
+  onRowClicked(clickedData) {
+    this.dataTblService.rowClick(clickedData);
   }
 
   isDate(data) {

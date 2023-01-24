@@ -62,6 +62,10 @@ export class DataTableService {
   selectRow = new Subject<DataTables>();
   sortData = new Subject<Sort>();
 
+  rowClick(data) {
+    
+  }
+
   emitDataChanged(data: DataTables[]) {
     this.dataChanged.next(data);
   }

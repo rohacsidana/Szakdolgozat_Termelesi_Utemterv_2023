@@ -16,7 +16,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of viewData" (click)="selectRow(item)">
+      <tr
+        *ngFor="let item of viewData"
+        (click)="selectRow(item)"
+        style="cursor: pointer"
+      >
         <td *ngFor="let col of item | keyvalue : natural">
           <!-- {{ col.value }} -->
           <div *ngIf="isDate(col.value)">
