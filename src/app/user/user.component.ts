@@ -160,6 +160,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.emailExists = false;
     this.userAlreadyExists = false;
     this.userFound = true;
+    this.loadedUser = null;
   }
 
   userDataChanged() {
