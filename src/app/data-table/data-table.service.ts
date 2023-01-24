@@ -55,6 +55,14 @@ export interface Pt {
   pt_desc: string;
   pt_um: string;
 }
+
+export interface Ld {
+  ld_part: number;
+  ld_expire: Date;
+  ld_qty_oh: number;
+  ld_qty_rsrv: number;
+  ld_qty_scrp: number;
+}
 @Injectable()
 export class DataTableService {
   dataChanged = new Subject<DataTables[]>();
@@ -62,9 +70,7 @@ export class DataTableService {
   selectRow = new Subject<DataTables>();
   sortData = new Subject<Sort>();
 
-  rowClick(data) {
-    
-  }
+  rowClick(data) {}
 
   emitDataChanged(data: DataTables[]) {
     this.dataChanged.next(data);

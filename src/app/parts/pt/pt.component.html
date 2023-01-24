@@ -95,6 +95,7 @@
                       name="pt_desc"
                       class="form-control"
                       maxlength="24"
+                      [attr.disabled]="!partFound && searchMode"
                       formControlName="pt_desc"
                     />
                   </div>

@@ -66,7 +66,7 @@ export class PtComponent {
   initForm() {
     this.myGroup = new FormGroup({
       pt_part: new FormControl('', Validators.required),
-      pt_desc: new FormControl(''),
+      pt_desc: new FormControl('', Validators.required),
       pt_um: new FormControl('', Validators.required),
     });
   }
