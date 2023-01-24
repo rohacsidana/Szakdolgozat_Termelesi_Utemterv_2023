@@ -14,55 +14,58 @@ import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WoComponent } from './workorder/wo/wo.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
-import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
-
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'auth', component: AuthComponent },
   {
-    path: 'part', children: [
+    path: 'part',
+    children: [
       { path: '', component: PtComponent },
-      { path: 'structure', component: PsComponent }
-    ]
+      { path: 'structure', component: PsComponent },
+    ],
   },
   //{path: 'part/structure', component: PsComponent},
   { path: 'inventory', component: LdComponent },
   {
-    path: 'line', children: [
+    path: 'line',
+    children: [
       { path: '', component: LnComponent },
       { path: 'change', component: ChgComponent },
       { path: 'rate', component: LndComponent },
-    ]
+    ],
   },
 
-  { path: 'workorder',  children:[
-    { path: '', component: WoComponent, pathMatch: 'full'},
-    { path: 'new', component: WoComponent},
-    { path: 'list', component: WoListComponent },
-    { path: ':part', component: WoComponent , children:[
-      {path:'',outlet: 'wod', component:WodComponent},
-      {path:'',outlet: 'lad', component:LadComponent},
-      
-      
-    ]},
-  ]},
+  {
+    path: 'workorder',
+    children: [
+      { path: '', component: WoComponent, pathMatch: 'full' },
+      { path: 'new', component: WoComponent },
+      { path: 'list', component: WoListComponent },
+      {
+        path: ':part',
+        component: WoComponent,
+        children: [
+          { path: '', outlet: 'wod', component: WodComponent },
+          { path: '', outlet: 'lad', component: LadComponent },
+        ],
+      },
+    ],
+  },
   /* { path: 'workorder/new', component: WoComponent}, */
   /* { path: 'workorder/list', component: WoListComponent, pathMatch: 'full' }, */
   /* { path: ':part', component: WoComponent , children:[
     {path: '', component: WodComponent},
     {path: '',component: LadComponent}
   ]}, */
-  
+
   { path: 'prodsch', component: XWoCoponent },
-  { path: 'user', component: UserComponent }
-
-
+  { path: 'user', component: UserComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

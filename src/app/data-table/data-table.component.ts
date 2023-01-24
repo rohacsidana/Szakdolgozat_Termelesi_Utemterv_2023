@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
@@ -19,7 +12,6 @@ import { DataTables, DataTableService } from './data-table.service';
 export class DataTableComponent implements OnDestroy, OnInit {
   @Input() headers: { name: string; szoveg: string }[];
 
-
   length: number;
   data: DataTables[];
   viewData: DataTables[];
@@ -30,10 +22,11 @@ export class DataTableComponent implements OnDestroy, OnInit {
   kezdIndex;
   vegIndex;
 
+  dateType: boolean = false;
+
   dtSub: Subscription;
 
-  constructor(private dataTblService: DataTableService) {
-  }
+  constructor(private dataTblService: DataTableService) {}
 
   ngOnInit() {
     this.dtSub = this.dataTblService.dataChanged.subscribe((data) => {
@@ -43,6 +36,18 @@ export class DataTableComponent implements OnDestroy, OnInit {
     });
 
     this.dataTblService.getDataEmit();
+  }
+
+  onRowClicked(clickedData) {
+    this.dataTblService.rowClick(clickedData);
+  }
+
+  isDate(data) {
+    if (data instanceof Date) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   handleSortData(sort: Sort) {
@@ -70,7 +75,6 @@ export class DataTableComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.dtSub.unsubscribe();
-
   }
 
   selectRow(item: DataTables) {

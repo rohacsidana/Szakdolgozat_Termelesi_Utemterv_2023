@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 import { User } from '../data-table/data-table.service';
 
 @Injectable()
@@ -42,14 +41,35 @@ export class UserService {
 
   saveUser(user: User) {
     if (this.getUser(user.user_id)) {
-      this.userData[this.userData.indexOf(user)] = user;
+      //ha létezik ilyen user_id-jű user, updateljuk
+      for (let i = 0; i < this.userData.length; i++) {
+        if (this.userData[i].user_id == user.user_id) {
+          this.userData[i] = user;
+        }
+      }
+      return false;
+    } else {
+      let emailExists: boolean = false;
+      let i = 0;
+      while (i < this.userData.length && this.userData[i].email != user.email) {
+        //eldöntjük, létezik-e már az email
+        i++;
+      }
+      emailExists = i < this.userData.length;
+      if (!emailExists) {
+        //ha nincs ilyen user & email sem szerepel, léterehozzuk
+        this.userData.push(user);
+      } else {
+        return true; //visszaadjuk, h már létezik
+      }
     }
   }
 
   deleteUser(id: number) {
+    //console.log(this.getUser(id));
+
     if (this.getUser(id)) {
       this.userData.splice(this.userData.indexOf(this.getUser(id)), 1);
     }
-
   }
 }
