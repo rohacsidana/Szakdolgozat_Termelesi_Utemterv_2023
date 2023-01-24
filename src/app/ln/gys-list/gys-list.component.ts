@@ -1,0 +1,38 @@
+import { Component, Input } from '@angular/core';
+import { GysService } from '../gys/gys.service';
+import { Gys } from '../gys/gys-model';
+
+@Component({
+  selector: 'app-gys-list',
+  templateUrl: './gys-list.component.html',
+  styleUrls: ['./gys-list.component.css']
+})
+export class GysListComponent {
+  @Input() gyartosor: Gys
+
+  modositas = false
+  //gyartosorok: { ln_id: string, ln_desc: string }[] = [];
+  gyartosorok: Gys[];
+
+  constructor(private gysService: GysService) { }
+
+  ngOnInit(): void {
+    this.gyartosorok = this.gysService.getGysek()
+    console.log(this.gyartosorok);
+    
+
+  }
+
+  onModositas() {
+    this.modositas = true
+    //console.log("gy-comp:");
+    //console.log(this.gyartosorok[id]);
+    //this.gysService.kivalasztottGys.emit(this.kijeloltGys)
+    //return this.gyartosorok[id];
+
+  }
+
+  onReszletek(leiras: string) {
+    alert(leiras + "\n(ez nem alert box lesz később!)")
+  }
+}

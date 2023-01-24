@@ -1,8 +1,20 @@
 <div class="container">
   <h1>Gyártósor kezelés</h1>
+  <label for="gyartosor" style="font-size: large;">Gyártósor</label>
+  <input type="text" id="gyartosor" class="form-controll" />
+  <button type="button" class="btn btn-primary">Keresés</button>
   <div class="row">
-    <div class="col-md-12">
-      <app-gys></app-gys>
+    <div class="col-md-6">
+      <app-gys-list></app-gys-list>
+    </div>
+    <div class="col-xs-6">
+      <app-gys-mod
+        *ngIf="gyartosor; else infotext"
+        [gyartosor]="gyartosor"
+      ></app-gys-mod>
+      <ng-template #infotext
+        >Válassza ki, melyik gyártósort szeretné módosítani</ng-template
+      >
     </div>
   </div>
 </div>

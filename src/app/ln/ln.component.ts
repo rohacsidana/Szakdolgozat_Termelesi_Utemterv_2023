@@ -1,13 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Gys } from './gys/gys-model';
+import { GysService } from './gys/gys.service';
+import { UserComponent } from '../user/user.component';
 
 @Component({
   selector: 'app-ln',
   templateUrl: './ln.component.html',
   styleUrls: ['./ln.component.css']
 })
-export class LnComponent {
-  modositas(m: boolean) {
-    
+export class LnComponent implements OnInit, OnDestroy {
+  gyartosor: Gys
+
+  constructor(private gysService: GysService) { }
+
+  ngOnInit(): void {
+    this.gysService.kivalasztottGys
+    .subscribe(
+      (gys: Gys) => {
+        this.gyartosor = gys;
+      }
+    )
   }
+
+  ngOnDestroy(): void {
+    this.gysService.kivalasztottGys.unsubscribe()
+  }
+
+  
 
 }

@@ -30,12 +30,13 @@ import { DataTableComponent } from './data-table/data-table.component';
 import { GysModComponent } from './ln/gys-mod/gys-mod.component';
 import { GysComponent } from './ln/gys/gys.component';
 import { Rovidit } from './ln/gys/shorten-pipe';
-import { Gys } from './ln/gys/gys.service';
+import { GysService } from './ln/gys/gys.service';
 import { WoComponent } from './workorder/wo/wo.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
 import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
 import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
+import { GysListComponent } from './ln/gys-list/gys-list.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
     GysComponent,
     WodComponent,
     Rovidit,
-    WoFormComponent
+    WoFormComponent,
+    GysListComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +81,7 @@ import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [Gys],
+  providers: [GysService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
