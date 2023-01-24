@@ -1,1 +1,127 @@
-<p>pt works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 style="text-align: center">Tételek</h2>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-xs-12">
+          <form [formGroup]="myGroup" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon">Tételkód:</span>
+                    <input
+                      style="z-index: auto"
+                      type="number"
+                      id="pt_part"
+                      name="pt_part"
+                      class="form-control"
+                      formControlName="pt_part"
+                      (change)="checkPartAlreadyExists()"
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-primary"
+                        type="button"
+                        style="z-index: auto"
+                        *ngIf="searchMode"
+                        (click)="onSearchPart()"
+                      >
+                        <i class="glyphicon glyphicon-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                *ngIf="!searchMode"
+                class="btn btn-success"
+                type="submit"
+                style="z-index: auto"
+                [disabled]="!myGroup.valid || partAlreadyExists"
+              >
+                Mentés
+              </button>
+              <button
+                [className]="searchMode ? 'btn btn-success' : 'btn btn-danger'"
+                (click)="onChangeMode()"
+                type="button"
+              >
+                {{ searchMode ? "Új" : "Mégse" }}
+              </button>
+              <button
+                class="btn btn-danger"
+                (click)="onDelete()"
+                type="button"
+                [disabled]="!loadedPart"
+                *ngIf="searchMode && loadedPart"
+              >
+                Törlés
+              </button>
+              <button
+                class="btn btn-warning"
+                type="submit"
+                [disabled]="!myGroup.valid || !loadedPart"
+                *ngIf="searchMode && loadedPart"
+              >
+                Módosítások mentése
+              </button>
+            </div>
+            <!-- "hiba" üzenetek -->
+            <div class="row">
+              <div class="col-xs-12">
+                <p *ngIf="!partFound && searchMode">
+                  Nem található ilyen azonosítójú tétel!
+                </p>
+                <p *ngIf="partAlreadyExists && !searchMode">
+                  Már létezik ilyen azonosítójú tétel!
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <!-- pt-re vonatkozo inputok -->
+                <div class="form-group">
+                  <div class="col-xs-4">
+                    <label for="name">Leírás:</label>
+                    <input
+                      type="text"
+                      id="pt_desc"
+                      name="pt_desc"
+                      class="form-control"
+                      maxlength="24"
+                      formControlName="pt_desc"
+                    />
+                  </div>
+                  <div class="col-xs-4">
+                    <label for="birth_date">Mértékegység:</label>
+                    <input
+                      type="text"
+                      id="pt_um"
+                      name="pt_um"
+                      maxlength="10"
+                      class="form-control"
+                      formControlName="pt_um"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr />
+      <!-- pt headerek -->
+      <div class="row">
+        <div class="col-lg-12">
+          <app-data-table [headers]="partHeaders"></app-data-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

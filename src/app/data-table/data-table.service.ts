@@ -42,12 +42,18 @@ export interface Wo {
 }
 export interface Lad {
   lad_id: number; //Foglalás azon
-  lad_part: number //Wod_part In
+  lad_part: number; //Wod_part In
   lad_par: number; //Wod_par Int
-  lad_lot: number; //Wod_lot Int 
+  lad_lot: number; //Wod_lot Int
   lad_comp: number; //Ld_part Int
   lad_expire: number; //Ld_expire
-  lad_qty_rsrv: number //Foglalt
+  lad_qty_rsrv: number; //Foglalt
+}
+
+export interface Pt {
+  pt_part: number;
+  pt_desc: string;
+  pt_um: string;
 }
 @Injectable()
 export class DataTableService {
@@ -55,7 +61,6 @@ export class DataTableService {
   getData = new Subject<any>();
   selectRow = new Subject<DataTables>();
   sortData = new Subject<Sort>();
-  
 
   emitDataChanged(data: DataTables[]) {
     this.dataChanged.next(data);
@@ -68,10 +73,6 @@ export class DataTableService {
   emitSelectedRow(data: DataTables) {
     this.selectRow.next(data);
   }
-
-
-
 }
 
-export type DataTables = Wod | User | Wo | Lad;
-
+export type DataTables = Wod | User | Wo | Lad | Pt;

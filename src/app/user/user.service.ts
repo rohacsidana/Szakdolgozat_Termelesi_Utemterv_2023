@@ -66,7 +66,7 @@ export class UserService {
   }
 
   deleteUser(id: number) {
-    console.log(this.getUser(id));
+    //console.log(this.getUser(id));
 
     if (this.getUser(id)) {
       this.userData.splice(this.userData.indexOf(this.getUser(id)), 1);

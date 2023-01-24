@@ -18,8 +18,8 @@
                     <input
                       style="z-index: auto"
                       type="number"
-                      id="woLot"
-                      name="woLot"
+                      id="user_id"
+                      name="user_id"
                       class="form-control"
                       formControlName="user_id"
                       (change)="checkUserAlreadyExists()"
@@ -140,10 +140,8 @@
         </div>
       </div>
       <hr />
-      <!-- GYR-hez tartozó adatok -->
       <div class="row">
         <div class="col-lg-12">
-          <!-- <app-wod></app-wod> -->
           <app-data-table [headers]="userHeaders"></app-data-table>
         </div>
       </div>
