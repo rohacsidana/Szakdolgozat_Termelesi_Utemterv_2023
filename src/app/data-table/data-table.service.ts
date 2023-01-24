@@ -55,6 +55,11 @@ export interface Pt {
   pt_desc: string;
   pt_um: string;
 }
+export interface Ps {
+  ps_par: number;
+  ps_comp: number;
+  ps_qty_per: number;
+}
 
 export interface Ld {
   ld_part: number;
@@ -85,4 +90,4 @@ export class DataTableService {
   }
 }
 
-export type DataTables = Wod | User | Wo | Lad | Pt;
+export type DataTables = Wod | User | Wo | Lad | Pt | Ps | Ld;
