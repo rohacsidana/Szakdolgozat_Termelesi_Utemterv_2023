@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { WoService } from '../../wo.service';
 
@@ -30,7 +30,6 @@ export class WoFormComponent implements OnInit, OnDestroy {
       
       this.initForm();
     });
-    //this.initForm();
   }
 
   initForm() {

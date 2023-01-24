@@ -3,7 +3,7 @@ import { ThisReceiver } from "@angular/compiler";
 import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Data, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import * as  DataTableService from "../../data-table/data-table.service";
 import { WoService } from "../wo.service";
@@ -46,17 +46,18 @@ export class WoListComponent {
     sortedWoData: DataTableService.Wo[];
     getItemSub: Subscription;
     selectRow: Subscription;
+    lastSort: Sort;
     constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private router: Router, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
         this.woDataChangedSub = this.woService.woDataChanged.subscribe(
-            ()=>{
-                this.woData = this.woService.getWoData();
+            (woData: DataTableService.Wo[])=>{
+                this.woData = woData;
             }
         );
-        this.woService.setWoData();
-        this.woData = this.woService.getWoData();
+        //this.woService.setWoData();
+        this.woData = this.woService.getWos();
         this.sortedWoData = this.woData.slice();
         
         this.getItemSub = this.dtTblService.getData.subscribe(() => {
@@ -67,6 +68,7 @@ export class WoListComponent {
 
         this.sortSub = this.dtTblService.sortData.subscribe(
             (sort: Sort)=>{
+                this.lastSort = sort;
                 this.sortData(sort);
             }
         );
@@ -85,7 +87,7 @@ export class WoListComponent {
 
 
     sortData(sort: Sort) {
-
+        
         const data = this.woData.slice();
         if (!sort.active || sort.direction === '') {
             this.sortedWoData = data;
