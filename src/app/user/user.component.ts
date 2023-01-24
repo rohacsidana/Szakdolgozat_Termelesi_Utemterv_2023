@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import * as DataTableService from '../data-table/data-table.service';
@@ -15,18 +15,14 @@ export class UserComponent implements OnInit, OnDestroy {
   loadedUser: DataTableService.User;
   loadedUserToucher: boolean = false;
 
+  myGroup: FormGroup;
   userFound: boolean = true;
+  emailExists: boolean = false;
   searchMode: boolean = true;
-  userExists: boolean = false;
+  userAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
   sortedUserData: DataTableService.User[];
-
-  user_id = new FormControl('');
-  name = new FormControl('');
-  birth_date = new FormControl('');
-  email = new FormControl('');
-  post = new FormControl('');
 
   userHeaders = [
     { name: 'user_id', szoveg: 'Felhasználó ID' },
@@ -35,6 +31,7 @@ export class UserComponent implements OnInit, OnDestroy {
     { name: 'email', szoveg: 'Email' },
     { name: 'post', szoveg: 'Besorolás' },
   ];
+
   constructor(
     private userService: UserService,
     private dtTblService: DataTableService.DataTableService
@@ -47,11 +44,20 @@ export class UserComponent implements OnInit, OnDestroy {
       this.dtTblService.emitDataChanged(this.sortedUserData.slice());
     });
     this.dtTblService.emitDataChanged(this.sortedUserData.slice());
-    this.sortSub = this.dtTblService.sortData.subscribe(
-      (sort: Sort)=>{
-          this.sortData(sort);
-      }
-  );
+    this.sortSub = this.dtTblService.sortData.subscribe((sort: Sort) => {
+      this.sortData(sort);
+    });
+    this.initForm();
+  }
+
+  initForm() {
+    this.myGroup = new FormGroup({
+      user_id: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.required),
+      birth_date: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      post: new FormControl('', Validators.required),
+    });
   }
 
   sortData(sort: Sort) {
@@ -91,60 +97,69 @@ export class UserComponent implements OnInit, OnDestroy {
 
   onChangeMode() {
     this.clearForm();
-    this.user_id.setValue('');
     this.searchMode = !this.searchMode;
   }
 
   onSearchUser() {
-    this.clearForm();
-    this.loadedUser = this.userService.getUser(Number(this.user_id.value));
-    if (this.userService.getUsers().indexOf(this.loadedUser) != -1) {
-      this.userFound = true;
-      this.name.setValue(this.loadedUser.name);
-      this.birth_date.setValue(
-        this.loadedUser.birth_date.toISOString().split('T')[0]
+    if (this.userService.getUser(this.myGroup.value.user_id)) {
+      //lekérem a beirt azonosito szerinti felhasználót
+      this.loadedUser = this.userService.getUser(
+        Number(this.myGroup.value.user_id)
       );
-      this.email.setValue(this.loadedUser.email);
-      this.post.setValue(this.loadedUser.post);
+      this.userFound = true;
+      this.myGroup = new FormGroup({
+        user_id: new FormControl(this.loadedUser.user_id, Validators.required),
+        name: new FormControl(this.loadedUser.name, Validators.required),
+        birth_date: new FormControl(
+          this.loadedUser.birth_date.toISOString().split('T')[0],
+          Validators.required
+        ),
+        email: new FormControl(this.loadedUser.email, Validators.required),
+        post: new FormControl(this.loadedUser.post, Validators.required),
+      });
     } else {
+      this.clearForm();
       this.userFound = false;
     }
+    console.log(this.userFound);
   }
 
   onDelete() {
-    this.userService.deleteUser(Number(this.user_id.value));
+    this.userService.deleteUser(Number(this.myGroup.value.user_id));
     this.userDataChanged();
     this.clearForm();
-    this.user_id.setValue('');
     this.loadedUser = null;
   }
 
-  checkUserExists() {
-    if (this.userService.getUser(Number(this.user_id.value))) {
-      this.userExists = true;
+  checkUserAlreadyExists() {
+    if (this.userService.getUser(Number(this.myGroup.value.user_id))) {
+      this.userAlreadyExists = true;
     } else {
-      this.userExists = false;
+      this.userAlreadyExists = false;
     }
   }
 
-  onSubmit(form: NgForm) {
-    this.userService.saveUser({
-      user_id: Number(this.user_id.value),
-      name: this.name.value,
-      birth_date: new Date(this.birth_date.value),
-      email: this.email.value,
-      post: this.post.value,
+  onSubmit() {
+    console.log(this.userAlreadyExists);
+    this.emailExists = this.userService.saveUser({
+      user_id: Number(this.myGroup.value.user_id),
+      name: this.myGroup.value.name,
+      birth_date: new Date(this.myGroup.value.birth_date),
+      email: this.myGroup.value.email,
+      post: this.myGroup.value.post,
     });
-    this.userDataChanged();
+    if (!this.emailExists) {
+      this.userDataChanged();
+    }
+    this.clearForm();
+    this.searchMode = true;
   }
 
   clearForm() {
-    this.userExists = false;
+    this.myGroup.reset();
+    this.emailExists = false;
+    this.userAlreadyExists = false;
     this.userFound = true;
-    this.name.setValue('');
-    this.birth_date.setValue('');
-    this.email.setValue('');
-    this.post.setValue('');
   }
 
   userDataChanged() {
