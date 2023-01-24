@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 
+export interface Pt {
+  pt_part: number;
+  pt_desc: string;
+  pt_um: string;
+}
 export interface XWo {
   wo_lot: number;
   wo_nbr: string;
@@ -61,6 +66,11 @@ export interface Wo {
   wo_activated: boolean;
   wo_status: string;
 }
+export interface Ps {
+  ps_par: number;
+  ps_comp: number;
+  ps_qty_per: number;
+}
 export interface Lad {
   lad_id: number; //Foglalás azon
   lad_part: number //Wod_part In
@@ -94,5 +104,5 @@ export class DataTableService {
 
 }
 
-export type DataTables = Wod | User | Wo | Lad;
+export type DataTables = Wod | User | Wo | Lad | Pt | Ps;
 

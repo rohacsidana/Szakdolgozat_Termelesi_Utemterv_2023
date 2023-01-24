@@ -30,7 +30,7 @@ import { DataTableComponent } from './data-table/data-table.component';
 import { GysModComponent } from './ln/gys-mod/gys-mod.component';
 import { GysComponent } from './ln/gys/gys.component';
 import { Rovidit } from './ln/gys/shorten-pipe';
-import { Gys } from './ln/gys/gys.service';
+import { GysService } from './ln/gys/gys.service';
 import { WoComponent } from './workorder/wo/wo.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
 import { WoListComponent } from './workorder/wo-list/wo-list.component';
@@ -42,6 +42,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import { GysListComponent } from './ln/gys-list/gys-list.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +67,8 @@ import {MatInputModule} from '@angular/material/input';
     GysComponent,
     WodComponent,
     Rovidit,
-    WoFormComponent
+    WoFormComponent,
+    GysListComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +93,7 @@ import {MatInputModule} from '@angular/material/input';
     MatSelectModule,
     MatInputModule
   ],
-  providers: [Gys],
+  providers: [GysService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
