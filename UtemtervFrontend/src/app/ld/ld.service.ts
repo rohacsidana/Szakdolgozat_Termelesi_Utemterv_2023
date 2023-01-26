@@ -45,19 +45,22 @@ export class LdService {
     return this.ldData.slice();
   }
 
-  getLd(id: number): Ld {
+  getLd(part: number, expire_d: Date): Ld {
     for (let i = 0; i < this.ldData.length; i++) {
-      if (this.ldData[i].ld_part == id) {
+      if (
+        this.ldData[i].ld_part == part &&
+        this.ldData[i].ld_expire == expire_d
+      ) {
         return this.ldData[i];
       }
     }
   }
 
   saveLd(ld: Ld) {
-    if (this.getLd(ld.ld_part)) {
+    if (this.getLd(ld.ld_part, ld.ld_expire)) {
       //ha létezik ilyen ld_part-jű ld, updateljuk
       let ldToChange: Ld =
-        this.ldData[this.ldData.indexOf(this.getLd(ld.ld_part))];
+        this.ldData[this.ldData.indexOf(this.getLd(ld.ld_part, ld.ld_expire))];
       ldToChange.ld_expire = ld.ld_expire;
       ldToChange.ld_qty_rsrv = ld.ld_qty_rsrv;
       ldToChange.ld_qty_oh = ld.ld_qty_oh;
@@ -73,11 +76,11 @@ export class LdService {
     }
   }
 
-  deleteLd(id: number) {
+  deleteLd(id: number, expire_d: Date) {
     //console.log(this.getLd(id));
 
-    if (this.getLd(id)) {
-      this.ldData.splice(this.ldData.indexOf(this.getLd(id)), 1);
+    if (this.getLd(id, expire_d)) {
+      this.ldData.splice(this.ldData.indexOf(this.getLd(id, expire_d)), 1);
     }
   }
 }
