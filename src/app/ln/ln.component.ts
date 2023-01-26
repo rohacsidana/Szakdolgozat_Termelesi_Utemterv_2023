@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Gys } from './gys/gys-model';
 import { GysService } from './gys/gys.service';
-import { UserComponent } from '../user/user.component';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -11,6 +10,8 @@ import { NgForm } from '@angular/forms';
 })
 export class LnComponent implements OnInit, OnDestroy {
   gyartosor: Gys
+  vanIlyenGys: boolean
+  validForm = true
 
   constructor(private gysService: GysService) { }
 
@@ -19,13 +20,28 @@ export class LnComponent implements OnInit, OnDestroy {
       .subscribe(
         (gys: Gys) => {
           this.gyartosor = gys;
+
         }
       )
+
+
   }
+
 
   onUjGys(form: NgForm) {
     const value = form.value
-    this.gysService.ujGys(value.azon, value.desc)
+    console.log(value);
+
+
+    this.vanIlyenGys = this.gysService.letezikeGys(value.azon)
+    if (!this.vanIlyenGys) {
+      this.gysService.ujGys(value.azon, value.desc)
+      this.validForm = true
+    } else {
+      this.validForm = false
+    }
+
+
   }
 
   ngOnDestroy(): void {
