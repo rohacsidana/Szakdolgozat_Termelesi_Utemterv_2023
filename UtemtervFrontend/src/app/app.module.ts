@@ -37,11 +37,11 @@ import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
 import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
 import { HttpClientModule } from '@angular/common/http';
-import {MatExpansionModule} from "@angular/material/expansion";
+import { MatExpansionModule } from "@angular/material/expansion";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { GysListComponent } from './ln/gys-list/gys-list.component';
 
 
@@ -96,4 +96,4 @@ import { GysListComponent } from './ln/gys-list/gys-list.component';
   providers: [GysService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

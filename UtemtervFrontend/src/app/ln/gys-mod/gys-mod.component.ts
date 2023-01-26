@@ -56,7 +56,7 @@ export class GysModComponent implements OnInit, OnDestroy {
     console.log(value);
 
     this.gysService.modositGys(this.gyartosor.ln_id, value.azon, value.desc)
-
+    this.clearForm()
   }
 
 

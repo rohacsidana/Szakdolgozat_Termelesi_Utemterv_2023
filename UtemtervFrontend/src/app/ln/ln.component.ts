@@ -9,6 +9,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./ln.component.css']
 })
 export class LnComponent implements OnInit, OnDestroy {
+  szerkesztes: boolean
   gyartosor: Gys
   vanIlyenGys: boolean
   validForm = true

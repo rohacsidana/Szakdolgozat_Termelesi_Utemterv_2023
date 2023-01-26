@@ -17,12 +17,20 @@ import { Subscription } from 'rxjs';
   templateUrl: './gys.component.html',
   styleUrls: ['./gys.component.css'],
 })
-export class GysComponent {
+export class GysComponent implements OnInit, OnDestroy {
   @Input() gyartosor: Gys;
 
   //gyartosorok: { ln_id: string, ln_desc: string }[] = [];
 
   constructor(private gysService: GysService) { }
+
+  ngOnInit(): void {
+
+  }
+
+  ngOnDestroy(): void {
+    this.gysService.kivalasztottGys.next()
+  }
 
   onModositas() {
     //this.gyList.modositas
@@ -31,6 +39,7 @@ export class GysComponent {
     //this.gysService.kivalasztottGys.emit(this.kijeloltGys)
     //return this.gyartosorok[id];
     this.gysService.kivalasztottGys.next(this.gyartosor);
+
     //console.log(this.gyartosor);
   }
 
