@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace UtemtervBackend.Models;
 
@@ -18,6 +19,7 @@ public partial class WoMstr
     public int? WoSeq { get; set; }
 
     public int WoQtyOrd { get; set; }
+
 
     public DateTime WoOrdDate { get; set; }
 
@@ -40,14 +42,14 @@ public partial class WoMstr
     public bool WoActivated { get; set; }
 
     public string? WoStatus { get; set; }
-
+    [JsonIgnore]
     public virtual LnMstr? WoLineNavigation { get; set; }
-
+    [JsonIgnore]
     public virtual PtMstr WoPartNavigation { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual User? WoUserNavigation { get; set; }
-
+    [JsonIgnore]
     public virtual ICollection<WodDet> WodDets { get; } = new List<WodDet>();
-
+    [JsonIgnore]
     public virtual ICollection<XwoHist> XwoHists { get; } = new List<XwoHist>();
 }
