@@ -11,7 +11,7 @@
         <div class="col-xs-12">
           <form [formGroup]="myGroup" (ngSubmit)="onSubmit()">
             <div class="row">
-              <div class="col-xs-4">
+              <div class="col-xs-6">
                 <div class="form-group">
                   <div class="input-group">
                     <span class="input-group-addon">Szülő:</span>
@@ -39,7 +39,7 @@
                         type="button"
                         style="z-index: auto"
                         *ngIf="searchMode"
-                        (click)="onSearchpartStr()"
+                        (click)="onSearchPartStr()"
                       >
                         <i class="glyphicon glyphicon-search"></i>
                       </button>
@@ -60,6 +60,7 @@
                 [className]="searchMode ? 'btn btn-success' : 'btn btn-danger'"
                 (click)="onChangeMode()"
                 type="button"
+                (click)="!searchMode ? onNew(true) : onNew(false)"
               >
                 {{ searchMode ? "Új" : "Mégse" }}
               </button>
@@ -67,7 +68,6 @@
                 class="btn btn-danger"
                 (click)="onDelete()"
                 type="button"
-                [disabled]="!loadedpartStr"
                 *ngIf="searchMode && loadedPartStr"
               >
                 Törlés

@@ -42,6 +42,12 @@ export class UserService {
   saveUser(user: User) {
     if (this.getUser(user.user_id)) {
       //ha létezik ilyen user_id-jű user, updateljuk
+      let userToChange: User =
+        this.userData[this.userData.indexOf(this.getUser(user.user_id))];
+      userToChange.birth_date = user.birth_date;
+      userToChange.email = user.email;
+      userToChange.name = user.name;
+      userToChange.post = user.post;
       for (let i = 0; i < this.userData.length; i++) {
         if (this.userData[i].user_id == user.user_id) {
           this.userData[i] = user;
@@ -58,6 +64,9 @@ export class UserService {
       emailExists = i < this.userData.length;
       if (!emailExists) {
         //ha nincs ilyen user & email sem szerepel, léterehozzuk
+        console.log();
+
+        user.user_id = this.userData[this.userData.length - 1].user_id + 1;
         this.userData.push(user);
       } else {
         return true; //visszaadjuk, h már létezik
