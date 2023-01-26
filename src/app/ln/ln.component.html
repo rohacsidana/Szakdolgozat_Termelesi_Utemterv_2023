@@ -1,16 +1,13 @@
 <div class="container">
   <h1>Gyártósor kezelés</h1>
-
   <div>
-    <form #f="ngForm">
+    <form (ngSubmit)="onUjGys(f)" #f="ngForm">
       <table class="table table-striped">
         <tbody>
           <tr>
-            <td>Gyártósor azonosító: 
-              <input 
-              type="text" 
-              name="azon"
-              ngModel/>
+            <td>
+              Gyártósor azonosító:
+              <input type="text" name="azon" ngModel />
             </td>
           </tr>
           <tr>

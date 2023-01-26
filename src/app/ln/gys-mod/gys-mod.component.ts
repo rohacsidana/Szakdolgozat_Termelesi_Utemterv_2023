@@ -13,7 +13,7 @@ export class GysModComponent implements OnInit, OnDestroy {
   kivalasztottGys: Gys;
   gysForm: FormGroup;
 
-  constructor(private gysService: GysService) {}
+  constructor(private gysService: GysService) { }
 
   ngOnInit(): void {
     /*this.gysService.kivalasztottGysS.subscribe(
@@ -33,11 +33,11 @@ export class GysModComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
-  onSzerkesztes() {}
+  onSzerkesztes() { }
 
-  onSubmit() {}
+  onSubmit() { }
 
   clearForm() {
     this.gysService.kivalasztottGys.next();
@@ -48,11 +48,14 @@ export class GysModComponent implements OnInit, OnDestroy {
   }
 
   onTorol() {
+    //array.indexOf(searchElement[, fromIndex])
     console.log(this.gysService.getGysek());
-    this.gysService.torolGys(0);
+    this.gysService.torolGys(this.gyartosor.ln_id);
 
     //console.log(this.kivalasztottGys);
     console.log(this.gysService.getGysek());
+    console.log("ez:" + this.gyartosor.ln_id);
+
     this.clearForm();
 
   }
