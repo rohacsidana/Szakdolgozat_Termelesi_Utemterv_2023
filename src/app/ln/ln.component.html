@@ -1,6 +1,44 @@
 <div class="container">
   <h1>Gyártósor kezelés</h1>
-  <label for="gyartosor" style="font-size: large;">Gyártósor</label>
+
+  <div>
+    <form #f="ngForm">
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td>Gyártósor azonosító: 
+              <input 
+              type="text" 
+              name="azon"
+              ngModel/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Gyártósor leírása:
+              <textarea
+                type="text"
+                id="ujLeiras"
+                class="form-control"
+                rows="6"
+                style="resize: none"
+                name="desc"
+                ngModel
+              ></textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button type="submit" class="btn btn-primary">
+                Új gyártósor
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+  <label for="gyartosor" style="font-size: large">Gyártósor</label>
   <input type="text" id="gyartosor" class="form-controll" />
   <button type="button" class="btn btn-primary">Keresés</button>
   <div class="row">
