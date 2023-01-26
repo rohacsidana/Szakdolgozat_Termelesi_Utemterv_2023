@@ -22,7 +22,7 @@ export class GysComponent {
 
   //gyartosorok: { ln_id: string, ln_desc: string }[] = [];
 
-  constructor(private gysService: GysService) {}
+  constructor(private gysService: GysService) { }
 
   onModositas() {
     //this.gyList.modositas

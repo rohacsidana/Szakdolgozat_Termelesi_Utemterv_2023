@@ -27,14 +27,15 @@
   </div>
 </div>
  -->
- 
+
 <div class="list-group-item clearfix">
   <div class="col-xs-6">
-    <h4 class="list-group-item-heading" style="font-weight: bold">Gyártósor id: {{ gyartosor.ln_id }}</h4>
+    <h4 class="list-group-item-heading" style="font-weight: bold">
+      Gyártósor azonosító: {{ gyartosor.ln_id }}
+    </h4>
     <p class="list-group-item-text">
-      Gyártósor leírása: {{ gyartosor.ln_desc | rovidit}}
+      Gyártósor leírása: <br />{{ gyartosor.ln_desc | rovidit }}
     </p>
-    
   </div>
   <div class="pull-right">
     <button type="button" class="btn btn-warning" (click)="onModositas()">
@@ -49,4 +50,3 @@
     </button>
   </div>
 </div>
-

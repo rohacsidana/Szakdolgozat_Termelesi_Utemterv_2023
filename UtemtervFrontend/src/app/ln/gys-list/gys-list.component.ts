@@ -15,7 +15,7 @@ export class GysListComponent implements OnInit, OnDestroy {
   //gyartosorok: { ln_id: string, ln_desc: string }[] = [];
   gyartosorok: Gys[];
 
-  constructor(private gysService: GysService) {}
+  constructor(private gysService: GysService) { }
 
   ngOnInit(): void {
     this.gyartosorok = this.gysService.getGysek();
