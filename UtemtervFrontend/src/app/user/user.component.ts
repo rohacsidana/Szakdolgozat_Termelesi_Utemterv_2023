@@ -19,6 +19,7 @@ export class UserComponent implements OnInit, OnDestroy {
   userFound: boolean = true;
   emailExists: boolean = false;
   searchMode: boolean = true;
+  newMode: boolean = false;
   userAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
@@ -77,6 +78,17 @@ export class UserComponent implements OnInit, OnDestroy {
     });
   }
 
+  changeNewMode() {
+    this.newMode = !this.newMode;
+    if (this.newMode) {
+      console.log('new-user-mode');
+      this.myGroup.value.user_id = Number(
+        this.userService.getUsers[-1].user_id + 1
+      ).toString();
+      this.myGroup.get('user_id').disable();
+    }
+  }
+
   sortData(sort: Sort) {
     const data = this.userService.getUsers();
     if (!sort.active || sort.direction === '') {
@@ -118,10 +130,10 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   onSearchUser() {
-    if (this.userService.getUser(this.myGroup.value.user_id)) {
+    if (this.userService.getUser(this.myGroup.getRawValue().user_id)) {
       //lekérem a beirt azonosito szerinti felhasználót
       this.loadedUser = this.userService.getUser(
-        Number(this.myGroup.value.user_id)
+        Number(this.myGroup.getRawValue().user_id)
       );
       this.userFound = true;
       this.myGroup = new FormGroup({
@@ -134,6 +146,7 @@ export class UserComponent implements OnInit, OnDestroy {
         email: new FormControl(this.loadedUser.email, Validators.required),
         post: new FormControl(this.loadedUser.post, Validators.required),
       });
+      this.myGroup.get('user_id').disable();
     } else {
       this.clearForm();
       this.userFound = false;
@@ -142,7 +155,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.userService.deleteUser(Number(this.myGroup.value.user_id));
+    this.userService.deleteUser(Number(this.myGroup.getRawValue().user_id));
     this.userDataChanged();
     this.clearForm();
     this.loadedUser = null;
@@ -159,11 +172,11 @@ export class UserComponent implements OnInit, OnDestroy {
   onSubmit() {
     console.log(this.userAlreadyExists);
     this.emailExists = this.userService.saveUser({
-      user_id: Number(this.myGroup.value.user_id),
-      name: this.myGroup.value.name,
-      birth_date: new Date(this.myGroup.value.birth_date),
-      email: this.myGroup.value.email,
-      post: this.myGroup.value.post,
+      user_id: Number(this.myGroup.getRawValue().user_id),
+      name: this.myGroup.getRawValue().name,
+      birth_date: new Date(this.myGroup.getRawValue().birth_date),
+      email: this.myGroup.getRawValue().email,
+      post: this.myGroup.getRawValue().post,
     });
     if (!this.emailExists) {
       this.userDataChanged();
@@ -173,6 +186,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   clearForm() {
+    this.myGroup.enable();
     this.myGroup.reset();
     this.emailExists = false;
     this.userAlreadyExists = false;

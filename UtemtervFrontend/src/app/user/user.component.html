@@ -51,6 +51,7 @@
                 [className]="searchMode ? 'btn btn-success' : 'btn btn-danger'"
                 (click)="onChangeMode()"
                 type="button"
+                (click)="changeNewMode()"
               >
                 {{ searchMode ? "Új" : "Mégse" }}
               </button>
