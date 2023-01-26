@@ -5,6 +5,7 @@ import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
 import { ActivatedRoute, Data, Router } from "@angular/router";
 import { Subscription } from "rxjs";
+import { DataStorageService } from "src/app/shared/data-storage.service";
 import * as  DataTableService from "../../data-table/data-table.service";
 import { WoService } from "../wo.service";
 
@@ -47,7 +48,7 @@ export class WoListComponent {
     getItemSub: Subscription;
     selectRow: Subscription;
     lastSort: Sort;
-    constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private router: Router, private route: ActivatedRoute) {
+    constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private router: Router, private route: ActivatedRoute, private DataStorageService: DataStorageService) {
     }
 
     ngOnInit() {
@@ -56,6 +57,11 @@ export class WoListComponent {
                 this.woData = woData;
             }
         );
+        this.DataStorageService.fetchAllWo().subscribe();
+            /* (woData)=>{
+                this.woService.setWoData(woData.slice());
+            }
+        ); */
         //this.woService.setWoData();
         this.woData = this.woService.getWos();
         this.sortedWoData = this.woData.slice();

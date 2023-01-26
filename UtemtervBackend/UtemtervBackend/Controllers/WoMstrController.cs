@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UtemtervBackend.Models;
 
 namespace UtemtervBackend.Controllers
 {
+    [EnableCors]
     [Route("workoder")]
     [ApiController]
     public class WoMstrController : ControllerBase
@@ -14,7 +16,7 @@ namespace UtemtervBackend.Controllers
         {
             _context = context;
         }
-
+        [EnableCors]
         [HttpGet("list")]
         public IActionResult WoList()
         {
@@ -35,7 +37,7 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(500, "An Error has occured.");
             }
         }
-
+        
         
     }
 }

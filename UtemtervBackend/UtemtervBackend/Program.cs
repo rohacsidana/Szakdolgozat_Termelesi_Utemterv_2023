@@ -13,6 +13,15 @@ namespace UtemtervBackend
             builder.Services.AddDbContext<UtemtervContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("UtemtervContext"))
                 );
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:4200");
+                    });
+            });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -28,7 +37,7 @@ namespace UtemtervBackend
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors();
             app.UseAuthorization();
 
 
