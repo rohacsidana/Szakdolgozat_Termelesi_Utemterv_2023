@@ -6,14 +6,14 @@ import { NgForm, FormGroup, FormControl } from '@angular/forms';
 @Component({
   selector: 'app-gys-mod',
   templateUrl: './gys-mod.component.html',
-  styleUrls: ['./gys-mod.component.css']
+  styleUrls: ['./gys-mod.component.css'],
 })
 export class GysModComponent implements OnInit, OnDestroy {
-  @Input() gyartosor: Gys
-  kivalasztottGys: Gys
-  gysForm: FormGroup
+  @Input() gyartosor: Gys;
+  kivalasztottGys: Gys;
+  gysForm: FormGroup;
 
-  constructor(private gysService: GysService) { }
+  constructor(private gysService: GysService) {}
 
   ngOnInit(): void {
     /*this.gysService.kivalasztottGysS.subscribe(
@@ -22,48 +22,38 @@ export class GysModComponent implements OnInit, OnDestroy {
       }
     )*/
 
-    this.gysService.kivalasztottGys.next(this.gyartosor)
-    this.initForm()
-
-
+    this.gysService.kivalasztottGys.next(this.gyartosor);
+    this.initForm();
   }
 
   private initForm() {
-
     this.gysForm = new FormGroup({
-      'id': new FormControl(this.gyartosor.ln_id),
-      'desc': new FormControl(this.gyartosor.ln_desc)
-    })
+      id: new FormControl(this.gyartosor.ln_id),
+      desc: new FormControl(this.gyartosor.ln_desc),
+    });
   }
 
+  ngOnDestroy(): void {}
 
-  ngOnDestroy(): void {
-    
-  }
+  onSzerkesztes() {}
 
-  onSzerkesztes() {
-  
-  }
+  onSubmit() {}
 
-  onSubmit() {
-
-  }
-
-  
   clearForm() {
-    this.gysService.kivalasztottGys.next()
+    this.gysService.kivalasztottGys.next();
   }
 
   onMegse() {
-    this.clearForm()
+    this.clearForm();
   }
 
   onTorol() {
     console.log(this.gysService.getGysek());
-    this.gysService.torolGys(0)
+    this.gysService.torolGys(0);
+
     //console.log(this.kivalasztottGys);
     console.log(this.gysService.getGysek());
-    this.clearForm()
-    
+    this.clearForm();
+
   }
 }
