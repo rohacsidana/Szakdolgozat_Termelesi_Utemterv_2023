@@ -63,9 +63,9 @@ export class PsComponent {
 
   initForm() {
     this.myGroup = new FormGroup({
-      pt_part: new FormControl('', Validators.required),
-      pt_desc: new FormControl('', Validators.required),
-      pt_um: new FormControl('', Validators.required),
+      ps_par: new FormControl('', Validators.required),
+      ps_comp: new FormControl('', Validators.required),
+      ps_qty_per: new FormControl('', Validators.required),
     });
   }
 
