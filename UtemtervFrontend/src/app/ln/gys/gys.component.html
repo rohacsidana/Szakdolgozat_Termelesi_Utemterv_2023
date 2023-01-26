@@ -1,40 +1,11 @@
-<!--<div class="row">
-  <div class="col-xs-5">
-   <label for="gyartosor">Gyártósor</label>
-    <input type="text" id="gyartosor" class="form-controll" />
-    <button type="button" class="btn btn-primary">Keresés</button>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Gyártósor</th>
-          <th>Leírás</th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let gys of gyartosorok">
-        <tr>
-          <td>{{ gys.ln_id }}</td>
-          <td>{{ gys.ln_desc | rovidit }}</td>
-          <td>
-            <button type="button" class="btn btn-warning" (click)="onModositas()">Módosítás</button>
-            <button type="button" class="btn btn-primary" (click)="onReszletek(gys.ln_desc)">Részletek</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="col-xs-7">
-    <app-gys-mod *ngIf="modositas"></app-gys-mod>
-  </div>
-</div>
- -->
- 
 <div class="list-group-item clearfix">
   <div class="col-xs-6">
-    <h4 class="list-group-item-heading" style="font-weight: bold">Gyártósor id: {{ gyartosor.ln_id }}</h4>
+    <h4 class="list-group-item-heading" style="font-weight: bold">
+      Gyártósor azonosító: {{ gyartosor.ln_id }}
+    </h4>
     <p class="list-group-item-text">
-      Gyártósor leírása: {{ gyartosor.ln_desc | rovidit}}
+      Gyártósor leírása: <br />{{ gyartosor.ln_desc | rovidit }}
     </p>
-    
   </div>
   <div class="pull-right">
     <button type="button" class="btn btn-warning" (click)="onModositas()">
@@ -49,4 +20,3 @@
     </button>
   </div>
 </div>
-

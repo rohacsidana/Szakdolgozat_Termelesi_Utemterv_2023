@@ -6,27 +6,42 @@
         <tbody>
           <tr>
             <td>
-              Gyártósor azonosító:
-              <input type="text" name="azon" ngModel />
+              Gyártósor azonosító*
+              <input
+                type="text"
+                name="azon"
+                ngModel
+                required=""
+                maxlength="8"
+              />
+              <p *ngIf="!validForm" style="color: red">
+                Már létezik ilyen azonosító!
+              </p>
             </td>
           </tr>
           <tr>
             <td>
-              Gyártósor leírása:
+              Gyártósor leírása*
               <textarea
                 type="text"
                 id="ujLeiras"
                 class="form-control"
-                rows="6"
                 style="resize: none"
+                rows="6"
                 name="desc"
                 ngModel
+                required=""
+                maxlength="750"
               ></textarea>
             </td>
           </tr>
           <tr>
             <td>
-              <button type="submit" class="btn btn-primary">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!f.valid"
+              >
                 Új gyártósor
               </button>
             </td>

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { GysService } from '../gys/gys.service';
 import { Gys } from '../gys/gys-model';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
+import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 
 @Component({
   selector: 'app-gys-mod',
@@ -12,6 +13,8 @@ export class GysModComponent implements OnInit, OnDestroy {
   @Input() gyartosor: Gys;
   kivalasztottGys: Gys;
   gysForm: FormGroup;
+  id: string
+  desc: string
 
   constructor(private gysService: GysService) { }
 
@@ -22,22 +25,40 @@ export class GysModComponent implements OnInit, OnDestroy {
       }
     )*/
 
-    this.gysService.kivalasztottGys.next(this.gyartosor);
-    this.initForm();
+    this.gysService.kivalasztottGys
+      .subscribe(
+        (gys: Gys) => {
+          this.gyartosor = gys;
+        }
+      )
+
+    this.id = this.gyartosor.ln_id
+    this.desc = this.gyartosor.ln_desc
+
   }
 
-  private initForm() {
-    this.gysForm = new FormGroup({
-      id: new FormControl(this.gyartosor.ln_id),
-      desc: new FormControl(this.gyartosor.ln_desc),
-    });
+  /*private initForm() {
+    this.gysService.kivalasztottGys
+      .subscribe(
+        (gys: Gys) => {
+          this.gyartosor = gys;
+        }
+      )
+  }*/
+
+
+  onSzerkesztes(form: NgForm) {
+    const value = form.value
+    //console.log(this.gyartosor);
+    //console.log(form);
+
+
+    console.log(value);
+
+    this.gysService.modositGys(this.gyartosor.ln_id, value.azon, value.desc)
+
   }
 
-  ngOnDestroy(): void { }
-
-  onSzerkesztes() { }
-
-  onSubmit() { }
 
   clearForm() {
     this.gysService.kivalasztottGys.next();
@@ -59,4 +80,9 @@ export class GysModComponent implements OnInit, OnDestroy {
     this.clearForm();
 
   }
+
+  ngOnDestroy(): void {
+    this.gysService.kivalasztottGys.unsubscribe()
+  }
+
 }

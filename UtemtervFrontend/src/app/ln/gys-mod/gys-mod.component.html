@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
-    <form [formGroup]="gysForm" (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSzerkesztes(f)" #f="ngForm">
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
@@ -9,8 +9,9 @@
               type="text"
               id="azonMod"
               class="form-control"
-              formControlName="id"
+              name="azon"
               rows="6"
+              [(ngModel)]="id"
             />
           </div>
           <div class="form-group">
@@ -20,12 +21,13 @@
               id="leirasMod"
               class="form-control"
               rows="6"
-              (onModositas)="onSzerkesztes()"
-              formControlName="desc"
-            ></textarea>
+              name="desc"
+              [(ngModel)]="desc"
+              >{{ desc }}</textarea
+            >
           </div>
           <hr />
-          <button type="button" class="btn btn-success">
+          <button type="submit" class="btn btn-success">
             Módosítások mentése
           </button>
           <button type="button" class="btn btn-warning" (click)="onMegse()">
