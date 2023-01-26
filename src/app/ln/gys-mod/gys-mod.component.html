@@ -5,7 +5,13 @@
         <div class="col-xs-12">
           <div class="form-group">
             <label for="azonMod">Azonosító</label>
-            <input type="text" id="azonMod" class="form-control" formControlName="id" rows="6"/>
+            <input
+              type="text"
+              id="azonMod"
+              class="form-control"
+              formControlName="id"
+              rows="6"
+            />
           </div>
           <div class="form-group">
             <label for="leirasMod">Leírás</label>
@@ -13,15 +19,21 @@
               type="text"
               id="leirasMod"
               class="form-control"
-              rows="6"    
-              (onModositas)="onSzerkesztes()"    
-              formControlName="desc"    
+              rows="6"
+              (onModositas)="onSzerkesztes()"
+              formControlName="desc"
             ></textarea>
           </div>
-          <hr>
-          <button type="button" class="btn btn-success">Módosítások mentése</button>
-          <button type="button" class="btn btn-warning" (click)="onMegse()">Mégse</button>
-          <button type="button" class="btn btn-danger" (click)="onTorol()">Gyártósor törlése</button>
+          <hr />
+          <button type="button" class="btn btn-success">
+            Módosítások mentése
+          </button>
+          <button type="button" class="btn btn-warning" (click)="onMegse()">
+            Mégse
+          </button>
+          <button type="button" class="btn btn-danger" (click)="onTorol()">
+            Gyártósor törlése
+          </button>
         </div>
       </div>
     </form>

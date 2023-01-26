@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Gys } from './gys/gys-model';
 import { GysService } from './gys/gys.service';
 import { UserComponent } from '../user/user.component';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-ln',
@@ -15,17 +16,22 @@ export class LnComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.gysService.kivalasztottGys
-    .subscribe(
-      (gys: Gys) => {
-        this.gyartosor = gys;
-      }
-    )
+      .subscribe(
+        (gys: Gys) => {
+          this.gyartosor = gys;
+        }
+      )
+  }
+
+  onUjGys(form: NgForm) {
+    const value = form.value
+    this.gysService.ujGys(value.azon, value.desc)
   }
 
   ngOnDestroy(): void {
     this.gysService.kivalasztottGys.unsubscribe()
   }
 
-  
+
 
 }
