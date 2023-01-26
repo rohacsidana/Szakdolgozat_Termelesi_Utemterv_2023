@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import * as DataTableService from '../data-table/data-table.service';
@@ -9,6 +14,7 @@ import { LdService } from './ld.service';
   selector: 'app-ld',
   templateUrl: './ld.component.html',
   styleUrls: ['./ld.component.css'],
+  providers: [DataTableService.DataTableService, LdService],
 })
 export class LdComponent implements OnInit, OnDestroy {
   loadedLd: DataTableService.Ld;
@@ -36,7 +42,8 @@ export class LdComponent implements OnInit, OnDestroy {
 
   constructor(
     private ldService: LdService,
-    private dtTblService: DataTableService.DataTableService
+    private dtTblService: DataTableService.DataTableService,
+    private formBuilder: FormBuilder
   ) {
     this.sortedLdData = ldService.getLds();
   }
@@ -53,7 +60,7 @@ export class LdComponent implements OnInit, OnDestroy {
 
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
       (data: DataTableService.Ld) => {
-        this.myGroup = new FormGroup({
+        this.myGroup = this.formBuilder.group({
           ld_part: new FormControl(data.ld_part, Validators.required),
           ld_expire: new FormControl(data.ld_expire, Validators.required),
           ld_qty_oh: new FormControl(data.ld_qty_oh, Validators.required),
@@ -67,8 +74,8 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.myGroup = new FormGroup({
-      ld_part: new FormControl(this.loadedLd.ld_part, Validators.required),
+    this.myGroup = this.formBuilder.group({
+      ld_part: new FormControl('', Validators.required),
       ld_expire: new FormControl('', Validators.required),
       ld_qty_oh: new FormControl('', Validators.required),
       ld_qty_rsrv: new FormControl('', Validators.required),
@@ -79,6 +86,8 @@ export class LdComponent implements OnInit, OnDestroy {
   changeNewMode() {
     this.newMode = !this.newMode;
     if (this.newMode) {
+      console.log(this.myGroup.getRawValue().ld_expire);
+
       this.myGroup.get('ld_part').disable();
     } else {
       this.clearForm();
@@ -126,32 +135,19 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onSearchLd() {
-    if (this.ldService.getLd(this.myGroup.getRawValue().ld_part)) {
+    this.filterData(this.myGroup.value.ld_part);
+    if (
+      this.ldService.getLd(
+        this.myGroup.getRawValue().ld_part,
+        this.myGroup.getRawValue().ld_expire
+      )
+    ) {
       //lekérem a beirt azonosito szerinti felhasználót
       this.loadedLd = this.ldService.getLd(
-        Number(this.myGroup.getRawValue().ld_part)
+        Number(this.myGroup.getRawValue().ld_part),
+        this.myGroup.getRawValue().ld_expire
       );
       this.ldFound = true;
-      this.myGroup = new FormGroup({
-        ld_part: new FormControl(this.loadedLd.ld_part, Validators.required),
-        ld_expire: new FormControl(
-          this.loadedLd.ld_expire.toISOString().split('T')[0],
-          Validators.required
-        ),
-        ld_qty_oh: new FormControl(
-          this.loadedLd.ld_qty_oh,
-          Validators.required
-        ),
-        ld_qty_rsrv: new FormControl(
-          this.loadedLd.ld_qty_rsrv,
-          Validators.required
-        ),
-        ld_qty_scrp: new FormControl(
-          this.loadedLd.ld_qty_scrp,
-          Validators.required
-        ),
-      });
-      this.myGroup.get('ld_part').disable();
     } else {
       this.clearForm();
       this.ldFound = false;
@@ -160,14 +156,22 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.ldService.deleteLd(Number(this.myGroup.getRawValue().ld_part));
+    this.ldService.deleteLd(
+      Number(this.myGroup.getRawValue().ld_part),
+      this.myGroup.getRawValue().ld_expire
+    );
     this.ldDataChanged();
     this.clearForm();
     this.loadedLd = null;
   }
 
   checkLdAlreadyExists() {
-    if (this.ldService.getLd(Number(this.myGroup.value.ld_part))) {
+    if (
+      this.ldService.getLd(
+        Number(this.myGroup.value.ld_part),
+        this.myGroup.value.ld_expire
+      )
+    ) {
       this.ldAlreadyExists = true;
     } else {
       this.ldAlreadyExists = false;
@@ -193,6 +197,7 @@ export class LdComponent implements OnInit, OnDestroy {
   clearForm() {
     this.myGroup.enable();
     this.myGroup.reset();
+    this.loadedLd = null;
     this.ldAlreadyExists = false;
     this.ldFound = true;
     this.loadedLd = null;
@@ -201,6 +206,13 @@ export class LdComponent implements OnInit, OnDestroy {
   ldDataChanged() {
     this.sortedLdData = this.ldService.getLds();
     this.dtTblService.emitDataChanged(this.sortedLdData.slice());
+  }
+
+  filterData(arg: number) {
+    const data = this.sortedLdData.slice();
+    let filter = arg.toString();
+    const results = data.filter((value) => value.ld_part.toString() == filter);
+    this.dtTblService.emitDataChanged(results.slice());
   }
 
   ngOnDestroy(): void {
