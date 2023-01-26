@@ -80,6 +80,14 @@ export interface Lad {
   lad_expire: number; //Ld_expire
   lad_qty_rsrv: number; //Foglalt
 }
+export interface Ld {
+  ld_part: number;
+  ld_expire: Date;
+  ld_qty_oh: number;
+  ld_qty_rsrv: number;
+  ld_qty_scrp: number;
+}
+
 @Injectable()
 export class DataTableService {
   dataChanged = new Subject<DataTables[]>();
@@ -101,4 +109,4 @@ export class DataTableService {
   }
 }
 
-export type DataTables = Wod | User | Wo | Lad | Pt | Ps;
+export type DataTables = Wod | User | Wo | Lad | Pt | Ps | Lad | Ld;
