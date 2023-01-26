@@ -1,1 +1,124 @@
-<p>ld works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 style="text-align: center">Készlet</h2>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-xs-12">
+          <form [formGroup]="myGroup" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon">Tétel:</span>
+                    <input
+                      style="z-index: auto"
+                      type="number"
+                      id="ps_par"
+                      name="ps_par"
+                      class="form-control"
+                      formControlName="ps_par"
+                      (change)="checkLdAlreadyExists()"
+                    /><span class="input-group-addon">Felhasználhatóság:</span>
+                    <input
+                      style="z-index: auto"
+                      type="number"
+                      id="ps_comp"
+                      name="ps_comp"
+                      class="form-control"
+                      formControlName="ps_comp"
+                      (change)="checkLdAlreadyExists()"
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-primary"
+                        type="button"
+                        style="z-index: auto"
+                        *ngIf="searchMode"
+                        (click)="onSearchLd()"
+                      >
+                        <i class="glyphicon glyphicon-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                *ngIf="!searchMode"
+                class="btn btn-success"
+                type="submit"
+                style="z-index: auto"
+                [disabled]="!myGroup.valid || ldAlreadyExists"
+              >
+                Mentés
+              </button>
+              <button
+                [className]="searchMode ? 'btn btn-success' : 'btn btn-danger'"
+                (click)="onChangeMode()"
+                type="button"
+              >
+                {{ searchMode ? "Új" : "Mégse" }}
+              </button>
+              <button
+                class="btn btn-danger"
+                (click)="onDelete()"
+                type="button"
+                *ngIf="searchMode && loadedLd"
+              >
+                Törlés
+              </button>
+              <button
+                class="btn btn-warning"
+                type="submit"
+                [disabled]="!myGroup.valid || !loadedLd"
+                *ngIf="searchMode && loadedLd"
+              >
+                Módosítások mentése
+              </button>
+            </div>
+            <!-- "hiba" üzenetek -->
+            <div class="row">
+              <div class="col-xs-12">
+                <p *ngIf="!ldFound && searchMode">
+                  Nem található ilyen beépülés!
+                </p>
+                <p *ngIf="ldAlreadyExists && !searchMode">
+                  Már létezik ilyen azonosítójú beépülés!
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <!-- ps-re vonatkozo inputok -->
+                <div class="form-group">
+                  <div class="col-xs-4">
+                    <label for="name">Beépülő mennyiség:</label>
+                    <input
+                      type="text"
+                      id="ps_qty_per"
+                      name="ps_qty_per"
+                      class="form-control"
+                      maxlength="24"
+                      formControlName="ps_qty_per"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr />
+      <!-- ps headerek -->
+      <div class="row">
+        <div class="col-lg-12">
+          <app-data-table [headers]="ldHeaders"></app-data-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
