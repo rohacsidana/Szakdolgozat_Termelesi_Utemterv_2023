@@ -81,11 +81,9 @@ export class UserComponent implements OnInit, OnDestroy {
   changeNewMode() {
     this.newMode = !this.newMode;
     if (this.newMode) {
-      console.log('new-user-mode');
-      this.myGroup.value.user_id = Number(
-        this.userService.getUsers[-1].user_id + 1
-      ).toString();
       this.myGroup.get('user_id').disable();
+    } else {
+      this.clearForm();
     }
   }
 
