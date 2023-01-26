@@ -1,5 +1,37 @@
-# Created by https://www.toptal.com/developers/gitignore/api/csharp,dotnetcore,aspnetcore
-# Edit at https://www.toptal.com/developers/gitignore?templates=csharp,dotnetcore,aspnetcore
+# Created by https://www.toptal.com/developers/gitignore/api/aspnetcore,dotnetcore,csharp,angular
+# Edit at https://www.toptal.com/developers/gitignore?templates=aspnetcore,dotnetcore,csharp,angular
+
+### Angular ###
+## Angular ##
+# compiled output
+dist/
+tmp/
+app/**/*.js
+app/**/*.js.map
+
+# dependencies
+node_modules/
+bower_components/
+
+# IDEs and editors
+.idea/
+
+# misc
+.sass-cache/
+connect.lock/
+coverage/
+libpeerconnection.log/
+npm-debug.log
+testem.log
+typings/
+.angular/
+
+# e2e
+e2e/*.js
+e2e/*.map
+
+# System Files
+.DS_Store/
 
 ### ASPNETCore ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -128,7 +160,6 @@ nCrunchTemp_*
 AutoTest.Net/
 
 # Web workbench (sass)
-.sass-cache/
 
 # Installshield output folder
 [Ee]xpress/
@@ -200,7 +231,6 @@ ClientBin/
 *.jfm
 *.pfx
 *.publishsettings
-node_modules/
 orleans.codegen.cs
 
 # Since there are multiple workflows, uncomment next line to ignore bower_components
@@ -258,7 +288,6 @@ paket-files/
 .fake/
 
 # JetBrains Rider
-.idea/
 *.sln.iml
 
 # CodeRush
@@ -532,4 +561,4 @@ obj/
 /node_modules
 /wwwroot/node_modules
 
-# End of https://www.toptal.com/developers/gitignore/api/csharp,dotnetcore,aspnetcore
+# End of https://www.toptal.com/developers/gitignore/api/aspnetcore,dotnetcore,csharp,angular
