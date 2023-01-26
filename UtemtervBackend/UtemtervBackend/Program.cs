@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using UtemtervBackend.Models;
+
 namespace UtemtervBackend
 {
     public class Program
@@ -7,7 +10,9 @@ namespace UtemtervBackend
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddDbContext<UtemtervContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("UtemtervContext"))
+                );
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
