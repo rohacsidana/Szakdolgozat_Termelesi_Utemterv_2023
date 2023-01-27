@@ -12,6 +12,13 @@ export class LdService {
       ld_qty_scrp: 6,
     },
     {
+      ld_part: 1000,
+      ld_expire: new Date('2023-05-12'),
+      ld_qty_oh: 21,
+      ld_qty_rsrv: 0,
+      ld_qty_scrp: 7,
+    },
+    {
       ld_part: 1020,
       ld_expire: new Date('2023-06-14'),
       ld_qty_oh: 16,
@@ -51,36 +58,36 @@ export class LdService {
         this.ldData[i].ld_part == part &&
         this.ldData[i].ld_expire == expire_d
       ) {
+        console.log('getLd: ' + this.ldData[i]);
         return this.ldData[i];
       }
     }
   }
 
   saveLd(ld: Ld) {
+    console.log(ld);
+
     if (this.getLd(ld.ld_part, ld.ld_expire)) {
-      //ha létezik ilyen ld_part-jű ld, updateljuk
-      let ldToChange: Ld =
-        this.ldData[this.ldData.indexOf(this.getLd(ld.ld_part, ld.ld_expire))];
-      ldToChange.ld_expire = ld.ld_expire;
-      ldToChange.ld_qty_rsrv = ld.ld_qty_rsrv;
-      ldToChange.ld_qty_oh = ld.ld_qty_oh;
-      ldToChange.ld_qty_scrp = ld.ld_qty_scrp;
+      //ha létezik ilyen ld_part-ű ld, updateljuk
+
+      this.ldData[this.ldData.indexOf(this.getLd(ld.ld_part, ld.ld_expire))] =
+        ld;
       for (let i = 0; i < this.ldData.length; i++) {
         if (this.ldData[i].ld_part == ld.ld_part) {
           this.ldData[i] = ld;
         }
       }
     } else {
-      ld.ld_part = this.ldData[this.ldData.length - 1].ld_part + 1;
       this.ldData.push(ld);
     }
   }
 
-  deleteLd(id: number, expire_d: Date) {
+  deleteLd(part: number, expire: Date) {
     //console.log(this.getLd(id));
+    console.log(this.getLd(part, expire));
 
-    if (this.getLd(id, expire_d)) {
-      this.ldData.splice(this.ldData.indexOf(this.getLd(id, expire_d)), 1);
+    if (this.getLd(part, expire)) {
+      this.ldData.splice(this.ldData.indexOf(this.getLd(part, expire)), 1);
     }
   }
 }
