@@ -96,15 +96,7 @@ export class LnComponent implements OnInit, OnDestroy {
       this.gysService.ujGys(azon, desc)
       this.validForm = true
     } else {
-      this.validForm = false;
+      this.validForm = false
     }
-
-
-
   }
-
-
-
-
-
 }

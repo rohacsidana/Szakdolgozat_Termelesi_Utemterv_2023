@@ -31,7 +31,7 @@ export class GysComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.gysService.kivalasztottGys.next()
+    
   }
   
   onReszletek(leiras: string) {
