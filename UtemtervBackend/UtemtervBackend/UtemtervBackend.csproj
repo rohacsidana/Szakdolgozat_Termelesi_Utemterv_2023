@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Migrations\" />
     <Folder Include="Views\" />
   </ItemGroup>
 
