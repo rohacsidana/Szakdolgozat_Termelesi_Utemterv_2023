@@ -27,7 +27,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
-import { GysModComponent } from './ln/gys-mod/gys-mod.component';
 import { GysComponent } from './ln/gys/gys.component';
 import { Rovidit } from './ln/gys/shorten-pipe';
 import { GysService } from './ln/gys/gys.service';
@@ -43,8 +42,15 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { GysListComponent } from './ln/gys-list/gys-list.component';
+import { FilterPipePipe } from './ln/filter-pipe.pipe';
 import { DataStorageService } from './shared/data-storage.service';
+<<<<<<< HEAD
 import { UserService } from './user/user.service';
+=======
+import { SkComponent } from './lnd/sk/sk.component';
+import { SkListComponent } from './lnd/sk-list/sk-list.component';
+
+>>>>>>> 7f60cc0b755e1bee575076ef8cc98121f06fb43d
 
 @NgModule({
   declarations: [
@@ -64,12 +70,17 @@ import { UserService } from './user/user.service';
     ChgComponent,
     HomeComponent,
     DataTableComponent,
-    GysModComponent,
     GysComponent,
     WodComponent,
     Rovidit,
     WoFormComponent,
     GysListComponent,
+<<<<<<< HEAD
+=======
+    FilterPipePipe,
+    SkComponent,
+    SkListComponent
+>>>>>>> 7f60cc0b755e1bee575076ef8cc98121f06fb43d
   ],
   imports: [
     BrowserModule,

@@ -12,14 +12,15 @@ export class GysListComponent implements OnInit, OnDestroy {
   @Input() gyartosor: Gys;
   gysValtozas: Subscription;
   modositas = false;
-  //gyartosorok: { ln_id: string, ln_desc: string }[] = [];
   gyartosorok: Gys[];
+  @Input() keresettGys: string
+  kereses = ""
 
   constructor(private gysService: GysService) { }
 
   ngOnInit(): void {
     this.gyartosorok = this.gysService.getGysek();
-    console.log(this.gyartosorok);
+    //console.log(this.gyartosorok);
     this.gysValtozas = this.gysService.gysValtozas.subscribe((data) => {
       this.gyartosorok = data;
     });
@@ -29,8 +30,6 @@ export class GysListComponent implements OnInit, OnDestroy {
     this.modositas = true;
     //console.log("gy-comp:");
     //console.log(this.gyartosorok[id]);
-    //this.gysService.kivalasztottGys.emit(this.kijeloltGys)
-    //return this.gyartosorok[id];
   }
 
   onReszletek(leiras: string) {

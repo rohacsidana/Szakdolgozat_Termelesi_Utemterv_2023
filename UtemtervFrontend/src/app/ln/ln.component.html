@@ -1,7 +1,7 @@
 <div class="container">
   <h1>Gyártósor kezelés</h1>
   <div>
-    <button (click)="onTeszt('asd','leiras')">teszt</button>
+    <!-- <button (click)="onTeszt('a','leiras')">teszt</button> -->
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <table class="table table-striped">
         <tbody>
@@ -14,7 +14,7 @@
                 [(ngModel)]="azon"
                 required=""
                 maxlength="8"
-                [disabled]="!felvetel"
+                [disabled]="!felvetel && !modositas"
               />
               <p *ngIf="!validForm" style="color: red">
                 Már létezik ilyen azonosító!
@@ -34,7 +34,7 @@
                 [(ngModel)]="desc"
                 required=""
                 maxlength="750"
-                [disabled]="!felvetel"
+                [disabled]="!felvetel && !modositas"
               ></textarea>
             </td>
           </tr>
@@ -46,15 +46,15 @@
                 </button>
               </div>
               <div id="ujGysMentes" *ngIf="felvetel && !reszletek && !modositas">
-                <button type="submit" class="btn btn-success">Gyártósor felvétele</button>
+                <button type="submit" class="btn btn-success" [disabled]="!f.valid">Gyártósor felvétele</button>
                 <button type="button" class="btn btn-warning" (click)="onMegse()">Mégse</button>
               </div>
               <div id="gysReszlet" *ngIf="reszletek && !felvetel && !modositas">
-                <button type="button" class="btn btn-warning">Gyártósor módosítása</button>
+                <button type="button" class="btn btn-warning" (click)="onModosit()">Gyártósor módosítása</button>
                 <button type="button" class="btn btn-primary" (click)="onMegse()">Vissza</button>
               </div>
               <div id="GysModositas" *ngIf="modositas && !reszletek && !felvetel">
-                <button type="submit" class="btn btn-success">Módosítások mentése</button>
+                <button type="submit" class="btn btn-success" [disabled]="!f.valid">Módosítások mentése</button>
                 <button type="button" class="btn btn-warning" (click)="onMegse()">Mégse</button>
                 <button type="button" class="btn btn-danger" (click)="onGysTorol()">Gyártósor törlése</button>
               </div>
@@ -64,21 +64,11 @@
       </table>
     </form>
   </div>
-  <label for="gyartosor" style="font-size: large">Gyártósor</label>
-  <input type="text" id="gyartosor" class="form-controll" />
-  <button type="button" class="btn btn-primary">Keresés</button>
+ 
+  
   <div class="row">
     <div class="col-md-12">
       <app-gys-list></app-gys-list>
     </div>
-<!--     <div class="col-xs-6">
-      <app-gys-mod
-        *ngIf="gyartosor; else infotext"
-        [gyartosor]="gyartosor"
-      ></app-gys-mod>
-      <ng-template #infotext
-        >Válassza ki, melyik gyártósort szeretné módosítani</ng-template
-      >
-    </div> -->
   </div>
 </div>
