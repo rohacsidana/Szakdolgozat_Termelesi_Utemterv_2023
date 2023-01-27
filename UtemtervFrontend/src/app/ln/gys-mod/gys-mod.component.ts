@@ -25,7 +25,7 @@ export class GysModComponent implements OnInit, OnDestroy {
       }
     )*/
 
-    this.gysService.kivalasztottGys
+   /*  this.gysService.kivalasztottGys
       .subscribe(
         (gys: Gys) => {
           this.gyartosor = gys;
@@ -33,7 +33,7 @@ export class GysModComponent implements OnInit, OnDestroy {
       )
 
     this.id = this.gyartosor.ln_id
-    this.desc = this.gyartosor.ln_desc
+    this.desc = this.gyartosor.ln_desc */
 
   }
 
@@ -82,7 +82,7 @@ export class GysModComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.gysService.kivalasztottGys.unsubscribe()
+    //this.gysService.kivalasztottGys.unsubscribe()
   }
 
 }

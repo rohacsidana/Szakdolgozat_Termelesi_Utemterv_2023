@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Gys } from './gys/gys-model';
 import { GysService } from './gys/gys.service';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ln',
@@ -9,33 +10,93 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./ln.component.css'],
 })
 export class LnComponent implements OnInit, OnDestroy {
-  szerkesztes: boolean;
-  gyartosor: Gys;
-  vanIlyenGys: boolean;
-  validForm = true;
+  felvetel = false
+  modositas = false
+  reszletek = false
+  gyartosor: Gys
+  validForm = true
+  sub: Subscription
+
+  azon = ''
+  desc = ''
 
   constructor(private gysService: GysService) {}
 
   ngOnInit(): void {
-    this.gysService.kivalasztottGys.subscribe((gys: Gys) => {
-      this.gyartosor = gys;
-    });
+    this.sub = this.gysService.kivalasztottGys
+      .subscribe(
+        (gys: Gys) => {
+          this.gyartosor = gys;
+          this.azon = gys.ln_id
+          this.desc = gys.ln_desc
+          this.reszletek = true
+
+        }
+      )
   }
 
-  onUjGys(form: NgForm) {
-    const value = form.value;
-    console.log(value);
 
-    this.vanIlyenGys = this.gysService.letezikeGys(value.azon);
-    if (!this.vanIlyenGys) {
-      this.gysService.ujGys(value.azon, value.desc);
-      this.validForm = true;
-    } else {
-      this.validForm = false;
-    }
-  }
 
   ngOnDestroy(): void {
-    this.gysService.kivalasztottGys.unsubscribe();
+    this.sub.unsubscribe()
+  }
+
+  onSubmit(form: NgForm) {
+    let value = form.value
+    console.log("onSubmit:");
+    console.log(value);
+
+    if (this.felvetel) {
+      this.onUjGys(value.azonInput, value.descInput)
+    }
+    this.onMegse()
+    this.clearForm()
+
+  }
+
+  onMegse() {
+    this.clearForm()
+    this.felvetel = false
+    this.modositas = false
+    this.reszletek = false
+  }
+
+  onModositas() {
+    this.modositas = true
+    this.felvetel = false
+    this.reszletek = false
+  }
+
+  onGysTorol() {
+
+  }
+
+  clearForm() {
+    this.azon = ""
+    this.desc = ""
+
+  }
+
+  onTeszt(azon: string, leiras: string) {
+    console.log(this.gysService.letezikeGys('a'));
+    console.log(this.gysService.getGysek());
+  }
+
+  onUjGys(azon: string, desc: string) {
+    let vanIlyenGys = this.gysService.letezikeGys(azon)
+    console.log("ujgys:");
+    console.log(azon);
+
+
+    console.log("vanIlyenGys:");
+
+    console.log(vanIlyenGys);
+
+    if (!vanIlyenGys) {
+      this.gysService.ujGys(azon, desc)
+      this.validForm = true
+    } else {
+      this.validForm = false
+    }
   }
 }

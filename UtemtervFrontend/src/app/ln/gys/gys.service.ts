@@ -39,9 +39,12 @@ export class GysService {
         for (let index = 0; index < this.gyartosorok.length; index++) {
             if (this.gyartosorok[index].ln_id === gy) {
                 return true
+            } else {
+                return false
             }
 
         }
+        
     }
 
     ujGys(id: string, desc: string) {
