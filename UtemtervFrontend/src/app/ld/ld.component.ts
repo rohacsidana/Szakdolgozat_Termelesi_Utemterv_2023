@@ -18,12 +18,12 @@ import { LdService } from './ld.service';
 })
 export class LdComponent implements OnInit, OnDestroy {
   loadedLd: DataTableService.Ld;
-  loadedLdToucher: boolean = false;
 
   myGroup: FormGroup;
   ldFound: boolean = true;
   searchMode: boolean = true;
   newMode: boolean = false;
+  editMode: boolean = false;
   ldAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
@@ -60,15 +60,24 @@ export class LdComponent implements OnInit, OnDestroy {
 
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
       (data: DataTableService.Ld) => {
+        console.log(this.ldService.getLds());
+
         this.myGroup = this.formBuilder.group({
-          ld_part: new FormControl(data.ld_part, Validators.required),
-          ld_expire: new FormControl(data.ld_expire, Validators.required),
+          ld_part: new FormControl(
+            { value: data.ld_part, disabled: true },
+            Validators.required
+          ),
+          ld_expire: new FormControl(
+            data.ld_expire.toISOString().split('T')[0]
+          ),
           ld_qty_oh: new FormControl(data.ld_qty_oh, Validators.required),
           ld_qty_rsrv: new FormControl(data.ld_qty_rsrv, Validators.required),
           ld_qty_scrp: new FormControl(data.ld_qty_scrp, Validators.required),
         });
-        this.onSearchLd();
-        console.log(data);
+        this.ldFound = true;
+        this.editMode = true;
+        this.searchMode = false;
+        this.newMode = false;
       }
     );
   }
@@ -83,15 +92,93 @@ export class LdComponent implements OnInit, OnDestroy {
     });
   }
 
-  changeNewMode() {
-    this.newMode = !this.newMode;
-    if (this.newMode) {
-      console.log(this.myGroup.getRawValue().ld_expire);
+  onSearchLd() {
+    this.filterData(this.myGroup.value.ld_part);
+  }
 
-      this.myGroup.get('ld_part').disable();
+  onDelete() {
+    //console.log('Törlendő elem azon-ja: ' + this.myGroup.getRawValue().ld_part,     new Date(this.myGroup.getRawValue().ld_expire)    );
+
+    this.ldService.deleteLd(
+      Number(this.myGroup.getRawValue().ld_part),
+      new Date(this.myGroup.getRawValue().ld_expire)
+    );
+    console.log(
+      'ld with ids: ' + Number(this.myGroup.getRawValue().ld_part),
+      new Date(this.myGroup.getRawValue().ld_expire) + ' deleted'
+    );
+
+    this.ldDataChanged();
+    this.clearForm();
+  }
+
+  checkLdAlreadyExists() {
+    if (
+      this.ldService.getLd(
+        Number(this.myGroup.getRawValue().ld_part),
+        new Date(this.myGroup.getRawValue().ld_expire)
+      )
+    ) {
+      this.ldAlreadyExists = true;
     } else {
-      this.clearForm();
+      this.ldAlreadyExists = false;
     }
+  }
+
+  onNewMode() {
+    this.searchMode = false;
+    this.editMode = false;
+    this.newMode = true;
+  }
+
+  onSubmit() {
+    this.checkLdAlreadyExists();
+    let succesfulSave: boolean = this.ldService.saveLd(
+      {
+        ld_part: Number(this.myGroup.getRawValue().ld_part),
+        ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
+        ld_qty_oh: this.myGroup.getRawValue().ld_qty_oh,
+        ld_qty_rsrv: this.myGroup.getRawValue().ld_qty_rsrv,
+        ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp,
+      },
+      this.newMode ? 'new' : 'edit'
+    );
+    if (!succesfulSave) {
+      this.ldAlreadyExists = true;
+    }
+    this.ldDataChanged();
+    this.clearForm();
+  }
+
+  clearForm() {
+    this.myGroup.enable();
+    this.myGroup.reset();
+    this.ldAlreadyExists = false;
+    this.ldFound = false;
+    this.loadedLd = null;
+
+    //keresés módra állítás
+    this.newMode = false;
+    this.editMode = false;
+    this.searchMode = true;
+  }
+
+  ldDataChanged() {
+    this.sortedLdData = this.ldService.getLds();
+    this.dtTblService.emitDataChanged(this.sortedLdData.slice());
+  }
+
+  filterData(arg: number) {
+    const data = this.sortedLdData.slice();
+    let filter = arg.toString();
+    const results = data.filter((value) => value.ld_part.toString() == filter);
+    this.dtTblService.emitDataChanged(results.slice());
+  }
+
+  ngOnDestroy(): void {
+    this.getItemSub.unsubscribe();
+    this.sortSub.unsubscribe();
+    this.rowSelectSubscription.unsubscribe();
   }
 
   sortData(sort: Sort) {
@@ -127,97 +214,5 @@ export class LdComponent implements OnInit, OnDestroy {
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  onChangeMode() {
-    this.clearForm();
-    this.searchMode = !this.searchMode;
-  }
-
-  onSearchLd() {
-    this.filterData(this.myGroup.value.ld_part);
-    if (
-      this.ldService.getLd(
-        this.myGroup.getRawValue().ld_part,
-        this.myGroup.getRawValue().ld_expire
-      )
-    ) {
-      //lekérem a beirt azonosito szerinti felhasználót
-      this.loadedLd = this.ldService.getLd(
-        Number(this.myGroup.getRawValue().ld_part),
-        this.myGroup.getRawValue().ld_expire
-      );
-      this.ldFound = true;
-    } else {
-      this.clearForm();
-      this.ldFound = false;
-    }
-    console.log(this.ldFound);
-  }
-
-  onDelete() {
-    this.ldService.deleteLd(
-      Number(this.myGroup.getRawValue().ld_part),
-      this.myGroup.getRawValue().ld_expire
-    );
-    this.ldDataChanged();
-    this.clearForm();
-    this.loadedLd = null;
-  }
-
-  checkLdAlreadyExists() {
-    if (
-      this.ldService.getLd(
-        Number(this.myGroup.value.ld_part),
-        this.myGroup.value.ld_expire
-      )
-    ) {
-      this.ldAlreadyExists = true;
-    } else {
-      this.ldAlreadyExists = false;
-    }
-  }
-
-  onSubmit() {
-    console.log(this.ldAlreadyExists);
-    this.ldService.saveLd({
-      ld_part: Number(this.myGroup.getRawValue().ld_part),
-      ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
-      ld_qty_oh: this.myGroup.getRawValue().ld_qty_oh,
-      ld_qty_rsrv: this.myGroup.getRawValue().ld_qty_rsrv,
-      ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp,
-    });
-
-    this.ldDataChanged();
-
-    this.clearForm();
-    this.searchMode = true;
-  }
-
-  clearForm() {
-    this.myGroup.enable();
-    this.myGroup.reset();
-    this.loadedLd = null;
-    this.ldAlreadyExists = false;
-    this.ldFound = true;
-    this.loadedLd = null;
-  }
-
-  ldDataChanged() {
-    this.sortedLdData = this.ldService.getLds();
-    this.dtTblService.emitDataChanged(this.sortedLdData.slice());
-  }
-
-  filterData(arg: number) {
-    const data = this.sortedLdData.slice();
-    let filter = arg.toString();
-    const results = data.filter((value) => value.ld_part.toString() == filter);
-    this.dtTblService.emitDataChanged(results.slice());
-  }
-
-  ngOnDestroy(): void {
-    this.getItemSub.unsubscribe();
-    this.sortSub.unsubscribe();
-    this.rowSelectSubscription.unsubscribe();
   }
 }

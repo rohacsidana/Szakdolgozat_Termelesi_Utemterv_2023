@@ -12,6 +12,13 @@ export class LdService {
       ld_qty_scrp: 6,
     },
     {
+      ld_part: 1000,
+      ld_expire: new Date('2023-05-12'),
+      ld_qty_oh: 21,
+      ld_qty_rsrv: 0,
+      ld_qty_scrp: 7,
+    },
+    {
       ld_part: 1020,
       ld_expire: new Date('2023-06-14'),
       ld_qty_oh: 16,
@@ -46,41 +53,57 @@ export class LdService {
   }
 
   getLd(part: number, expire_d: Date): Ld {
+    //console.log('getLd: ', part, expire_d);
+
     for (let i = 0; i < this.ldData.length; i++) {
       if (
         this.ldData[i].ld_part == part &&
-        this.ldData[i].ld_expire == expire_d
+        this.ldData[i].ld_expire.toString() == expire_d.toString()
       ) {
+        //console.log('getLd: ' + this.ldData[i]);
         return this.ldData[i];
       }
     }
   }
 
-  saveLd(ld: Ld) {
-    if (this.getLd(ld.ld_part, ld.ld_expire)) {
-      //ha létezik ilyen ld_part-jű ld, updateljuk
-      let ldToChange: Ld =
-        this.ldData[this.ldData.indexOf(this.getLd(ld.ld_part, ld.ld_expire))];
-      ldToChange.ld_expire = ld.ld_expire;
-      ldToChange.ld_qty_rsrv = ld.ld_qty_rsrv;
-      ldToChange.ld_qty_oh = ld.ld_qty_oh;
-      ldToChange.ld_qty_scrp = ld.ld_qty_scrp;
-      for (let i = 0; i < this.ldData.length; i++) {
-        if (this.ldData[i].ld_part == ld.ld_part) {
-          this.ldData[i] = ld;
+  saveLd(ld: Ld, mode: String): boolean {
+    //console.log(ld);
+
+    switch (mode) {
+      case 'new':
+        if (this.getLd(ld.ld_part, ld.ld_expire)) {
+          console.log('ilyen ld már létezik');
+          return false;
+        } else {
+          //ha létezik ilyen ld_part-ű ld, updateljuk
+          console.log('ilyen Ld nem létezik, hozzáadom');
+          this.ldData.push(ld);
+          return true;
         }
-      }
-    } else {
-      ld.ld_part = this.ldData[this.ldData.length - 1].ld_part + 1;
-      this.ldData.push(ld);
+      case 'edit':
+        console.log('ilyen Ld már létezik, updatelem');
+        this.ldData[this.ldData.indexOf(this.getLd(ld.ld_part, ld.ld_expire))] =
+          ld;
+        for (let i = 0; i < this.ldData.length; i++) {
+          if (
+            this.ldData[i].ld_part == ld.ld_part &&
+            this.ldData[i].ld_expire.toString() == ld.ld_expire.toString()
+          ) {
+            this.ldData[i] = ld;
+          }
+        }
+        return true;
+      default:
+        break;
     }
   }
 
-  deleteLd(id: number, expire_d: Date) {
+  deleteLd(part: number, expire: Date) {
     //console.log(this.getLd(id));
+    //console.log(this.getLd(part, expire));
 
-    if (this.getLd(id, expire_d)) {
-      this.ldData.splice(this.ldData.indexOf(this.getLd(id, expire_d)), 1);
+    if (this.getLd(part, expire)) {
+      this.ldData.splice(this.ldData.indexOf(this.getLd(part, expire)), 1);
     }
   }
 }

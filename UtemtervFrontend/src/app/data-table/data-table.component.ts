@@ -38,10 +38,6 @@ export class DataTableComponent implements OnDestroy, OnInit {
     this.dataTblService.getDataEmit();
   }
 
-  onRowClicked(clickedData) {
-    this.dataTblService.rowClick(clickedData);
-  }
-
   isDate(data) {
     if (data instanceof Date) {
       return true;

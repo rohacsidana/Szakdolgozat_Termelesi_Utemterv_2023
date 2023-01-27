@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-ln',
   templateUrl: './ln.component.html',
-  styleUrls: ['./ln.component.css']
+  styleUrls: ['./ln.component.css'],
 })
 export class LnComponent implements OnInit, OnDestroy {
   felvetel = false
@@ -20,7 +20,7 @@ export class LnComponent implements OnInit, OnDestroy {
   azon = ''
   desc = ''
 
-  constructor(private gysService: GysService) { }
+  constructor(private gysService: GysService) {}
 
   ngOnInit(): void {
     this.sub = this.gysService.kivalasztottGys
@@ -96,7 +96,7 @@ export class LnComponent implements OnInit, OnDestroy {
       this.gysService.ujGys(azon, desc)
       this.validForm = true
     } else {
-      this.validForm = false
+      this.validForm = false;
     }
 
 
