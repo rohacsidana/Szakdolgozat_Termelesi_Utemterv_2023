@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
+import { ActivatedRouteSnapshot, Route, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import * as DataTableService from "src/app/data-table/data-table.service";
+import { DataStorageService } from "src/app/shared/data-storage.service";
+import { UserService } from "src/app/user/user.service";
 import { WoService } from "../../wo.service";
 
 @Component({
@@ -26,32 +29,48 @@ export class WodComponent implements OnInit, OnDestroy {
     { name: 'wod_qty_compl', szoveg: 'Kész egység' },
     { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység' },
   ];
-  getItemSub: Subscription;
+
   sortSub: Subscription;
   wodSub: Subscription;
   sortedWodData: DataTableService.Wod[];
   lastSort: Sort;
-  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService) {
+  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private DataStorageService: DataStorageService) {
   }
 
   ngOnInit() {
     this.wodSub = this.woService.wodDataChanged.subscribe(
       (data: DataTableService.Wod[]) => {
         this.wodData = data;
-        if(!!!this.lastSort){
-          console.log();
-          
+        if(!!this.lastSort){
+          this.sortData(this.lastSort);
+        }else{
+          this.sortedWodData = this.wodData.slice();
+          this.dtTblService.dataChanged.next(this.sortedWodData.slice());
         }
       }
     );
-    this.wodData = this.woService.getWods();
+    //console.log(this.route.url);
+    
+    //this.DataStorageService.fetchWod();
+    /* this.woDataChangedSub = this.woService.woDataChanged.subscribe(
+            (woData: DataTableService.Wo[]) => {
+                this.woData = woData;
+                this.sortedWoData = this.woData.slice();
+                if (!!this.lastSort) {
+                    this.sortData(this.lastSort);
+                } else {
+                    this.sortedWoData = this.woData.slice();
+                    this.dtTblService.dataChanged.next(this.sortedWoData.slice());
+                }
+            }
+        );
+        this.DataStorageService.fetchAllWo(); */
+/*     this.wodData = this.woService.getWods();
     this.sortedWodData = this.wodData.slice();
+ */
 
-
-    this.getItemSub = this.dtTblService.getData.subscribe(() => {
-      this.dtTblService.emitDataChanged(this.sortedWodData.slice());
-    });
-    this.dtTblService.emitDataChanged(this.sortedWodData.slice());
+    
+    this.dtTblService.dataChanged.next(this.sortedWodData.slice());
     this.sortSub = this.dtTblService.sortData.subscribe(
       (sort: Sort) => {
         this.lastSort = sort;
@@ -73,7 +92,7 @@ export class WodComponent implements OnInit, OnDestroy {
     const data = this.wodData.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedWodData = data;
-      this.dtTblService.emitDataChanged(this.sortedWodData.slice());
+      this.dtTblService.dataChanged.next(this.sortedWodData.slice());
       return;
     }
 
@@ -104,7 +123,7 @@ export class WodComponent implements OnInit, OnDestroy {
     });
 
     this.sortedWodData = data.slice();
-    this.dtTblService.emitDataChanged(this.sortedWodData.slice());
+    this.dtTblService.dataChanged.next(this.sortedWodData.slice());
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -112,7 +131,7 @@ export class WodComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.getItemSub.unsubscribe();
+   
     this.sortSub.unsubscribe();
     this.wodSub.unsubscribe();
   }
