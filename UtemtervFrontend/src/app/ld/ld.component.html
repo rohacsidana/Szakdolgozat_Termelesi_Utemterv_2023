@@ -91,16 +91,14 @@
               </button>
             </div>
             <!-- "hiba" üzenetek -->
-            <!-- <div class="row">
+            <div class="row">
               <div class="col-xs-12">
-                <p *ngIf="!ldFound && searchMode">
-                  Nem található ilyen azonosítójú tétellel készlet!
-                </p>
-                <p *ngIf="ldAlreadyExists && !searchMode">
-                  Már létezik ilyen azonosítójú tétellel készlet!
+                <p *ngIf="ldAlreadyExists && newMode">
+                  Már létezik ilyen azonosítójú tétellel és lejárati dátummal
+                  készlet!
                 </p>
               </div>
-            </div> -->
+            </div>
             <div class="row">
               <div class="col-xs-12">
                 <!-- ps-re vonatkozo inputok -->
@@ -144,7 +142,14 @@
       <hr />
       <div class="row">
         <div class="col-lg-12">
-          <button class="btn btn-primary" *ngIf="">Mutasd az összeset</button>
+          <button
+            class="btn btn-default"
+            *ngIf="searchedDataLoaded"
+            (click)="clearForm()"
+          >
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Vissza az összeshez
+          </button>
         </div>
       </div>
       <!--  ps headerek -->

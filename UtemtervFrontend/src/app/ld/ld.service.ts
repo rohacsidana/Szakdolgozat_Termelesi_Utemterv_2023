@@ -53,38 +53,54 @@ export class LdService {
   }
 
   getLd(part: number, expire_d: Date): Ld {
+    //console.log('getLd: ', part, expire_d);
+
     for (let i = 0; i < this.ldData.length; i++) {
       if (
         this.ldData[i].ld_part == part &&
-        this.ldData[i].ld_expire == expire_d
+        this.ldData[i].ld_expire.toString() == expire_d.toString()
       ) {
-        console.log('getLd: ' + this.ldData[i]);
+        //console.log('getLd: ' + this.ldData[i]);
         return this.ldData[i];
       }
     }
   }
 
-  saveLd(ld: Ld) {
-    console.log(ld);
+  saveLd(ld: Ld, mode: String): boolean {
+    //console.log(ld);
 
-    if (this.getLd(ld.ld_part, ld.ld_expire)) {
-      //ha létezik ilyen ld_part-ű ld, updateljuk
-
-      this.ldData[this.ldData.indexOf(this.getLd(ld.ld_part, ld.ld_expire))] =
-        ld;
-      for (let i = 0; i < this.ldData.length; i++) {
-        if (this.ldData[i].ld_part == ld.ld_part) {
-          this.ldData[i] = ld;
+    switch (mode) {
+      case 'new':
+        if (this.getLd(ld.ld_part, ld.ld_expire)) {
+          console.log('ilyen ld már létezik');
+          return false;
+        } else {
+          //ha létezik ilyen ld_part-ű ld, updateljuk
+          console.log('ilyen Ld nem létezik, hozzáadom');
+          this.ldData.push(ld);
+          return true;
         }
-      }
-    } else {
-      this.ldData.push(ld);
+      case 'edit':
+        console.log('ilyen Ld már létezik, updatelem');
+        this.ldData[this.ldData.indexOf(this.getLd(ld.ld_part, ld.ld_expire))] =
+          ld;
+        for (let i = 0; i < this.ldData.length; i++) {
+          if (
+            this.ldData[i].ld_part == ld.ld_part &&
+            this.ldData[i].ld_expire.toString() == ld.ld_expire.toString()
+          ) {
+            this.ldData[i] = ld;
+          }
+        }
+        return true;
+      default:
+        break;
     }
   }
 
   deleteLd(part: number, expire: Date) {
     //console.log(this.getLd(id));
-    console.log(this.getLd(part, expire));
+    //console.log(this.getLd(part, expire));
 
     if (this.getLd(part, expire)) {
       this.ldData.splice(this.ldData.indexOf(this.getLd(part, expire)), 1);
