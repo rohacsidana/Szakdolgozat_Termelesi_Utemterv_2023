@@ -1,14 +1,14 @@
 
-import { ThisReceiver } from "@angular/compiler";
+import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
-import { ActivatedRoute, Data, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { DataStorageService } from "src/app/shared/data-storage.service";
 import * as  DataTableService from "../../data-table/data-table.service";
 import { WoService } from "../wo.service";
-
+import { tap } from "rxjs/operators";
 @Component({
     selector: 'app-wo-list',
     templateUrl: 'wo-list.component.html',
@@ -38,66 +38,63 @@ export class WoListComponent {
         { name: 'wo_status', szoveg: 'státusz' },
     ];
 
-    woData: DataTableService.Wo[];
-    
+    woData: DataTableService.Wo[] = [];
+
     woDataChangedSub: Subscription;
     sortSub: Subscription;
-    
+
     woLot: number = 22;
-    sortedWoData: DataTableService.Wo[];
+    sortedWoData: DataTableService.Wo[] = [];
     getItemSub: Subscription;
     selectRow: Subscription;
     lastSort: Sort;
-    constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private router: Router, private route: ActivatedRoute, private DataStorageService: DataStorageService) {
+    constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private router: Router, private route: ActivatedRoute, private DataStorageService: DataStorageService, private http: HttpClient) {
     }
 
     ngOnInit() {
+
         this.woDataChangedSub = this.woService.woDataChanged.subscribe(
-            (woData: DataTableService.Wo[])=>{
+            (woData: DataTableService.Wo[]) => {
                 this.woData = woData;
+                this.sortedWoData = this.woData.slice();
+                if (!!this.lastSort) {
+                    this.sortedWoData = this.woData.slice();
+                    this.sortData(this.lastSort);
+                } else {
+                    this.sortedWoData = this.woData.slice();
+                    this.dtTblService.dataChanged.next(this.sortedWoData.slice());
+                }
             }
         );
-        this.DataStorageService.fetchAllWo().subscribe();
-            /* (woData)=>{
-                this.woService.setWoData(woData.slice());
-            }
-        ); */
-        //this.woService.setWoData();
-        this.woData = this.woService.getWos();
-        this.sortedWoData = this.woData.slice();
-        
-        this.getItemSub = this.dtTblService.getData.subscribe(() => {
-            this.dtTblService.emitDataChanged(this.sortedWoData.slice());
-        });
+        this.DataStorageService.fetchAllWo();
 
-        this.dtTblService.emitDataChanged(this.sortedWoData.slice());
 
         this.sortSub = this.dtTblService.sortData.subscribe(
-            (sort: Sort)=>{
+            (sort: Sort) => {
                 this.lastSort = sort;
                 this.sortData(sort);
             }
         );
 
         this.selectRow = this.dtTblService.selectRow.subscribe(
-            (selectedRow: DataTableService.Wo)=>{
-                let pk =  selectedRow.wo_lot
-                this.router.navigate(['../', pk], {relativeTo: this.route});
+            (selectedRow: DataTableService.Wo) => {
+                let pk = selectedRow.wo_lot
+                this.router.navigate(['../', pk], { relativeTo: this.route });
             }
         );
     }
 
     onSubmit(form: NgForm) {
-        
+
     }
 
 
     sortData(sort: Sort) {
-        
+
         const data = this.woData.slice();
         if (!sort.active || sort.direction === '') {
             this.sortedWoData = data;
-            this.dtTblService.emitDataChanged(this.sortedWoData.slice());
+            this.dtTblService.dataChanged.next(this.sortedWoData.slice());
             return;
         }
 
@@ -144,7 +141,7 @@ export class WoListComponent {
         });
 
         this.sortedWoData = data.slice();
-        this.dtTblService.emitDataChanged(this.sortedWoData.slice());
+        this.dtTblService.dataChanged.next(this.sortedWoData.slice());
     }
 
     compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -152,15 +149,14 @@ export class WoListComponent {
     }
 
     ngOnDestroy() {
-        this.getItemSub.unsubscribe();
-        this.sortSub.unsubscribe(); 
-        this.woDataChangedSub.unsubscribe(); 
+        this.sortSub.unsubscribe();
+        this.woDataChangedSub.unsubscribe();
     }
     filterData(arg: number) {
         const data = this.sortedWoData.slice();
         let filter = arg.toString();
-        const results = data.filter( value => value.wo_lot.toString().includes(filter));
-        this.dtTblService.emitDataChanged(results.slice());
+        const results = data.filter(value => value.wo_lot.toString().includes(filter));
+        this.dtTblService.dataChanged.next(results.slice());
     }
 
 }

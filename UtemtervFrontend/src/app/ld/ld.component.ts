@@ -22,12 +22,15 @@ export class LdComponent implements OnInit, OnDestroy {
   myGroup: FormGroup;
   ldFound: boolean = true;
   searchMode: boolean = true;
+  searchedDataLoaded: boolean = false;
+
   newMode: boolean = false;
   editMode: boolean = false;
   ldAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
   sortedLdData: DataTableService.Ld[];
+  ldData: DataTableService.Ld[] = this.ldService.getLds();
 
   selectedData: DataTableService.Ld;
   rowSelectSubscription: Subscription;
@@ -60,8 +63,6 @@ export class LdComponent implements OnInit, OnDestroy {
 
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
       (data: DataTableService.Ld) => {
-        console.log(this.ldService.getLds());
-
         this.myGroup = this.formBuilder.group({
           ld_part: new FormControl(
             { value: data.ld_part, disabled: true },
@@ -93,12 +94,11 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onSearchLd() {
-    this.filterData(this.myGroup.value.ld_part);
+    this.filterData(this.myGroup.value.ld_part, this.myGroup.value.ld_expire);
+    this.searchedDataLoaded = true;
   }
 
   onDelete() {
-    //console.log('Törlendő elem azon-ja: ' + this.myGroup.getRawValue().ld_part,     new Date(this.myGroup.getRawValue().ld_expire)    );
-
     this.ldService.deleteLd(
       Number(this.myGroup.getRawValue().ld_part),
       new Date(this.myGroup.getRawValue().ld_expire)
@@ -156,6 +156,10 @@ export class LdComponent implements OnInit, OnDestroy {
     this.ldAlreadyExists = false;
     this.ldFound = false;
     this.loadedLd = null;
+    this.searchedDataLoaded = false;
+
+    this.sortedLdData = this.ldData;
+    this.ldDataChanged();
 
     //keresés módra állítás
     this.newMode = false;
@@ -164,14 +168,32 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   ldDataChanged() {
-    this.sortedLdData = this.ldService.getLds();
+    this.sortedLdData = this.ldData;
     this.dtTblService.emitDataChanged(this.sortedLdData.slice());
   }
 
-  filterData(arg: number) {
+  filterData(part: number, expire?: Date) {
+    console.log('filter args: ', part, expire);
+
     const data = this.sortedLdData.slice();
-    let filter = arg.toString();
-    const results = data.filter((value) => value.ld_part.toString() == filter);
+
+    const results = data.filter((value) => {
+      let filteredSearch = false;
+      if (part) {
+        let partFilter = part.toString();
+        filteredSearch = value.ld_part.toString() == partFilter;
+      }
+      if (
+        /* new Date(expire).toString() != 'Invalid Date' */ expire &&
+        filteredSearch
+      ) {
+        let expDateFilter = new Date(expire).toString();
+        filteredSearch = value.ld_expire.toString() == expDateFilter;
+      }
+
+      return filteredSearch;
+    });
+
     this.dtTblService.emitDataChanged(results.slice());
   }
 
@@ -182,7 +204,7 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   sortData(sort: Sort) {
-    const data = this.ldService.getLds();
+    const data = this.ldData;
     if (!sort.active || sort.direction === '') {
       this.sortedLdData = data;
       this.dtTblService.emitDataChanged(this.sortedLdData.slice());

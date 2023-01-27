@@ -31,8 +31,6 @@ public partial class UtemtervContext : DbContext
 
     public virtual DbSet<PtMstr> PtMstrs { get; set; }
 
-    public virtual DbSet<Ptp> Ptps { get; set; }
-
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<WoMstr> WoMstrs { get; set; }
@@ -51,7 +49,7 @@ public partial class UtemtervContext : DbContext
     {
         modelBuilder.Entity<ChgMstr>(entity =>
         {
-            entity.HasKey(e => new { e.ChgLine, e.ChgFrom, e.ChgTo }).HasName("PK__CHG_MSTR__5E79CE4529A86F9F");
+            entity.HasKey(e => new { e.ChgLine, e.ChgFrom, e.ChgTo }).HasName("PK__CHG_MSTR__5E79CE45F128E237");
 
             entity.ToTable("CHG_MSTR");
 
@@ -83,7 +81,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<Dictionary>(entity =>
         {
-            entity.HasKey(e => new { e.Value, e.Type }).HasName("PK__DICTIONA__CE846F1F90203AD7");
+            entity.HasKey(e => new { e.Value, e.Type }).HasName("PK__DICTIONA__CE846F1F45FBD884");
 
             entity.ToTable("DICTIONARY");
 
@@ -103,7 +101,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<LadDet>(entity =>
         {
-            entity.HasKey(e => e.LadId).HasName("PK__LAD_DET__24E373656DDED893");
+            entity.HasKey(e => e.LadId).HasName("PK__LAD_DET__24E37365F9619728");
 
             entity.ToTable("LAD_DET");
 
@@ -116,7 +114,7 @@ public partial class UtemtervContext : DbContext
             entity.Property(e => e.LadPar).HasColumnName("lad_par");
             entity.Property(e => e.LadPart).HasColumnName("lad_part");
             entity.Property(e => e.LadQtyRsrv)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(18, 5)")
                 .HasColumnName("lad_qty_rsrv");
 
             entity.HasOne(d => d.Lad).WithMany(p => p.LadDets)
@@ -130,7 +128,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<LdDet>(entity =>
         {
-            entity.HasKey(e => new { e.LdPart, e.LdExpire }).HasName("PK__LD_DET__DA795338B02347BD");
+            entity.HasKey(e => new { e.LdPart, e.LdExpire }).HasName("PK__LD_DET__DA79533852185E7B");
 
             entity.ToTable("LD_DET");
 
@@ -139,13 +137,13 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("date")
                 .HasColumnName("ld_expire");
             entity.Property(e => e.LdQtyOh)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(18, 5)")
                 .HasColumnName("ld_qty_oh");
             entity.Property(e => e.LdQtyRsrv)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(18, 5)")
                 .HasColumnName("ld_qty_rsrv");
             entity.Property(e => e.LdQtyScrp)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(18, 5)")
                 .HasColumnName("ld_qty_scrp");
 
             entity.HasOne(d => d.LdPartNavigation).WithMany(p => p.LdDets)
@@ -156,7 +154,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<LnMstr>(entity =>
         {
-            entity.HasKey(e => e.LnLine).HasName("PK__LN_MSTR__BDECFD603202DBB7");
+            entity.HasKey(e => e.LnLine).HasName("PK__LN_MSTR__BDECFD60AD33DB48");
 
             entity.ToTable("LN_MSTR");
 
@@ -172,7 +170,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<LndDet>(entity =>
         {
-            entity.HasKey(e => new { e.LndLine, e.LndPart }).HasName("PK__LND_DET__92C8E766D2F586B9");
+            entity.HasKey(e => new { e.LndLine, e.LndPart }).HasName("PK__LND_DET__92C8E766B9535070");
 
             entity.ToTable("LND_DET");
 
@@ -182,7 +180,7 @@ public partial class UtemtervContext : DbContext
                 .HasColumnName("lnd_line");
             entity.Property(e => e.LndPart).HasColumnName("lnd_part");
             entity.Property(e => e.LndRate)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(18, 5)")
                 .HasColumnName("lnd_rate");
 
             entity.HasOne(d => d.LndLineNavigation).WithMany(p => p.LndDets)
@@ -198,14 +196,14 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<PsMstr>(entity =>
         {
-            entity.HasKey(e => new { e.PsPar, e.PsComp }).HasName("PK__PS_MSTR__E959B4269D592C04");
+            entity.HasKey(e => new { e.PsPar, e.PsComp }).HasName("PK__PS_MSTR__E959B4269697369B");
 
             entity.ToTable("PS_MSTR");
 
             entity.Property(e => e.PsPar).HasColumnName("ps_par");
             entity.Property(e => e.PsComp).HasColumnName("ps_comp");
             entity.Property(e => e.PsQtyPer)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(18, 5)")
                 .HasColumnName("ps_qty_per");
 
             entity.HasOne(d => d.PsCompNavigation).WithMany(p => p.PsMstrPsCompNavigations)
@@ -221,7 +219,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<PtMstr>(entity =>
         {
-            entity.HasKey(e => e.PtPart).HasName("PK__PT_MSTR__1C5FB9577F4DDAF6");
+            entity.HasKey(e => e.PtPart).HasName("PK__PT_MSTR__1C5FB9576953044A");
 
             entity.ToTable("PT_MSTR");
 
@@ -236,42 +234,13 @@ public partial class UtemtervContext : DbContext
                 .HasColumnName("pt_um");
         });
 
-        modelBuilder.Entity<Ptp>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("ptps");
-
-            entity.Property(e => e.Child).HasColumnName("child");
-            entity.Property(e => e.ChildDesc)
-                .HasMaxLength(24)
-                .IsUnicode(false)
-                .HasColumnName("child_desc");
-            entity.Property(e => e.ChildPerPar)
-                .HasColumnType("decimal(18, 0)")
-                .HasColumnName("child_per_par");
-            entity.Property(e => e.ChildUm)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("child_um");
-            entity.Property(e => e.Parent).HasColumnName("parent");
-            entity.Property(e => e.ParentDesc)
-                .HasMaxLength(24)
-                .IsUnicode(false)
-                .HasColumnName("parent_desc");
-            entity.Property(e => e.ParentUm)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("parent_um");
-        });
-
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__USER__B9BE370F46E32FF5");
+            entity.HasKey(e => e.UserId).HasName("PK__USER__B9BE370FE4AFCA94");
 
             entity.ToTable("USER");
 
-            entity.HasIndex(e => e.Email, "UQ__USER__AB6E6164755F7CBC").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__USER__AB6E6164B23BA5AE").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.BirthDate)
@@ -297,7 +266,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<WoMstr>(entity =>
         {
-            entity.HasKey(e => e.WoLot).HasName("PK__WO_MSTR__5FD13D218711DB1A");
+            entity.HasKey(e => e.WoLot).HasName("PK__WO_MSTR__5FD13D21D1259879");
 
             entity.ToTable("WO_MSTR");
 
@@ -364,7 +333,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<WodDet>(entity =>
         {
-            entity.HasKey(e => new { e.WodPart, e.WodPar, e.WodLot }).HasName("PK__WOD_DET__0041D0AE2029F755");
+            entity.HasKey(e => new { e.WodPart, e.WodPar, e.WodLot }).HasName("PK__WOD_DET__0041D0AEF376A034");
 
             entity.ToTable("WOD_DET");
 
@@ -373,7 +342,7 @@ public partial class UtemtervContext : DbContext
             entity.Property(e => e.WodLot).HasColumnName("wod_lot");
             entity.Property(e => e.WodQtyCompl).HasColumnName("wod_qty_compl");
             entity.Property(e => e.WodQtyReq)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(18, 5)")
                 .HasColumnName("wod_qty_req");
             entity.Property(e => e.WodQtyRjct).HasColumnName("wod_qty_rjct");
 
@@ -395,7 +364,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<WomDet>(entity =>
         {
-            entity.HasKey(e => new { e.WomPart, e.WomPar, e.WomLot }).HasName("PK__WOM_DET__65C8E8EFAEC6C7A1");
+            entity.HasKey(e => new { e.WomPart, e.WomPar, e.WomLot }).HasName("PK__WOM_DET__65C8E8EFD8CB7F06");
 
             entity.ToTable("WOM_DET");
 
@@ -404,10 +373,10 @@ public partial class UtemtervContext : DbContext
             entity.Property(e => e.WomLot).HasColumnName("wom_lot");
             entity.Property(e => e.WomMat).HasColumnName("wom_mat");
             entity.Property(e => e.WomReq)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(18, 5)")
                 .HasColumnName("wom_req");
             entity.Property(e => e.WomRsrv)
-                .HasColumnType("decimal(18, 0)")
+                .HasColumnType("decimal(18, 5)")
                 .HasColumnName("wom_rsrv");
 
             entity.HasOne(d => d.WomMatNavigation).WithMany(p => p.WomDets)
@@ -422,7 +391,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<XwoHist>(entity =>
         {
-            entity.HasKey(e => new { e.XwoYear, e.XwoWeek, e.XwoLot, e.XwoVersion }).HasName("PK__XWO_HIST__E9FB120CE5BBD787");
+            entity.HasKey(e => new { e.XwoYear, e.XwoWeek, e.XwoLot, e.XwoVersion }).HasName("PK__XWO_HIST__E9FB120C91D046C4");
 
             entity.ToTable("XWO_HIST");
 

@@ -142,7 +142,14 @@
       <hr />
       <div class="row">
         <div class="col-lg-12">
-          <button class="btn btn-primary" *ngIf="">Mutasd az összeset</button>
+          <button
+            class="btn btn-default"
+            *ngIf="searchedDataLoaded"
+            (click)="clearForm()"
+          >
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Vissza az összeshez
+          </button>
         </div>
       </div>
       <!--  ps headerek -->

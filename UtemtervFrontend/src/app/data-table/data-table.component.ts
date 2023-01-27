@@ -35,8 +35,9 @@ export class DataTableComponent implements OnDestroy, OnInit {
       this.setView();
     });
 
-    this.dataTblService.getDataEmit();
+    //this.dataTblService.getDataEmit();
   }
+
 
   isDate(data) {
     if (data instanceof Date) {
@@ -62,6 +63,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
     this.setView();
   }
   natural = new Intl.Collator('en').compare;
+
   setView() {
     this.kezdIndex = this.pageIndex * this.pageSize;
     this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex * 2;

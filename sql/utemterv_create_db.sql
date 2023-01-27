@@ -29,7 +29,7 @@ create table PS_MSTR
 (
 	ps_par int,
 	ps_comp int,
-	ps_qty_per decimal not null,
+	ps_qty_per decimal(18,5) not null,
 	primary key(ps_par, ps_comp)
 )
 
@@ -39,9 +39,9 @@ create table LD_DET
 (
 	ld_part int,
 	ld_expire date,
-	ld_qty_oh decimal not null default(0.0),
-	ld_qty_rsrv decimal not null default(0.0),
-	ld_qty_scrp decimal not null default(0.0),
+	ld_qty_oh decimal(18,5) not null default(0.0),
+	ld_qty_rsrv decimal(18,5) not null default(0.0),
+	ld_qty_scrp decimal(18,5) not null default(0.0),
 	primary key(ld_part, ld_expire)
 )
 
@@ -60,7 +60,7 @@ create table LND_DET
 (
 	lnd_line varchar(8),
 	lnd_part int,
-	lnd_rate decimal not null,
+	lnd_rate decimal(18,5) not null,
 	primary key(lnd_line, lnd_part)
 )
 
@@ -119,7 +119,7 @@ create table WOD_DET
 	wod_part int,
 	wod_par int,
 	wod_lot int,
-	wod_qty_req decimal not null,
+	wod_qty_req decimal(18,5) not null,
 	wod_qty_compl int not null default(0),
 	wod_qty_rjct int not null default(0),
 	primary key(wod_part, wod_par, wod_lot)
@@ -133,8 +133,8 @@ create table WOM_DET
 	wom_par int,
 	wom_lot int,
 	wom_mat int,
-	wom_req decimal,
-	wom_rsrv decimal not null default(0),
+	wom_req decimal(18,5),
+	wom_rsrv decimal(18,5) not null default(0),
 	primary key(wom_part, wom_par, wom_lot)
 )
 
@@ -148,7 +148,7 @@ create table LAD_DET
 	lad_lot int,
 	lad_comp int,
 	lad_expire date,
-	lad_qty_rsrv decimal,
+	lad_qty_rsrv decimal(18,5),
 	primary key(lad_id)
 )
 

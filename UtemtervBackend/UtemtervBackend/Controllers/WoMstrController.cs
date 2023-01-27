@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using UtemtervBackend.Models;
 
 namespace UtemtervBackend.Controllers
@@ -37,7 +39,14 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(500, "An Error has occured.");
             }
         }
-        
-        
+        //[EnableCors]
+        //[HttpGet("test")]
+        //public string Test()
+        //{
+            
+        //}
+
     }
+
 }
+
