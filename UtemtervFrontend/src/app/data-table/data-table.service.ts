@@ -96,6 +96,9 @@ export class DataTableService {
   sortData = new Subject<Sort>();
 
 
+  emitDataChanged(data: DataTables[]) {
+    this.dataChanged.next(data);
+  }
 
   getDataEmit() {
     this.getData.next();

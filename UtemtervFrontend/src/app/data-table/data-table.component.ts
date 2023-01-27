@@ -39,7 +39,6 @@ export class DataTableComponent implements OnDestroy, OnInit {
   }
 
 
-
   isDate(data) {
     if (data instanceof Date) {
       return true;

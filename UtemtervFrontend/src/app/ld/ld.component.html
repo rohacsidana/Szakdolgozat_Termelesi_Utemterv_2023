@@ -38,8 +38,8 @@
                         class="btn btn-primary"
                         type="button"
                         style="z-index: auto"
-                        *ngIf="searchMode"
                         (click)="onSearchLd()"
+                        *ngIf="searchMode"
                       >
                         <i class="glyphicon glyphicon-search"></i>
                       </button>
@@ -48,58 +48,59 @@
                 </div>
               </div>
               <button
-                *ngIf="!searchMode"
                 class="btn btn-success"
                 type="submit"
                 style="z-index: auto"
                 [disabled]="!myGroup.valid || ldAlreadyExists"
+                *ngIf="newMode"
               >
                 Mentés
               </button>
               <button
-                [className]="searchMode ? 'btn btn-success' : 'btn btn-danger'"
-                (click)="onChangeMode()"
+                (click)="onNewMode()"
+                class="btn btn-success"
+                *ngIf="searchMode"
                 type="button"
               >
-                {{ searchMode ? "Új" : "Mégse" }}
+                Új
               </button>
               <button
                 class="btn btn-danger"
                 (click)="onDelete()"
+                *ngIf="editMode"
                 type="button"
-                *ngIf="searchMode && loadedLd"
               >
                 Törlés
               </button>
               <button
                 class="btn btn-warning"
                 type="submit"
-                [disabled]="!myGroup.valid || !loadedLd"
-                *ngIf="searchMode && loadedLd"
+                [disabled]="!myGroup.valid"
+                *ngIf="editMode"
               >
                 Módosítások mentése
               </button>
+              <!-- új, módosítás módnál mégse, vissza keresés módra -->
               <button
-                class="btn btn-warning"
-                type="button"
-                [disabled]="!loadedLd"
-                *ngIf="searchMode && loadedLd"
+                class="btn btn-danger"
                 (click)="clearForm()"
+                type="button"
+                *ngIf="newMode || editMode"
               >
                 Mégse
               </button>
             </div>
             <!-- "hiba" üzenetek -->
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-xs-12">
                 <p *ngIf="!ldFound && searchMode">
-                  Nem található ilyen beépülés!
+                  Nem található ilyen azonosítójú tétellel készlet!
                 </p>
                 <p *ngIf="ldAlreadyExists && !searchMode">
-                  Már létezik ilyen azonosítójú beépülés!
+                  Már létezik ilyen azonosítójú tétellel készlet!
                 </p>
               </div>
-            </div>
+            </div> -->
             <div class="row">
               <div class="col-xs-12">
                 <!-- ps-re vonatkozo inputok -->
@@ -141,6 +142,11 @@
         </div>
       </div>
       <hr />
+      <div class="row">
+        <div class="col-lg-12">
+          <button class="btn btn-primary" *ngIf="">Mutasd az összeset</button>
+        </div>
+      </div>
       <!--  ps headerek -->
       <div class="row">
         <div class="col-lg-12">
