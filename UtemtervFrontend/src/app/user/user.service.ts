@@ -1,31 +1,25 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { User } from '../data-table/data-table.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserService {
-  private userData: User[] = [
-    {
-      user_id: 1,
-      name: 'Rohácsi Daniella',
-      birth_date: new Date('2002-03-24'),
-      email: 'rohacsi.dana@gmail.com',
-      post: '1',
-    },
-    {
-      user_id: 2,
-      name: 'Koncsik Benedek',
-      birth_date: new Date('2001-05-11'),
-      email: 'kncsk.benedek@gmail.com',
-      post: '2',
-    },
-    {
-      user_id: 3,
-      name: 'Berényi Péter Ferenc',
-      birth_date: new Date('2003-01-10'),
-      email: 'berenyi.peter@gmail.com',
-      post: '3',
-    },
-  ];
+  private userData: User[] = [];
+
+  userDataChanged: Subject<User[]> = new Subject<User[]>();
+
+  setUsers(userData: User[]) {
+    console.log('setting users');
+
+    this.userData = userData.slice();
+    console.log(this.userData);
+    this.userData.forEach((user) => {
+      console.log(user.birth_date);
+    });
+    this.userDataChanged.next(this.userData.slice());
+  }
 
   getUsers() {
     return this.userData.slice();
@@ -53,6 +47,7 @@ export class UserService {
           this.userData[i] = user;
         }
       }
+      this.userDataChanged.next(this.userData.slice());
       return false;
     } else {
       let emailExists: boolean = false;
@@ -68,6 +63,8 @@ export class UserService {
 
         user.user_id = this.userData[this.userData.length - 1].user_id + 1;
         this.userData.push(user);
+        //itt még változtatni kell a http kérés response-a alapján
+        this.userDataChanged.next(this.userData.slice());
       } else {
         return true; //visszaadjuk, h már létezik
       }
@@ -75,10 +72,9 @@ export class UserService {
   }
 
   deleteUser(id: number) {
-    //console.log(this.getUser(id));
-
     if (this.getUser(id)) {
       this.userData.splice(this.userData.indexOf(this.getUser(id)), 1);
+      this.userDataChanged.next(this.userData.slice());
     }
   }
 }

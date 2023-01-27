@@ -1,0 +1,21 @@
+<!-- <table class="table table-striped">
+  <tr>
+    <th>Gyártósor azonosító</th>
+    <th>Tétel</th>
+    <th>Gyártási sebesség (mennyiség/óra)</th>
+  </tr>
+</table>
+<app-sk *ngFor="let sk of skLista; let i = index" [sk]="sk"></app-sk>
+ -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+      <p>Gyártósor azonosító</p>
+    </div>
+    <div class="col-sm-4"><p>Tétel</p></div>
+    <div class="col-sm-4">
+      <p>Gyártási sebesség (mennyiség/óra)</p>
+    </div>
+  </div>
+</div>
+<app-sk *ngFor="let sk of skLista; let i = index" [sk]="sk"></app-sk>

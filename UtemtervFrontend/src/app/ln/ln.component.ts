@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Gys } from './gys/gys-model';
 import { GysService } from './gys/gys.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, NgSelectOption } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,10 +15,12 @@ export class LnComponent implements OnInit, OnDestroy {
   reszletek = false
   gyartosor: Gys
   validForm = true
+  torles = false
   sub: Subscription
+  kereses = ""
 
-  azon = ''
-  desc = ''
+  azon: string
+  desc: string
 
   constructor(private gysService: GysService) {}
 
@@ -30,7 +32,8 @@ export class LnComponent implements OnInit, OnDestroy {
           this.azon = gys.ln_id
           this.desc = gys.ln_desc
           this.reszletek = true
-
+          this.felvetel = false
+          this.modositas = false
         }
       )
   }
@@ -41,6 +44,12 @@ export class LnComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe()
   }
 
+  onKereses(k: NgForm) {
+    this.kereses = k.value.keresesInput
+    console.log(this.kereses);
+    
+  }
+
   onSubmit(form: NgForm) {
     let value = form.value
     console.log("onSubmit:");
@@ -48,9 +57,11 @@ export class LnComponent implements OnInit, OnDestroy {
 
     if (this.felvetel) {
       this.onUjGys(value.azonInput, value.descInput)
+    } else {
+      this.onModositas(value.azonInput, value.descInput)
     }
+
     this.onMegse()
-    this.clearForm()
 
   }
 
@@ -61,14 +72,15 @@ export class LnComponent implements OnInit, OnDestroy {
     this.reszletek = false
   }
 
-  onModositas() {
+  onModosit() {
     this.modositas = true
     this.felvetel = false
     this.reszletek = false
   }
 
   onGysTorol() {
-
+    this.gysService.torolGys(this.gyartosor.ln_id)
+    this.onMegse()
   }
 
   clearForm() {
@@ -76,27 +88,46 @@ export class LnComponent implements OnInit, OnDestroy {
     this.desc = ""
 
   }
-
+/*
   onTeszt(azon: string, leiras: string) {
-    console.log(this.gysService.letezikeGys('a'));
-    console.log(this.gysService.getGysek());
+    /* console.log(this.gysService.letezikeGys(azon));
+    console.log(this.gysService.getGysek()); 
+    this.gysService.letezikeGys(azon)
   }
-
+*/
   onUjGys(azon: string, desc: string) {
     let vanIlyenGys = this.gysService.letezikeGys(azon)
-    console.log("ujgys:");
+    /* console.log("ujgys:");
     console.log(azon);
 
 
     console.log("vanIlyenGys:");
 
-    console.log(vanIlyenGys);
+    console.log(vanIlyenGys); */
 
     if (!vanIlyenGys) {
       this.gysService.ujGys(azon, desc)
+      this.validForm = true
+
+    } else {
+      this.validForm = false
+    }
+  }
+
+  //modositGys(id: string, uj_id: string, uj_desc: string)
+  onModositas(azon: string, desc: string) {
+    //azon: ln_1 ln_id: ln_1
+    let ervenytelen = this.gysService.letezikeGys(azon)
+    /* if (azon === this.gyartosor.ln_id) {
+      ervenytelen = false
+    } */
+
+    if (!ervenytelen) {
+      this.gysService.modositGys(this.gyartosor.ln_id, azon, desc)
       this.validForm = true
     } else {
       this.validForm = false
     }
   }
+
 }

@@ -27,7 +27,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
-import { GysModComponent } from './ln/gys-mod/gys-mod.component';
 import { GysComponent } from './ln/gys/gys.component';
 import { Rovidit } from './ln/gys/shorten-pipe';
 import { GysService } from './ln/gys/gys.service';
@@ -37,13 +36,17 @@ import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
 import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MatExpansionModule } from "@angular/material/expansion";
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { GysListComponent } from './ln/gys-list/gys-list.component';
+import { FilterPipePipe } from './ln/filter-pipe.pipe';
 import { DataStorageService } from './shared/data-storage.service';
+import { UserService } from './user/user.service';
+import { SkListComponent } from './lnd/sk-list/sk-list.component';
+import { SkComponent } from './lnd/sk/sk.component';
 
 
 @NgModule({
@@ -64,12 +67,14 @@ import { DataStorageService } from './shared/data-storage.service';
     ChgComponent,
     HomeComponent,
     DataTableComponent,
-    GysModComponent,
     GysComponent,
     WodComponent,
     Rovidit,
     WoFormComponent,
-    GysListComponent
+    GysListComponent,
+    FilterPipePipe,
+    SkComponent,
+    SkListComponent
   ],
   imports: [
     BrowserModule,
@@ -97,4 +102,4 @@ import { DataStorageService } from './shared/data-storage.service';
   providers: [GysService, DataStorageService],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

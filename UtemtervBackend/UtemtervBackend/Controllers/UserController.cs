@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using UtemtervBackend.Models;
 
 namespace UtemtervBackend.Controllers
@@ -17,18 +18,14 @@ namespace UtemtervBackend.Controllers
         {
             _context = context; 
         }
-        [EnableCors]
         [HttpGet("list")]
-
         public IActionResult UserList()
-        {
-            var userList = _context.Users.FromSqlRaw("userList").AsEnumerable();
-            return Ok(userList);
+        {      
             try
             {
-                var userList2 = _context.Users.FromSqlRaw("userList").AsEnumerable();
+                var userList = _context.UserLists.ToList();
 
-                if(userList2.Count() == 0)
+                if (userList.Count() == 0)
                 {
                     return NotFound("User not found.");
                     
@@ -39,6 +36,13 @@ namespace UtemtervBackend.Controllers
             {
                 return StatusCode(500, "An Error has occured.");
             }
+        }
+        [HttpPost("new")]
+
+        public IActionResult NewUser(User user)
+        {
+            _context.Users.FromSqlRaw("newUser").AsEnumerable();
+            
         }
     
     }

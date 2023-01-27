@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using UtemtervBackend.Views;
 
 namespace UtemtervBackend.Models;
 
@@ -14,6 +15,8 @@ public partial class UtemtervContext : DbContext
         : base(options)
     {
     }
+
+
 
     public virtual DbSet<ChgMstr> ChgMstrs { get; set; }
 
@@ -40,6 +43,9 @@ public partial class UtemtervContext : DbContext
     public virtual DbSet<WomDet> WomDets { get; set; }
 
     public virtual DbSet<XwoHist> XwoHists { get; set; }
+
+    public virtual DbSet<UserList> UserLists { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -431,6 +437,32 @@ public partial class UtemtervContext : DbContext
                 .HasForeignKey(d => d.XwoLot)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__XWO_HIST__xwo_lo__68487DD7");
+        });
+
+        modelBuilder.Entity<UserList>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("userList");
+
+            entity.Property(e => e.BirthDate)
+                .HasColumnType("date")
+                .HasColumnName("birth_date");
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("email");
+            entity.Property(e => e.Name)
+                .HasMaxLength(30)
+                .IsUnicode(false)
+                .HasColumnName("name");
+            entity.Property(e => e.Post)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("post");
+            entity.Property(e => e.UserId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("user_id");
         });
 
         OnModelCreatingPartial(modelBuilder);
