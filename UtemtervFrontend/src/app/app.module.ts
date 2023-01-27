@@ -44,6 +44,8 @@ import { MatInputModule } from '@angular/material/input';
 import { GysListComponent } from './ln/gys-list/gys-list.component';
 import { FilterPipePipe } from './ln/filter-pipe.pipe';
 import { DataStorageService } from './shared/data-storage.service';
+import { SkComponent } from './lnd/sk/sk.component';
+import { SkListComponent } from './lnd/sk-list/sk-list.component';
 
 
 @NgModule({
@@ -69,7 +71,9 @@ import { DataStorageService } from './shared/data-storage.service';
     Rovidit,
     WoFormComponent,
     GysListComponent,
-    FilterPipePipe
+    FilterPipePipe,
+    SkComponent,
+    SkListComponent
   ],
   imports: [
     BrowserModule,
