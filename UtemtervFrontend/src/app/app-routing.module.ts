@@ -46,7 +46,7 @@ const routes: Routes = [
       { path: 'new', component: WoComponent },
       { path: 'list', component: WoListComponent },
       {
-        path: ':part',
+        path: ':lot',
         component: WoComponent,
         children: [
           { path: '', outlet: 'wod', component: WodComponent },

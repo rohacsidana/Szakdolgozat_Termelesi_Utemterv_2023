@@ -58,6 +58,7 @@ export class WoListComponent {
                 this.woData = woData;
                 this.sortedWoData = this.woData.slice();
                 if (!!this.lastSort) {
+                    this.sortedWoData = this.woData.slice();
                     this.sortData(this.lastSort);
                 } else {
                     this.sortedWoData = this.woData.slice();

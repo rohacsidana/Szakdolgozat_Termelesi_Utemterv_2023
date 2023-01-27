@@ -20,7 +20,6 @@ public partial class WoMstr
 
     public int WoQtyOrd { get; set; }
 
-
     public DateTime WoOrdDate { get; set; }
 
     public DateTime WoDueDate { get; set; }

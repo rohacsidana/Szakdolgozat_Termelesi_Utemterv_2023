@@ -1,1 +1,1 @@
-create proc woListas select *from WO_MSTR--exec woList
+create proc woListas select *from WO_MSTR--exec woListcreate proc wodAll	@lot intasselect *from wod_det

@@ -24,8 +24,8 @@ export class WoFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     /* this.newMode = this.woService.newMode; */
     this.route.params.subscribe((params: Params) => {
-      this.selectedWoLot = +params['part'];
-      this.selectedMode = params['part'] != null;
+      this.selectedWoLot = +params['lot'];
+      this.selectedMode = params['lot'] != null;
       this.newMode = this.router.url === '/workorder/new';
       
       

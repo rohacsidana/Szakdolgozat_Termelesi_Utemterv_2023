@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
-import { ActivatedRouteSnapshot, Route, Router } from "@angular/router";
+import { ActivatedRoute, ActivatedRouteSnapshot, Params, Route } from "@angular/router";
 import { Subscription } from "rxjs";
 import * as DataTableService from "src/app/data-table/data-table.service";
 import { DataStorageService } from "src/app/shared/data-storage.service";
-import { UserService } from "src/app/user/user.service";
 import { WoService } from "../../wo.service";
 
 @Component({
@@ -34,7 +33,8 @@ export class WodComponent implements OnInit, OnDestroy {
   wodSub: Subscription;
   sortedWodData: DataTableService.Wod[];
   lastSort: Sort;
-  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private DataStorageService: DataStorageService) {
+  lot: number;
+  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private route: ActivatedRoute, private DataStorageService: DataStorageService) {
   }
 
   ngOnInit() {
@@ -42,6 +42,7 @@ export class WodComponent implements OnInit, OnDestroy {
       (data: DataTableService.Wod[]) => {
         this.wodData = data;
         if(!!this.lastSort){
+          this.sortedWodData = this.wodData.slice();
           this.sortData(this.lastSort);
         }else{
           this.sortedWodData = this.wodData.slice();
@@ -49,34 +50,20 @@ export class WodComponent implements OnInit, OnDestroy {
         }
       }
     );
-    //console.log(this.route.url);
+    this.route.params.subscribe(
+      (params: Params)=>{
+        this.lot = +params["lot"];
+        this.DataStorageService.fetchWod(this.lot);
+      }
+    );
     
-    //this.DataStorageService.fetchWod();
-    /* this.woDataChangedSub = this.woService.woDataChanged.subscribe(
-            (woData: DataTableService.Wo[]) => {
-                this.woData = woData;
-                this.sortedWoData = this.woData.slice();
-                if (!!this.lastSort) {
-                    this.sortData(this.lastSort);
-                } else {
-                    this.sortedWoData = this.woData.slice();
-                    this.dtTblService.dataChanged.next(this.sortedWoData.slice());
-                }
-            }
-        );
-        this.DataStorageService.fetchAllWo(); */
-/*     this.wodData = this.woService.getWods();
-    this.sortedWodData = this.wodData.slice();
- */
-
-    
-    this.dtTblService.dataChanged.next(this.sortedWodData.slice());
     this.sortSub = this.dtTblService.sortData.subscribe(
       (sort: Sort) => {
         this.lastSort = sort;
         this.sortData(sort);
       }
     );
+
   }
 
   onSubmit(form: NgForm) {
