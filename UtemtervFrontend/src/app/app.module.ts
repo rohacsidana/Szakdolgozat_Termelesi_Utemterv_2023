@@ -27,7 +27,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
-import { GysModComponent } from './ln/gys-mod/gys-mod.component';
 import { GysComponent } from './ln/gys/gys.component';
 import { Rovidit } from './ln/gys/shorten-pipe';
 import { GysService } from './ln/gys/gys.service';
@@ -65,7 +64,6 @@ import { DataStorageService } from './shared/data-storage.service';
     ChgComponent,
     HomeComponent,
     DataTableComponent,
-    GysModComponent,
     GysComponent,
     WodComponent,
     Rovidit,
