@@ -6,49 +6,36 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-ln',
   templateUrl: './ln.component.html',
-  styleUrls: ['./ln.component.css']
+  styleUrls: ['./ln.component.css'],
 })
 export class LnComponent implements OnInit, OnDestroy {
-  szerkesztes: boolean
-  gyartosor: Gys
-  vanIlyenGys: boolean
-  validForm = true
+  szerkesztes: boolean;
+  gyartosor: Gys;
+  vanIlyenGys: boolean;
+  validForm = true;
 
-  constructor(private gysService: GysService) { }
+  constructor(private gysService: GysService) {}
 
   ngOnInit(): void {
-    this.gysService.kivalasztottGys
-      .subscribe(
-        (gys: Gys) => {
-          this.gyartosor = gys;
-
-        }
-      )
-
-
+    this.gysService.kivalasztottGys.subscribe((gys: Gys) => {
+      this.gyartosor = gys;
+    });
   }
 
-
   onUjGys(form: NgForm) {
-    const value = form.value
+    const value = form.value;
     console.log(value);
 
-
-    this.vanIlyenGys = this.gysService.letezikeGys(value.azon)
+    this.vanIlyenGys = this.gysService.letezikeGys(value.azon);
     if (!this.vanIlyenGys) {
-      this.gysService.ujGys(value.azon, value.desc)
-      this.validForm = true
+      this.gysService.ujGys(value.azon, value.desc);
+      this.validForm = true;
     } else {
-      this.validForm = false
+      this.validForm = false;
     }
-
-
   }
 
   ngOnDestroy(): void {
-    this.gysService.kivalasztottGys.unsubscribe()
+    this.gysService.kivalasztottGys.unsubscribe();
   }
-
-
-
 }

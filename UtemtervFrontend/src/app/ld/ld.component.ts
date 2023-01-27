@@ -60,6 +60,8 @@ export class LdComponent implements OnInit, OnDestroy {
 
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
       (data: DataTableService.Ld) => {
+        console.log(this.ldService.getLds());
+
         this.myGroup = this.formBuilder.group({
           ld_part: new FormControl(
             { value: data.ld_part, disabled: true },
@@ -74,6 +76,8 @@ export class LdComponent implements OnInit, OnDestroy {
         });
         this.ldFound = true;
         this.editMode = true;
+        this.searchMode = false;
+        this.newMode = false;
       }
     );
   }
@@ -93,15 +97,17 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    console.log(
-      'Törlendő elem azon-ja: ' + this.myGroup.getRawValue().ld_part,
-      new Date(this.myGroup.getRawValue().ld_expire)
-    );
+    //console.log('Törlendő elem azon-ja: ' + this.myGroup.getRawValue().ld_part,     new Date(this.myGroup.getRawValue().ld_expire)    );
 
     this.ldService.deleteLd(
       Number(this.myGroup.getRawValue().ld_part),
       new Date(this.myGroup.getRawValue().ld_expire)
     );
+    console.log(
+      'ld with ids: ' + Number(this.myGroup.getRawValue().ld_part),
+      new Date(this.myGroup.getRawValue().ld_expire) + ' deleted'
+    );
+
     this.ldDataChanged();
     this.clearForm();
   }
@@ -127,14 +133,19 @@ export class LdComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.checkLdAlreadyExists();
-    this.ldService.saveLd({
-      ld_part: Number(this.myGroup.getRawValue().ld_part),
-      ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
-      ld_qty_oh: this.myGroup.getRawValue().ld_qty_oh,
-      ld_qty_rsrv: this.myGroup.getRawValue().ld_qty_rsrv,
-      ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp,
-    });
-
+    let succesfulSave: boolean = this.ldService.saveLd(
+      {
+        ld_part: Number(this.myGroup.getRawValue().ld_part),
+        ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
+        ld_qty_oh: this.myGroup.getRawValue().ld_qty_oh,
+        ld_qty_rsrv: this.myGroup.getRawValue().ld_qty_rsrv,
+        ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp,
+      },
+      this.newMode ? 'new' : 'edit'
+    );
+    if (!succesfulSave) {
+      this.ldAlreadyExists = true;
+    }
     this.ldDataChanged();
     this.clearForm();
   }
