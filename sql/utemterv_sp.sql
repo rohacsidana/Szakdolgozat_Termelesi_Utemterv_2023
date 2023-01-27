@@ -1,1 +1,1 @@
-create proc woListas select *from WO_MSTR--exec woListcreate proc wodAll	@lot intasselect *from wod_detcreate proc userListas select user_id, name, birth_date, email, postfrom "user"--exec userList
+create proc woListas select *from WO_MSTR--exec woListcreate proc wodAll	@lot intasselect *from wod_detalter proc userListas select * --"user_id", name, birth_date, email, postfrom "user"--exec userList

@@ -35,11 +35,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    console.log("eleje");
-    
-    console.log('editmode:' + this.editing);
-    console.log('new mode:' + this.newMode);
-    console.log('selected mode:' + this.selectedMode);
+
     
     let woLot: number;
     let order = '';
@@ -61,8 +57,14 @@ export class WoFormComponent implements OnInit, OnDestroy {
     let user: number;
 
     if (this.selectedMode) {
-      const wo = this.woService.getWo(this.selectedWoLot);
-
+      let wo = this.getWo();
+      if(wo === null){
+        this.DataStorageService.fetchWo(this.selectedWoLot).subscribe(
+          (data)=>{
+            wo = data;
+          }
+        );
+      }
       if (wo != null) {
         console.log('wo nem null');
         woLot = wo.wo_lot;
@@ -91,11 +93,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
         this.editing = true;
       }
     }
-    console.log("vég");
-    
-    console.log('editmode:' + this.editing);
-    console.log('new mode:' + this.newMode);
-    console.log('selected mode:' + this.selectedMode);
+
 
     this.woForm = new FormGroup({
       woLot: new FormControl({value: woLot, disabled: this.editing}),
@@ -169,6 +167,9 @@ export class WoFormComponent implements OnInit, OnDestroy {
     this.DataStorageService.deleteWo(this.woForm.value.woLot)
 
     this.editing=false;
+  }
+  getWo(){
+    return this.woService.getWo(this.selectedWoLot);
   }
 
 

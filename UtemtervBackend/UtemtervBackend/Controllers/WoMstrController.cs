@@ -9,7 +9,7 @@ using UtemtervBackend.Models;
 namespace UtemtervBackend.Controllers
 {
     [EnableCors]
-    [Route("workoder")]
+    [Route("workorder")]
     [ApiController]
     public class WoMstrController : ControllerBase
     {
@@ -29,7 +29,7 @@ namespace UtemtervBackend.Controllers
 
                 if (woList.Count() == 0)
                 {
-                    return NotFound("Workoder not found.");
+                    return NotFound("Workorder not found.");
                 }
                 return Ok(woList);
             }
@@ -39,12 +39,27 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(500, "An Error has occured.");
             }
         }
-        //[EnableCors]
-        //[HttpGet("test")]
-        //public string Test()
-        //{
-            
-        //}
+
+        [HttpGet("{lot}")]
+        public IActionResult getWo(int lot)
+        {
+            try
+            {
+                var wo = _context.WoMstrs.FromSqlRaw($"getWo {lot}").AsEnumerable();
+
+                if (wo.Count() == 0)
+                {
+                    return NotFound("Workorder not found.");
+                }
+                return Ok(wo);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(404, "An erros has occured.");
+            }
+            return Ok();
+        }
 
     }
 

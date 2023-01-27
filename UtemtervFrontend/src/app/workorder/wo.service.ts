@@ -183,6 +183,8 @@ export class WoService {
 
         if (this.woData != null) {
             return this.woData.find(element => element.wo_lot === woLot);
+        }else{
+            return null;
         }
        /*  else {
             return this.DataStorageService.fetchWo(woLot);

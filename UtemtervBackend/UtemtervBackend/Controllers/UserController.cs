@@ -22,16 +22,18 @@ namespace UtemtervBackend.Controllers
 
         public IActionResult UserList()
         {
+            var userList = _context.Users.FromSqlRaw("userList").AsEnumerable();
+            return Ok(userList);
             try
             {
-                var userList = _context.Users.FromSqlRaw("userList").AsEnumerable();
+                var userList2 = _context.Users.FromSqlRaw("userList").AsEnumerable();
 
-                if(userList.Count() == 0)
+                if(userList2.Count() == 0)
                 {
                     return NotFound("User not found.");
                     
                 }
-                return Ok(userList);
+                return Ok(userList2);
             }
             catch (Exception)
             {
