@@ -3,13 +3,14 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import * as DataTableService from '../data-table/data-table.service';
+import { DataStorageService } from '../shared/data-storage.service';
 import { UserService } from './user.service';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
-  providers: [UserService, DataTableService.DataTableService],
+  providers: [DataTableService.DataTableService],
 })
 export class UserComponent implements OnInit, OnDestroy {
   loadedUser: DataTableService.User;
@@ -23,7 +24,11 @@ export class UserComponent implements OnInit, OnDestroy {
   userAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
-  sortedUserData: DataTableService.User[];
+  sortedUserData: DataTableService.User[] = [];
+  lastSort: Sort;
+
+  userDataChangedSub: Subscription;
+  userData: DataTableService.User[] = [];
 
   selectedData: DataTableService.User;
   rowSelectSubscription: Subscription;
@@ -38,12 +43,26 @@ export class UserComponent implements OnInit, OnDestroy {
 
   constructor(
     private userService: UserService,
-    private dtTblService: DataTableService.DataTableService
+    private dtTblService: DataTableService.DataTableService,
+    private dataStorageService: DataStorageService
   ) {
     this.sortedUserData = userService.getUsers();
   }
 
   ngOnInit(): void {
+    this.userDataChangedSub = this.userService.userDataChanged.subscribe(
+      (userData: DataTableService.User[]) => {
+        this.userData = userData;
+        this.sortedUserData = this.userData.slice();
+        if (!!this.lastSort) {
+          this.sortData(this.lastSort);
+        } else {
+          this.dtTblService.dataChanged.next(this.sortedUserData.slice());
+        }
+      }
+    );
+    this.dataStorageService.fetchUsers();
+
     this.getItemSub = this.dtTblService.getData.subscribe(() => {
       this.dtTblService.emitDataChanged(this.sortedUserData.slice());
     });
@@ -88,6 +107,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   sortData(sort: Sort) {
+    this.lastSort = sort;
     const data = this.userService.getUsers();
     if (!sort.active || sort.direction === '') {
       this.sortedUserData = data;
@@ -201,5 +221,6 @@ export class UserComponent implements OnInit, OnDestroy {
     this.getItemSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.rowSelectSubscription.unsubscribe();
+    this.userDataChangedSub.unsubscribe();
   }
 }

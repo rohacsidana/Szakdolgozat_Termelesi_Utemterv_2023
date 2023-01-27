@@ -9,7 +9,7 @@ using UtemtervBackend.Models;
 namespace UtemtervBackend.Controllers
 {
     [EnableCors]
-    [Route("workoder")]
+    [Route("workorder")]
     [ApiController]
     public class WoMstrController : ControllerBase
     {
