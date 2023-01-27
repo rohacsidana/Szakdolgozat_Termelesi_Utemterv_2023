@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { GysService } from '../gys/gys.service';
 import { Gys } from '../gys/gys-model';
-import { NgForm, FormGroup, FormControl } from '@angular/forms';
-import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
+import { NgForm, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-gys-mod',
+  selector: 'app-gys-moda',
   templateUrl: './gys-mod.component.html',
   styleUrls: ['./gys-mod.component.css'],
 })
