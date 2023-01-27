@@ -20,19 +20,27 @@ import { Subscription } from 'rxjs';
 export class GysComponent implements OnInit, OnDestroy {
   @Input() gyartosor: Gys;
 
-  //gyartosorok: { ln_id: string, ln_desc: string }[] = [];
-
   constructor(private gysService: GysService) { }
 
   ngOnInit(): void {
+    //this.gysService.kivalasztottGys.emit(this.gyartosor)
+  }
+
+  onTeszt() {
 
   }
 
   ngOnDestroy(): void {
     this.gysService.kivalasztottGys.next()
   }
+  
+  onReszletek(leiras: string) {
+    //alert(leiras + '\n(ez nem alert box lesz később!)');
+    this.gysService.kivalasztottGys.emit(this.gyartosor)
+  }
 
-  onModositas() {
+
+  /* onModositas() {
     //this.gyList.modositas
     //console.log("gy-comp:");
     //console.log(this.gyartosorok[id]);
@@ -41,9 +49,6 @@ export class GysComponent implements OnInit, OnDestroy {
     this.gysService.kivalasztottGys.next(this.gyartosor);
 
     //console.log(this.gyartosor);
-  }
+  } */
 
-  onReszletek(leiras: string) {
-    alert(leiras + '\n(ez nem alert box lesz később!)');
-  }
 }
