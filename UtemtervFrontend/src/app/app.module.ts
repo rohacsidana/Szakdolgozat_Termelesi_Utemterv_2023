@@ -43,11 +43,8 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { GysListComponent } from './ln/gys-list/gys-list.component';
-<<<<<<< HEAD
 import { FilterPipePipe } from './ln/filter-pipe.pipe';
-=======
 import { DataStorageService } from './shared/data-storage.service';
->>>>>>> f7f3927ad6aa6d660cce30739ffa7725fb1c007b
 
 
 @NgModule({
