@@ -44,13 +44,10 @@ import { MatInputModule } from '@angular/material/input';
 import { GysListComponent } from './ln/gys-list/gys-list.component';
 import { FilterPipePipe } from './ln/filter-pipe.pipe';
 import { DataStorageService } from './shared/data-storage.service';
-<<<<<<< HEAD
 import { UserService } from './user/user.service';
-=======
-import { SkComponent } from './lnd/sk/sk.component';
 import { SkListComponent } from './lnd/sk-list/sk-list.component';
+import { SkComponent } from './lnd/sk/sk.component';
 
->>>>>>> 7f60cc0b755e1bee575076ef8cc98121f06fb43d
 
 @NgModule({
   declarations: [
@@ -75,12 +72,9 @@ import { SkListComponent } from './lnd/sk-list/sk-list.component';
     Rovidit,
     WoFormComponent,
     GysListComponent,
-<<<<<<< HEAD
-=======
     FilterPipePipe,
     SkComponent,
     SkListComponent
->>>>>>> 7f60cc0b755e1bee575076ef8cc98121f06fb43d
   ],
   imports: [
     BrowserModule,
