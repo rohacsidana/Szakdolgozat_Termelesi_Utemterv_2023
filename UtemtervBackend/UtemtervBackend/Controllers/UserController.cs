@@ -30,20 +30,20 @@ namespace UtemtervBackend.Controllers
                     return NotFound("User not found.");
                     
                 }
-                return Ok(userList2);
+                return Ok(userList);
             }
             catch (Exception)
             {
                 return StatusCode(500, "An Error has occured.");
             }
         }
-        [HttpPost("new")]
+        //[HttpPost("new")]
 
-        public IActionResult NewUser(User user)
-        {
-            _context.Users.FromSqlRaw("newUser").AsEnumerable();
+        //public IActionResult NewUser(User user)
+        //{
+        //    _context.Users.FromSqlRaw("newUser").AsEnumerable();
             
-        }
+        //}
     
     }
     
