@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { subscribeOn } from 'rxjs-compat/operator/subscribeOn';
+import { Wo } from 'src/app/data-table/data-table.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { WoService } from '../../wo.service';
 
@@ -27,16 +29,12 @@ export class WoFormComponent implements OnInit, OnDestroy {
       this.selectedWoLot = +params['lot'];
       this.selectedMode = params['lot'] != null;
       this.newMode = this.router.url === '/workorder/new';
-      
-      
-      
+
       this.initForm();
     });
   }
 
   initForm() {
-
-    
     let woLot: number;
     let order = '';
     let part: number;
@@ -57,16 +55,22 @@ export class WoFormComponent implements OnInit, OnDestroy {
     let user: number;
 
     if (this.selectedMode) {
-      let wo = this.getWo();
-      if(wo === null){
-        this.DataStorageService.fetchWo(this.selectedWoLot).subscribe(
-          (data)=>{
-            wo = data;
-          }
-        );
+      /* const ascF =  */
+
+      
+      let wo = this.woService.getWo(this.selectedWoLot);
+      
+      
+
+      if (wo === null) {
+        wo;
+        this.DataStorageService.fetchWo(this.selectedWoLot).subscribe((data)=>{
+
+          wo = data[0]});
+        
       }
+      
       if (wo != null) {
-        console.log('wo nem null');
         woLot = wo.wo_lot;
         order = wo.wo_nbr;
         part = wo.wo_part;
@@ -86,34 +90,33 @@ export class WoFormComponent implements OnInit, OnDestroy {
         relDate = wo.wo_rel_date;
         user = wo.wo_user;
       } else {
-        this.router.navigate(['../'],{relativeTo: this.route});
+        this.router.navigate(['../'], { relativeTo: this.route });
       }
-    }else{
-      if(this.newMode){
+    } else {
+      if (this.newMode) {
         this.editing = true;
       }
     }
 
-
     this.woForm = new FormGroup({
-      woLot: new FormControl({value: woLot, disabled: this.editing}),
-      order: new FormControl({value: order, disabled: !this.editing}),
-      part: new FormControl({value:part, disabled: !this.editing}),
-      status: new FormControl({value:status, disabled: !this.editing}),
-      line: new FormControl({value: line, disabled: !this.editing}),
-      qtyOrd: new FormControl({value: qtyOrd, disabled: !this.editing}),
-      ordDate: new FormControl({value: ordDate, disabled: true}),
-      estTime: new FormControl({value:estTime, disabled: true}),
-      seq: new FormControl({value:seq, disabled: true}),
-      dueDate: new FormControl({value:dueDate, disabled: !this.editing}),
-      startDate: new FormControl({value:startDate, disabled: !this.editing}),
-      startTime: new FormControl({value:startTime, disabled: true}),
-      endTime: new FormControl({value:endTime, disabled: true}),
-      pldDown: new FormControl({value:pldDown, disabled: true}),
-      unpldDown: new FormControl({value:unpldDown, disabled: true}),
-      activated: new FormControl({value:activated, disabled: true}),
-      relDate: new FormControl({value:relDate, disabled: !this.editing}),
-      user: new FormControl({value:user, disabled: true}),
+      woLot: new FormControl({ value: woLot, disabled: this.editing }),
+      order: new FormControl({ value: order, disabled: !this.editing }),
+      part: new FormControl({ value: part, disabled: !this.editing }),
+      status: new FormControl({ value: status, disabled: !this.editing }),
+      line: new FormControl({ value: line, disabled: !this.editing }),
+      qtyOrd: new FormControl({ value: qtyOrd, disabled: !this.editing }),
+      ordDate: new FormControl({ value: ordDate, disabled: true }),
+      estTime: new FormControl({ value: estTime, disabled: true }),
+      seq: new FormControl({ value: seq, disabled: true }),
+      dueDate: new FormControl({ value: dueDate, disabled: !this.editing }),
+      startDate: new FormControl({ value: startDate, disabled: !this.editing }),
+      startTime: new FormControl({ value: startTime, disabled: true }),
+      endTime: new FormControl({ value: endTime, disabled: true }),
+      pldDown: new FormControl({ value: pldDown, disabled: true }),
+      unpldDown: new FormControl({ value: unpldDown, disabled: true }),
+      activated: new FormControl({ value: activated, disabled: true }),
+      relDate: new FormControl({ value: relDate, disabled: !this.editing }),
+      user: new FormControl({ value: user, disabled: true }),
     });
   }
 
@@ -123,57 +126,49 @@ export class WoFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['./', 'workorder', this.woForm.value.woLot]);
   }
 
-
-
-  new(){
-    if(this.newMode){
+  new() {
+    if (this.newMode) {
       this.initForm();
-    }else{
-
-      this.router.navigate(['workorder', 'new'])
+    } else {
+      this.router.navigate(['workorder', 'new']);
     }
   }
 
-  cancel(){
-    if(this.newMode){
-      this.router.navigate(['../'],{relativeTo: this.route});
-    }else{
+  cancel() {
+    if (this.newMode) {
+      this.router.navigate(['../'], { relativeTo: this.route });
+    } else {
       this.editing = false;
       this.initForm();
     }
-
   }
 
-  edit(){
+  edit() {
     this.editing = true;
-    console.log(this.editing);
     this.initForm();
-    
+
     //formot enable
   }
 
-  save(){
+  save() {
     //this.editing = false;
-    if(this.editing){
+    if (this.editing) {
       this.DataStorageService.updateWo(this.woForm.value);
-    }else{
+    } else {
       this.DataStorageService.postWo(this.woForm.value);
       //this.router.navigate(['workorder']);
     }
-
   }
- 
-  delete(){
-    this.DataStorageService.deleteWo(this.woForm.value.woLot)
 
-    this.editing=false;
+  delete() {
+    this.DataStorageService.deleteWo(this.woForm.value.woLot);
+
+    this.editing = false;
   }
-  getWo(){
+  /*   getWo(){
     return this.woService.getWo(this.selectedWoLot);
-  }
-
+  } */
 
   ngOnDestroy(): void {
-    console.log('destoryed');
   }
 }

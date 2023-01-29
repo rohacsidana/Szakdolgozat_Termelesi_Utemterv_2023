@@ -1,6 +1,7 @@
 select * from PT_MSTR
 select * from PS_MSTR
 select * from WO_MSTR
+select * from "USER"
 
 insert into PT_MSTR values('asztal', 'db');
 insert into PT_MSTR values('asztal lap', 'db');
@@ -13,7 +14,6 @@ insert into PT_MSTR values('bevonat', 'réteg');
 insert into PS_MSTR values(1000,1001,1);
 insert into PS_MSTR values(1000,1002,4);
 insert into PS_MSTR values(1002,1003,1);
-insert into PS_MSTR values(1002,1004,1);
 insert into PS_MSTR values(1002,1004,1);
 insert into PS_MSTR values(1003,1006,3);
 

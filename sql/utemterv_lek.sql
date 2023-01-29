@@ -19,7 +19,7 @@ go
 with szerkezet(szulo, gyerek, szint, beepulo)
 as
 (
-	select null as szulo, pt.pt_part as gyerek, 1 as szint, 1,0 as beepulo
+	select null as szulo, pt.pt_part as gyerek, 1 as szint, 1.0 as beepulo
 	from pt_mstr pt
 	where not exists (select 1 from ps_mstr psB where pt.pt_part = psB.ps_comp)
 	union all

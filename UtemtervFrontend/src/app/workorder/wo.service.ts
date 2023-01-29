@@ -181,9 +181,10 @@ export class WoService {
 
     getWo(woLot: number) {
 
-        if (this.woData != null) {
+        if (this.woData.length !== 0) {
+            
             return this.woData.find(element => element.wo_lot === woLot);
-        }else{
+        }else{            
             return null;
         }
        /*  else {

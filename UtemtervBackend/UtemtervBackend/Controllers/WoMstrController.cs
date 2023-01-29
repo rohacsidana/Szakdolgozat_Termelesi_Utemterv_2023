@@ -58,7 +58,7 @@ namespace UtemtervBackend.Controllers
 
                 return StatusCode(404, "An erros has occured.");
             }
-            return Ok();
+            //return Ok();
         }
 
     }

@@ -73,7 +73,6 @@ export class WodComponent implements OnInit, OnDestroy {
 
   sortData(sort: Sort) {
     if(!!!this.lastSort){
-      console.log("sort bent");
       
     }
     const data = this.wodData.slice();

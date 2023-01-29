@@ -1,6 +1,6 @@
 
 import { HttpClient } from "@angular/common/http";
-import { Component } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -16,7 +16,7 @@ import { tap } from "rxjs/operators";
     providers: [DataTableService.DataTableService]
 })
 
-export class WoListComponent {
+export class WoListComponent implements OnInit, OnDestroy {
     woHeaders: { name: string, szoveg: string }[] = [
         { name: 'wo_lot', szoveg: 'Gyártási Rendelés szám' },
         { name: 'wo_nbr', szoveg: 'Rendelés szám' },
@@ -52,7 +52,7 @@ export class WoListComponent {
     }
 
     ngOnInit() {
-
+        
         this.woDataChangedSub = this.woService.woDataChanged.subscribe(
             (woData: DataTableService.Wo[]) => {
                 this.woData = woData;

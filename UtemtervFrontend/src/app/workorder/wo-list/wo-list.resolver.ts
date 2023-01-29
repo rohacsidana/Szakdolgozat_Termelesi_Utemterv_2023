@@ -17,12 +17,8 @@ export class WoListResolverService implements Resolve<Wo[]>{
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any|Wo[]{
         const woData = this.woService.getWos();
         if(woData.length === 0){
-            console.log("lefut 0");
-            
             return this.DataStorageService.fetchAllWo();
         }else{
-            console.log("data");
-            
             return woData;
         }
     }
