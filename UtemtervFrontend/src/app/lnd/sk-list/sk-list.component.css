@@ -8,3 +8,7 @@
 .col-sm-4 p {
    padding-top: 5px;
 }
+
+p {
+    font-size: medium;
+}
