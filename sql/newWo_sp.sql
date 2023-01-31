@@ -1,7 +1,6 @@
 create proc newWo2
 	@wo_nbr varchar(18), @wo_part int, @wo_qty_ord int, @wo_due_date datetime
 as
-	--borzasztó
 	declare @wo_lot int
 	drop table if exists #tempSzerkezet
 	begin tran
@@ -26,9 +25,6 @@ as
 			insert into #tempSzerkezet
 				select * from seged
 
-		--select tmp.elozo, tmp.parent, @wo_lot, tmp.child, tmp.qty_req, 0
-		--from #tempSzerkezet tmp
-		--where not exists (select 1 from dbo.k_f_termekek kf2 where kf2.part = tmp.child)
 		insert into WOD_DET 
 		select tmp.child, tmp.parent, @wo_lot, tmp.qty_req, 0, 0
 		from #tempSzerkezet tmp
@@ -50,15 +46,9 @@ as
 --exec newWo2 'tesztrend5', 1000, 10, '20230511'
 	
 
---	/*
---		ha 1000  akkor
---		1 sor wo ba
---		3 sor wod ba
---		sor wom ba
-		
---	*/
+
 --	exec tesztWO 1000, 10
---select * from WO_MSTR
+
 /*TESZT*/
 select * from WOD_DET where wod_lot = @wo_lot
 select * from WOM_DET where wom_lot = @wo_lot
