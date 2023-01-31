@@ -21,24 +21,41 @@ export class SkService {
         return this.sebessegKezelesek.slice()
     }
 
-    getSk(lnd: string) {
+    getSk(line: string) {
 
     }
 
 
-    letezikeGys(gy: string) {
+    letezikeSk(line: string, part: number) {
+        let index = this.sebessegKezelesek.findIndex(index => index.lnd_line === line
+            && index.lnd_part === part);
+
+            if (index < 0) {
+                return false
+            }
+
+            if (index >= 0) {
+                return true
+            }
 
 
 
+        //this.skValtozas.next(this.sebessegKezelesek.slice());
     }
 
-    ujGys(line: string, part: number, rate: number) {
+    ujSk(line: string, part: number, rate: number) {
         this.sebessegKezelesek.push(new Sk(line, part, rate));
         this.skValtozas.next(this.sebessegKezelesek.slice());
     }
 
-    modositGys(id: string, uj_id: string, uj_desc: string) {
+    modositSk(line: string, part: number, uj_line: string, uj_part: number, uj_rate: number) {
+        let index = this.sebessegKezelesek.findIndex(index => index.lnd_line === line
+            && index.lnd_part === part);
+        this.sebessegKezelesek[index].lnd_line = uj_line;
+        this.sebessegKezelesek[index].lnd_part = uj_part;
+        this.sebessegKezelesek[index].lnd_rate = uj_rate;
 
+        this.skValtozas.next(this.sebessegKezelesek.slice());
     }
 
     torolSk(line: string) {

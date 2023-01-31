@@ -13,6 +13,8 @@ import { Sk } from './sk/sk-model';
 })
 export class LndComponent implements OnInit, OnDestroy {
   ujLnd = false
+  szerkesztes = false
+  validForm = true
   sk: Sk
   skSub: Subscription
 
@@ -20,9 +22,9 @@ export class LndComponent implements OnInit, OnDestroy {
   part: number
   rate: number
 
-  szerkesztes = false
 
   constructor(private skService: SkService) { }
+
 
   ngOnInit(): void {
     this.skSub = this.skService.kivalasztottSk
@@ -33,7 +35,7 @@ export class LndComponent implements OnInit, OnDestroy {
           this.line = sk.lnd_line
           this.part = sk.lnd_part
           this.rate = sk.lnd_rate
-          this.onModosit()
+          this.onModositClick()
         }
       )
   }
@@ -43,45 +45,66 @@ export class LndComponent implements OnInit, OnDestroy {
   }
 
 
-  clearForm() {
-    this.line = ''
-    this.part = null
-    this.rate = null
-  }
+
 
   onSubmit(form: NgForm) {
     console.log(form.value);
     let value = form.value
     if (this.ujLnd) {
-      let l = value.lineInput
-      let p = value.partInput
-      let r = value.rateInput
-      this.onUjLnd(l, p, r)
+      if (!this.skService.letezikeSk(value.lineInput, value.partInput)) {
+        this.onUjLnd(form)
+
+        //console.log('még nincs ilyen');
+
+      } else {
+        this.validForm = false
+        //console.log('már van ilyen');
+
+      }
     }
+    if (this.szerkesztes) {
+      //(line: string, part: number, uj_line: string, uj_part: number, uj_rate: number)
+
+      this.skService.modositSk(this.sk.lnd_line, this.sk.lnd_part, this.line, this.part, this.rate)
+      //console.log('még nincs ilyen');
 
 
+      //console.log(this.skService.letezikeSk(value.lineInput, value.partInput));
+
+      this.clearForm(form)
+    }
   }
 
-  onMegse() {
+  clearForm(form: NgForm) {
+    form.resetForm()
     this.ujLnd = false
     this.szerkesztes = false
-    this.clearForm()
+    this.validForm = true
+    this.line = ''
+    this.part = null
+    this.rate = null
   }
 
-  onUjLnd(line: string, part: number, rate: number) {
+  onUjLnd(form: NgForm) {
     this.ujLnd = true
-    this.skService.ujGys(line, part, rate)
-
+    let l = form.value.lineInput
+    let p = form.value.partInput
+    let r = form.value.rateInput
+    this.skService.ujSk(l, p, r)
+    this.clearForm(form)
   }
 
-  onModosit() {
+  onModositClick() {
     this.szerkesztes = true
     this.ujLnd = false
+
+
+
   }
 
-  onTorol() {
+  onTorol(form: NgForm) {
     this.skService.torolSk(this.sk.lnd_line)
-    this.onMegse()
+    this.clearForm(form)
   }
 
 
