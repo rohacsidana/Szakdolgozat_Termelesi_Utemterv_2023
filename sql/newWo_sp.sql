@@ -1,4 +1,4 @@
-alter proc newWo2
+create proc newWo2
 	@wo_nbr varchar(18), @wo_part int, @wo_qty_ord int, @wo_due_date datetime
 as
 	--borzasztó
