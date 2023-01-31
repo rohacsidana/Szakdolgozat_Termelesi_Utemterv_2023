@@ -16,7 +16,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
   woForm: FormGroup;
   editing: boolean = false;
   newMode: boolean = false;
-
+  selectedWo: Wo;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -29,9 +29,16 @@ export class WoFormComponent implements OnInit, OnDestroy {
       this.selectedWoLot = +params['lot'];
       this.selectedMode = params['lot'] != null;
       this.newMode = this.router.url === '/workorder/new';
-
-      this.initForm();
+      this.DataStorageService.fetchWo(this.selectedWoLot).subscribe(
+        (wo)=>{
+          //this.selectedWo = wo;
+          console.log(wo);
+          this.initForm();
+          
+        }
+      );
     });
+    this.initForm();
   }
 
   initForm() {
@@ -58,19 +65,10 @@ export class WoFormComponent implements OnInit, OnDestroy {
       /* const ascF =  */
 
       
-      let wo = this.woService.getWo(this.selectedWoLot);
-      
-      
+      //let wo = this.woService.getWo(this.selectedWoLot);
 
-      if (wo === null) {
-        wo;
-        this.DataStorageService.fetchWo(this.selectedWoLot).subscribe((data)=>{
-
-          wo = data[0]});
-        
-      }
-      
-      if (wo != null) {
+     const wo = this.selectedWo;
+      if (wo  != null) {
         woLot = wo.wo_lot;
         order = wo.wo_nbr;
         part = wo.wo_part;
@@ -168,7 +166,6 @@ export class WoFormComponent implements OnInit, OnDestroy {
   /*   getWo(){
     return this.woService.getWo(this.selectedWoLot);
   } */
-
   ngOnDestroy(): void {
   }
 }

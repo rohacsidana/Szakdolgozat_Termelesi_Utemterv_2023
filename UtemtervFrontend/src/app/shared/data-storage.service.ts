@@ -82,11 +82,8 @@ export class DataStorageService {
         /* let api = "workorder/" + id; */
      return   this.http.get<WoResponse[]>("https://localhost:7075/workorder/" + id)
             .pipe(
-                take(1),
-                tap(
-                    (data)=>console.log(data)
-                    
-                ),
+              
+                
                 map(
                     (woData) => {
                         const woDataNew = woData.map(
@@ -99,18 +96,20 @@ export class DataStorageService {
                         return { ...woDataNew };
                     }
                     ),
+                
                     tap({
                         next: data=> console.log(data),
                         error: error => console.error(error),
                         
                     })
-                
             )
     }
 
     fetchLad(id: number) { }
 
-    fetchWod(id: number) { }
+    fetchWod(id: number) { 
+
+    }
     
     postWo(wo: Wo) { }
     updateWo(wo: Wo) { }
@@ -141,6 +140,8 @@ interface WoResponse {
     woStatus: string;
     woRelDate: string;
     woUser: number;
+
+    
 
 }
 

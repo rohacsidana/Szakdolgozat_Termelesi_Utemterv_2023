@@ -1,37 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Sk } from '../sk/sk-model';
+import { SkService } from '../sk/sk.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sk-list',
   templateUrl: './sk-list.component.html',
-  styleUrls: ['./sk-list.component.css']
+  styleUrls: ['./sk-list.component.css'],
+  
 })
 export class SkListComponent implements OnInit, OnDestroy {
-  skLista = [
-    {
-      gys: 'gys1',
-      tetel: 'tétel1',
-      seb: '20',      
-    },
-    {
-      gys: 'gys2',
-      tetel: 'tétel2',
-      seb: '30',      
-    },
-    {
-      gys: 'gys2',
-      tetel: 'tétel2',
-      seb: '40',      
-    }
-  ]
+  skLista: Sk[]
+  skValtozas: Subscription
+  keresesLine = ''
 
-  constructor() { }
+  constructor(private skService: SkService) { }
 
   ngOnInit(): void {
-    
+    this.skLista = this.skService.getOsszSk()
+    this.skValtozas = this.skService.skValtozas.subscribe((data)=> {
+      this.skLista = data
+    })
+
   }
 
   ngOnDestroy(): void {
-    
+    this.skValtozas.unsubscribe()
   }
 
 

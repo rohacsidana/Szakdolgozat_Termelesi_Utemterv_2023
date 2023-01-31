@@ -58,10 +58,34 @@ namespace UtemtervBackend.Controllers
 
                 return StatusCode(404, "An erros has occured.");
             }
-            //return Ok();
+            return Ok();
+        }
+
+        [HttpPost("teszt/new")]
+        public IActionResult newWo([FromBody] NewWo wo)
+        {
+            try
+           {
+                var vlmi =  _context.Database.ExecuteSqlInterpolated($"newWo1 {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}");
+                return Ok(vlmi);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(404, e);
+            }
         }
 
     }
 
 }
 
+public class NewWo
+{
+    public string WoNbr { get; set; }
+    public int WoPart { get; set; }
+    public int WoQtyOrd { get; set; }
+    public DateTime WoDueDate { get; set; }
+
+
+}

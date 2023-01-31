@@ -57,7 +57,8 @@ export class LnComponent implements OnInit, OnDestroy {
 
     if (this.felvetel) {
       this.onUjGys(value.azonInput, value.descInput)
-    } else {
+    } 
+    if (this.modositas) {
       this.onModositas(value.azonInput, value.descInput)
     }
 
@@ -117,12 +118,12 @@ export class LnComponent implements OnInit, OnDestroy {
   //modositGys(id: string, uj_id: string, uj_desc: string)
   onModositas(azon: string, desc: string) {
     //azon: ln_1 ln_id: ln_1
-    let ervenytelen = this.gysService.letezikeGys(azon)
+    let vanE = this.gysService.letezikeGys(azon)
     /* if (azon === this.gyartosor.ln_id) {
       ervenytelen = false
     } */
 
-    if (!ervenytelen) {
+    if (!vanE || (vanE && azon === this.gyartosor.ln_id)) {
       this.gysService.modositGys(this.gyartosor.ln_id, azon, desc)
       this.validForm = true
     } else {

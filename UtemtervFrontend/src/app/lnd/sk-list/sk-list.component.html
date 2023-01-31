@@ -7,15 +7,34 @@
 </table>
 <app-sk *ngFor="let sk of skLista; let i = index" [sk]="sk"></app-sk>
  -->
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-4">
-      <p>Gyártósor azonosító</p>
-    </div>
-    <div class="col-sm-4"><p>Tétel</p></div>
-    <div class="col-sm-4">
-      <p>Gyártási sebesség (mennyiség/óra)</p>
+<div class="row">
+  <label for="gyartosor" style="font-size: large; padding-right: 5px"
+    >Gyártósor keresése</label
+  >
+  <input
+    type="text"
+    id="gyartosor"
+    class="form-controll"
+    [(ngModel)]="keresesLine"
+  />
+
+  <hr />
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4">
+        <p>Gyártósor azonosító</p>
+      </div>
+      <div class="col-sm-4"><p>Tétel</p></div>
+      <div class="col-sm-4">
+        <p>Mennyiség óránként</p>
+      </div>
     </div>
   </div>
+  <app-sk
+    *ngFor="
+      let sk of skLista | filterPipe : keresesLine: 'lnd_line';
+      let i = index
+    "
+    [sk]="sk"
+  ></app-sk>
 </div>
-<app-sk *ngFor="let sk of skLista; let i = index" [sk]="sk"></app-sk>

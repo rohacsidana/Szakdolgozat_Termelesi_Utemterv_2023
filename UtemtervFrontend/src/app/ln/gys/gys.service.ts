@@ -36,8 +36,8 @@ export class GysService {
     }
 
     
-    letezikeGys(gy: string) {
-        console.log("gyartosorok:");       
+    letezikeGys(id: string) {
+        /* console.log("gyartosorok:");       
         console.log(this.gyartosorok);
         for (let index = 0; index < this.gyartosorok.length; index++) {
             if (this.gyartosorok[index].ln_id === gy) {
@@ -46,17 +46,21 @@ export class GysService {
                 return false
             }
             
+        } */
+        let index = this.gyartosorok.findIndex(index => index.ln_id === id);
+        
+        if (index < 0) {
+            return false
         }
-        
-        
+
+        if (index >= 0) {
+            return true
+        }
     }
     
     ujGys(id: string, desc: string) {
         console.log("uj gys: " + id, desc);
-
-        this.gyartosorok.push(new Gys(id, desc));
-       
-        
+        this.gyartosorok.push(new Gys(id, desc));    
         this.gysValtozas.next(this.gyartosorok.slice());
     }
 

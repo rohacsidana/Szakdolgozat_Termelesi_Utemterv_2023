@@ -44,7 +44,7 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("chg_time");
 
                     b.HasKey("ChgLine", "ChgFrom", "ChgTo")
-                        .HasName("PK__CHG_MSTR__5E79CE45F128E237");
+                        .HasName("PK__CHG_MSTR__5E79CE4520D3D4E5");
 
                     b.HasIndex("ChgFrom");
 
@@ -74,7 +74,7 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("desc");
 
                     b.HasKey("Value", "Type")
-                        .HasName("PK__DICTIONA__CE846F1F45FBD884");
+                        .HasName("PK__DICTIONA__CE846F1FFCA6B506");
 
                     b.ToTable("DICTIONARY", (string)null);
                 });
@@ -112,8 +112,14 @@ namespace UtemtervBackend.Migrations
                         .HasColumnType("decimal(18, 5)")
                         .HasColumnName("lad_qty_rsrv");
 
+                    b.Property<decimal?>("LadQtyUsed")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18, 5)")
+                        .HasColumnName("lad_qty_used")
+                        .HasDefaultValueSql("((0))");
+
                     b.HasKey("LadId")
-                        .HasName("PK__LAD_DET__24E37365F9619728");
+                        .HasName("PK__LAD_DET__24E373655BEE47CF");
 
                     b.HasIndex("LadComp", "LadExpire");
 
@@ -145,7 +151,7 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("ld_qty_scrp");
 
                     b.HasKey("LdPart", "LdExpire")
-                        .HasName("PK__LD_DET__DA79533852185E7B");
+                        .HasName("PK__LD_DET__DA795338DCFDE6BB");
 
                     b.ToTable("LD_DET", (string)null);
                 });
@@ -165,7 +171,7 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("ln_desc");
 
                     b.HasKey("LnLine")
-                        .HasName("PK__LN_MSTR__BDECFD60AD33DB48");
+                        .HasName("PK__LN_MSTR__BDECFD606F55BBCE");
 
                     b.ToTable("LN_MSTR", (string)null);
                 });
@@ -187,7 +193,7 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("lnd_rate");
 
                     b.HasKey("LndLine", "LndPart")
-                        .HasName("PK__LND_DET__92C8E766B9535070");
+                        .HasName("PK__LND_DET__92C8E766940552F0");
 
                     b.HasIndex("LndPart");
 
@@ -209,7 +215,7 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("ps_qty_per");
 
                     b.HasKey("PsPar", "PsComp")
-                        .HasName("PK__PS_MSTR__E959B4269697369B");
+                        .HasName("PK__PS_MSTR__E959B426488FEB91");
 
                     b.HasIndex("PsComp");
 
@@ -232,6 +238,10 @@ namespace UtemtervBackend.Migrations
                         .HasColumnType("varchar(24)")
                         .HasColumnName("pt_desc");
 
+                    b.Property<decimal?>("PtQtyOh")
+                        .HasColumnType("decimal(18, 5)")
+                        .HasColumnName("pt_qty_oh");
+
                     b.Property<string>("PtUm")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -240,7 +250,7 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("pt_um");
 
                     b.HasKey("PtPart")
-                        .HasName("PK__PT_MSTR__1C5FB9576953044A");
+                        .HasName("PK__PT_MSTR__1C5FB95773B10C3E");
 
                     b.ToTable("PT_MSTR", (string)null);
                 });
@@ -287,9 +297,9 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("post");
 
                     b.HasKey("UserId")
-                        .HasName("PK__USER__B9BE370FE4AFCA94");
+                        .HasName("PK__USER__B9BE370FF8D2242F");
 
-                    b.HasIndex(new[] { "Email" }, "UQ__USER__AB6E6164B23BA5AE")
+                    b.HasIndex(new[] { "Email" }, "UQ__USER__AB6E6164D56515FA")
                         .IsUnique();
 
                     b.ToTable("USER", (string)null);
@@ -386,7 +396,7 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("wo_user");
 
                     b.HasKey("WoLot")
-                        .HasName("PK__WO_MSTR__5FD13D21D1259879");
+                        .HasName("PK__WO_MSTR__5FD13D21C483C18C");
 
                     b.HasIndex("WoLine");
 
@@ -424,7 +434,7 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("wod_qty_rjct");
 
                     b.HasKey("WodPart", "WodPar", "WodLot")
-                        .HasName("PK__WOD_DET__0041D0AEF376A034");
+                        .HasName("PK__WOD_DET__0041D0AE4CFA5873");
 
                     b.HasIndex("WodLot");
 
@@ -460,7 +470,7 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("wom_rsrv");
 
                     b.HasKey("WomPart", "WomPar", "WomLot")
-                        .HasName("PK__WOM_DET__65C8E8EFD8CB7F06");
+                        .HasName("PK__WOM_DET__65C8E8EF684C2280");
 
                     b.HasIndex("WomMat");
 
@@ -524,11 +534,48 @@ namespace UtemtervBackend.Migrations
                         .HasColumnName("xwo_unpld_downtime");
 
                     b.HasKey("XwoYear", "XwoWeek", "XwoLot", "XwoVersion")
-                        .HasName("PK__XWO_HIST__E9FB120C91D046C4");
+                        .HasName("PK__XWO_HIST__E9FB120CC62E77CD");
 
                     b.HasIndex("XwoLot");
 
                     b.ToTable("XWO_HIST", (string)null);
+                });
+
+            modelBuilder.Entity("UtemtervBackend.Views.UserList", b =>
+                {
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("date")
+                        .HasColumnName("birth_date");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(30)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Post")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(10)")
+                        .HasColumnName("post");
+
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("user_id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("userList", (string)null);
                 });
 
             modelBuilder.Entity("UtemtervBackend.Models.ChgMstr", b =>
@@ -537,19 +584,19 @@ namespace UtemtervBackend.Migrations
                         .WithMany("ChgMstrChgFromNavigations")
                         .HasForeignKey("ChgFrom")
                         .IsRequired()
-                        .HasConstraintName("FK__CHG_MSTR__chg_fr__5CD6CB2B");
+                        .HasConstraintName("FK__CHG_MSTR__chg_fr__5EBF139D");
 
                     b.HasOne("UtemtervBackend.Models.LnMstr", "ChgLineNavigation")
                         .WithMany("ChgMstrs")
                         .HasForeignKey("ChgLine")
                         .IsRequired()
-                        .HasConstraintName("FK__CHG_MSTR__chg_li__5BE2A6F2");
+                        .HasConstraintName("FK__CHG_MSTR__chg_li__5DCAEF64");
 
                     b.HasOne("UtemtervBackend.Models.PtMstr", "ChgToNavigation")
                         .WithMany("ChgMstrChgToNavigations")
                         .HasForeignKey("ChgTo")
                         .IsRequired()
-                        .HasConstraintName("FK__CHG_MSTR__chg_to__5DCAEF64");
+                        .HasConstraintName("FK__CHG_MSTR__chg_to__5FB337D6");
 
                     b.Navigation("ChgFromNavigation");
 
@@ -563,12 +610,12 @@ namespace UtemtervBackend.Migrations
                     b.HasOne("UtemtervBackend.Models.LdDet", "Lad")
                         .WithMany("LadDets")
                         .HasForeignKey("LadComp", "LadExpire")
-                        .HasConstraintName("FK__LAD_DET__6754599E");
+                        .HasConstraintName("FK__LAD_DET__693CA210");
 
                     b.HasOne("UtemtervBackend.Models.WodDet", "LadNavigation")
                         .WithMany("LadDets")
                         .HasForeignKey("LadPart", "LadPar", "LadLot")
-                        .HasConstraintName("FK__LAD_DET__66603565");
+                        .HasConstraintName("FK__LAD_DET__68487DD7");
 
                     b.Navigation("Lad");
 
@@ -581,7 +628,7 @@ namespace UtemtervBackend.Migrations
                         .WithMany("LdDets")
                         .HasForeignKey("LdPart")
                         .IsRequired()
-                        .HasConstraintName("FK__LD_DET__ld_part__59063A47");
+                        .HasConstraintName("FK__LD_DET__ld_part__5AEE82B9");
 
                     b.Navigation("LdPartNavigation");
                 });
@@ -592,13 +639,13 @@ namespace UtemtervBackend.Migrations
                         .WithMany("LndDets")
                         .HasForeignKey("LndLine")
                         .IsRequired()
-                        .HasConstraintName("FK__LND_DET__lnd_lin__59FA5E80");
+                        .HasConstraintName("FK__LND_DET__lnd_lin__5BE2A6F2");
 
                     b.HasOne("UtemtervBackend.Models.PtMstr", "LndPartNavigation")
                         .WithMany("LndDets")
                         .HasForeignKey("LndPart")
                         .IsRequired()
-                        .HasConstraintName("FK__LND_DET__lnd_par__5AEE82B9");
+                        .HasConstraintName("FK__LND_DET__lnd_par__5CD6CB2B");
 
                     b.Navigation("LndLineNavigation");
 
@@ -611,13 +658,13 @@ namespace UtemtervBackend.Migrations
                         .WithMany("PsMstrPsCompNavigations")
                         .HasForeignKey("PsComp")
                         .IsRequired()
-                        .HasConstraintName("FK__PS_MSTR__ps_comp__5812160E");
+                        .HasConstraintName("FK__PS_MSTR__ps_comp__59FA5E80");
 
                     b.HasOne("UtemtervBackend.Models.PtMstr", "PsParNavigation")
                         .WithMany("PsMstrPsParNavigations")
                         .HasForeignKey("PsPar")
                         .IsRequired()
-                        .HasConstraintName("FK__PS_MSTR__ps_par__571DF1D5");
+                        .HasConstraintName("FK__PS_MSTR__ps_par__59063A47");
 
                     b.Navigation("PsCompNavigation");
 
@@ -629,18 +676,18 @@ namespace UtemtervBackend.Migrations
                     b.HasOne("UtemtervBackend.Models.LnMstr", "WoLineNavigation")
                         .WithMany("WoMstrs")
                         .HasForeignKey("WoLine")
-                        .HasConstraintName("FK__WO_MSTR__wo_line__60A75C0F");
+                        .HasConstraintName("FK__WO_MSTR__wo_line__628FA481");
 
                     b.HasOne("UtemtervBackend.Models.PtMstr", "WoPartNavigation")
                         .WithMany("WoMstrs")
                         .HasForeignKey("WoPart")
                         .IsRequired()
-                        .HasConstraintName("FK__WO_MSTR__wo_part__5FB337D6");
+                        .HasConstraintName("FK__WO_MSTR__wo_part__619B8048");
 
                     b.HasOne("UtemtervBackend.Models.User", "WoUserNavigation")
                         .WithMany("WoMstrs")
                         .HasForeignKey("WoUser")
-                        .HasConstraintName("FK__WO_MSTR__wo_user__5EBF139D");
+                        .HasConstraintName("FK__WO_MSTR__wo_user__60A75C0F");
 
                     b.Navigation("WoLineNavigation");
 
@@ -655,19 +702,19 @@ namespace UtemtervBackend.Migrations
                         .WithMany("WodDets")
                         .HasForeignKey("WodLot")
                         .IsRequired()
-                        .HasConstraintName("FK__WOD_DET__wod_lot__6383C8BA");
+                        .HasConstraintName("FK__WOD_DET__wod_lot__656C112C");
 
                     b.HasOne("UtemtervBackend.Models.PtMstr", "WodParNavigation")
                         .WithMany("WodDetWodParNavigations")
                         .HasForeignKey("WodPar")
                         .IsRequired()
-                        .HasConstraintName("FK__WOD_DET__wod_par__628FA481");
+                        .HasConstraintName("FK__WOD_DET__wod_par__6477ECF3");
 
                     b.HasOne("UtemtervBackend.Models.PtMstr", "WodPartNavigation")
                         .WithMany("WodDetWodPartNavigations")
                         .HasForeignKey("WodPart")
                         .IsRequired()
-                        .HasConstraintName("FK__WOD_DET__wod_par__619B8048");
+                        .HasConstraintName("FK__WOD_DET__wod_par__6383C8BA");
 
                     b.Navigation("WodLotNavigation");
 
@@ -681,13 +728,13 @@ namespace UtemtervBackend.Migrations
                     b.HasOne("UtemtervBackend.Models.PtMstr", "WomMatNavigation")
                         .WithMany("WomDets")
                         .HasForeignKey("WomMat")
-                        .HasConstraintName("FK__WOM_DET__wom_mat__656C112C");
+                        .HasConstraintName("FK__WOM_DET__wom_mat__6754599E");
 
                     b.HasOne("UtemtervBackend.Models.WodDet", "Wom")
                         .WithOne("WomDet")
                         .HasForeignKey("UtemtervBackend.Models.WomDet", "WomPart", "WomPar", "WomLot")
                         .IsRequired()
-                        .HasConstraintName("FK__WOM_DET__6477ECF3");
+                        .HasConstraintName("FK__WOM_DET__66603565");
 
                     b.Navigation("Wom");
 
@@ -700,7 +747,7 @@ namespace UtemtervBackend.Migrations
                         .WithMany("XwoHists")
                         .HasForeignKey("XwoLot")
                         .IsRequired()
-                        .HasConstraintName("FK__XWO_HIST__xwo_lo__68487DD7");
+                        .HasConstraintName("FK__XWO_HIST__xwo_lo__6A30C649");
 
                     b.Navigation("XwoLotNavigation");
                 });
