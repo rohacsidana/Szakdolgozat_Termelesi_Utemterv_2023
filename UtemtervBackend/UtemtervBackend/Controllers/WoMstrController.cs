@@ -66,7 +66,7 @@ namespace UtemtervBackend.Controllers
         {
             try
            {
-                var vlmi =  _context.Database.ExecuteSqlInterpolated($"newWo1 {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}");
+                var vlmi =  _context.Database.ExecuteSqlInterpolated($"newWo2 {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}");
                 return Ok(vlmi);
             }
             catch (Exception e)
