@@ -67,3 +67,72 @@ select * from szerkezet
 
 
 -- exec tesztSzerk 1000
+/*
+create proc newWo2
+	@wo_nbr varchar(18), @wo_part int, @wo_qty_ord int, @wo_due_date datetime
+as
+	declare @wo_lot int
+	create table #tempSzerkezet ( parent int, child int, qty_req decimal(18,5), szint int)
+	begin try
+		insert into WO_MSTR (wo_nbr, wo_part, wo_qty_ord, wo_due_date) values (@wo_nbr, @wo_part, @wo_qty_ord, cast(@wo_due_date as date))
+		set @wo_lot = ident_current('WO_MSTR');
+		
+		
+		with #tempSzerkezet (parent, child, qty_req, szint)
+			as
+			(
+				select  null as parent, pt.pt_part as child, cast(@wo_qty_ord as decimal(18,5)) as qty_req, 1 as szint
+				from pt_mstr pt
+				where pt.pt_part = @wo_part
+				union all
+				select ps.ps_par, ps.ps_comp, cast(ps.ps_qty_per as decimal(18,5)) *  cast(tsz.qty_req as decimal(18,5)), szint + 1  
+				from #tempSzerkezet tsz inner join PS_MSTR ps on tsz.child = ps.ps_par
+				
+				
+			)
+				select * from #tempSzerkezet
+
+
+		drop table #tempSzerkezet
+	end try
+		
+	begin catch
+		drop table #tempSzerkezet
+			print('hiba')
+			rollback
+	end catch	
+	
+	
+
+	go
+
+
+	
+
+
+
+--exec newWo1 'teszt3', 1000, 300, '20220202'
+
+
+
+create proc tesztWO
+	@part int,
+	@qty_req decimal(18,5)
+as
+with tempSzerkezet (parent, child, qty_req, szint)
+			as
+			(
+				select  null as parent, pt.pt_part as child, cast(@qty_req as decimal(18,5)) as qty_req, 1 as szint
+				from pt_mstr pt
+				where pt.pt_part = @part
+				union all
+				select ps.ps_par, ps.ps_comp, cast(cast(ps.ps_qty_per as decimal(18,5)) *  cast(tsz.qty_req as decimal(18,5)) as decimal(18,5)), szint + 1  
+				from tempSzerkezet tsz inner join PS_MSTR ps on tsz.child = ps.ps_par
+				
+				
+			)
+				select * from tempSzerkezet
+
+
+exec tesztWO 1000, 300
+*/

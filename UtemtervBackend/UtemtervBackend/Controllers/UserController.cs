@@ -20,7 +20,7 @@ namespace UtemtervBackend.Controllers
         }
         [HttpGet("list")]
         public IActionResult UserList()
-        {      
+        {
             try
             {
                 var userList = _context.UserLists.ToList();
@@ -28,7 +28,7 @@ namespace UtemtervBackend.Controllers
                 if (userList.Count() == 0)
                 {
                     return NotFound("User not found.");
-                    
+
                 }
                 return Ok(userList);
             }
@@ -42,9 +42,9 @@ namespace UtemtervBackend.Controllers
         //public IActionResult NewUser(User user)
         //{
         //    _context.Users.FromSqlRaw("newUser").AsEnumerable();
-            
+
         //}
-    
+
     }
     
 
