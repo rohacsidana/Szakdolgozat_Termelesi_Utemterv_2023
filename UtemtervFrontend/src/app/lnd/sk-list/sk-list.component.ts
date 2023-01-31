@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Sk } from '../sk/sk-model';
 import { SkService } from '../sk/sk.service';
 import { Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ export class SkListComponent implements OnInit, OnDestroy {
   skLista: Sk[]
   skValtozas: Subscription
   keresesLine = ''
+  osszes = false
 
   constructor(private skService: SkService) { }
 
@@ -26,6 +27,10 @@ export class SkListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.skValtozas.unsubscribe()
+  }
+
+  onOsszes() {
+
   }
 
 

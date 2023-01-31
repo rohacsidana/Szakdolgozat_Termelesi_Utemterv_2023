@@ -1,4 +1,4 @@
-<div class="list-group-item clearfix">
+<!-- <div class="list-group-item clearfix sor" (click)="onReszletek()">
   <div class="col-xs-6">
     <h4 class="list-group-item-heading" style="font-weight: bold">
       Gyártósor azonosító: {{ gyartosor.ln_id }}
@@ -8,11 +8,16 @@
     </p>
   </div>
   <div class="pull-right">
-    <!--     <button type="button" class="btn btn-warning" (click)="onModositas()">
-      Módosítás
-    </button> -->
-    <button type="button" class="btn btn-primary" (click)="onReszletek(gyartosor.ln_desc)">
-      Részletek
-    </button>
+  </div>
+</div> -->
+
+<div class="container-fluid sor" (click)="onReszletek()">
+  <div class="row">
+    <div class="col-sm-4">
+      <p>{{ gyartosor.ln_id }}</p>
+    </div>
+    <div class="col-sm-8">
+      <p>{{ gyartosor.ln_desc | rovidit }}</p>
+    </div>
   </div>
 </div>

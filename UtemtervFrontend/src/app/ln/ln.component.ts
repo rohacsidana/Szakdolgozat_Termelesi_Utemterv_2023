@@ -39,7 +39,6 @@ export class LnComponent implements OnInit, OnDestroy {
   }
 
 
-
   ngOnDestroy(): void {
     this.sub.unsubscribe()
   }
@@ -56,21 +55,12 @@ export class LnComponent implements OnInit, OnDestroy {
     console.log(value);
 
     if (this.felvetel) {
-      this.onUjGys(value.azonInput, value.descInput)
+      this.onUjGys(form)
     } 
     if (this.modositas) {
-      this.onModositas(value.azonInput, value.descInput)
+      this.onModositas(form, value.azonInput, value.descInput)
+      
     }
-
-    this.onMegse()
-
-  }
-
-  onMegse() {
-    this.clearForm()
-    this.felvetel = false
-    this.modositas = false
-    this.reszletek = false
   }
 
   onModosit() {
@@ -79,15 +69,19 @@ export class LnComponent implements OnInit, OnDestroy {
     this.reszletek = false
   }
 
-  onGysTorol() {
+  onGysTorol(form: NgForm) {
     this.gysService.torolGys(this.gyartosor.ln_id)
-    this.onMegse()
+    this.clearForm(form)
   }
 
-  clearForm() {
+  clearForm(form: NgForm) {
+    form.resetForm()
     this.azon = ""
     this.desc = ""
-
+    this.felvetel = false
+    this.modositas = false
+    this.reszletek = false
+    this.validForm = true
   }
 /*
   onTeszt(azon: string, leiras: string) {
@@ -96,8 +90,9 @@ export class LnComponent implements OnInit, OnDestroy {
     this.gysService.letezikeGys(azon)
   }
 */
-  onUjGys(azon: string, desc: string) {
-    let vanIlyenGys = this.gysService.letezikeGys(azon)
+  onUjGys(form: NgForm) {
+    let value = form.value
+    let vanIlyenGys = this.gysService.letezikeGys(value.azonInput)
     /* console.log("ujgys:");
     console.log(azon);
 
@@ -107,8 +102,8 @@ export class LnComponent implements OnInit, OnDestroy {
     console.log(vanIlyenGys); */
 
     if (!vanIlyenGys) {
-      this.gysService.ujGys(azon, desc)
-      this.validForm = true
+      this.gysService.ujGys(value.azonInput, value.descInput)
+      this.clearForm(form)
 
     } else {
       this.validForm = false
@@ -116,7 +111,7 @@ export class LnComponent implements OnInit, OnDestroy {
   }
 
   //modositGys(id: string, uj_id: string, uj_desc: string)
-  onModositas(azon: string, desc: string) {
+  onModositas(form: NgForm, azon: string, desc: string) {
     //azon: ln_1 ln_id: ln_1
     let vanE = this.gysService.letezikeGys(azon)
     /* if (azon === this.gyartosor.ln_id) {
@@ -126,6 +121,7 @@ export class LnComponent implements OnInit, OnDestroy {
     if (!vanE || (vanE && azon === this.gyartosor.ln_id)) {
       this.gysService.modositGys(this.gyartosor.ln_id, azon, desc)
       this.validForm = true
+      this.clearForm(form)
     } else {
       this.validForm = false
     }

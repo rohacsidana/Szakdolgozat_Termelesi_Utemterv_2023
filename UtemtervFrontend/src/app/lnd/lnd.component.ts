@@ -50,28 +50,26 @@ export class LndComponent implements OnInit, OnDestroy {
   onSubmit(form: NgForm) {
     console.log(form.value);
     let value = form.value
-    if (this.ujLnd) {
+    /* if (this.ujLnd) {
       if (!this.skService.letezikeSk(value.lineInput, value.partInput)) {
         this.onUjLnd(form)
-
-        //console.log('még nincs ilyen');
-
       } else {
         this.validForm = false
-        //console.log('már van ilyen');
-
       }
     }
     if (this.szerkesztes) {
-      //(line: string, part: number, uj_line: string, uj_part: number, uj_rate: number)
-
       this.skService.modositSk(this.sk.lnd_line, this.sk.lnd_part, this.line, this.part, this.rate)
-      //console.log('még nincs ilyen');
-
-
-      //console.log(this.skService.letezikeSk(value.lineInput, value.partInput));
-
       this.clearForm(form)
+    } */
+    if (!this.skService.letezikeSk(value.lineInput, value.partInput)) {
+      if (this.ujLnd) {
+        this.onUjLnd(form)
+      }
+      if (this.szerkesztes) {
+        this.modositas(form)
+      }
+    } else {
+      this.validForm = false
     }
   }
 
@@ -97,10 +95,13 @@ export class LndComponent implements OnInit, OnDestroy {
   onModositClick() {
     this.szerkesztes = true
     this.ujLnd = false
-
-
-
   }
+
+  modositas(form: NgForm) {
+    this.skService.modositSk(this.sk.lnd_line, this.sk.lnd_part, this.line, this.part, this.rate)
+    this.clearForm(form)
+  }
+
 
   onTorol(form: NgForm) {
     this.skService.torolSk(this.sk.lnd_line)

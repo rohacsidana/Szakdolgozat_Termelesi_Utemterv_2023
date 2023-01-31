@@ -15,6 +15,7 @@ export class GysListComponent implements OnInit, OnDestroy {
   gyartosorok: Gys[];
   @Input() keresettGys: string
   kereses = ""
+  osszes = false
 
   constructor(private gysService: GysService) { }
 

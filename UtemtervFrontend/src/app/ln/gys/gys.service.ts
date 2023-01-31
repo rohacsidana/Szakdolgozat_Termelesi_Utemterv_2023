@@ -12,7 +12,7 @@ export class GysService {
 
     private gyartosorok: Gys[] = [
         new Gys('ln_1', 'első gys'),
-        new Gys('ln_2', 'a shortenpipe tesztelésének érdekében ez egy hosszabb leírás'),
+        new Gys('ln_2', 'a shortenpipe tesztelésének érdekében ez egy hosszabb leírás a shortenpipe tesztelésének érdekében ez egy hosszabb leírás a shortenpipe tesztelésének érdekében ez egy hosszabb leírás'),
         /* new Gys('ln_3', 'leiras'),
         new Gys('ln_4', 'mégegy leiras'),
         new Gys('ln_5', 'ln5 nek a leirasa'),
@@ -35,7 +35,7 @@ export class GysService {
         this.gysValtozas.next(this.gyartosorok.slice());
     }
 
-    
+
     letezikeGys(id: string) {
         /* console.log("gyartosorok:");       
         console.log(this.gyartosorok);
@@ -48,7 +48,7 @@ export class GysService {
             
         } */
         let index = this.gyartosorok.findIndex(index => index.ln_id === id);
-        
+
         if (index < 0) {
             return false
         }
@@ -57,10 +57,10 @@ export class GysService {
             return true
         }
     }
-    
+
     ujGys(id: string, desc: string) {
         console.log("uj gys: " + id, desc);
-        this.gyartosorok.push(new Gys(id, desc));    
+        this.gyartosorok.push(new Gys(id, desc));
         this.gysValtozas.next(this.gyartosorok.slice());
     }
 

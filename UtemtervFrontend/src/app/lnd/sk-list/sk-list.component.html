@@ -1,40 +1,34 @@
-<!-- <table class="table table-striped">
-  <tr>
-    <th>Gyártósor azonosító</th>
-    <th>Tétel</th>
-    <th>Gyártási sebesség (mennyiség/óra)</th>
-  </tr>
-</table>
-<app-sk *ngFor="let sk of skLista; let i = index" [sk]="sk"></app-sk>
- -->
 <div class="row">
-  <label for="gyartosor" style="font-size: large; padding-right: 5px"
-    >Gyártósor keresése</label
-  >
-  <input
-    type="text"
-    id="gyartosor"
-    class="form-controll"
-    [(ngModel)]="keresesLine"
-  />
-
+  <label for="gyartosor" style="font-size: large; padding-right: 5px">Gyártósor keresése</label>
+  <input type="text" id="gyartosor" class="form-controll" [(ngModel)]="keresesLine" />
   <hr />
+  <button *ngIf="!osszes" (click)="osszes=true" class="btn btn-primary">Összes mutatása</button>
+  <button *ngIf="osszes" (click)="osszes=false" class="btn btn-primary">Összecsuk</button>
+  <hr>
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-4">
         <p>Gyártósor azonosító</p>
       </div>
-      <div class="col-sm-4"><p>Tétel</p></div>
+      <div class="col-sm-4">
+        <p>Tétel</p>
+      </div>
       <div class="col-sm-4">
         <p>Mennyiség óránként</p>
       </div>
     </div>
   </div>
-  <app-sk
-    *ngFor="
-      let sk of skLista | filterPipe : keresesLine: 'lnd_line';
+  <div *ngIf="!osszes">
+    <app-sk *ngFor="
+      let sk of skLista | filterPipe : keresesLine: 'lnd_line' | slice:0:5; 
       let i = index
-    "
-    [sk]="sk"
-  ></app-sk>
+    
+    " [sk]="sk"></app-sk>
+  </div>
+  <div *ngIf="osszes">
+    <app-sk *ngFor="
+      let sk of skLista | filterPipe : keresesLine: 'lnd_line'  ;
+      let i = index
+    " [sk]="sk"></app-sk>
+  </div>
 </div>

@@ -1,0 +1,14 @@
+.sor {
+    font-weight: bold;
+    font-size: large;
+    height: 30px;
+    background-color: rgb(147, 178, 189);
+}
+
+.sor p {
+   padding-top: 5px;
+}
+
+p {
+    font-size: medium;
+}

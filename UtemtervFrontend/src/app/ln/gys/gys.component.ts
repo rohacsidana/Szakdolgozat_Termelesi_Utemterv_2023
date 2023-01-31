@@ -30,7 +30,7 @@ export class GysComponent implements OnInit, OnDestroy {
 
   }
 
-  onReszletek(leiras: string) {
+  onReszletek() {
     //alert(leiras + '\n(ez nem alert box lesz később!)');
     this.gysService.kivalasztottGys.emit(this.gyartosor)
     console.log(this.gyartosor);

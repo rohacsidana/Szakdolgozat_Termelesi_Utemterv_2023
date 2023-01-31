@@ -1,18 +1,43 @@
-<div class="row">
+<!-- <div class="row">
   <label for="gyartosor" style="font-size: large; padding-right: 5px;">Gyártósor keresése</label>
-  <input
-    type="text"
-    id="gyartosor"
-    [(ngModel)]="kereses"
-    class="form-controll"
-  />
+  <input type="text" id="gyartosor" [(ngModel)]="kereses" class="form-controll" />
   <div>
-    <app-gys
-      *ngFor="
+    <app-gys *ngFor="
         let gys of gyartosorok | filterPipe : kereses : 'ln_id';
         let i = index
-      "
-      [gyartosor]="gys"
-    ></app-gys>
+      " [gyartosor]="gys"></app-gys>
+  </div>
+</div> -->
+<div class="row">
+  <hr>
+  <label for="gyartosor" style="font-size: large; padding-right: 5px;">Gyártósor keresése</label>
+  <input type="text" id="gyartosor" [(ngModel)]="kereses" class="form-controll" />
+  <hr>
+  <button *ngIf="!osszes" (click)="osszes=true" class="btn btn-primary">Összes mutatása</button>
+  <button *ngIf="osszes" (click)="osszes=false" class="btn btn-primary">Összecsuk</button>
+  <hr>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4 sor">
+        <p>Gyártósor azonosító</p>
+      </div>
+      <div class="col-sm-8 sor">
+        <p>Gyártósor sebessége</p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!osszes">
+    <app-gys *ngFor="
+      let gys of gyartosorok | filterPipe : kereses: 'ln_id' | slice:0:5; 
+      let i = index
+    
+    " [gyartosor]="gys"></app-gys>
+  </div>
+  <div *ngIf="osszes">
+    <app-gys *ngFor="
+    let gys of gyartosorok | filterPipe : kereses: 'ln_id'; 
+    let i = index
+  
+  " [gyartosor]="gys"></app-gys>
   </div>
 </div>

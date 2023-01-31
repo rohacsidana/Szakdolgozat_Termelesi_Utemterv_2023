@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Gyártósor kezelés</h1>
-  <div>
+  <div class="row">
     <!-- <button (click)="onTeszt('a','leiras')">teszt</button> -->
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <table class="table table-striped">
@@ -8,14 +8,8 @@
           <tr>
             <td>
               Gyártósor azonosító
-              <input
-                type="text"
-                name="azonInput"
-                [(ngModel)]="azon"
-                required=""
-                maxlength="8"
-                [disabled]="!felvetel && !modositas"
-              />
+              <input type="text" name="azonInput" [(ngModel)]="azon" required="" maxlength="8"
+                [disabled]="!felvetel && !modositas" />
               <p *ngIf="!validForm" style="color: red">
                 Már létezik ilyen azonosító!
               </p>
@@ -24,18 +18,8 @@
           <tr>
             <td>
               Gyártósor leírása
-              <textarea
-                type="text"
-                id="ujLeiras"
-                class="form-control"
-                style="resize: none"
-                rows="6"
-                name="descInput"
-                [(ngModel)]="desc"
-                required=""
-                maxlength="750"
-                [disabled]="!felvetel && !modositas"
-              ></textarea>
+              <textarea type="text" id="ujLeiras" class="form-control" style="resize: none" rows="6" name="descInput"
+                [(ngModel)]="desc" required="" maxlength="750" [disabled]="!felvetel && !modositas"></textarea>
             </td>
           </tr>
           <tr>
@@ -47,16 +31,16 @@
               </div>
               <div id="ujGysMentes" *ngIf="felvetel && !reszletek && !modositas">
                 <button type="submit" class="btn btn-success" [disabled]="!f.valid">Gyártósor felvétele</button>
-                <button type="button" class="btn btn-warning" (click)="onMegse()">Mégse</button>
+                <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
               </div>
               <div id="gysReszlet" *ngIf="reszletek && !felvetel && !modositas">
                 <button type="button" class="btn btn-warning" (click)="onModosit()">Gyártósor módosítása</button>
-                <button type="button" class="btn btn-primary" (click)="onMegse()">Vissza</button>
+                <button type="button" class="btn btn-primary" (click)="clearForm(f)">Vissza</button>
               </div>
               <div id="GysModositas" *ngIf="modositas && !reszletek && !felvetel">
                 <button type="submit" class="btn btn-success" [disabled]="!f.valid">Módosítások mentése</button>
-                <button type="button" class="btn btn-warning" (click)="onMegse()">Mégse</button>
-                <button type="button" class="btn btn-danger" (click)="onGysTorol()">Gyártósor törlése</button>
+                <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
+                <button type="button" class="btn btn-danger" (click)="onGysTorol(f)">Gyártósor törlése</button>
               </div>
             </td>
           </tr>
@@ -64,8 +48,8 @@
       </table>
     </form>
   </div>
- 
-  
+
+
   <div class="row">
     <div class="col-md-12">
       <app-gys-list></app-gys-list>
