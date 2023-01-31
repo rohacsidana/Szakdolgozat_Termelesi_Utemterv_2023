@@ -3,7 +3,9 @@ alter proc newWo2
 as
 	--borzasztó
 	declare @wo_lot int
-	drop table if exists #tempSzerkezet 
+	drop table if exists #tempSzerkezet
+	begin tran
+	begin try
 	create table #tempSzerkezet (elozo int, parent int, child int, qty_req decimal(18,5), szint int)
 	
 		insert into WO_MSTR (wo_nbr, wo_part, wo_qty_ord, wo_due_date) values (@wo_nbr, @wo_part, @wo_qty_ord, cast(@wo_due_date as date))
@@ -36,7 +38,12 @@ as
 		select tmp.parent, tmp.elozo,  @wo_lot, tmp.child, tmp.qty_req, 0
 		from #tempSzerkezet tmp 
 		where not exists (select 1 from dbo.k_f_termekek kf2 where kf2.part = tmp.child)
-		
+		end try
+
+		begin catch 
+			rollback
+		end catch
+		commit
 		drop table #tempSzerkezet
 	
 
@@ -52,8 +59,9 @@ as
 --	*/
 --	exec tesztWO 1000, 10
 --select * from WO_MSTR
---select * from WOD_DET where wod_lot = 10080
---select * from WOM_DET
+/*TESZT*/
+select * from WOD_DET where wod_lot = @wo_lot
+select * from WOM_DET where wom_lot = @wo_lot
 /*
 
 */
