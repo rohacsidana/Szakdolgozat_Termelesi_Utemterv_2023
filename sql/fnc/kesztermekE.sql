@@ -1,0 +1,1 @@
+create function keszTermekE(	@part int)returns bitasbegin	declare @dbElofordulas int = 0;	select @dbElofordulas = COUNT(*)	from PS_MSTR	where ps_comp = @part	if(@dbElofordulas = 0)	begin		return 1;	end		return 0;	--select dbo.keszTermekE(1000)--select dbo.keszTermekE(1001)end

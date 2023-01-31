@@ -442,7 +442,6 @@ public partial class UtemtervContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__XWO_HIST__xwo_lo__6A30C649");
         });
-
         modelBuilder.Entity<UserList>(entity =>
         {
             entity
@@ -468,6 +467,7 @@ public partial class UtemtervContext : DbContext
                 .ValueGeneratedOnAdd()
                 .HasColumnName("user_id");
         });
+
 
         OnModelCreatingPartial(modelBuilder);
     }

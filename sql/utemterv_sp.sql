@@ -1,3 +1,0 @@
---exec newUser 'Szabo Magda Zambo',  '1969-04-20', 'szabojudit@hotmail.cz','Aa123456','2'
---exec userList
---exec newWo1 'teszt3', 1000, 300, '20220202'

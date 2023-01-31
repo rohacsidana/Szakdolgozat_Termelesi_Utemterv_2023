@@ -1,0 +1,1 @@
+alter table wo_mstradd constraint CK_WO_MSTR_Kesz_Termek_E check(dbo.keszTermekE(wo_part) = 1);
