@@ -10,27 +10,30 @@ as
 		set @wo_lot = ident_current('WO_MSTR');
 		
 		
-		with #tempSzerkezet (elozo, parent, child, qty_req, szint)
+		with seged (elozo, parent, child, qty_req, szint)
 			as
 			(
 				select @wo_part as elozo,  @wo_part as parent, pt.pt_part as child, cast(@wo_qty_ord as decimal(18,5)) as qty_req, 1 as szint
 				from pt_mstr pt
 				where pt.pt_part = @wo_part
 				union all
-				select tsz.parent, ps.ps_par, ps.ps_comp, cast(cast(ps.ps_qty_per as decimal(18,5)) *  cast(tsz.qty_req as decimal(18,5)) as decimal(18,5)), szint + 1  
-				from #tempSzerkezet tsz inner join PS_MSTR ps on tsz.child = ps.ps_par
+				select s.parent, ps.ps_par, ps.ps_comp, cast(cast(ps.ps_qty_per as decimal(18,5)) *  cast(s.qty_req as decimal(18,5)) as decimal(18,5)), s.szint + 1  
+				from seged s inner join PS_MSTR ps on s.child = ps.ps_par
 
 			)
-				
-		
+			insert into #tempSzerkezet
+				select * from seged
+
+		--select tmp.elozo, tmp.parent, @wo_lot, tmp.child, tmp.qty_req, 0
+		--from #tempSzerkezet tmp
+		--where not exists (select 1 from dbo.k_f_termekek kf2 where kf2.part = tmp.child)
 		insert into WOD_DET 
 		select tmp.child, tmp.parent, @wo_lot, tmp.qty_req, 0, 0
 		from #tempSzerkezet tmp
 		where exists (select 1 from dbo.k_f_termekek kf where kf.part = tmp.child)
-		
-
+ 
 		insert into WOM_DET
-		select tmp.elozo, tmp.parent, @wo_lot, tmp.child, tmp.qty_req, 0
+		select tmp.parent, tmp.elozo,  @wo_lot, tmp.child, tmp.qty_req, 0
 		from #tempSzerkezet tmp 
 		where not exists (select 1 from dbo.k_f_termekek kf2 where kf2.part = tmp.child)
 		
@@ -49,5 +52,8 @@ as
 --	*/
 --	exec tesztWO 1000, 10
 --select * from WO_MSTR
---select * from WOD_DET
+--select * from WOD_DET where wod_lot = 10080
 --select * from WOM_DET
+/*
+
+*/
