@@ -3,11 +3,69 @@
   <div>
     <!-- <button (click)="onTeszt('a','leiras')">teszt</button> -->
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-      <table class="table table-striped"></table>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td>
+              Gyártósor azonosító
+              <input
+                type="text"
+                name="lineInput"
+                [(ngModel)]="line"
+                required=""
+                maxlength="8"
+                [disabled]="!ujLnd"
+              />
+            </td>
+            <td>
+              Tétel kód
+              <input
+                type="number"
+                name="partInput"
+                [(ngModel)]="part"
+                required=""
+                [disabled]="!ujLnd"
+              />
+            </td>
+            <td>
+              Gyártási sebesség
+              <input
+                type="number"
+                name="rateInput"
+                required=""
+                [(ngModel)]="rate"
+                [disabled]="!ujLnd"
+              />
+            </td>
+          </tr>
+          <tr>
+            <div *ngIf="!ujLnd && !szerkesztes">
+              <button
+                class="btn btn-primary"
+                (click)="ujLnd = true"               
+              >
+                Új gyártási sebesség
+              </button>
+            </div>
+            <div *ngIf="ujLnd && !szerkesztes">
+              <button type="submit" class="btn btn-success">Hozzáad</button>
+              <button type="button" class="btn btn-warning" (click)="onMegse()">
+                Mégse
+              </button>
+            </div>
+            <div *ngIf="!ujLnd && szerkesztes">
+              <button type="submit" class="btn btn-success">Módosít</button>
+              <button type="button" class="btn btn-warning" (click)="onMegse()">Mégse</button>
+              <button type="button" class="btn btn-danger" (click)="onTorol()">Töröl</button>
+            </div>
+          </tr>
+        </tbody>
+      </table>
     </form>
   </div>
 
   <div class="row">
+    <hr />
     <div class="col-md-12">
       <app-sk-list></app-sk-list>
     </div>

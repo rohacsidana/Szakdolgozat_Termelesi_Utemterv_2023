@@ -53,10 +53,7 @@ export class GysService {
     
     ujGys(id: string, desc: string) {
         console.log("uj gys: " + id, desc);
-
-        this.gyartosorok.push(new Gys(id, desc));
-       
-        
+        this.gyartosorok.push(new Gys(id, desc));    
         this.gysValtozas.next(this.gyartosorok.slice());
     }
 
