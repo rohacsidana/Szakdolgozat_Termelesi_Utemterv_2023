@@ -7,7 +7,7 @@
   <hr />
 
   <div class="row">
-    <div class="col-xs-4">
+    <div class="col-lg-4">
       <div class="form-group">
         <div class="input-group">
           <span class="input-group-addon">Gyártósor:</span>
@@ -95,26 +95,12 @@
           <td>{{ wo.item_per_hour }}</td>
           <td>{{ wo.wo_est_run }}</td>
           <td>
-            <mat-form-field>
-                <input
-                  matInput
-                  type="text"
-                  color="white"
-                  [value]="wo.wo_seq"
-                />
-              </mat-form-field>
+            <input type="number" name="" id="" class="form-control">
           </td>
           <td>{{ wo.wo_rel_date }}</td>
           <td>{{ wo.wo_start_date }}</td>
           <td>
-            <mat-form-field>
-              <input
-                matInput
-                type="text"
-                color="white"
-                [value]="wo.wo_start_time"
-              />
-            </mat-form-field>
+            <input type="number" name="" id="" class="form-control">
           </td>
           <td>{{ wo.wo_end_time }}</td>
           <td>{{ wo.wo_pld_downtime }}</td>
@@ -137,14 +123,7 @@
           <td>{{ wo.ln_desc }}</td>
           <td>{{ wo.item_per_hour }}</td>
           <td>{{ wo.wo_est_run }}</td>
-          <td><mat-form-field>
-            <input
-              matInput
-              type="text"
-              color="white"
-              [value]="wo.wo_seq"
-            />
-          </mat-form-field></td>
+          <td><input type="number" name="" id="" class="form-control">
           <td>{{ wo.wo_rel_date }}</td>
           <td>{{ wo.wo_start_date }}</td>
           <td>{{ wo.wo_start_time }}</td>
