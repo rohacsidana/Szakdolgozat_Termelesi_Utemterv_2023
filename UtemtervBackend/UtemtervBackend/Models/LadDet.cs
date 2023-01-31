@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace UtemtervBackend.Models;
 
@@ -19,7 +20,9 @@ public partial class LadDet
 
     public decimal? LadQtyRsrv { get; set; }
 
+    public decimal? LadQtyUsed { get; set; }
+    [JsonIgnore]
     public virtual LdDet? Lad { get; set; }
-
+    [JsonIgnore]
     public virtual WodDet? LadNavigation { get; set; }
 }

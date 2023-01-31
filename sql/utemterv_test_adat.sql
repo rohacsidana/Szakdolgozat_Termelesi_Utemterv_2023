@@ -3,13 +3,13 @@ select * from PS_MSTR
 select * from WO_MSTR
 select * from "USER"
 
-insert into PT_MSTR values('asztal', 'db');
-insert into PT_MSTR values('asztal lap', 'db');
-insert into PT_MSTR values('asztallb kész', 'db');
-insert into PT_MSTR values('asztal láb', 'db');
-insert into PT_MSTR values('csúszásgátló', 'db');
-insert into PT_MSTR values('Műzli szelet', 'db');
-insert into PT_MSTR values('bevonat', 'réteg');
+insert into PT_MSTR values('asztal', 'db', null);
+insert into PT_MSTR values('asztal lap', 'db', null);
+insert into PT_MSTR values('asztallb kész', 'db', null);
+insert into PT_MSTR values('asztal láb', 'db', null);
+insert into PT_MSTR values('csúszásgátló', 'db', null);
+insert into PT_MSTR values('Műzli szelet', 'db', null);
+insert into PT_MSTR values('bevonat', 'réteg', null);
 
 insert into PS_MSTR values(1000,1001,1);
 insert into PS_MSTR values(1000,1002,4);

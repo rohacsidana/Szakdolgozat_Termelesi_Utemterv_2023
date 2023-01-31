@@ -20,6 +20,7 @@ create table PT_MSTR
 	pt_part int identity(1000, 1), ----valami
 	pt_desc varchar(24) not null,
 	pt_um varchar(10) not null, ---dic
+	pt_qty_oh decimal(18,5) --CK_PT_OH
 	primary key(pt_part)
 )
 
@@ -149,6 +150,7 @@ create table LAD_DET
 	lad_comp int,
 	lad_expire date,
 	lad_qty_rsrv decimal(18,5),
+	lad_qty_used decimal(18,5) default(0) check(lad_qty_used >= 0),
 	primary key(lad_id)
 )
 

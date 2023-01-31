@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UtemtervBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__DICTIONA__CE846F1F45FBD884", x => new { x.value, x.type });
+                    table.PrimaryKey("PK__DICTIONA__CE846F1FFCA6B506", x => new { x.value, x.type });
                 });
 
             migrationBuilder.CreateTable(
@@ -33,7 +33,7 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__LN_MSTR__BDECFD60AD33DB48", x => x.lnline);
+                    table.PrimaryKey("PK__LN_MSTR__BDECFD606F55BBCE", x => x.lnline);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,11 +43,12 @@ namespace UtemtervBackend.Migrations
                     ptpart = table.Column<int>(name: "pt_part", type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ptdesc = table.Column<string>(name: "pt_desc", type: "varchar(24)", unicode: false, maxLength: 24, nullable: false),
-                    ptum = table.Column<string>(name: "pt_um", type: "varchar(10)", unicode: false, maxLength: 10, nullable: false)
+                    ptum = table.Column<string>(name: "pt_um", type: "varchar(10)", unicode: false, maxLength: 10, nullable: false),
+                    ptqtyoh = table.Column<decimal>(name: "pt_qty_oh", type: "decimal(18,5)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__PT_MSTR__1C5FB9576953044A", x => x.ptpart);
+                    table.PrimaryKey("PK__PT_MSTR__1C5FB95773B10C3E", x => x.ptpart);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,7 +65,7 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__USER__B9BE370FE4AFCA94", x => x.userid);
+                    table.PrimaryKey("PK__USER__B9BE370FF8D2242F", x => x.userid);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,19 +79,19 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__CHG_MSTR__5E79CE45F128E237", x => new { x.chgline, x.chgfrom, x.chgto });
+                    table.PrimaryKey("PK__CHG_MSTR__5E79CE4520D3D4E5", x => new { x.chgline, x.chgfrom, x.chgto });
                     table.ForeignKey(
-                        name: "FK__CHG_MSTR__chg_fr__5CD6CB2B",
+                        name: "FK__CHG_MSTR__chg_fr__5EBF139D",
                         column: x => x.chgfrom,
                         principalTable: "PT_MSTR",
                         principalColumn: "pt_part");
                     table.ForeignKey(
-                        name: "FK__CHG_MSTR__chg_li__5BE2A6F2",
+                        name: "FK__CHG_MSTR__chg_li__5DCAEF64",
                         column: x => x.chgline,
                         principalTable: "LN_MSTR",
                         principalColumn: "ln_line");
                     table.ForeignKey(
-                        name: "FK__CHG_MSTR__chg_to__5DCAEF64",
+                        name: "FK__CHG_MSTR__chg_to__5FB337D6",
                         column: x => x.chgto,
                         principalTable: "PT_MSTR",
                         principalColumn: "pt_part");
@@ -108,9 +109,9 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__LD_DET__DA79533852185E7B", x => new { x.ldpart, x.ldexpire });
+                    table.PrimaryKey("PK__LD_DET__DA795338DCFDE6BB", x => new { x.ldpart, x.ldexpire });
                     table.ForeignKey(
-                        name: "FK__LD_DET__ld_part__59063A47",
+                        name: "FK__LD_DET__ld_part__5AEE82B9",
                         column: x => x.ldpart,
                         principalTable: "PT_MSTR",
                         principalColumn: "pt_part");
@@ -126,14 +127,14 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__LND_DET__92C8E766B9535070", x => new { x.lndline, x.lndpart });
+                    table.PrimaryKey("PK__LND_DET__92C8E766940552F0", x => new { x.lndline, x.lndpart });
                     table.ForeignKey(
-                        name: "FK__LND_DET__lnd_lin__59FA5E80",
+                        name: "FK__LND_DET__lnd_lin__5BE2A6F2",
                         column: x => x.lndline,
                         principalTable: "LN_MSTR",
                         principalColumn: "ln_line");
                     table.ForeignKey(
-                        name: "FK__LND_DET__lnd_par__5AEE82B9",
+                        name: "FK__LND_DET__lnd_par__5CD6CB2B",
                         column: x => x.lndpart,
                         principalTable: "PT_MSTR",
                         principalColumn: "pt_part");
@@ -149,14 +150,14 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__PS_MSTR__E959B4269697369B", x => new { x.pspar, x.pscomp });
+                    table.PrimaryKey("PK__PS_MSTR__E959B426488FEB91", x => new { x.pspar, x.pscomp });
                     table.ForeignKey(
-                        name: "FK__PS_MSTR__ps_comp__5812160E",
+                        name: "FK__PS_MSTR__ps_comp__59FA5E80",
                         column: x => x.pscomp,
                         principalTable: "PT_MSTR",
                         principalColumn: "pt_part");
                     table.ForeignKey(
-                        name: "FK__PS_MSTR__ps_par__571DF1D5",
+                        name: "FK__PS_MSTR__ps_par__59063A47",
                         column: x => x.pspar,
                         principalTable: "PT_MSTR",
                         principalColumn: "pt_part");
@@ -188,19 +189,19 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__WO_MSTR__5FD13D21D1259879", x => x.wolot);
+                    table.PrimaryKey("PK__WO_MSTR__5FD13D21C483C18C", x => x.wolot);
                     table.ForeignKey(
-                        name: "FK__WO_MSTR__wo_line__60A75C0F",
+                        name: "FK__WO_MSTR__wo_line__628FA481",
                         column: x => x.woline,
                         principalTable: "LN_MSTR",
                         principalColumn: "ln_line");
                     table.ForeignKey(
-                        name: "FK__WO_MSTR__wo_part__5FB337D6",
+                        name: "FK__WO_MSTR__wo_part__619B8048",
                         column: x => x.wopart,
                         principalTable: "PT_MSTR",
                         principalColumn: "pt_part");
                     table.ForeignKey(
-                        name: "FK__WO_MSTR__wo_user__5EBF139D",
+                        name: "FK__WO_MSTR__wo_user__60A75C0F",
                         column: x => x.wouser,
                         principalTable: "USER",
                         principalColumn: "user_id");
@@ -219,19 +220,19 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__WOD_DET__0041D0AEF376A034", x => new { x.wodpart, x.wodpar, x.wodlot });
+                    table.PrimaryKey("PK__WOD_DET__0041D0AE4CFA5873", x => new { x.wodpart, x.wodpar, x.wodlot });
                     table.ForeignKey(
-                        name: "FK__WOD_DET__wod_lot__6383C8BA",
+                        name: "FK__WOD_DET__wod_lot__656C112C",
                         column: x => x.wodlot,
                         principalTable: "WO_MSTR",
                         principalColumn: "wo_lot");
                     table.ForeignKey(
-                        name: "FK__WOD_DET__wod_par__619B8048",
+                        name: "FK__WOD_DET__wod_par__6383C8BA",
                         column: x => x.wodpart,
                         principalTable: "PT_MSTR",
                         principalColumn: "pt_part");
                     table.ForeignKey(
-                        name: "FK__WOD_DET__wod_par__628FA481",
+                        name: "FK__WOD_DET__wod_par__6477ECF3",
                         column: x => x.wodpar,
                         principalTable: "PT_MSTR",
                         principalColumn: "pt_part");
@@ -255,9 +256,9 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__XWO_HIST__E9FB120C91D046C4", x => new { x.xwoyear, x.xwoweek, x.xwolot, x.xwoversion });
+                    table.PrimaryKey("PK__XWO_HIST__E9FB120CC62E77CD", x => new { x.xwoyear, x.xwoweek, x.xwolot, x.xwoversion });
                     table.ForeignKey(
-                        name: "FK__XWO_HIST__xwo_lo__68487DD7",
+                        name: "FK__XWO_HIST__xwo_lo__6A30C649",
                         column: x => x.xwolot,
                         principalTable: "WO_MSTR",
                         principalColumn: "wo_lot");
@@ -274,18 +275,19 @@ namespace UtemtervBackend.Migrations
                     ladlot = table.Column<int>(name: "lad_lot", type: "int", nullable: true),
                     ladcomp = table.Column<int>(name: "lad_comp", type: "int", nullable: true),
                     ladexpire = table.Column<DateTime>(name: "lad_expire", type: "date", nullable: true),
-                    ladqtyrsrv = table.Column<decimal>(name: "lad_qty_rsrv", type: "decimal(18,5)", nullable: true)
+                    ladqtyrsrv = table.Column<decimal>(name: "lad_qty_rsrv", type: "decimal(18,5)", nullable: true),
+                    ladqtyused = table.Column<decimal>(name: "lad_qty_used", type: "decimal(18,5)", nullable: true, defaultValueSql: "((0))")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__LAD_DET__24E37365F9619728", x => x.ladid);
+                    table.PrimaryKey("PK__LAD_DET__24E373655BEE47CF", x => x.ladid);
                     table.ForeignKey(
-                        name: "FK__LAD_DET__66603565",
+                        name: "FK__LAD_DET__68487DD7",
                         columns: x => new { x.ladpart, x.ladpar, x.ladlot },
                         principalTable: "WOD_DET",
                         principalColumns: new[] { "wod_part", "wod_par", "wod_lot" });
                     table.ForeignKey(
-                        name: "FK__LAD_DET__6754599E",
+                        name: "FK__LAD_DET__693CA210",
                         columns: x => new { x.ladcomp, x.ladexpire },
                         principalTable: "LD_DET",
                         principalColumns: new[] { "ld_part", "ld_expire" });
@@ -304,14 +306,14 @@ namespace UtemtervBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__WOM_DET__65C8E8EFD8CB7F06", x => new { x.wompart, x.wompar, x.womlot });
+                    table.PrimaryKey("PK__WOM_DET__65C8E8EF684C2280", x => new { x.wompart, x.wompar, x.womlot });
                     table.ForeignKey(
-                        name: "FK__WOM_DET__6477ECF3",
+                        name: "FK__WOM_DET__66603565",
                         columns: x => new { x.wompart, x.wompar, x.womlot },
                         principalTable: "WOD_DET",
                         principalColumns: new[] { "wod_part", "wod_par", "wod_lot" });
                     table.ForeignKey(
-                        name: "FK__WOM_DET__wom_mat__656C112C",
+                        name: "FK__WOM_DET__wom_mat__6754599E",
                         column: x => x.wommat,
                         principalTable: "PT_MSTR",
                         principalColumn: "pt_part");
@@ -348,7 +350,7 @@ namespace UtemtervBackend.Migrations
                 column: "ps_comp");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__USER__AB6E6164B23BA5AE",
+                name: "UQ__USER__AB6E6164D56515FA",
                 table: "USER",
                 column: "email",
                 unique: true);

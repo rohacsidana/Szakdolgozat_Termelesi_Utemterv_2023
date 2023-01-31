@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace UtemtervBackend.Models;
 
@@ -26,6 +27,6 @@ public partial class XwoHist
     public TimeSpan? XwoPldDowntime { get; set; }
 
     public TimeSpan? XwoUnpldDowntime { get; set; }
-
+    [JsonIgnore]
     public virtual WoMstr XwoLotNavigation { get; set; } = null!;
 }
