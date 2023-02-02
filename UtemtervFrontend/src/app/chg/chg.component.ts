@@ -12,6 +12,7 @@ import { NgForm } from '@angular/forms';
 export class ChgComponent {
   ujChg = false
   szerkesztes = false
+  torles = false
   validForm = true
   ak: Ak
   akSub: Subscription
@@ -69,6 +70,7 @@ export class ChgComponent {
     form.resetForm()
     this.ujChg = false
     this.szerkesztes = false
+    this.torles = false
     this.validForm = true
     this.line = ''
     this.from = null
@@ -100,7 +102,7 @@ export class ChgComponent {
   }
 
 
-  onTorol(form: NgForm) {
+  gysTorol(form: NgForm) {
     this.akService.torolAk(this.ak.chg_line, this.ak.chg_from, this.ak.chg_to)
     this.clearForm(form)
   }

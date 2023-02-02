@@ -23,6 +23,8 @@ export class LnComponent implements OnInit, OnDestroy {
   azon: string
   desc: string
 
+  szo = 'szo'
+
   constructor(private gysService: GysService) { }
 
   ngOnInit(): void {
@@ -37,6 +39,9 @@ export class LnComponent implements OnInit, OnDestroy {
           this.modositas = false
         }
       )
+
+      console.log(this.szo.substring(0, 1));
+      
   }
 
 
@@ -69,7 +74,9 @@ export class LnComponent implements OnInit, OnDestroy {
     this.reszletek = false
   }
 
-  onGysTorol(form: NgForm) {
+  
+
+  gysTorol(form: NgForm) {
     this.gysService.torolGys(this.gyartosor.ln_id)
     this.clearForm(form)
   }
@@ -81,6 +88,7 @@ export class LnComponent implements OnInit, OnDestroy {
     this.felvetel = false
     this.modositas = false
     this.reszletek = false
+    this.torles = false
     this.validForm = true
   }
 

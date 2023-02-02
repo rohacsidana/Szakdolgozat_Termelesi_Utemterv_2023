@@ -1,14 +1,17 @@
 <div class="container">
   <h1>Gyártósor kezelés</h1>
   <div class="row">
+
+    <!-- Új gyártósor/gyártósor módosítás -->
+    <!-- inputok -->
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <table class="table table-striped">
         <tbody>
           <tr>
             <td>
-              Gyártósor azonosító
-              <input type="text" name="azonInput" [(ngModel)]="azon" required="" maxlength="8"
-                [disabled]="!felvetel && !modositas" />
+              Gyártósor azonosító*
+              <input type="text" name="azonInput" [(ngModel)]="azon"  required="" maxlength="8"
+                [disabled]="!felvetel && !modositas" />             
               <p *ngIf="!validForm" style="color: red">
                 Már létezik ilyen azonosító!
               </p>
@@ -18,11 +21,15 @@
             <td>
               Gyártósor leírása
               <textarea type="text" id="ujLeiras" class="form-control" style="resize: none" rows="6" name="descInput"
-                [(ngModel)]="desc" required="" maxlength="750" [disabled]="!felvetel && !modositas"></textarea>
+                [(ngModel)]="desc" maxlength="750" [disabled]="!felvetel && !modositas"></textarea>
             </td>
           </tr>
+          
           <tr>
             <td>
+              <p style="color: red;" *ngIf="!f.valid && (felvetel || modositas) 
+              && f.touched">A gyártósor azonosító kötelező!</p>
+              <!-- gombok -->
               <div id="ujGysDiv" *ngIf="!felvetel && !reszletek && !modositas">
                 <button type="button" class="btn btn-primary" (click)="felvetel=!felvetel">
                   Új gyártósor
@@ -37,9 +44,14 @@
                 <button type="button" class="btn btn-primary" (click)="clearForm(f)">Vissza</button>
               </div>
               <div id="GysModositas" *ngIf="modositas && !reszletek && !felvetel">
-                <button type="submit" class="btn btn-success" [disabled]="!f.valid">Módosítások mentése</button>
+                <button type="submit" class="btn btn-success" [disabled]="!f.valid || !f.dirty">Módosítások mentése</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
-                <button type="button" class="btn btn-danger" (click)="onGysTorol(f)">Gyártósor törlése</button>
+                <button type="button" class="btn btn-danger" (click)="torles = true">Gyártósor törlése</button>
+              </div>
+              <div *ngIf="torles">
+                <h2>Biztosan törli?</h2>
+                <button class="btn btn-danger" (click)="gysTorol(f)">Törlés</button>
+                <button class="btn btn-warning" (click)="torles = false">Mégse</button>
               </div>
             </td>
           </tr>

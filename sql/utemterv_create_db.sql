@@ -109,7 +109,7 @@ create table WO_MSTR
 	wo_pld_downtime time(0),
 	wo_unpld_downtime time(0),
 	wo_activated bit not null default(0),
-	wo_status varchar(10), ---dic
+	wo_status varchar(10) not null, ---dic
 	primary key(wo_lot)
 )
 
@@ -134,7 +134,7 @@ create table WOM_DET
 	wom_par int,
 	wom_lot int,
 	wom_mat int,
-	wom_req decimal(18,5),
+	wom_req decimal(18,5)  not null,
 	wom_rsrv decimal(18,5) not null default(0),
 	primary key(wom_part, wom_par, wom_lot)
 )
@@ -149,8 +149,8 @@ create table LAD_DET
 	lad_lot int,
 	lad_comp int,
 	lad_expire date,
-	lad_qty_rsrv decimal(18,5),
-	lad_qty_used decimal(18,5) default(0) check(lad_qty_used >= 0),
+	lad_qty_rsrv decimal(18,5)  not null,
+	lad_qty_used decimal(18,5)  not null default(0) check(lad_qty_used >= 0),
 	primary key(lad_id)
 )
 

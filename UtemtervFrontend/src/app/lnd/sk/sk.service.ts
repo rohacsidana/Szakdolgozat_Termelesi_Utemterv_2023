@@ -17,6 +17,7 @@ export class SkService {
         new Sk('lnd_6', 3, 40),
     ];
 
+    //megkeresi egy adott sk-nak az indexét. Ha nincs ilyen -1 et ad vissza.
     getSkIndex(line: string, part: number) {
         let index = this.sebessegKezelesek.findIndex(index => index.lnd_line === line
             && index.lnd_part === part);

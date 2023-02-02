@@ -4,8 +4,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 
 export class Rovidit implements PipeTransform {
+    //ha a value hossza több mint 80, akkor csak az első 80 karaktert adja vissza.
     transform(value: any, ...args: any[]) {
-        if (value.length > 30) {
+        if (value.length > 80) {
             return value.substr(0, 80) + "..."
 
         } else {

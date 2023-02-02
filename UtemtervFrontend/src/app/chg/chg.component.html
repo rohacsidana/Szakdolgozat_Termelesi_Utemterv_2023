@@ -1,37 +1,40 @@
 <div class="container">
     <h1>Átállási sebesség kezelés</h1>
     <div class="row">
+      <!-- Új átállási sebesség/átállási sebesség módosítás -->
+      <!-- inputok -->
       <form (ngSubmit)="onSubmit(f)" #f="ngForm">
         <table class="table table-striped">
           <tbody>
             <tr>
               <td>
-                Gyártósor azonosító
+                Gyártósor azonosító*
                 <input type="text" name="lineInput" [(ngModel)]="line" required="" maxlength="8"
                   [disabled]="!ujChg && !szerkesztes" />
   
               </td>
               <td>
-                Tételről
+                Tételről*
                 <input type="number" name="fromInput" [(ngModel)]="from" required=""
                   [disabled]="!ujChg && !szerkesztes" />
               </td>
               <td>
-                Tételre
+                Tételre*
                 <input type="number" name="toInput" required="" [(ngModel)]="to"
                   [disabled]="!ujChg && !szerkesztes" />
               </td>
               <td>
-                Idő
+                Idő*
                 <input type="time" name="timeInput" required="" [(ngModel)]="time"
                   [disabled]="!ujChg && !szerkesztes" />
               </td>
             </tr>
+            <!-- gombok -->
             <tr>
               <td>
                 <p style="color: red;" *ngIf="!f.valid && (ujChg || szerkesztes)">Az összes mező kötelező!</p>
                 <p style="color: red;" *ngIf="!validForm ">
-                  Már van ilyen sor!</p>
+                  Már van ilyen átállás!</p>
                 <div *ngIf="!ujChg && !szerkesztes">
                   <button class="btn btn-primary" (click)="ujChg = true">
                     Új átállási sebesség
@@ -46,7 +49,12 @@
                 <div *ngIf="!ujChg && szerkesztes">
                   <button type="submit" class="btn btn-success" [disabled]="!f.dirty">Módosít</button>
                   <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
-                  <button type="button" class="btn btn-danger" (click)="onTorol(f)">Töröl</button>
+                  <button type="button" class="btn btn-danger" (click)="torles = true">Töröl</button>
+                </div>
+                <div *ngIf="torles">
+                  <h2>Biztosan törli?</h2>
+                  <button class="btn btn-danger" (click)="gysTorol(f)">Törlés</button>
+                  <button class="btn btn-warning" (click)="torles = false">Mégse</button>
                 </div>
               </td>
             </tr>

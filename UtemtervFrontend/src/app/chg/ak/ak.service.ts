@@ -18,6 +18,7 @@ export class AkService {
         new Ak('lnd_3', 3, 5, '00:40'),
     ];
 
+    //megkeresi egy adott ak-nak az indexét. Ha nincs ilyen -1 et ad vissza.
     getAkIndex(line: string, from: number, to: number) {
         return this.atallasKezelesek.findIndex(index => index.chg_line === line
             && index.chg_from === from && index.chg_to === to);

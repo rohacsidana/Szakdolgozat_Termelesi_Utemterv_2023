@@ -18,6 +18,7 @@ export class GysComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void { }
 
   onReszletek() {
+    //átadja a kivalasztottGys-nek a kiválasztott gyártósort
     this.gysService.kivalasztottGys.next(this.gyartosor)
     //console.log(this.gyartosor);
 
