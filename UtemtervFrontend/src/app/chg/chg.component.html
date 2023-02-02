@@ -1,1 +1,64 @@
-<p>chg-component works!</p>
+<div class="container">
+    <h1>Átállási sebesség kezelés</h1>
+    <div class="row">
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                Gyártósor azonosító
+                <input type="text" name="lineInput" [(ngModel)]="line" required="" maxlength="8"
+                  [disabled]="!ujChg && !szerkesztes" />
+  
+              </td>
+              <td>
+                Tételről
+                <input type="number" name="fromInput" [(ngModel)]="from" required=""
+                  [disabled]="!ujChg && !szerkesztes" />
+              </td>
+              <td>
+                Tételre
+                <input type="number" name="toInput" required="" [(ngModel)]="to"
+                  [disabled]="!ujChg && !szerkesztes" />
+              </td>
+              <td>
+                Idő
+                <input type="time" name="timeInput" required="" [(ngModel)]="time"
+                  [disabled]="!ujChg && !szerkesztes" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p style="color: red;" *ngIf="!f.valid && (ujChg || szerkesztes)">Az összes mező kötelező!</p>
+                <p style="color: red;" *ngIf="!validForm ">
+                  Már van ilyen sor!</p>
+                <div *ngIf="!ujChg && !szerkesztes">
+                  <button class="btn btn-primary" (click)="ujChg = true">
+                    Új átállási sebesség
+                  </button>
+                </div>
+                <div *ngIf="ujChg && !szerkesztes">
+                  <button type="submit" class="btn btn-success" [disabled]="!f.valid">Hozzáad</button>
+                  <button type="button" class="btn btn-warning" (click)="clearForm(f)">
+                    Mégse
+                  </button>
+                </div>
+                <div *ngIf="!ujChg && szerkesztes">
+                  <button type="submit" class="btn btn-success" [disabled]="!f.dirty">Módosít</button>
+                  <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
+                  <button type="button" class="btn btn-danger" (click)="onTorol(f)">Töröl</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  
+    <div class="row">
+      <hr />
+      <div class="col-md-12">
+        <app-ak-list></app-ak-list>
+      </div>
+    </div>
+  </div>

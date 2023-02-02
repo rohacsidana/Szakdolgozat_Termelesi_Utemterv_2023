@@ -47,6 +47,8 @@ import { DataStorageService } from './shared/data-storage.service';
 import { UserService } from './user/user.service';
 import { SkListComponent } from './lnd/sk-list/sk-list.component';
 import { SkComponent } from './lnd/sk/sk.component';
+import { AkComponent } from './chg/ak/ak.component';
+import { AkListComponent } from './chg/ak-list/ak-list.component';
 
 
 @NgModule({
@@ -74,7 +76,9 @@ import { SkComponent } from './lnd/sk/sk.component';
     GysListComponent,
     FilterPipePipe,
     SkComponent,
-    SkListComponent
+    SkListComponent,
+    AkComponent,
+    AkListComponent
   ],
   imports: [
     BrowserModule,
