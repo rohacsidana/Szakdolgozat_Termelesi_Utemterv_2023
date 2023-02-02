@@ -154,7 +154,7 @@ create table LAD_DET
 	primary key(lad_id)
 )
 
-go 
+go	
 
 create table XWO_HIST
 (
