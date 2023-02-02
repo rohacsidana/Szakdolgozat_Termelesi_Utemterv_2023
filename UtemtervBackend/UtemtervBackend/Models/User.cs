@@ -13,7 +13,7 @@ public partial class User
     public DateTime BirthDate { get; set; }
 
     public string Email { get; set; } = null!;
-
+    [JsonIgnore]
     public string Password { get; set; } = null!;
 
     public string Post { get; set; } = null!;

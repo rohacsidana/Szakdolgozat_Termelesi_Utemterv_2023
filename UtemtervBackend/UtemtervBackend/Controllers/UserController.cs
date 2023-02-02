@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Globalization;
 using System.Security.Cryptography;
 using UtemtervBackend.Models;
 
@@ -43,14 +45,11 @@ namespace UtemtervBackend.Controllers
         {
             try
             {
-                string sqlFormattedDate = user.BirthDate.Date.ToString("yyyy-MM-dd HH:mm:ss");
-
-                var newU = _context.Database.ExecuteSqlInterpolated($"newUser {user.Name}, {sqlFormattedDate}, {user.Email}, {CreateMD5(user.Password)}, {user.Post}");
+                var newU = _context.Users.FromSqlInterpolated($"newUser {user.Name}, {user.BirthDate}, {user.Email}, {CreateMD5(user.Password)}, {user.Post}").ToList();
                 return Ok(newU);
             }
             catch (Exception e)
             {
-
                 return StatusCode(404, e);
             }
         }

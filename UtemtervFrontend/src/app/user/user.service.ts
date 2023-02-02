@@ -36,7 +36,7 @@ export class UserService {
       //ha létezik ilyen user_id-jű user, updateljuk
       let userToChange: User =
         this.userData[this.userData.indexOf(this.getUser(user.user_id))];
-      userToChange.birth_date = user.birth_date;
+      userToChange.birth_date = new Date(user.birth_date);
       userToChange.email = user.email;
       userToChange.name = user.name;
       userToChange.post = user.post;

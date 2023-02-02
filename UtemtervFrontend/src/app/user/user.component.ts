@@ -96,15 +96,6 @@ export class UserComponent implements OnInit, OnDestroy {
     });
   }
 
-  changeNewMode() {
-    this.newMode = !this.newMode;
-    if (this.newMode) {
-      this.myGroup.get('user_id').disable();
-    } else {
-      this.clearForm();
-    }
-  }
-
   sortData(sort: Sort) {
     this.lastSort = sort;
     const data = this.userService.getUsers();
@@ -141,11 +132,17 @@ export class UserComponent implements OnInit, OnDestroy {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  onChangeMode() {
+  onChangeFromNewMode() {
     this.clearForm();
-    this.searchMode = !this.searchMode;
+    this.newMode = false;
+    this.searchMode = true;
   }
-
+  onChangeToNewMode() {
+    this.newMode = true;
+    this.searchMode = false;
+    this.clearForm();
+    this.myGroup.get('user_id').disable();
+  }
   onSearchUser() {
     if (this.userService.getUser(this.myGroup.getRawValue().user_id)) {
       //lekérem a beirt azonosito szerinti felhasználót
@@ -178,15 +175,28 @@ export class UserComponent implements OnInit, OnDestroy {
     this.loadedUser = null;
   }
 
-  onSubmit() {
-    this.dataStorageService.newUser({
-      name: this.myGroup.getRawValue().name,
-      birth_date: new Date(this.myGroup.getRawValue().birth_date),
-      email: this.myGroup.getRawValue().email,
-      post: this.myGroup.getRawValue().post,
+  checkEmailExistance() {
+    this.userData.forEach((user) => {
+      if (user.email == this.myGroup.getRawValue().email) {
+        this.emailExists = true;
+      } else {
+        this.emailExists = false;
+      }
     });
-    this.emailExists = this.userService.getEmailExists();
+  }
+
+  onSubmit() {
+    this.checkEmailExistance();
     if (!this.emailExists) {
+      this.dataStorageService
+        .newUser({
+          name: this.myGroup.getRawValue().name,
+          birth_date: new Date(this.myGroup.getRawValue().birth_date),
+          email: this.myGroup.getRawValue().email,
+          post: this.myGroup.getRawValue().post,
+        })
+        .subscribe();
+      this.emailExists = this.userService.getEmailExists();
       this.userDataChanged();
     }
     this.clearForm();
