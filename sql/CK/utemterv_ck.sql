@@ -1,1 +1,1 @@
-alter table wo_mstradd constraint CK_WO_MSTR_Kesz_Termek_E check(dbo.keszTermekE(wo_part) = 1);
+alter table wo_mstradd constraint CK_WO_MSTR_Kesz_Termek_E check(dbo.keszTermekE(wo_part) = 1);goalter table WO_MSTRadd constraint CK_WO_MSTR_Status check(dbo.getTypeDic(wo_status) is not null and dbo.getTypeDic(wo_status) = 'wo_status');
