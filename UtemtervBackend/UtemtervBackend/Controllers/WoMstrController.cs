@@ -61,17 +61,35 @@ namespace UtemtervBackend.Controllers
             return Ok();
         }
 
-        [HttpPost("teszt/new")]
+        [HttpPost("new")]
         public IActionResult newWo([FromBody] NewWo wo)
         {
             try
            {
-                var vlmi =  _context.Database.ExecuteSqlInterpolated($"newWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}");
+                //var vlmi =  _context.Database.ExecuteSqlInterpolated($"newWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}");
+                var vlmi =  _context.WoMstrs.FromSqlInterpolated($"newWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}").ToList();
+
                 return Ok(vlmi);
             }
             catch (Exception e)
             {
 
+                return StatusCode(404, e);
+            }
+        }
+
+        [HttpPut("{lot}/update")]
+        public IActionResult updateWo([FromBody] WoMstr wo)
+        {
+            try
+            {
+                var vlmi = _context.WoMstrs
+                        .FromSqlInterpolated($"updateWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}")
+                        .ToList();
+                return Ok(vlmi);
+            }
+            catch (Exception e)
+            {
                 return StatusCode(404, e);
             }
         }
