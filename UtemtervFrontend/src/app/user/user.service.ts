@@ -9,15 +9,13 @@ export class UserService {
   private userData: User[] = [];
 
   userDataChanged: Subject<User[]> = new Subject<User[]>();
+  emailExists: boolean = false;
 
   setUsers(userData: User[]) {
     console.log('setting users');
 
     this.userData = userData.slice();
     console.log(this.userData);
-    this.userData.forEach((user) => {
-      console.log(user.birth_date);
-    });
     this.userDataChanged.next(this.userData.slice());
   }
 
@@ -48,27 +46,27 @@ export class UserService {
         }
       }
       this.userDataChanged.next(this.userData.slice());
-      return false;
+      this.emailExists = false;
     } else {
-      let emailExists: boolean = false;
       let i = 0;
+      //eldöntjük, létezik-e már az email
       while (i < this.userData.length && this.userData[i].email != user.email) {
-        //eldöntjük, létezik-e már az email
         i++;
       }
-      emailExists = i < this.userData.length;
-      if (!emailExists) {
-        //ha nincs ilyen user & email sem szerepel, léterehozzuk
-        console.log();
+      this.emailExists = i < this.userData.length;
 
-        user.user_id = this.userData[this.userData.length - 1].user_id + 1;
+      if (!this.emailExists) {
+        //ha nincs ilyen user & email sem szerepel, léterehozzuk
+
         this.userData.push(user);
         //itt még változtatni kell a http kérés response-a alapján
         this.userDataChanged.next(this.userData.slice());
-      } else {
-        return true; //visszaadjuk, h már létezik
       }
     }
+  }
+
+  getEmailExists(): boolean {
+    return this.emailExists;
   }
 
   deleteUser(id: number) {

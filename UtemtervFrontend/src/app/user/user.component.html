@@ -22,7 +22,6 @@
                       name="user_id"
                       class="form-control"
                       formControlName="user_id"
-                      (change)="checkUserAlreadyExists()"
                     />
                     <div class="input-group-btn">
                       <button
@@ -43,7 +42,7 @@
                 class="btn btn-success"
                 type="submit"
                 style="z-index: auto"
-                [disabled]="!myGroup.valid || userAlreadyExists"
+                [disabled]="!myGroup.valid"
               >
                 Mentés
               </button>
@@ -78,9 +77,6 @@
               <div class="col-xs-12">
                 <p *ngIf="!userFound && searchMode">
                   Nem található ilyen azonosítójú felhasználó!
-                </p>
-                <p *ngIf="userAlreadyExists && !searchMode">
-                  Már létezik ilyen azonosítójú felhasználó!
                 </p>
                 <p *ngIf="emailExists && !searchMode">
                   Ez az e-mail már foglalt.
