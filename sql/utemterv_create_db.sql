@@ -10,7 +10,7 @@ create table DICTIONARY
 	"value" varchar(10),
 	"type" varchar(10),
 	"desc" varchar(40),
-	primary key("value", "type")
+	primary key("value")
 )
 
 go
@@ -228,3 +228,8 @@ go
 
 alter table XWO_HIST
 add foreign key (xwo_lot) references WO_MSTR(wo_lot)
+
+insert into DICTIONARY values('waiting','wo_status','Gyr elfogadásra vár');
+insert into DICTIONARY values('accepted','wo_status','Gyr elfogadva');
+insert into DICTIONARY values('ongoing','wo_status','Gyr gyártása folyamatban');
+insert into DICTIONARY values('completed','wo_status', 'Gyr gyártása befejezõdött');

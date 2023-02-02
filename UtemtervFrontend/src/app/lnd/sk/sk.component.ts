@@ -23,7 +23,7 @@ export class SkComponent implements OnInit, OnDestroy {
   onSzerkesztes() {
     //console.log(this.sk);
     
-    this.skService.kivalasztottSk.emit(this.sk)
+    this.skService.kivalasztottSk.next(this.sk)
 
     
   }
