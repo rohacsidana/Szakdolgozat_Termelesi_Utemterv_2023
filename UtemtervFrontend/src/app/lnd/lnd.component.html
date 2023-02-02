@@ -7,18 +7,18 @@
         <tbody>
           <tr>
             <td>
-              Gyártósor azonosító
+              Gyártósor azonosító*
               <input type="text" name="lineInput" [(ngModel)]="line" required="" maxlength="8"
                 [disabled]="!ujLnd && !szerkesztes" />
 
             </td>
             <td>
-              Tétel kód
+              Tétel kód*
               <input type="number" name="partInput" [(ngModel)]="part" required=""
                 [disabled]="!ujLnd && !szerkesztes" />
             </td>
             <td>
-              Gyártási sebesség
+              Gyártási sebesség*
               <input type="number" name="rateInput" required="" [(ngModel)]="rate"
                 [disabled]="!ujLnd && !szerkesztes" />
             </td>

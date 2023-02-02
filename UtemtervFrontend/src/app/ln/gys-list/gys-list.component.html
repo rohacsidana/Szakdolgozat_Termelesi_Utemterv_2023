@@ -1,7 +1,7 @@
 <div class="row">
   <hr>
   <label for="gyartosor" style="font-size: large; padding-right: 5px;">Gyártósor keresése</label>
-  <input type="text" id="gyartosor" [(ngModel)]="kereses" class="form-controll" />
+  <input type="text" id="gyartosor" [(ngModel)]="kereses" [maxLength]="8" class="form-controll" />
   <hr>
   <button *ngIf="!osszes" (click)="osszes=true" class="btn btn-primary">Összes mutatása</button>
   <button *ngIf="osszes" (click)="osszes=false" class="btn btn-primary">Összecsuk</button>

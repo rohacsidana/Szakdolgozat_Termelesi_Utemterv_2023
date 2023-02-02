@@ -12,7 +12,9 @@ export class FilterPipePipe implements PipeTransform {
 
     const talalatok = []
     for (const item of value) {
-      if (item[i] === filter) {
+      let iStart = item[i].slice(0, filter.length)
+      let filterStart = filter.slice(0, filter.length)
+      if (iStart === filterStart) {
         talalatok.push(item)
       }
 

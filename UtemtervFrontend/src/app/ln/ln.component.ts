@@ -23,6 +23,8 @@ export class LnComponent implements OnInit, OnDestroy {
   azon: string
   desc: string
 
+  szo = 'szo'
+
   constructor(private gysService: GysService) { }
 
   ngOnInit(): void {
@@ -37,6 +39,9 @@ export class LnComponent implements OnInit, OnDestroy {
           this.modositas = false
         }
       )
+
+      console.log(this.szo.substring(0, 1));
+      
   }
 
 

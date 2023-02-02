@@ -6,23 +6,23 @@
           <tbody>
             <tr>
               <td>
-                Gyártósor azonosító
+                Gyártósor azonosító*
                 <input type="text" name="lineInput" [(ngModel)]="line" required="" maxlength="8"
                   [disabled]="!ujChg && !szerkesztes" />
   
               </td>
               <td>
-                Tételről
+                Tételről*
                 <input type="number" name="fromInput" [(ngModel)]="from" required=""
                   [disabled]="!ujChg && !szerkesztes" />
               </td>
               <td>
-                Tételre
+                Tételre*
                 <input type="number" name="toInput" required="" [(ngModel)]="to"
                   [disabled]="!ujChg && !szerkesztes" />
               </td>
               <td>
-                Idő
+                Idő*
                 <input type="time" name="timeInput" required="" [(ngModel)]="time"
                   [disabled]="!ujChg && !szerkesztes" />
               </td>
@@ -31,7 +31,7 @@
               <td>
                 <p style="color: red;" *ngIf="!f.valid && (ujChg || szerkesztes)">Az összes mező kötelező!</p>
                 <p style="color: red;" *ngIf="!validForm ">
-                  Már van ilyen sor!</p>
+                  Már van ilyen átállás!</p>
                 <div *ngIf="!ujChg && !szerkesztes">
                   <button class="btn btn-primary" (click)="ujChg = true">
                     Új átállási sebesség
