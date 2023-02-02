@@ -1,28 +1,30 @@
 <div class="container">
   <h1>Gyártási sebesség kezelés</h1>
   <div class="row">
-    <!-- <button (click)="onTeszt('a','leiras')">teszt</button> -->
+    <!-- Új sebesség kezelés/sebesség kezelés módosítás -->
+    <!-- inputok -->
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <table class="table table-striped">
         <tbody>
           <tr>
             <td>
-              Gyártósor azonosító
+              Gyártósor azonosító*
               <input type="text" name="lineInput" [(ngModel)]="line" required="" maxlength="8"
                 [disabled]="!ujLnd && !szerkesztes" />
 
             </td>
             <td>
-              Tétel kód
+              Tétel kód*
               <input type="number" name="partInput" [(ngModel)]="part" required=""
                 [disabled]="!ujLnd && !szerkesztes" />
             </td>
             <td>
-              Gyártási sebesség
+              Gyártási sebesség*
               <input type="number" name="rateInput" required="" [(ngModel)]="rate"
                 [disabled]="!ujLnd && !szerkesztes" />
             </td>
           </tr>
+          <!-- gombok -->
           <tr>
             <td>
               <p style="color: red;" *ngIf="!f.valid && (ujLnd || szerkesztes)">Az összes mező kötelező!</p>
@@ -42,7 +44,12 @@
               <div *ngIf="!ujLnd && szerkesztes">
                 <button type="submit" class="btn btn-success" [disabled]="!f.dirty">Módosít</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
-                <button type="button" class="btn btn-danger" (click)="onTorol(f)">Töröl</button>
+                <button type="button" class="btn btn-danger" (click)="torles = true">Töröl</button>
+              </div>
+              <div *ngIf="torles">
+                <h2>Biztosan törli?</h2>
+                <button class="btn btn-danger" (click)="gysTorol(f)">Törlés</button>
+                <button class="btn btn-warning" (click)="torles = false">Mégse</button>
               </div>
             </td>
           </tr>

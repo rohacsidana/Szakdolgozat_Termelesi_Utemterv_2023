@@ -21,7 +21,6 @@ export class UserComponent implements OnInit, OnDestroy {
   emailExists: boolean = false;
   searchMode: boolean = true;
   newMode: boolean = false;
-  userAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
   sortedUserData: DataTableService.User[] = [];
@@ -179,23 +178,14 @@ export class UserComponent implements OnInit, OnDestroy {
     this.loadedUser = null;
   }
 
-  checkUserAlreadyExists() {
-    if (this.userService.getUser(Number(this.myGroup.value.user_id))) {
-      this.userAlreadyExists = true;
-    } else {
-      this.userAlreadyExists = false;
-    }
-  }
-
   onSubmit() {
-    console.log(this.userAlreadyExists);
-    this.emailExists = this.userService.saveUser({
-      user_id: Number(this.myGroup.getRawValue().user_id),
+    this.dataStorageService.newUser({
       name: this.myGroup.getRawValue().name,
       birth_date: new Date(this.myGroup.getRawValue().birth_date),
       email: this.myGroup.getRawValue().email,
       post: this.myGroup.getRawValue().post,
     });
+    this.emailExists = this.userService.getEmailExists();
     if (!this.emailExists) {
       this.userDataChanged();
     }
@@ -207,7 +197,6 @@ export class UserComponent implements OnInit, OnDestroy {
     this.myGroup.enable();
     this.myGroup.reset();
     this.emailExists = false;
-    this.userAlreadyExists = false;
     this.userFound = true;
     this.loadedUser = null;
   }
