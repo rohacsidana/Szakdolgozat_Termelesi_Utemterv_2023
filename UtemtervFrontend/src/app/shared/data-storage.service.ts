@@ -103,23 +103,31 @@ export class DataStorageService {
     user.password = 'tutalibetalibe';
     console.log(user);
 
-    return this.http.post<any>(URL + '/user/new', user).pipe(
-      tap({
-        next: (res) => {
-          console.log();
-          let u = {
-            user_id: res[0].userId,
-            name: user.name,
-            birth_date: user.birth_date,
-            email: user.email,
-            post: user.post,
-          };
-          console.log(u.birth_date);
-          this.userService.saveUser(u);
-        },
-        error: (error) => console.log(error),
+    return this.http
+      .post<any>(URL + '/user/new', {
+        name: user.name,
+        birth_date: user.birth_date.toISOString(),
+        email: user.email,
+        password: user.password,
+        post: user.post,
       })
-    );
+      .pipe(
+        tap({
+          next: (res) => {
+            console.log();
+            let u = {
+              user_id: res[0].userId,
+              name: user.name,
+              birth_date: user.birth_date,
+              email: user.email,
+              post: user.post,
+            };
+            console.log(u.birth_date);
+            this.userService.saveUser(u);
+          },
+          error: (error) => console.log(error),
+        })
+      );
   }
 
   fetchWo(id: number) {
