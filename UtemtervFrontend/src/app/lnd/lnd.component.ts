@@ -30,14 +30,18 @@ export class LndComponent implements OnInit, OnDestroy {
     this.skSub = this.skService.kivalasztottSk
       .subscribe(
         (sk: Sk) => {
-          console.log(sk);
+          //console.log(sk);
           this.sk = sk
           this.line = sk.lnd_line
           this.part = sk.lnd_part
           this.rate = sk.lnd_rate
           this.onModositClick()
+          console.log(this.skService.getSk(this.line, this.part));
+          
         }
       )
+
+      
   }
 
   ngOnDestroy(): void {
@@ -50,17 +54,7 @@ export class LndComponent implements OnInit, OnDestroy {
   onSubmit(form: NgForm) {
     console.log(form.value);
     let value = form.value
-    /* if (this.ujLnd) {
-      if (!this.skService.letezikeSk(value.lineInput, value.partInput)) {
-        this.onUjLnd(form)
-      } else {
-        this.validForm = false
-      }
-    }
-    if (this.szerkesztes) {
-      this.skService.modositSk(this.sk.lnd_line, this.sk.lnd_part, this.line, this.part, this.rate)
-      this.clearForm(form)
-    } */
+
     if (!this.skService.letezikeSk(value.lineInput, value.partInput)) {
       if (this.ujLnd) {
         this.onUjLnd(form)
@@ -104,7 +98,7 @@ export class LndComponent implements OnInit, OnDestroy {
 
 
   onTorol(form: NgForm) {
-    this.skService.torolSk(this.sk.lnd_line)
+    this.skService.torolSk(this.sk.lnd_line, this.sk.lnd_part)
     this.clearForm(form)
   }
 

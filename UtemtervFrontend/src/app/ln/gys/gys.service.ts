@@ -1,14 +1,11 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Gys } from './gys-model';
 import { Subject } from 'rxjs';
 
 @Injectable()
 export class GysService {
     gysValtozas = new Subject<Gys[]>();
-    gyIndex = new Subject<number>()
-    kivalasztottGys = new EventEmitter<Gys>();
-    //kivalasztottGys = new Subject<Gys>()
-    //kivalasztottGysS = new Subject<number>()
+    kivalasztottGys = new Subject<Gys>();
 
     private gyartosorok: Gys[] = [
         new Gys('ln_1', 'első gys'),
@@ -21,33 +18,22 @@ export class GysService {
         new Gys('ln_8', 'ez a szöveg 30 karakter hosszú'), */
     ];
 
+    getGysIndex(gys: string) {
+        return this.gyartosorok.findIndex(index => index.ln_id === gys);
+    }
+
     getGysek() {
         return this.gyartosorok.slice();
     }
 
-    getGys(gys: string) {
-        for (let index = 0; index < this.gyartosorok.length; index++) {
-            if (this.gyartosorok[index].ln_id === gys) {
-                return this.gyartosorok[index]
-            }
-
-        }
-        this.gysValtozas.next(this.gyartosorok.slice());
+    getGys(gys: string) { 
+        let index = this.getGysIndex(gys)
+        return this.gyartosorok[index]
     }
 
 
-    letezikeGys(id: string) {
-        /* console.log("gyartosorok:");       
-        console.log(this.gyartosorok);
-        for (let index = 0; index < this.gyartosorok.length; index++) {
-            if (this.gyartosorok[index].ln_id === gy) {
-                return true
-            } else {
-                return false
-            }
-            
-        } */
-        let index = this.gyartosorok.findIndex(index => index.ln_id === id);
+    letezikeGys(gys: string) {
+        let index = this.getGysIndex(gys)
 
         if (index < 0) {
             return false
@@ -64,15 +50,15 @@ export class GysService {
         this.gysValtozas.next(this.gyartosorok.slice());
     }
 
-    modositGys(id: string, uj_id: string, uj_desc: string) {
-        let index = this.gyartosorok.findIndex(index => index.ln_id === id);
+    modositGys(gys: string, uj_id: string, uj_desc: string) {
+        let index = this.getGysIndex(gys)
         this.gyartosorok[index].ln_id = uj_id;
         this.gyartosorok[index].ln_desc = uj_desc;
         //this.gysValtozas.next(this.gyartosorok.slice());
     }
 
-    torolGys(id: string) {
-        let index = this.gyartosorok.findIndex(index => index.ln_id === id);
+    torolGys(gys: string) {
+        let index = this.getGysIndex(gys)
         this.gyartosorok.splice(index, 1);
         this.gysValtozas.next(this.gyartosorok.slice());
 

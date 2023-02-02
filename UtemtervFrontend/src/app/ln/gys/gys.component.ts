@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, } from '@angular/core';
 import { GysService } from './gys.service';
 import { Gys } from './gys-model';
 
@@ -17,23 +12,14 @@ export class GysComponent implements OnInit, OnDestroy {
 
   constructor(private gysService: GysService) { }
 
-  ngOnInit(): void {
-
-  }
-
-  onTeszt() {
+  ngOnInit(): void { }
 
 
-  }
-
-  ngOnDestroy(): void {
-
-  }
+  ngOnDestroy(): void { }
 
   onReszletek() {
-    //alert(leiras + '\n(ez nem alert box lesz később!)');
-    this.gysService.kivalasztottGys.emit(this.gyartosor)
-    console.log(this.gyartosor);
-    
+    this.gysService.kivalasztottGys.next(this.gyartosor)
+    //console.log(this.gyartosor);
+
   }
 }

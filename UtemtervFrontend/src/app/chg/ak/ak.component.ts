@@ -23,7 +23,7 @@ export class AkComponent {
   onSzerkesztes() {
     //console.log(this.sk);
 
-    this.akService.kivalasztottAk.emit(this.ak)
+    this.akService.kivalasztottAk.next(this.ak)
 
   }
 
