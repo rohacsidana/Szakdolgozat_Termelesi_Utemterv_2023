@@ -15,6 +15,7 @@ export class LndComponent implements OnInit, OnDestroy {
   ujLnd = false
   szerkesztes = false
   validForm = true
+  torles = false
   sk: Sk
   skSub: Subscription
 
@@ -71,6 +72,7 @@ export class LndComponent implements OnInit, OnDestroy {
     form.resetForm()
     this.ujLnd = false
     this.szerkesztes = false
+    this.torles = false
     this.validForm = true
     this.line = ''
     this.part = null
@@ -97,7 +99,7 @@ export class LndComponent implements OnInit, OnDestroy {
   }
 
 
-  onTorol(form: NgForm) {
+  gysTorol(form: NgForm) {
     this.skService.torolSk(this.sk.lnd_line, this.sk.lnd_part)
     this.clearForm(form)
   }

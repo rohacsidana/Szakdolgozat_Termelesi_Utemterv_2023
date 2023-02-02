@@ -69,7 +69,9 @@ export class LnComponent implements OnInit, OnDestroy {
     this.reszletek = false
   }
 
-  onGysTorol(form: NgForm) {
+  
+
+  gysTorol(form: NgForm) {
     this.gysService.torolGys(this.gyartosor.ln_id)
     this.clearForm(form)
   }
@@ -81,6 +83,7 @@ export class LnComponent implements OnInit, OnDestroy {
     this.felvetel = false
     this.modositas = false
     this.reszletek = false
+    this.torles = false
     this.validForm = true
   }
 

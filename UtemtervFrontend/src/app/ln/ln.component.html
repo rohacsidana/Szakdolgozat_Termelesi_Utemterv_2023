@@ -39,7 +39,12 @@
               <div id="GysModositas" *ngIf="modositas && !reszletek && !felvetel">
                 <button type="submit" class="btn btn-success" [disabled]="!f.valid">Módosítások mentése</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
-                <button type="button" class="btn btn-danger" (click)="onGysTorol(f)">Gyártósor törlése</button>
+                <button type="button" class="btn btn-danger" (click)="torles = true">Gyártósor törlése</button>
+              </div>
+              <div *ngIf="torles">
+                <h2>Biztosan törli?</h2>
+                <button class="btn btn-danger" (click)="gysTorol(f)">Törlés</button>
+                <button class="btn btn-warning" (click)="torles = false">Mégse</button>
               </div>
             </td>
           </tr>

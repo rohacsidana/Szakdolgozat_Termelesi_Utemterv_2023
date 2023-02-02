@@ -46,7 +46,12 @@
                 <div *ngIf="!ujChg && szerkesztes">
                   <button type="submit" class="btn btn-success" [disabled]="!f.dirty">Módosít</button>
                   <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
-                  <button type="button" class="btn btn-danger" (click)="onTorol(f)">Töröl</button>
+                  <button type="button" class="btn btn-danger" (click)="torles = true">Töröl</button>
+                </div>
+                <div *ngIf="torles">
+                  <h2>Biztosan törli?</h2>
+                  <button class="btn btn-danger" (click)="gysTorol(f)">Törlés</button>
+                  <button class="btn btn-warning" (click)="torles = false">Mégse</button>
                 </div>
               </td>
             </tr>
