@@ -1,7 +1,8 @@
 <div class="container">
   <h1>Gyártási sebesség kezelés</h1>
   <div class="row">
-    <!-- <button (click)="onTeszt('a','leiras')">teszt</button> -->
+    <!-- Új sebesség kezelés/sebesség kezelés módosítás -->
+    <!-- inputok -->
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <table class="table table-striped">
         <tbody>
@@ -23,6 +24,7 @@
                 [disabled]="!ujLnd && !szerkesztes" />
             </td>
           </tr>
+          <!-- gombok -->
           <tr>
             <td>
               <p style="color: red;" *ngIf="!f.valid && (ujLnd || szerkesztes)">Az összes mező kötelező!</p>

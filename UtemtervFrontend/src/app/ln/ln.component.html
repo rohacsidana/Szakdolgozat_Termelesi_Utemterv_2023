@@ -1,13 +1,16 @@
 <div class="container">
   <h1>Gyártósor kezelés</h1>
   <div class="row">
+
+    <!-- Új gyártósor/gyártósor módosítás -->
+    <!-- inputok -->
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <table class="table table-striped">
         <tbody>
           <tr>
             <td>
               Gyártósor azonosító*
-              <input type="text" name="azonInput" [(ngModel)]="azon" required="" maxlength="8"
+              <input type="text" name="azonInput" [(ngModel)]="azon"  required="" maxlength="8"
                 [disabled]="!felvetel && !modositas" />             
               <p *ngIf="!validForm" style="color: red">
                 Már létezik ilyen azonosító!
@@ -21,9 +24,12 @@
                 [(ngModel)]="desc" maxlength="750" [disabled]="!felvetel && !modositas"></textarea>
             </td>
           </tr>
+          
           <tr>
             <td>
-              <p style="color: red;" *ngIf="!f.valid && (felvetel || modositas) && f.touched">A gyártósor azonosító kötelező!</p>
+              <p style="color: red;" *ngIf="!f.valid && (felvetel || modositas) 
+              && f.touched">A gyártósor azonosító kötelező!</p>
+              <!-- gombok -->
               <div id="ujGysDiv" *ngIf="!felvetel && !reszletek && !modositas">
                 <button type="button" class="btn btn-primary" (click)="felvetel=!felvetel">
                   Új gyártósor

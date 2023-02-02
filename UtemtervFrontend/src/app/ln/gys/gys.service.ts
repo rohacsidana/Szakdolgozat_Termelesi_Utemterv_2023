@@ -18,6 +18,7 @@ export class GysService {
         new Gys('ln_8', 'ez a szöveg 30 karakter hosszú'), */
     ];
 
+    //megkeresi egy adott gys-nek az indexét. Ha nincs ilyen -1 et ad vissza.
     getGysIndex(gys: string) {
         return this.gyartosorok.findIndex(index => index.ln_id === gys);
     }

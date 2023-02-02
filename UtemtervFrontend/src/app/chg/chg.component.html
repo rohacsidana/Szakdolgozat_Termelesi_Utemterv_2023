@@ -1,6 +1,8 @@
 <div class="container">
     <h1>Átállási sebesség kezelés</h1>
     <div class="row">
+      <!-- Új átállási sebesség/átállási sebesség módosítás -->
+      <!-- inputok -->
       <form (ngSubmit)="onSubmit(f)" #f="ngForm">
         <table class="table table-striped">
           <tbody>
@@ -27,6 +29,7 @@
                   [disabled]="!ujChg && !szerkesztes" />
               </td>
             </tr>
+            <!-- gombok -->
             <tr>
               <td>
                 <p style="color: red;" *ngIf="!f.valid && (ujChg || szerkesztes)">Az összes mező kötelező!</p>
