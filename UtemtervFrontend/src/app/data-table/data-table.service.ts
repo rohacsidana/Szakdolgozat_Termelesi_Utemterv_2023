@@ -29,10 +29,11 @@ export interface XWo {
 }
 
 export interface User {
-  user_id: number;
+  user_id?: number;
   name: string;
   birth_date: Date;
   email: string;
+  password?: String;
   post: string;
 }
 export interface Wod {

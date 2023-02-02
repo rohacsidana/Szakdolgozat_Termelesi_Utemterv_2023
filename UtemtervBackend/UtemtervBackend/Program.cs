@@ -19,7 +19,9 @@ namespace UtemtervBackend
                 options.AddDefaultPolicy(
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:4200");
+                        policy.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
                     });
             });
             builder.Services.AddControllers();
