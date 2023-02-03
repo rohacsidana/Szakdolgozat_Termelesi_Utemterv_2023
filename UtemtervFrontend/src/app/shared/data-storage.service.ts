@@ -113,7 +113,7 @@ export class DataStorageService {
 
   newUser(user: User) {
     user.password = 'changeme';
-    console.log("New User: "+user);
+    console.log('New User: ' + user);
 
     //console.log(formattedDate);
 
@@ -153,7 +153,6 @@ export class DataStorageService {
       post: user.post,
     };
 
-    user.password = 'changeme';
     return this.http
       .put(URL + '/user/update', changedUser)
       .pipe(
