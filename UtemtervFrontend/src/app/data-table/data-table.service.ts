@@ -100,6 +100,14 @@ export interface Lnd {
   lnd_rate: number
 }
 
+export interface Chg {
+  chg_line: string;
+  chg_from: number;
+  chg_to: number;
+  chg_time: string
+
+}
+
 @Injectable()
 export class DataTableService {
   dataChanged = new Subject<DataTables[]>();
@@ -108,7 +116,7 @@ export class DataTableService {
   sortData = new Subject<Sort>();
 
   emitDataChanged(data: DataTables[]) {
-    
+
     this.dataChanged.next(data);
   }
 
@@ -121,4 +129,4 @@ export class DataTableService {
   }
 }
 
-export type DataTables = Wod | User | Wo | Lad | Pt | Ps | Lad | Ld | Ln | Lnd;
+export type DataTables = Wod | User | Wo | Lad | Pt | Ps | Lad | Ld | Ln | Lnd | Chg;
