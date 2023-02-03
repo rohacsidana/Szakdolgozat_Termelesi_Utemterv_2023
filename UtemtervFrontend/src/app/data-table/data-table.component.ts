@@ -13,8 +13,8 @@ export class DataTableComponent implements OnDestroy, OnInit {
   @Input() headers: { name: string; szoveg: string }[];
 
   length: number;
-  data: DataTables[];
-  viewData: DataTables[];
+  data: DataTables[] = [];
+  viewData: DataTables[]  = [];
 
   pageSize = 5;
   pageIndex = 0;
@@ -26,14 +26,20 @@ export class DataTableComponent implements OnDestroy, OnInit {
 
   dtSub: Subscription;
 
-  constructor(private dataTblService: DataTableService) {}
-
-  ngOnInit() {
+  constructor(private dataTblService: DataTableService) {
     this.dtSub = this.dataTblService.dataChanged.subscribe((data) => {
       this.data = data.slice();
       this.length = this.data.length;
       this.setView();
     });
+  }
+
+  ngOnInit() {
+    /* this.dtSub = this.dataTblService.dataChanged.subscribe((data) => {
+      this.data = data.slice();
+      this.length = this.data.length;
+      this.setView();
+    }); */
 
     //this.dataTblService.getDataEmit();
   }
@@ -65,8 +71,11 @@ export class DataTableComponent implements OnDestroy, OnInit {
   natural = new Intl.Collator('en').compare;
 
   setView() {
+
+    
     this.kezdIndex = this.pageIndex * this.pageSize;
-    this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex * 2;
+    this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex + this.pageSize;
+
 
     this.viewData = this.data.slice(this.kezdIndex, this.vegIndex);
   }
