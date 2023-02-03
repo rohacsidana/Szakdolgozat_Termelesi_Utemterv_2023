@@ -25,7 +25,7 @@
               </td>
               <td>
                 Idő*
-                <input type="time" name="timeInput" required="" [(ngModel)]="time"
+                <input type="time" name="timeInput"  [(ngModel)]="time"
                   [disabled]="!ujChg && !szerkesztes" />
               </td>
             </tr>
@@ -66,7 +66,8 @@
     <div class="row">
       <hr />
       <div class="col-md-12">
-        <app-ak-list></app-ak-list>
+        <!-- <app-ak-list></app-ak-list> -->
+        <app-data-table [headers]="chgHeaders"></app-data-table>
       </div>
     </div>
   </div>

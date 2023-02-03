@@ -10,7 +10,7 @@
           <tr>
             <td>
               Gyártósor azonosító*
-              <input type="text" name="azonInput" [(ngModel)]="azon"  required="" maxlength="8"
+              <input type="text" name="azonInput" [(ngModel)]="azon" required="" maxlength="8"
                 [disabled]="!newLn && !modositas" />             
               <p *ngIf="!validForm" style="color: red">
                 Már létezik ilyen azonosító!
@@ -30,6 +30,7 @@
               <p style="color: red;" *ngIf="!f.valid && (newLn || modositas) 
               && f.touched">A gyártósor azonosító kötelező!</p>
               <!-- gombok -->
+              <!-- Új gyártósor -->
               <div id="ujGysDiv" *ngIf="!newLn && !reszletek && !modositas">
                 <button type="button" class="btn btn-primary" (click)="newLn=!newLn">
                   Új gyártósor
@@ -39,19 +40,22 @@
                 <button type="submit" class="btn btn-success" [disabled]="!f.valid">Gyártósor felvétele</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
               </div>
+              <!-- Részletek -->
               <div id="gysReszlet" *ngIf="reszletek && !newLn && !modositas">
-                <button type="button" class="btn btn-warning" (click)="onModosit()">Gyártósor módosítása</button>
+                <button type="button" class="btn btn-warning" (click)="onModositasa()">Gyártósor módosítása</button>
                 <button type="button" class="btn btn-primary" (click)="clearForm(f)">Vissza</button>
               </div>
+              <!-- Módosítás -->
               <div id="GysModositas" *ngIf="modositas && !reszletek && !newLn">
                 <button type="submit" class="btn btn-success" [disabled]="!f.valid || !f.dirty">Módosítások mentése</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
                 <button type="button" class="btn btn-danger" (click)="torles = true">Gyártósor törlése</button>
               </div>
-              <div *ngIf="torles">
+              <!-- Törlés -->
+              <div *ngIf="torles && modositas">
                 <h2>Biztosan törli?</h2>
-                <button class="btn btn-danger" (click)="gysTorol(f)">Törlés</button>
-                <button class="btn btn-warning" (click)="torles = false">Mégse</button>
+                <button type="submit" class="btn btn-danger" >Törlés</button>
+                <button type="button" class="btn btn-warning" (click)="torles = false">Mégse</button>
               </div>
             </td>
           </tr>

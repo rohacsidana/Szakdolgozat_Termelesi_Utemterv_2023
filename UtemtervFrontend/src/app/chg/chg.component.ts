@@ -3,11 +3,14 @@ import { Subscription } from 'rxjs';
 import { Ak } from './ak/ak-model';
 import { AkService } from './ak/ak.service';
 import { NgForm } from '@angular/forms';
+import { Chg, DataTableService } from '../data-table/data-table.service';
+import { ChgService } from './chg.service';
 
 @Component({
   selector: 'app-chg',
   templateUrl: './chg.component.html',
-  styleUrls: ['./chg.component.css']
+  styleUrls: ['./chg.component.css'],
+  providers: [DataTableService, ChgService]
 })
 export class ChgComponent {
   ujChg = false
@@ -22,31 +25,33 @@ export class ChgComponent {
   to: number
   time: string
 
+  /* ------------------ */
 
-  constructor(private akService: AkService) { }
+  chgHeaders =  [
+    { name: 'chg_line', szoveg: 'Gyártósor azonosító' },
+    { name: 'chg_from', szoveg: 'Tételről' },
+    { name: 'chg_to', szoveg: 'Tételre' },
+    { name: 'chg_time', szoveg: 'Átállási idő' }
+  ]
+  
+  changeTimes: Chg[]
+  getSub: Subscription
+
+  constructor(private chgService: ChgService, private dtService: DataTableService) { }
 
 
   ngOnInit(): void {
-    this.akSub = this.akService.kivalasztottAk
-      .subscribe(
-        (ak: Ak) => {
-          console.log(ak);
-          this.ak = ak
-          this.line = ak.chg_line
-          this.from = ak.chg_from
-          this.to = ak.chg_to
-          this.time = ak.chg_time
-          this.onModositClick()
-        }
-      )
+    this.changeTimes = this.chgService.getChangeTimes()
+    this.dtService.emitDataChanged(this.changeTimes.slice())
+    this.getSub = this.chgService.chgChanged.subscribe((data) => {
+      this.changeTimes = data.slice()
+      this.dtService.emitDataChanged(this.changeTimes.slice())
+    })
   }
 
   ngOnDestroy(): void {
-    this.akSub.unsubscribe()
+    this.getSub.unsubscribe()
   }
-
-
-
 
   onSubmit(form: NgForm) {
     console.log(form.value);
@@ -54,7 +59,7 @@ export class ChgComponent {
     //console.log(this.akService.letezikeAk(value.lineInput, value.fromInput, value.toInput));
     //console.log(this.ujChg);   
 
-    if (!this.akService.letezikeAk(value.lineInput, value.fromInput, value.toInput)) {
+    if (!this.chgService.doesChgExist(value.lineInput, value.fromInput, value.toInput)) {
       if (this.ujChg) {
         this.onUjChg(form)
       }
@@ -79,13 +84,11 @@ export class ChgComponent {
   }
 
   onUjChg(form: NgForm) {
-    this.ujChg = true
     let l = form.value.lineInput
     let f = form.value.fromInput
     let to = form.value.toInput
     let time = form.value.timeInput
-    this.akService.ujAk(l, f, to, time)
-    console.log(this.akService.getOsszAk());
+    this.chgService.newChg({chg_line: l, chg_from: f, chg_to: to, chg_time: time})
 
     this.clearForm(form)
   }
@@ -96,16 +99,34 @@ export class ChgComponent {
   }
 
   modositas(form: NgForm) {
-    this.akService.modositAk(this.ak.chg_line, this.ak.chg_from, this.ak.chg_to,
+    /* this.akService.modositAk(this.ak.chg_line, this.ak.chg_from, this.ak.chg_to,
       this.line, this.from, this.to, this.time)
-    this.clearForm(form)
+    this.clearForm(form) */
   }
 
 
   gysTorol(form: NgForm) {
-    this.akService.torolAk(this.ak.chg_line, this.ak.chg_from, this.ak.chg_to)
-    this.clearForm(form)
+    /* this.akService.torolAk(this.ak.chg_line, this.ak.chg_from, this.ak.chg_to)
+    this.clearForm(form) */
   }
 
 
 }
+
+
+/*onInit:
+
+this.akSub = this.akService.kivalasztottAk
+      .subscribe(
+        (ak: Ak) => {
+          console.log(ak);
+          this.ak = ak
+          this.line = ak.chg_line
+          this.from = ak.chg_from
+          this.to = ak.chg_to
+          this.time = ak.chg_time
+          this.onModositClick()
+        }
+      )
+
+*/
