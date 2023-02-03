@@ -3,12 +3,14 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SkService } from './sk/sk.service';
 import { Sk } from './sk/sk-model';
-import { DataTableService } from '../data-table/data-table.service';
+import { DataTableService, Lnd } from '../data-table/data-table.service';
+import { LndService } from './lnd.service';
 
 @Component({
   selector: 'app-lnd',
   templateUrl: './lnd.component.html',
   styleUrls: ['./lnd.component.css'],
+  providers: [DataTableService, LndService]
 
 
 })
@@ -33,26 +35,33 @@ export class LndComponent implements OnInit, OnDestroy {
   ]
 
   getSub: Subscription
+  rates: Lnd[]
 
-  constructor(private skService: SkService, private dtService: DataTableService) { }
+  constructor(private skService: SkService, private dtService: DataTableService, private lndService: LndService) { }
 
 
   ngOnInit(): void {
+    this.rates = this.lndService.getRates()
+    this.dtService.emitDataChanged(this.rates.slice())
+    this.getSub = this.lndService.lndChanged.subscribe((data) => {
+      this.rates = data.slice()
+      this.dtService.emitDataChanged(this.rates.slice())
+    })
 
   }
 
   ngOnDestroy(): void {
-    
+    this.getSub.unsubscribe()
   }
 
-
+/* --------------------------------- */
 
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
     let value = form.value
+    console.log(value);
 
-    if (!this.skService.letezikeSk(value.lineInput, value.partInput)) {
+    if (!this.lndService.doesLndExist(value.lineInput, value.partInput)) {
       if (this.ujLnd) {
         this.onUjLnd(form)
       }
@@ -65,7 +74,6 @@ export class LndComponent implements OnInit, OnDestroy {
   }
 
   clearForm(form: NgForm) {
-    form.resetForm()
     this.ujLnd = false
     this.szerkesztes = false
     this.torles = false
@@ -73,14 +81,17 @@ export class LndComponent implements OnInit, OnDestroy {
     this.line = ''
     this.part = null
     this.rate = null
+    form.resetForm()
   }
 
   onUjLnd(form: NgForm) {
-    this.ujLnd = true
     let l = form.value.lineInput
     let p = form.value.partInput
     let r = form.value.rateInput
-    this.skService.ujSk(l, p, r)
+
+    this.lndService.newRate({lnd_line: l, lnd_part: p, lnd_rate: r})
+    console.log(this.lndService.getRates());
+    
     this.clearForm(form)
   }
 
@@ -124,4 +135,12 @@ this.skSub = this.skService.kivalasztottSk
 ngOnDestroy:
 
 this.skSub.unsubscribe()
+
+onUjLnd:
+
+this.ujLnd = true
+    let l = form.value.lineInput
+    let p = form.value.partInput
+    let r = form.value.rateInput
+    this.skService.ujSk(l, p, r)
 */
