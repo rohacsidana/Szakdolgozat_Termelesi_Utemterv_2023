@@ -5,25 +5,26 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Ln, DataTableService } from '../data-table/data-table.service';
 import { LnService } from './ln.service';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-ln',
   templateUrl: './ln.component.html',
   styleUrls: ['./ln.component.css'],
-  providers: [DataTableService, LnService]
+  providers: [DataTableService, LnService],
 })
 export class LnComponent implements OnInit, OnDestroy {
   modositas = false
   reszletek = false
   torles = false
   validForm = true
-  
+
   sub: Subscription
-  
+
   kereses = ""
   azon: string
   desc: string
-  
+
   /* --------------------------------- */
   newLn = false
 
@@ -33,7 +34,9 @@ export class LnComponent implements OnInit, OnDestroy {
   ]
 
   lines: Ln[]
+  selectedLine: Ln
   getSub: Subscription
+  selectSub: Subscription
 
   constructor(private lnService: LnService, private dtService: DataTableService) { }
 
@@ -42,19 +45,21 @@ export class LnComponent implements OnInit, OnDestroy {
     this.dtService.emitDataChanged(this.lines.slice());
     this.getSub = this.lnService.lnChanged.subscribe((data) => {
       this.lines = data.slice();
-      this.dtService.dataChanged.next(this.lines.slice());
+      this.dtService.emitDataChanged(this.lines.slice());
 
     });
+
+    this.selectSub = this.dtService.selectRow.subscribe((data: Ln) => {
+      this.selectedLine = data
+      this.onViewLine()
+      console.log("kiválasztottad ezt:");
+      console.log(this.selectedLine);
+
+    })
   }
 
   ngOnDestroy(): void {
     this.getSub.unsubscribe()
-  }
-
-  onKereses(k: NgForm) {
-    this.kereses = k.value.keresesInput
-    console.log(this.kereses);
-
   }
 
   onSubmit(form: NgForm) {
@@ -62,32 +67,64 @@ export class LnComponent implements OnInit, OnDestroy {
 
     console.log(value);
 
-    if (!this.lnService.doesLnExist(value.azonInput)) {
-      if (this.newLn) {
+    if (this.torles) {
+      this.onDeleteLine(form)
+    } else {
+      //!vanE || (vanE && azon === this.gyartosor.ln_id)
+      let lnExists = this.lnService.doesLnExist(value.azonInput)
+      if (!lnExists && this.newLn) {
         this.onUjGys(form)
       }
       if (this.modositas) {
-        this.onModositas(form, value.azonInput, value.descInput)
+        if (!lnExists || (lnExists && value.azonInput === this.selectedLine.ln_line)) {
+          this.onEditLine(form)
+        }
       }
-
-    } else {
-      this.validForm = false
     }
+
+
   }
 
-  onModosit() {
+  onViewLine() {
+    this.reszletek = true
+    this.modositas = false
+    this.newLn = false
+
+    this.azon = this.selectedLine.ln_line
+    this.desc = this.selectedLine.ln_desc
+
+  }
+
+  onModositasa() {
     this.modositas = true
     this.newLn = false
     this.reszletek = false
+    this.torles = false
   }
 
-  gysTorol(form: NgForm) {
-    /* this.gysService.torolGys(this.gyartosor.ln_id)
-    this.clearForm(form) */
+  onEditLine(form: NgForm) {
+    let value = form.value
+    let l = value.azonInput
+    let d = value.descInput
+    this.lnService.editLine(this.selectedLine.ln_line, { ln_line: l, ln_desc: d })
+    this.clearForm(form)
+  }
+
+  onDeleteLine(form: NgForm) {
+    this.lnService.deleteLine(this.selectedLine.ln_line)
+    console.log(this.selectedLine.ln_line);
+    this.clearForm(form)
+    console.log("lines:");
+    console.log(this.lines);
+    console.log("getLines:");
+    console.log(this.lnService.getLines());
+
+
+
+
   }
 
   clearForm(form: NgForm) {
-    form.resetForm()
     this.azon = ""
     this.desc = ""
     this.newLn = false
@@ -95,6 +132,7 @@ export class LnComponent implements OnInit, OnDestroy {
     this.reszletek = false
     this.torles = false
     this.validForm = true
+    form.resetForm()
   }
 
   onUjGys(form: NgForm) {

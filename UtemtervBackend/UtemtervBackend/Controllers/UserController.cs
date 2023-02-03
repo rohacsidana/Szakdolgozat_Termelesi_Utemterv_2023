@@ -42,7 +42,7 @@ namespace UtemtervBackend.Controllers
         }
         [EnableCors]
         [HttpPost("new")]
-        public IActionResult newUser([FromBody] NewUser user)
+        public IActionResult NewUser([FromBody] CNewUser user)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace UtemtervBackend.Controllers
         [EnableCors]
         [HttpPut("update")]
 
-        public IActionResult updateUser([FromBody] UpdateUser user)
+        public IActionResult UpdateUser([FromBody] CUpdateUser user)
         {
             try
             {
@@ -88,7 +88,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        public class NewUser
+        public class CNewUser
         {
             public string Name { get; set; }
             public string BirthDate { get; set; }
@@ -97,7 +97,7 @@ namespace UtemtervBackend.Controllers
             public int Post { get; set; }
 
         }
-        public class UpdateUser:NewUser
+        public class CUpdateUser:CNewUser
         {
             public int UserID { get; set; }    
 

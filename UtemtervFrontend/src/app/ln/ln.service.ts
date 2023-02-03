@@ -16,14 +16,27 @@ export class LnService {
     }
 
     getLnIndex(line: string) {
-        let index = this.lines.findIndex(index => index.ln_line === line)
-
-        return index
+        return this.lines.findIndex(index => index.ln_line === line)
+        
     }
 
     newLine(newLnd: Ln) {
         this.lines.push(newLnd)
         this.lnChanged.next(this.lines.slice())
+    }
+
+    editLine(line: string, newLn: Ln) {
+        let index = this.getLnIndex(line)
+        this.lines[index].ln_line = newLn.ln_line;
+        this.lines[index].ln_desc = newLn.ln_desc;
+    }
+
+    deleteLine(line: string) {
+        let index = this.getLnIndex(line)        
+        this.lines.splice(index, 1);
+        this.lnChanged.next(this.lines.slice())
+        console.log(this.getLines());
+        
     }
 
     doesLnExist(line: string) {
