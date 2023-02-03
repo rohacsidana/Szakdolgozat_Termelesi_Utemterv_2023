@@ -57,7 +57,7 @@ namespace UtemtervBackend.Controllers
         public class NewUser
         {
             public string Name { get; set; }
-            public DateTime BirthDate { get; set; }
+            public string BirthDate { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
             public int Post { get; set; }

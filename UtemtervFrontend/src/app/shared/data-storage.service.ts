@@ -103,10 +103,21 @@ export class DataStorageService {
     user.password = 'tutalibetalibe';
     console.log(user);
 
+    let monthZero: string = user.birth_date.getMonth() + 1 < 10 ? '0' : '';
+    let dayZero: string = user.birth_date.getDate() < 10 ? '0' : '';
+    let formattedDate: string =
+      '' +
+      user.birth_date.getFullYear() +
+      monthZero +
+      (user.birth_date.getMonth() + 1) +
+      dayZero +
+      user.birth_date.getDate();
+    console.log(formattedDate);
+
     return this.http
       .post<any>(URL + '/user/new', {
         name: user.name,
-        birth_date: user.birth_date.toISOString(),
+        birthDate: formattedDate,
         email: user.email,
         password: user.password,
         post: user.post,
