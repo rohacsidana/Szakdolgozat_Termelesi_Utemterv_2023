@@ -16,6 +16,26 @@ export class DataStorageService {
     private woService: WoService,
     private userService: UserService
   ) {}
+
+  formatDate(dateToFormat: Date): string {
+    //átírom olyan formátumra, hogy érthető legyen az sql-nek --> string-ként, nem date-ként adom át
+
+    let monthZero: string = dateToFormat.getMonth() + 1 < 10 ? '0' : '';
+    let dayZero: string = dateToFormat.getDate() < 10 ? '0' : '';
+    let formattedDate: string =
+      '' +
+      dateToFormat.getFullYear() +
+      monthZero +
+      (dateToFormat.getMonth() + 1) +
+      dayZero +
+      dateToFormat.getDate();
+
+    return formattedDate;
+
+    // a kimenet ilyen lesz: 19950506
+    // sql ben varchar(8)-ra lesz jó, ott majd castolni kell date-re
+  }
+
   fetchAllWo() {
     this.http
       .get<WoResponse[]>('https://localhost:7075/workorder/list')
@@ -95,22 +115,12 @@ export class DataStorageService {
     user.password = 'changeme';
     console.log(user);
 
-    //átírom olyan formátumra, hogy érthető legyen az sql-nek --> string-ként, nem date-ként adom át
-    let monthZero: string = user.birth_date.getMonth() + 1 < 10 ? '0' : '';
-    let dayZero: string = user.birth_date.getDate() < 10 ? '0' : '';
-    let formattedDate: string =
-      '' +
-      user.birth_date.getFullYear() +
-      monthZero +
-      (user.birth_date.getMonth() + 1) +
-      dayZero +
-      user.birth_date.getDate();
     //console.log(formattedDate);
 
     return this.http
       .post<any>(URL + '/user/new', {
         name: user.name,
-        birthDate: formattedDate,
+        birthDate: this.formatDate(user.birth_date),
         email: user.email,
         password: user.password,
         post: user.post,
@@ -132,16 +142,47 @@ export class DataStorageService {
       );
   }
 
+  updateUser(user: User) {
+    console.log(user);
+    let changedUser = {
+      userID: user.user_id,
+      name: user.name,
+      birthDate: this.formatDate(user.birth_date),
+      email: user.email,
+      password: '',
+      post: user.post,
+    };
+    console.log(changedUser);
+
+    user.password = 'changeme';
+    return this.http
+      .put(URL + '/user/update', changedUser)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            console.log('Number of rows updated: ' + res);
+            if (res == 1) {
+              this.userService.updateUser(user);
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      )
+      .subscribe();
+  }
+
   deleteUser(id: number) {
     // DELETE user/delete/id
-    console.log(id);
+    console.log('UserID to delete: ' + id);
 
     return this.http
       .delete(URL + `/user/delete/${id}`)
       .pipe(
         tap({
           next: (res: number) => {
-            console.log(res);
+            console.log('Number of deleted users: ' + res);
             if (res == 1) {
               this.userService.deleteUser(id);
             }

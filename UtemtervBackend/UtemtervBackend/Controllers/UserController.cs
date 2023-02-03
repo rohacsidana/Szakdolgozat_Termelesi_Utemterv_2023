@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Globalization;
 using System.Security.Cryptography;
@@ -55,14 +56,31 @@ namespace UtemtervBackend.Controllers
         }
 
         [EnableCors]
+        [HttpPut("update")]
+
+        public IActionResult updateUser([FromBody] UpdateUser user)
+        {
+            try
+            {
+                var updateUser = _context.Database.ExecuteSqlInterpolated($"updateUser {user.UserID}, {user.Name}, {user.BirthDate}, {user.Email}, {CreateMD5(user.Password)}, {user.Post}");
+               // var updateUser = _context.Database.ExecuteSqlInterpolated($"updateUser {220}, {"VDSVSDVVVVVVVVVV"}, {"20020202"}, {"a@g.v"}, {CreateMD5("ucés")}, {8}");
+                return Ok(updateUser);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e);
+            }
+        }
+
+        [EnableCors]
         [HttpDelete("delete/{id}")]
 
         public IActionResult deleteUser(int id)
         {
             try
             {
-                var deletedUser = _context.Database.ExecuteSqlRaw($"deleteUser {id}");
-                return Ok(deletedUser);
+                var numberOfDeleted = _context.Database.ExecuteSqlRaw($"deleteUser {id}");
+                return Ok(numberOfDeleted);
             }
             catch(Exception e)
             {
@@ -77,6 +95,11 @@ namespace UtemtervBackend.Controllers
             public string Email { get; set; }
             public string Password { get; set; }
             public int Post { get; set; }
+
+        }
+        public class UpdateUser:NewUser
+        {
+            public int UserID { get; set; }    
 
         }
 
