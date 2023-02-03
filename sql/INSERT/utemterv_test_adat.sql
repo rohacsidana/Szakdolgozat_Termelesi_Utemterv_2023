@@ -45,7 +45,8 @@ insert into "USER" (name, birth_date, email, password, post) values ('Udall Pybu
 insert into "USER" (name, birth_date, email, password, post) values ('Brock Parnall', '5/27/2002', 'bparnalli@google.com.br', '8CLmeuode1u', 19);
 insert into "USER" (name, birth_date, email, password, post) values ('Correna Defond', '4/27/1982', 'cdefondj@rediff.com', 'HMl9bovt', 20);
 --DBCC CHECKIDENT ('user', RESEED, 0);
-GOexec newWo 'rend1', 1000, 10, '20230112'
+GO
+exec newWo 'rend1', 1000, 10, '20230112'
 exec newWo 'rend12', 1000, 10, '20230112'
 exec newWo 'rend13', 1000, 10, '20230112'
 exec newWo 'rend14', 1000, 10, '20230112'
@@ -62,5 +63,8 @@ exec newWo 'rendasd1', 1000, 10, '20230112'
 exec newWo 'rend1asd', 1000, 10, '20230112'
 exec newWo 'rendaaa1', 1000, 10, '20230112'
 exec newWo 'resadnd1', 1000, 10, '20230112'
-
 exec newWo 'rend1', 1000, 10, '20230112'
+/*Identity insert ha valakinek kellene*/
+--set identity_insert dbo.PT_MSTR on
+--insert into PT_MSTR (pt_part,pt_desc, pt_um, pt_qty_oh) values (2, 'szia', 'g', null)
+--set identity_insert dbo.PT_MSTR off
