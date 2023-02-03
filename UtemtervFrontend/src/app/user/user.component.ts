@@ -163,26 +163,20 @@ export class UserComponent implements OnInit, OnDestroy {
       this.myGroup.get('user_id').disable();
     } else {
       this.clearForm();
+      this.searchMode = false;
       this.userFound = false;
     }
-    console.log(this.userFound);
+    //console.log(this.userFound);
   }
 
   onDelete() {
-    this.userService.deleteUser(Number(this.myGroup.getRawValue().user_id));
+    this.dataStorageService.deleteUser(
+      Number(this.myGroup.getRawValue().user_id)
+    );
     this.userDataChanged();
     this.clearForm();
+    this.searchMode = true;
     this.loadedUser = null;
-  }
-
-  checkEmailExistance() {
-    this.userData.forEach((user) => {
-      if (user.email == this.myGroup.getRawValue().email) {
-        this.emailExists = true;
-      } else {
-        this.emailExists = false;
-      }
-    });
   }
 
   onSubmit() {
@@ -196,11 +190,35 @@ export class UserComponent implements OnInit, OnDestroy {
           post: this.myGroup.getRawValue().post,
         })
         .subscribe();
-      this.emailExists = this.userService.getEmailExists();
       this.userDataChanged();
     }
     this.clearForm();
+    this.newMode = false;
     this.searchMode = true;
+  }
+
+  onUpdateUser() {
+    let userToUpdate: DataTableService.User = {
+      user_id: Number(this.myGroup.getRawValue().user_id),
+      name: this.myGroup.getRawValue().name,
+      birth_date: new Date(this.myGroup.getRawValue().birth_date),
+      email: this.myGroup.getRawValue().email,
+      post: this.myGroup.getRawValue().post,
+    };
+    this.dataStorageService.updateUser(userToUpdate);
+
+    this.clearForm();
+    this.searchMode = true;
+  }
+
+  checkEmailExistance() {
+    this.userData.forEach((user) => {
+      if (user.email == this.myGroup.getRawValue().email) {
+        this.emailExists = true;
+      } else {
+        this.emailExists = false;
+      }
+    });
   }
 
   clearForm() {
