@@ -103,7 +103,7 @@ import { AkListComponent } from './chg/ak-list/ak-list.component';
     MatSelectModule,
     MatInputModule,
   ],
-  providers: [GysService, DataStorageService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
