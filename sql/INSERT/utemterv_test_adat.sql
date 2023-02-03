@@ -45,4 +45,22 @@ insert into "USER" (name, birth_date, email, password, post) values ('Udall Pybu
 insert into "USER" (name, birth_date, email, password, post) values ('Brock Parnall', '5/27/2002', 'bparnalli@google.com.br', '8CLmeuode1u', 19);
 insert into "USER" (name, birth_date, email, password, post) values ('Correna Defond', '4/27/1982', 'cdefondj@rediff.com', 'HMl9bovt', 20);
 --DBCC CHECKIDENT ('user', RESEED, 0);
-GO
+GOexec newWo 'rend1', 1000, 10, '20230112'
+exec newWo 'rend12', 1000, 10, '20230112'
+exec newWo 'rend13', 1000, 10, '20230112'
+exec newWo 'rend14', 1000, 10, '20230112'
+exec newWo 'rend15', 1000, 10, '20230112'
+exec newWo 'rend16', 1000, 10, '20230112'
+exec newWo 'rend16', 1000, 10, '20230112'
+exec newWo 'rend17', 1000, 10, '20230112'
+exec newWo 'rend18', 1000, 10, '20230112'
+exec newWo 'rend19', 1000, 10, '20230112'
+exec newWo 'rend1a', 1000, 10, '20230112'
+exec newWo 'rend1d', 1000, 10, '20230112'
+exec newWo 'rend1vs', 1000, 10, '20230112'
+exec newWo 'rendasd1', 1000, 10, '20230112'
+exec newWo 'rend1asd', 1000, 10, '20230112'
+exec newWo 'rendaaa1', 1000, 10, '20230112'
+exec newWo 'resadnd1', 1000, 10, '20230112'
+
+exec newWo 'rend1', 1000, 10, '20230112'
