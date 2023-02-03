@@ -89,6 +89,17 @@ export interface Ld {
   ld_qty_scrp: number;
 }
 
+export interface Ln {
+  ln_line: string
+  ln_desc: string
+}
+
+export interface Lnd {
+  lnd_line: string
+  lnd_part: number
+  lnd_rate: number
+}
+
 @Injectable()
 export class DataTableService {
   dataChanged = new Subject<DataTables[]>();
@@ -97,6 +108,7 @@ export class DataTableService {
   sortData = new Subject<Sort>();
 
   emitDataChanged(data: DataTables[]) {
+    
     this.dataChanged.next(data);
   }
 
@@ -109,4 +121,4 @@ export class DataTableService {
   }
 }
 
-export type DataTables = Wod | User | Wo | Lad | Pt | Ps | Lad | Ld;
+export type DataTables = Wod | User | Wo | Lad | Pt | Ps | Lad | Ld | Ln | Lnd;

@@ -1,15 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck, AfterContentInit, AfterViewInit } from '@angular/core';
 import { Gys } from './gys/gys-model';
 import { GysService } from './gys/gys.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Ln, DataTableService } from '../data-table/data-table.service';
 
 @Component({
   selector: 'app-ln',
   templateUrl: './ln.component.html',
   styleUrls: ['./ln.component.css'],
+  providers: [DataTableService, GysService]
 })
-export class LnComponent implements OnInit, OnDestroy {
+export class LnComponent implements OnInit, OnDestroy, AfterViewInit /* AfterViewInit */ {
   felvetel = false
   modositas = false
   reszletek = false
@@ -23,30 +25,39 @@ export class LnComponent implements OnInit, OnDestroy {
   azon: string
   desc: string
 
-  szo = 'szo'
+  /* --------------------------------- */
 
-  constructor(private gysService: GysService) { }
+  lnHeaders = [
+    { name: 'ln_line', szoveg: 'Gyártósor azonosító' },
+    { name: 'ln_desc', szoveg: 'Gyártósor leírása' }
+  ]
+
+  lines: Ln[] = []
+  getSub: Subscription
+  lnValt: Subscription
+
+  constructor(private gysService: GysService, private dtService: DataTableService) { }
 
   ngOnInit(): void {
-    this.sub = this.gysService.kivalasztottGys
-      .subscribe(
-        (gys: Gys) => {
-          this.gyartosor = gys;
-          this.azon = gys.ln_id
-          this.desc = gys.ln_desc
-          this.reszletek = true
-          this.felvetel = false
-          this.modositas = false
-        }
-      )
+    this.lines = this.gysService.getLines()  
+    
+    this.lnValt = this.gysService.lnValtozas.subscribe((data) => {
+      console.log(data);
+      this.lines = data.slice();
+      this.dtService.dataChanged.next(this.lines.slice());
 
-      console.log(this.szo.substring(0, 1));
-      
+    });
   }
 
+  ngAfterViewInit(): void {
+     
+    this.dtService.emitDataChanged(this.lines.slice());
+  }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe()
+    //this.sub.unsubscribe()
+    //this.getSub.unsubscribe()
+    this.lnValt.unsubscribe()
   }
 
   onKereses(k: NgForm) {
@@ -74,8 +85,6 @@ export class LnComponent implements OnInit, OnDestroy {
     this.reszletek = false
   }
 
-  
-
   gysTorol(form: NgForm) {
     this.gysService.torolGys(this.gyartosor.ln_id)
     this.clearForm(form)
@@ -94,7 +103,7 @@ export class LnComponent implements OnInit, OnDestroy {
 
   onUjGys(form: NgForm) {
     let value = form.value
-    let vanIlyenGys = this.gysService.letezikeGys(value.azonInput)
+    /* let vanIlyenGys = this.gysService.letezikeGys(value.azonInput)
 
     if (!vanIlyenGys) {
       this.gysService.ujGys(value.azonInput, value.descInput)
@@ -102,7 +111,10 @@ export class LnComponent implements OnInit, OnDestroy {
 
     } else {
       this.validForm = false
-    }
+    } */
+
+    this.gysService.newLine(value.azonInput, value.descInput)
+    this.dtService.emitDataChanged(this.lines.slice())
   }
 
   onModositas(form: NgForm, azon: string, desc: string) {
@@ -118,3 +130,16 @@ export class LnComponent implements OnInit, OnDestroy {
   }
 
 }
+
+
+/*this.sub = this.gysService.kivalasztottGys
+      .subscribe(
+        (gys: Gys) => {
+          this.gyartosor = gys;
+          this.azon = gys.ln_id
+          this.desc = gys.ln_desc
+          this.reszletek = true
+          this.felvetel = false
+          this.modositas = false
+        }
+      ) */

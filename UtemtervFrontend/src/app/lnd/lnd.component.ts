@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SkService } from './sk/sk.service';
 import { Sk } from './sk/sk-model';
+import { DataTableService } from '../data-table/data-table.service';
 
 @Component({
   selector: 'app-lnd',
@@ -23,30 +24,25 @@ export class LndComponent implements OnInit, OnDestroy {
   part: number
   rate: number
 
+  /* -----------data-table----------- */
 
-  constructor(private skService: SkService) { }
+  lndHeaders = [
+    { name: 'lnd_line', szoveg: 'Gyártósor azonosító' },
+    { name: 'lnd_part', szoveg: 'Tétel' },
+    { name: 'lnd_rate', szoveg: 'Mennyiség/óra' },
+  ]
+
+  getSub: Subscription
+
+  constructor(private skService: SkService, private dtService: DataTableService) { }
 
 
   ngOnInit(): void {
-    this.skSub = this.skService.kivalasztottSk
-      .subscribe(
-        (sk: Sk) => {
-          //console.log(sk);
-          this.sk = sk
-          this.line = sk.lnd_line
-          this.part = sk.lnd_part
-          this.rate = sk.lnd_rate
-          this.onModositClick()
-          console.log(this.skService.getSk(this.line, this.part));
-          
-        }
-      )
 
-      
   }
 
   ngOnDestroy(): void {
-    this.skSub.unsubscribe()
+    
   }
 
 
@@ -106,3 +102,26 @@ export class LndComponent implements OnInit, OnDestroy {
 
 
 }
+
+
+/* ngOnInit:
+
+this.skSub = this.skService.kivalasztottSk
+      .subscribe(
+        (sk: Sk) => {
+          //console.log(sk);
+          this.sk = sk
+          this.line = sk.lnd_line
+          this.part = sk.lnd_part
+          this.rate = sk.lnd_rate
+          this.onModositClick()
+          console.log(this.skService.getSk(this.line, this.part));
+          
+        }
+      )
+
+
+ngOnDestroy:
+
+this.skSub.unsubscribe()
+*/

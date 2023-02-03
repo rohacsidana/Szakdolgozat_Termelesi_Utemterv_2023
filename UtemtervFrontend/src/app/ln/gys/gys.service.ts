@@ -1,13 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Gys } from './gys-model';
 import { Subject } from 'rxjs';
+import { Ln } from '../../data-table/data-table.service';
 
 @Injectable()
 export class GysService {
     gysValtozas = new Subject<Gys[]>();
     kivalasztottGys = new Subject<Gys>();
 
+    lnValtozas = new Subject<Ln[]>();
+
+    private lines: Ln[] = [
+        {ln_line: 'ln_1', ln_desc: 'leiras1'},
+        {ln_line: 'ln_2', ln_desc: 'leiras2'},
+    ]
+
+    getLines() {
+        //this.lnValtozas.next(this.lines.slice());
+        return this.lines.slice();
+    }
+
+    newLine(line: string, desc: string) {
+        this.lines.push({ln_line: line, ln_desc: desc})
+        console.log(this.lines);
+        
+    }
+
     private gyartosorok: Gys[] = [
+        
         new Gys('ln_1', 'első gys'),
         new Gys('ln_2', 'a shortenpipe tesztelésének érdekében ez egy hosszabb leírás a shortenpipe tesztelésének érdekében ez egy hosszabb leírás a shortenpipe tesztelésének érdekében ez egy hosszabb leírás'),
         /* new Gys('ln_3', 'leiras'),

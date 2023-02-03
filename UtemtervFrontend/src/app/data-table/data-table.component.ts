@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
@@ -26,11 +26,18 @@ export class DataTableComponent implements OnDestroy, OnInit {
 
   dtSub: Subscription;
 
-  constructor(private dataTblService: DataTableService) {}
+  constructor(private dataTblService: DataTableService) { 
+    console.log("ctor");
+    
+  }
 
   ngOnInit() {
+    console.log("ng");
+    
     this.dtSub = this.dataTblService.dataChanged.subscribe((data) => {
+
       this.data = data.slice();
+
       this.length = this.data.length;
       this.setView();
     });
@@ -38,7 +45,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
     //this.dataTblService.getDataEmit();
   }
 
-
+ 
   isDate(data) {
     if (data instanceof Date) {
       return true;
