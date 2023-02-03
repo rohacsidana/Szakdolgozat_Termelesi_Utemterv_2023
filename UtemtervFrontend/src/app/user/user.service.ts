@@ -11,11 +11,9 @@ export class UserService {
   userDataChanged: Subject<User[]> = new Subject<User[]>();
   emailExists: boolean = false;
 
-  setUsers(userData: User[]) {
+  setUsers(data: User[]) {
     console.log('setting users');
-
-    this.userData = userData.slice();
-    console.log(this.userData);
+    this.userData = data.slice();
     this.userDataChanged.next(this.userData.slice());
   }
 
@@ -31,42 +29,15 @@ export class UserService {
     }
   }
 
-  saveUser(user: User) {
-    if (this.getUser(user.user_id)) {
-      //ha létezik ilyen user_id-jű user, updateljuk
-      let userToChange: User =
-        this.userData[this.userData.indexOf(this.getUser(user.user_id))];
-      userToChange.birth_date = new Date(user.birth_date);
-      userToChange.email = user.email;
-      userToChange.name = user.name;
-      userToChange.post = user.post;
-      for (let i = 0; i < this.userData.length; i++) {
-        if (this.userData[i].user_id == user.user_id) {
-          this.userData[i] = user;
-        }
-      }
-      this.userDataChanged.next(this.userData.slice());
-      this.emailExists = false;
-    } else {
-      let i = 0;
-      //eldöntjük, létezik-e már az email
-      while (i < this.userData.length && this.userData[i].email != user.email) {
-        i++;
-      }
-      this.emailExists = i < this.userData.length;
-
-      if (!this.emailExists) {
-        //ha nincs ilyen user & email sem szerepel, léterehozzuk
-
-        this.userData.push(user);
-        //itt még változtatni kell a http kérés response-a alapján
-        this.userDataChanged.next(this.userData.slice());
-      }
-    }
+  saveUser(newUser: User) {
+    this.userData.push(newUser);
+    this.userDataChanged.next(this.userData.slice());
   }
 
-  getEmailExists(): boolean {
-    return this.emailExists;
+  updateUser(updatedUser: User) {
+    let userToUpdate: User = this.getUser(updatedUser.user_id);
+    this.userData[this.userData.indexOf(userToUpdate)] = updatedUser;
+    this.userDataChanged.next(this.userData.slice());
   }
 
   deleteUser(id: number) {

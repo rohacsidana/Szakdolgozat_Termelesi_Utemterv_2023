@@ -64,7 +64,8 @@
               </button>
               <button
                 class="btn btn-warning"
-                type="submit"
+                type="button"
+                (click)="onUpdateUser()"
                 [disabled]="!myGroup.valid || !loadedUser"
                 *ngIf="searchMode && loadedUser"
               >
@@ -120,7 +121,7 @@
                   <div class="col-xs-4">
                     <label for="post">Besorolás:</label>
                     <input
-                      type="text"
+                      type="number"
                       name="post"
                       id="post"
                       class="form-control"

@@ -52,7 +52,6 @@ export class WoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        
         this.woDataChangedSub = this.woService.woDataChanged.subscribe(
             (woData: DataTableService.Wo[]) => {
                 this.woData = woData;
@@ -66,7 +65,7 @@ export class WoListComponent implements OnInit, OnDestroy {
                 }
             }
         );
-        this.DataStorageService.fetchAllWo();
+        this.DataStorageService.fetchAllWo(); 
 
 
         this.sortSub = this.dtTblService.sortData.subscribe(
@@ -82,6 +81,7 @@ export class WoListComponent implements OnInit, OnDestroy {
                 this.router.navigate(['../', pk], { relativeTo: this.route });
             }
         );
+        
     }
 
     onSubmit(form: NgForm) {
