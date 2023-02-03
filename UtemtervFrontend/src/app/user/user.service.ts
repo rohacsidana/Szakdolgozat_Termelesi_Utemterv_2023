@@ -15,7 +15,7 @@ export class UserService {
     console.log('setting users');
 
     this.userData = userData.slice();
-    console.log(this.userData);
+    //console.log(this.userData);
     this.userDataChanged.next(this.userData.slice());
   }
 

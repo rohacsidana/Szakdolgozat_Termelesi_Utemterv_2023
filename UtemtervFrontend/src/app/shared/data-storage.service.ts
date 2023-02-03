@@ -92,17 +92,10 @@ export class DataStorageService {
   }
 
   newUser(user: User) {
-    /* const userT = {
-      name: 'Kemény Kálmán',
-      birthDate: '2006-02-02T09:53:34.983Z',
-      email: 'kami@kamu.com',
-      password: 'szeretlek',
-      post: 6,
-    }; */
-
-    user.password = 'tutalibetalibe';
+    user.password = 'changeme';
     console.log(user);
 
+    //átírom olyan formátumra, hogy érthető legyen az sql-nek --> string-ként, nem date-ként adom át
     let monthZero: string = user.birth_date.getMonth() + 1 < 10 ? '0' : '';
     let dayZero: string = user.birth_date.getDate() < 10 ? '0' : '';
     let formattedDate: string =
@@ -112,7 +105,7 @@ export class DataStorageService {
       (user.birth_date.getMonth() + 1) +
       dayZero +
       user.birth_date.getDate();
-    console.log(formattedDate);
+    //console.log(formattedDate);
 
     return this.http
       .post<any>(URL + '/user/new', {
@@ -125,7 +118,6 @@ export class DataStorageService {
       .pipe(
         tap({
           next: (res) => {
-            console.log();
             let u = {
               user_id: res[0].userId,
               name: user.name,
@@ -133,12 +125,31 @@ export class DataStorageService {
               email: user.email,
               post: user.post,
             };
-            console.log(u.birth_date);
             this.userService.saveUser(u);
           },
           error: (error) => console.log(error),
         })
       );
+  }
+
+  deleteUser(id: number) {
+    // DELETE user/delete/id
+    console.log(id);
+
+    return this.http
+      .delete(URL + `/user/delete/${id}`)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            console.log(res);
+            if (res == 1) {
+              this.userService.deleteUser(id);
+            }
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
   }
 
   fetchWo(id: number) {

@@ -54,6 +54,22 @@ namespace UtemtervBackend.Controllers
             }
         }
 
+        [EnableCors]
+        [HttpDelete("delete/{id}")]
+
+        public IActionResult deleteUser(int id)
+        {
+            try
+            {
+                var deletedUser = _context.Database.ExecuteSqlRaw($"deleteUser {id}");
+                return Ok(deletedUser);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(404, e);
+            }
+        }
+
         public class NewUser
         {
             public string Name { get; set; }

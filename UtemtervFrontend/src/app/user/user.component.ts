@@ -165,11 +165,13 @@ export class UserComponent implements OnInit, OnDestroy {
       this.clearForm();
       this.userFound = false;
     }
-    console.log(this.userFound);
+    //console.log(this.userFound);
   }
 
   onDelete() {
-    this.userService.deleteUser(Number(this.myGroup.getRawValue().user_id));
+    this.dataStorageService.deleteUser(
+      Number(this.myGroup.getRawValue().user_id)
+    );
     this.userDataChanged();
     this.clearForm();
     this.loadedUser = null;
