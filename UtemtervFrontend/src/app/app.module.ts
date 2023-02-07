@@ -41,7 +41,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { GysListComponent } from './ln/gys-list/gys-list.component';
 import { FilterPipePipe } from './ln/filter-pipe.pipe';
 import { DataStorageService } from './shared/data-storage.service';
 import { UserService } from './user/user.service';
@@ -73,7 +72,6 @@ import { AkListComponent } from './chg/ak-list/ak-list.component';
     WodComponent,
     Rovidit,
     WoFormComponent,
-    GysListComponent,
     FilterPipePipe,
     SkComponent,
     SkListComponent,

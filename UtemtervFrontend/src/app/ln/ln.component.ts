@@ -54,6 +54,7 @@ export class LnComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getSub.unsubscribe()
+    this.selectSub.unsubscribe()
   }
 
   onSubmit(form: NgForm) {
