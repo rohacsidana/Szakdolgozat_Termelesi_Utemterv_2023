@@ -41,5 +41,10 @@ namespace UtemtervBackend.Controllers
             }
         }
 
+        /*[EnableCors]
+        [HttpPost("new")]
+
+        public IActionResult NewGys()*/
+
     }
 }
