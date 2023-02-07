@@ -28,6 +28,24 @@ export class ChgService {
         this.chgChanged.next(this.changeTimes.slice())
     }
 
+    editChg(line: string, from: number, to: number, newChg: Chg) {
+        let index = this.getChgIndex(line, from, to)
+        this.changeTimes[index].chg_line = newChg.chg_line;
+        this.changeTimes[index].chg_from = newChg.chg_from
+        this.changeTimes[index].chg_to = newChg.chg_to
+        this.changeTimes[index].chg_time = newChg.chg_time
+    }
+
+    deleteChg(line: string, from: number, to: number) {
+        let index = this.getChgIndex(line, from, to)        
+        this.changeTimes.splice(index, 1);
+        this.chgChanged.next(this.changeTimes.slice())
+        console.log(this.getChangeTimes());
+        
+    }
+
+
+
     doesChgExist(line: string, from: number, to: number) {
         let index = this.getChgIndex(line, from, to)
 

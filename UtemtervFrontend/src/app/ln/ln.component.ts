@@ -1,11 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Gys } from './gys/gys-model';
-import { GysService } from './gys/gys.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Ln, DataTableService } from '../data-table/data-table.service';
 import { LnService } from './ln.service';
-import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-ln',
@@ -14,19 +11,14 @@ import { NgFor } from '@angular/common';
   providers: [DataTableService, LnService],
 })
 export class LnComponent implements OnInit, OnDestroy {
-  modositas = false
-  reszletek = false
-  torles = false
-  validForm = true
-
-  sub: Subscription
-
-  kereses = ""
-  azon: string
+  line: string
   desc: string
 
-  /* --------------------------------- */
   newLn = false
+  edit = false
+  details = false
+  deleteLn = false
+  validForm = true
 
   lnHeaders = [
     { name: 'ln_line', szoveg: 'Gyártósor azonosító' },
@@ -43,12 +35,14 @@ export class LnComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.lines = this.lnService.getLines()
     this.dtService.emitDataChanged(this.lines.slice());
+    /* A data-table-ben figyeli a változást */
     this.getSub = this.lnService.lnChanged.subscribe((data) => {
       this.lines = data.slice();
       this.dtService.emitDataChanged(this.lines.slice());
 
     });
 
+    /* Visszaadja a kiválasztott sort kattintásra */
     this.selectSub = this.dtService.selectRow.subscribe((data: Ln) => {
       this.selectedLine = data
       this.onViewLine()
@@ -64,50 +58,50 @@ export class LnComponent implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     let value = form.value
-
     console.log(value);
-
-    if (this.torles) {
+  
+    if (this.deleteLn) {
       this.onDeleteLine(form)
-    } else {
-      //!vanE || (vanE && azon === this.gyartosor.ln_id)
-      let lnExists = this.lnService.doesLnExist(value.azonInput)
-      if (!lnExists && this.newLn) {
-        this.onUjGys(form)
-      }
-      if (this.modositas) {
-        if (!lnExists || (lnExists && value.azonInput === this.selectedLine.ln_line)) {
-          this.onEditLine(form)
-        }
-      }
     }
-
+    if (this.newLn) {
+      this.onNewLn(form)
+    }
+    if (this.edit) {
+      this.onEditLine(form)
+    }
 
   }
 
   onViewLine() {
-    this.reszletek = true
-    this.modositas = false
+    this.details = true
     this.newLn = false
+    this.edit = false
 
-    this.azon = this.selectedLine.ln_line
+    this.line = this.selectedLine.ln_line
     this.desc = this.selectedLine.ln_desc
 
   }
 
   onModositasa() {
-    this.modositas = true
+    this.edit = true
     this.newLn = false
-    this.reszletek = false
-    this.torles = false
+    this.details = false
+    this.deleteLn = false
   }
 
   onEditLine(form: NgForm) {
     let value = form.value
+    let lnExists = this.lnService.doesLnExist(value.azonInput)
     let l = value.azonInput
     let d = value.descInput
-    this.lnService.editLine(this.selectedLine.ln_line, { ln_line: l, ln_desc: d })
-    this.clearForm(form)
+
+    if (!lnExists || (lnExists && value.azonInput === this.selectedLine.ln_line)) {
+      this.lnService.editLine(this.selectedLine.ln_line, { ln_line: l, ln_desc: d })
+      this.clearForm(form)
+    } else {
+      this.validForm = false
+    }
+
   }
 
   onDeleteLine(form: NgForm) {
@@ -119,58 +113,31 @@ export class LnComponent implements OnInit, OnDestroy {
     console.log("getLines:");
     console.log(this.lnService.getLines());
 
-
-
-
   }
 
   clearForm(form: NgForm) {
-    this.azon = ""
+    this.line = ""
     this.desc = ""
     this.newLn = false
-    this.modositas = false
-    this.reszletek = false
-    this.torles = false
+    this.edit = false
+    this.details = false
+    this.deleteLn = false
     this.validForm = true
     form.resetForm()
   }
 
-  onUjGys(form: NgForm) {
+  onNewLn(form: NgForm) {
     let value = form.value
-    console.log(value);
+    let lnExists = this.lnService.doesLnExist(value.azonInput)
     let l = value.azonInput
     let d = value.descInput
 
-    this.lnService.newLine({ ln_line: l, ln_desc: d })
-
-    this.clearForm(form)
-  }
-
-  onModositas(form: NgForm, azon: string, desc: string) {
-    /* let vanE = this.gysService.letezikeGys(azon)
-
-    if (!vanE || (vanE && azon === this.gyartosor.ln_id)) {
-      this.gysService.modositGys(this.gyartosor.ln_id, azon, desc)
-      this.validForm = true
+    if (!lnExists) {
+      this.lnService.newLine({ ln_line: l, ln_desc: d })  
       this.clearForm(form)
     } else {
       this.validForm = false
     }
-  } */
 
   }
-
-
-  /*this.sub = this.gysService.kivalasztottGys
-        .subscribe(
-          (gys: Gys) => {
-            this.gyartosor = gys;
-            this.azon = gys.ln_id
-            this.desc = gys.ln_desc
-            this.reszletek = true
-            this.felvetel = false
-            this.modositas = false
-          }
-        ) */
-
 }
