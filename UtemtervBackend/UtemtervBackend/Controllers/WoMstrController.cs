@@ -24,7 +24,7 @@ namespace UtemtervBackend.Controllers
         {
             try
             {
-                var woList = _context.WoMstrs.FromSqlRaw("woList").AsEnumerable();
+                var woList = _context.WoMstrs.ToList();//_context.WoMstrs.FromSqlRaw("woList").AsEnumerable();
                
 
                 if (woList.Count() == 0)

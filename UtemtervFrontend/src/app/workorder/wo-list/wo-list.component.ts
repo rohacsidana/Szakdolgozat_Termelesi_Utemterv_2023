@@ -8,7 +8,6 @@ import { Subscription } from "rxjs";
 import { DataStorageService } from "src/app/shared/data-storage.service";
 import * as  DataTableService from "../../data-table/data-table.service";
 import { WoService } from "../wo.service";
-import { tap } from "rxjs/operators";
 @Component({
     selector: 'app-wo-list',
     templateUrl: 'wo-list.component.html',

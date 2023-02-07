@@ -42,25 +42,28 @@ export class DataStorageService {
       .pipe(
         map((woData) => {
           const woDataNew = woData.map((data) => {
+            console.log(data);
+            
             const sor = {
               wo_lot: data.woLot,
               wo_nbr: data.woNbr,
+              wo_user: data.woUser,
               wo_part: data.woPart,
+              wo_line: data.woLine,
+              wo_seq: data.woSeq,
               wo_qty_ord: data.woQtyOrd,
               wo_ord_date: data.woOrdDate,
-              wo_seq: data.woSeq,
               wo_due_date: data.woDueDate,
-              wo_line: data.woLine,
-              wo_est_run: data.woEstRun,
               wo_start_date: data.woStartDate,
+              wo_rel_date: data.woRelDate,
+              wo_est_run: data.woEstRun,
               wo_start_time: data.woStartTime,
               wo_end_time: data.woEndTime,
               wo_pld_downtime: data.woPldDowntime,
               wo_unpld_downtime: data.woUnpldDowntime,
               wo_activated: data.woActivated,
               wo_status: data.woStatus,
-              wo_rel_date: data.woRelDate,
-              wo_user: data.woUser,
+              
             };
 
             return { ...sor };
