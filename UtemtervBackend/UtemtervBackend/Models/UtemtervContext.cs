@@ -45,6 +45,8 @@ public partial class UtemtervContext : DbContext
     public virtual DbSet<UserList> UserLists { get; set; }
 
     public virtual DbSet<LdList> LdLists { get; set; }
+    
+    public virtual DbSet<LnList> LnLists { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -475,6 +477,7 @@ public partial class UtemtervContext : DbContext
                 .HasNoKey()
                 .ToView("ldList");
 
+<<<<<<< HEAD
             entity.Property(e => e.LdExpire)
                 .HasColumnType("date")
                 .HasColumnName("ld_expire");
@@ -489,7 +492,23 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("ld_qty_scrp");
         });
+=======
+        modelBuilder.Entity<LnList>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("lnList");
+>>>>>>> 4da5c5401ffd5d24a3d3bb531644c7416fef76aa
 
+            entity.Property(e => e.LnDesc)
+                .HasMaxLength(24)
+                .IsUnicode(false)
+                .HasColumnName("ln_desc");
+            entity.Property(e => e.LnLine)
+                .HasMaxLength(8)
+                .IsUnicode(false)
+                .HasColumnName("ln_line");
+        });
         OnModelCreatingPartial(modelBuilder);
     }
 

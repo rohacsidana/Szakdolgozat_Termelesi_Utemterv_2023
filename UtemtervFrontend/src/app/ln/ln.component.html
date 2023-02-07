@@ -10,21 +10,18 @@
           <tr>
             <td>
               Gyártósor azonosító*
-              <input type="text" name="azonInput" [(ngModel)]="line" required="" maxlength="8"
+              <input type="text" name="azonInput" style="width: 5em" [(ngModel)]="line" required="" maxlength="8"
                 [disabled]="!newLn && !edit" />             
               <p *ngIf="!validForm" style="color: red">
                 Már létezik ilyen azonosító!
               </p>
             </td>
-          </tr>
-          <tr>
             <td>
               Gyártósor leírása
-              <textarea type="text" id="ujLeiras" class="form-control" style="resize: none" rows="6" name="descInput"
-                [(ngModel)]="desc" maxlength="750" [disabled]="!newLn && !edit"></textarea>
+              <input type="text" id="ujLeiras" style="width: 14em" name="descInput"
+                [(ngModel)]="desc" maxlength="24" [disabled]="!newLn && !edit">
             </td>
           </tr>
-          
           <tr>
             <td>
               <p style="color: red;" *ngIf="!f.valid && (newLn || edit) 
