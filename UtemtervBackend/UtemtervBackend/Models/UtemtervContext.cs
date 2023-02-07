@@ -374,9 +374,9 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<WomDet>(entity =>
         {
-            entity.HasKey(e => new { e.WomPart, e.WomPar, e.WomLot }).HasName("PK__WOM_DET__65C8E8EF684C2280");
+            entity.HasKey(e => new { e.WomPart, e.WomPar, e.WomLot, e.WomMat }).HasName("PK__WOM_DET__B98536D620903BF9");
 
-            entity.ToTable("WOM_DET");
+            entity.ToTable("WOM_DET", tb => tb.HasTrigger("Wom_pt_qty_oh"));
 
             entity.Property(e => e.WomPart).HasColumnName("wom_part");
             entity.Property(e => e.WomPar).HasColumnName("wom_par");
