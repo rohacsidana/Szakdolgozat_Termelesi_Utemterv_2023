@@ -44,10 +44,6 @@ import { MatInputModule } from '@angular/material/input';
 import { FilterPipePipe } from './ln/filter-pipe.pipe';
 import { DataStorageService } from './shared/data-storage.service';
 import { UserService } from './user/user.service';
-import { SkListComponent } from './lnd/sk-list/sk-list.component';
-import { SkComponent } from './lnd/sk/sk.component';
-import { AkComponent } from './chg/ak/ak.component';
-import { AkListComponent } from './chg/ak-list/ak-list.component';
 
 
 @NgModule({
@@ -73,10 +69,6 @@ import { AkListComponent } from './chg/ak-list/ak-list.component';
     Rovidit,
     WoFormComponent,
     FilterPipePipe,
-    SkComponent,
-    SkListComponent,
-    AkComponent,
-    AkListComponent
   ],
   imports: [
     BrowserModule,
