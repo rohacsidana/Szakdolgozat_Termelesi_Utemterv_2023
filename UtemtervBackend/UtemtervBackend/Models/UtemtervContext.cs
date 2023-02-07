@@ -44,6 +44,8 @@ public partial class UtemtervContext : DbContext
 
     public virtual DbSet<UserList> UserLists { get; set; }
 
+    public virtual DbSet<LnList> LnLists { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Utemterv;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
@@ -468,7 +470,21 @@ public partial class UtemtervContext : DbContext
                 .HasColumnName("user_id");
         });
 
+        modelBuilder.Entity<LnList>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("lnList");
 
+            entity.Property(e => e.LnDesc)
+                .HasMaxLength(24)
+                .IsUnicode(false)
+                .HasColumnName("ln_desc");
+            entity.Property(e => e.LnLine)
+                .HasMaxLength(8)
+                .IsUnicode(false)
+                .HasColumnName("ln_line");
+        });
         OnModelCreatingPartial(modelBuilder);
     }
 

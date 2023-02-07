@@ -2,14 +2,20 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Ln } from '../data-table/data-table.service';
 
-@Injectable()
+@Injectable(
+    { providedIn: 'root'}
+)
 export class LnService {
     lnChanged = new Subject<Ln[]>();
 
-    private lines: Ln[] = [
-        { ln_line: 'ln_1', ln_desc: 'leiras1' },
-        { ln_line: 'ln_2', ln_desc: 'leiras2' },
-    ]
+    private lines: Ln[] = [ ]
+
+    setLines(lns: Ln[]) {
+        this.lines = lns
+        console.log(this.lines);
+        
+        this.lnChanged.next(this.lines.slice())
+    }
 
     getLines() {
         return this.lines.slice()
@@ -17,7 +23,7 @@ export class LnService {
 
     getLnIndex(line: string) {
         return this.lines.findIndex(index => index.ln_line === line)
-        
+
     }
 
     newLine(newLnd: Ln) {
@@ -32,11 +38,11 @@ export class LnService {
     }
 
     deleteLine(line: string) {
-        let index = this.getLnIndex(line)        
+        let index = this.getLnIndex(line)
         this.lines.splice(index, 1);
         this.lnChanged.next(this.lines.slice())
         console.log(this.getLines());
-        
+
     }
 
     doesLnExist(line: string) {

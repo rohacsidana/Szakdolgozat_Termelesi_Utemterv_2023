@@ -3,12 +3,13 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Ln, DataTableService } from '../data-table/data-table.service';
 import { LnService } from './ln.service';
+import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
   selector: 'app-ln',
   templateUrl: './ln.component.html',
   styleUrls: ['./ln.component.css'],
-  providers: [DataTableService, LnService],
+  providers: [DataTableService, DataStorageService],
 })
 export class LnComponent implements OnInit, OnDestroy {
   line: string
@@ -30,9 +31,12 @@ export class LnComponent implements OnInit, OnDestroy {
   getSub: Subscription
   selectSub: Subscription
 
-  constructor(private lnService: LnService, private dtService: DataTableService) { }
+  constructor(private lnService: LnService, private dtService: DataTableService,   
+    private dsService: DataStorageService) { }
 
   ngOnInit(): void {
+    this.dsService.fetchGyartosorok()
+
     this.lines = this.lnService.getLines()
     this.dtService.emitDataChanged(this.lines.slice());
     /* A data-table-ben figyeli a változást */
