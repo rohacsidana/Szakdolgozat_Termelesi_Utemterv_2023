@@ -27,9 +27,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
-import { GysComponent } from './ln/gys/gys.component';
-import { Rovidit } from './ln/gys/shorten-pipe';
-import { GysService } from './ln/gys/gys.service';
 import { WoComponent } from './workorder/wo/wo.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
 import { WoListComponent } from './workorder/wo-list/wo-list.component';
@@ -64,9 +61,7 @@ import { UserService } from './user/user.service';
     ChgComponent,
     HomeComponent,
     DataTableComponent,
-    GysComponent,
     WodComponent,
-    Rovidit,
     WoFormComponent,
     FilterPipePipe,
   ],
