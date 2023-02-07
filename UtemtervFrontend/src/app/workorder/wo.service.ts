@@ -152,6 +152,7 @@ export class WoService {
     ];
     ladDataChanged = new Subject<DataTableService.Lad[]>();
 
+    
     getWos() {
         return this.woData.slice();
     }

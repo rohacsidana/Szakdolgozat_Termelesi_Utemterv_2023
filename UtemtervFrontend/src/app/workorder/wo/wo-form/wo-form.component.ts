@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import {NgForm} from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { subscribeOn } from 'rxjs-compat/operator/subscribeOn';
+import { of, throwError } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Wo } from 'src/app/data-table/data-table.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { WoService } from '../../wo.service';
@@ -13,120 +14,122 @@ import { WoService } from '../../wo.service';
 export class WoFormComponent implements OnInit, OnDestroy {
   selectedMode: boolean = false;
   selectedWoLot: number;
-  woForm: FormGroup;
+
   editing: boolean = false;
   newMode: boolean = false;
   selectedWo: Wo;
+  @ViewChild('woForm') woForm: NgForm;
+  woFormActData = {
+    woLot: null,
+    order: '',
+    part: null,
+    status: '',
+    line: '',
+    qtyOrd: null,
+    ordDate: '',
+    estTime: '',
+    seq: null,
+    dueDate: '',
+    startDate: '',
+    startTime: '',
+    endTime: '',
+    pldDown: '',
+    unpldDown: '',
+    activated: false,
+    relDate: '',
+    user: null
+  };
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private woService: WoService,
     private DataStorageService: DataStorageService
-  ) {}
+  ) { }
   ngOnInit() {
     /* this.newMode = this.woService.newMode; */
     this.route.params.subscribe((params: Params) => {
       this.selectedWoLot = +params['lot'];
       this.selectedMode = params['lot'] != null;
       this.newMode = this.router.url === '/workorder/new';
-      this.DataStorageService.fetchWo(this.selectedWoLot).subscribe(
-        (wo)=>{
-          //this.selectedWo = wo;
-          console.log(wo);
-          this.initForm();
-          
-        }
-      );
+      
+      this.initForm();
     });
-    this.initForm();
   }
 
   initForm() {
-    let woLot: number;
-    let order = '';
-    let part: number;
-    let status = '';
-    let line = '';
-    let qtyOrd: number;
-    let ordDate = '';
-    let estTime = '';
-    let seq: number;
-    let dueDate = '';
-    let startDate = '';
-    let startTime = '';
-    let endTime = '';
-    let pldDown = '';
-    let unpldDown = '';
-    let activated = false;
-    let relDate = '';
-    let user: number;
-
+    
     if (this.selectedMode) {
-      /* const ascF =  */
-
-      
-      //let wo = this.woService.getWo(this.selectedWoLot);
-
-     const wo = this.selectedWo;
-      if (wo  != null) {
-        woLot = wo.wo_lot;
-        order = wo.wo_nbr;
-        part = wo.wo_part;
-        status = wo.wo_status;
-        line = wo.wo_line;
-        qtyOrd = wo.wo_qty_ord;
-        ordDate = wo.wo_ord_date;
-        estTime = wo.wo_est_run;
-        seq = wo.wo_seq;
-        dueDate = wo.wo_due_date;
-        startDate = wo.wo_start_date;
-        startTime = wo.wo_start_time;
-        endTime = wo.wo_end_time;
-        pldDown = wo.wo_pld_downtime;
-        unpldDown = wo.wo_unpld_downtime;
-        activated = wo.wo_activated;
-        relDate = wo.wo_rel_date;
-        user = wo.wo_user;
+      this.selectedWo = this.woService.getWo(this.selectedWoLot);
+      if (this.selectedWo === null) {
+          this.DataStorageService.fetchWo(this.selectedWoLot).pipe(
+            tap(
+              {
+                next: (data) => console.log(data),
+                error: (error) => this.handleError(error) ,
+              }
+            ),
+          )
+          .subscribe((data)=>{
+            if (data !== null) {
+              this.selectedWo = data;
+              this.initFormData();
+            } else {
+              this.router.navigate(['../'], { relativeTo: this.route });
+            }
+        
+          });
       } else {
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.initFormData();
       }
-    } else {
-      if (this.newMode) {
-        this.editing = true;
-      }
+    } else if (this.newMode) {
+      this.editing = true;
     }
-
-    this.woForm = new FormGroup({
-      woLot: new FormControl({ value: woLot, disabled: this.editing }),
-      order: new FormControl({ value: order, disabled: !this.editing }),
-      part: new FormControl({ value: part, disabled: !this.editing }),
-      status: new FormControl({ value: status, disabled: !this.editing }),
-      line: new FormControl({ value: line, disabled: !this.editing }),
-      qtyOrd: new FormControl({ value: qtyOrd, disabled: !this.editing }),
-      ordDate: new FormControl({ value: ordDate, disabled: true }),
-      estTime: new FormControl({ value: estTime, disabled: true }),
-      seq: new FormControl({ value: seq, disabled: true }),
-      dueDate: new FormControl({ value: dueDate, disabled: !this.editing }),
-      startDate: new FormControl({ value: startDate, disabled: !this.editing }),
-      startTime: new FormControl({ value: startTime, disabled: true }),
-      endTime: new FormControl({ value: endTime, disabled: true }),
-      pldDown: new FormControl({ value: pldDown, disabled: true }),
-      unpldDown: new FormControl({ value: unpldDown, disabled: true }),
-      activated: new FormControl({ value: activated, disabled: true }),
-      relDate: new FormControl({ value: relDate, disabled: !this.editing }),
-      user: new FormControl({ value: user, disabled: true }),
-    });
   }
 
-  onSubmit() {}
+  handleError(err){
+    console.log(err);
+    this.router.navigate(['../'], { relativeTo: this.route })
+   return throwError(of([]));
+  
+  }
+
+  initFormData() {
+    this.woFormActData.woLot = this.selectedWo.wo_lot;
+    this.woFormActData.order = this.selectedWo.wo_nbr;
+    this.woFormActData.part = this.selectedWo.wo_part;
+    this.woFormActData.status = this.selectedWo.wo_status;
+    this.woFormActData.line = this.selectedWo.wo_line;
+    this.woFormActData.qtyOrd = this.selectedWo.wo_qty_ord;
+    this.woFormActData.ordDate = this.selectedWo.wo_ord_date;
+    this.woFormActData.estTime = this.selectedWo.wo_est_run;
+    this.woFormActData.seq = this.selectedWo.wo_seq;
+    this.woFormActData.dueDate = this.selectedWo.wo_due_date;
+    this.woFormActData.startDate = this.selectedWo.wo_start_date;
+    this.woFormActData.startTime = this.selectedWo.wo_start_time;
+    this.woFormActData.endTime = this.selectedWo.wo_end_time;
+    this.woFormActData.pldDown = this.selectedWo.wo_pld_downtime;
+    this.woFormActData.unpldDown = this.selectedWo.wo_unpld_downtime;
+    this.woFormActData.activated = this.selectedWo.wo_activated;
+    this.woFormActData.relDate = this.selectedWo.wo_rel_date;
+    this.woFormActData.user = this.selectedWo.wo_user;
+  }
+
+
+  onSubmit() {
+    console.log(this.woFormActData);
+
+  }
 
   search() {
-    this.router.navigate(['./', 'workorder', this.woForm.value.woLot]);
+      this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
+    
   }
 
   new() {
     if (this.newMode) {
-      this.initForm();
+      //this.initForm();
+      this.editing = !this.editing;
     } else {
       this.router.navigate(['workorder', 'new']);
     }
@@ -151,15 +154,15 @@ export class WoFormComponent implements OnInit, OnDestroy {
   save() {
     //this.editing = false;
     if (this.editing) {
-      this.DataStorageService.updateWo(this.woForm.value);
+      //this.DataStorageService.updateWo(this.woFormActData);
     } else {
-      this.DataStorageService.postWo(this.woForm.value);
+      //this.DataStorageService.postWo(this.woFormActData);
       //this.router.navigate(['workorder']);
     }
   }
 
   delete() {
-    this.DataStorageService.deleteWo(this.woForm.value.woLot);
+    this.DataStorageService.deleteWo(this.woFormActData.woLot);
 
     this.editing = false;
   }
@@ -167,5 +170,6 @@ export class WoFormComponent implements OnInit, OnDestroy {
     return this.woService.getWo(this.selectedWoLot);
   } */
   ngOnDestroy(): void {
+    
   }
 }

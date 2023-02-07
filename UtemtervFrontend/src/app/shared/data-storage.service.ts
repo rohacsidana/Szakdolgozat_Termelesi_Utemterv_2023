@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { of, throwError } from 'rxjs';
 import { pipe } from 'rxjs-compat';
 import { map, tap, take, catchError } from 'rxjs/operators';
 import { User, Wo } from '../data-table/data-table.service';
@@ -14,8 +15,9 @@ export class DataStorageService {
   constructor(
     private http: HttpClient,
     private woService: WoService,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    private router: Router
+  ) { }
 
   formatDate(dateToFormat: Date): string {
     //átírom olyan formátumra, hogy érthető legyen az sql-nek --> string-ként, nem date-ként adom át
@@ -42,8 +44,7 @@ export class DataStorageService {
       .pipe(
         map((woData) => {
           const woDataNew = woData.map((data) => {
-            console.log(data);
-            
+
             const sor = {
               wo_lot: data.woLot,
               wo_nbr: data.woNbr,
@@ -63,7 +64,7 @@ export class DataStorageService {
               wo_unpld_downtime: data.woUnpldDowntime,
               wo_activated: data.woActivated,
               wo_status: data.woStatus,
-              
+
             };
 
             return { ...sor };
@@ -194,13 +195,14 @@ export class DataStorageService {
       .subscribe();
   }
 
+  
   fetchWo(id: number) {
     /* let api = "workorder/" + id; */
     return this.http
       .get<WoResponse[]>('https://localhost:7075/workorder/' + id)
       .pipe(
         map((woData) => {
-          const woDataNew = woData.map((wo) => {
+          const woDataNew: Wo[] = woData.map((wo) => {
             return {
               wo_lot: wo.woLot,
               wo_nbr: wo.woNbr,
@@ -223,23 +225,23 @@ export class DataStorageService {
             };
           });
 
-          return { ...woDataNew };
-        }),
+          return { ...woDataNew[0] };
+        },)/* ,
 
         tap({
           next: (data) => console.log(data),
           error: (error) => console.error(error),
-        })
+        }) */
       );
   }
 
-  fetchLad(id: number) {}
+  fetchLad(id: number) { }
 
-  fetchWod(id: number) {}
+  fetchWod(id: number) { }
 
-  postWo(wo: Wo) {}
-  updateWo(wo: Wo) {}
-  deleteWo(id: number) {}
+  postWo(wo: Wo) { }
+  updateWo(wo: Wo) { }
+  deleteWo(id: number) { }
 }
 
 export const URL = 'https://localhost:7075';

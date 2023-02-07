@@ -41,10 +41,13 @@ const routes: Routes = [
 
   {
     path: 'workorder',
+
+
     children: [
       { path: '', component: WoComponent, pathMatch: 'full' },
       { path: 'new', component: WoComponent },
       { path: 'list', component: WoListComponent },
+
       {
         path: ':lot',
         component: WoComponent,
@@ -53,6 +56,8 @@ const routes: Routes = [
           { path: '', outlet: 'lad', component: LadComponent },
         ],
       },
+
+
     ],
   },
   /* { path: 'workorder/new', component: WoComponent}, */
@@ -70,4 +75,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
