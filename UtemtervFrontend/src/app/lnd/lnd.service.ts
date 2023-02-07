@@ -28,6 +28,20 @@ export class LndService {
         this.lndChanged.next(this.rates.slice())
     }
 
+    editLnd(line: string, part: number, newLnd: Lnd) {
+        let index = this.getLndIndex(line, part)
+        this.rates[index].lnd_line = newLnd.lnd_line;
+        this.rates[index].lnd_part = newLnd.lnd_part;
+    }
+
+    deleteLine(line: string, part: number) {
+        let index = this.getLndIndex(line, part)        
+        this.rates.splice(index, 1);
+        this.lndChanged.next(this.rates.slice())
+        console.log(this.getRates());
+        
+    }
+
     doesLndExist(line: string, part: number) {
         let index = this.getLndIndex(line, part)
 

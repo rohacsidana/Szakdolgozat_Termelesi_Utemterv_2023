@@ -10,51 +10,54 @@
               <td>
                 Gyártósor azonosító*
                 <input type="text" name="lineInput" [(ngModel)]="line" required="" maxlength="8"
-                  [disabled]="!ujChg && !szerkesztes" />
+                  [disabled]="!newChg && !edit" />
   
               </td>
               <td>
                 Tételről*
                 <input type="number" name="fromInput" [(ngModel)]="from" required=""
-                  [disabled]="!ujChg && !szerkesztes" />
+                  [disabled]="!newChg && !edit" />
               </td>
               <td>
                 Tételre*
                 <input type="number" name="toInput" required="" [(ngModel)]="to"
-                  [disabled]="!ujChg && !szerkesztes" />
+                  [disabled]="!newChg && !edit" />
               </td>
               <td>
                 Idő*
-                <input type="time" name="timeInput"  [(ngModel)]="time"
-                  [disabled]="!ujChg && !szerkesztes" />
+                <input type="time" name="timeInput" required="" [(ngModel)]="time"
+                  [disabled]="!newChg && !edit" />
               </td>
             </tr>
             <!-- gombok -->
             <tr>
               <td>
-                <p style="color: red;" *ngIf="!f.valid && (ujChg || szerkesztes)">Az összes mező kötelező!</p>
+                <p style="color: red;" *ngIf="!f.valid && (newChg || edit)">Az összes mező kötelező!</p>
                 <p style="color: red;" *ngIf="!validForm ">
                   Már van ilyen átállás!</p>
-                <div *ngIf="!ujChg && !szerkesztes">
-                  <button class="btn btn-primary" (click)="ujChg = true">
+                  <!-- Új chg -->
+                <div *ngIf="!newChg && !edit">
+                  <button class="btn btn-primary" (click)="newChg = true">
                     Új átállási sebesség
                   </button>
                 </div>
-                <div *ngIf="ujChg && !szerkesztes">
+                <div *ngIf="newChg && !edit">
                   <button type="submit" class="btn btn-success" [disabled]="!f.valid">Hozzáad</button>
                   <button type="button" class="btn btn-warning" (click)="clearForm(f)">
                     Mégse
                   </button>
                 </div>
-                <div *ngIf="!ujChg && szerkesztes">
+                <!-- Chg módosítás -->
+                <div *ngIf="!newChg && edit">
                   <button type="submit" class="btn btn-success" [disabled]="!f.dirty">Módosít</button>
                   <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
-                  <button type="button" class="btn btn-danger" (click)="torles = true">Töröl</button>
+                  <button type="button" class="btn btn-danger" (click)="deleteChg = true">Töröl</button>
                 </div>
-                <div *ngIf="torles">
+                <!-- Chg törlés -->
+                <div *ngIf="deleteChg">
                   <h2>Biztosan törli?</h2>
-                  <button class="btn btn-danger" (click)="gysTorol(f)">Törlés</button>
-                  <button class="btn btn-warning" (click)="torles = false">Mégse</button>
+                  <button type="submit" class="btn btn-danger">Törlés</button>
+                  <button type="button" class="btn btn-warning" (click)="deleteChg = false">Mégse</button>
                 </div>
               </td>
             </tr>
@@ -66,7 +69,6 @@
     <div class="row">
       <hr />
       <div class="col-md-12">
-        <!-- <app-ak-list></app-ak-list> -->
         <app-data-table [headers]="chgHeaders"></app-data-table>
       </div>
     </div>

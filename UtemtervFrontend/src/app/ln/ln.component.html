@@ -10,52 +10,49 @@
           <tr>
             <td>
               Gyártósor azonosító*
-              <input type="text" name="azonInput" [(ngModel)]="azon" required="" maxlength="8"
-                [disabled]="!newLn && !modositas" />             
+              <input type="text" name="azonInput" style="width: 5em" [(ngModel)]="line" required="" maxlength="8"
+                [disabled]="!newLn && !edit" />             
               <p *ngIf="!validForm" style="color: red">
                 Már létezik ilyen azonosító!
               </p>
             </td>
-          </tr>
-          <tr>
             <td>
               Gyártósor leírása
-              <textarea type="text" id="ujLeiras" class="form-control" style="resize: none" rows="6" name="descInput"
-                [(ngModel)]="desc" maxlength="750" [disabled]="!newLn && !modositas"></textarea>
+              <input type="text" id="ujLeiras" style="width: 14em" name="descInput"
+                [(ngModel)]="desc" maxlength="24" [disabled]="!newLn && !edit">
             </td>
           </tr>
-          
           <tr>
             <td>
-              <p style="color: red;" *ngIf="!f.valid && (newLn || modositas) 
+              <p style="color: red;" *ngIf="!f.valid && (newLn || edit) 
               && f.touched">A gyártósor azonosító kötelező!</p>
               <!-- gombok -->
               <!-- Új gyártósor -->
-              <div id="ujGysDiv" *ngIf="!newLn && !reszletek && !modositas">
+              <div id="ujGysDiv" *ngIf="!newLn && !details && !edit">
                 <button type="button" class="btn btn-primary" (click)="newLn=!newLn">
                   Új gyártósor
                 </button>
               </div>
-              <div id="ujGysMentes" *ngIf="newLn && !reszletek && !modositas">
+              <div id="ujGysMentes" *ngIf="newLn && !details && !edit">
                 <button type="submit" class="btn btn-success" [disabled]="!f.valid">Gyártósor felvétele</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
               </div>
               <!-- Részletek -->
-              <div id="gysReszlet" *ngIf="reszletek && !newLn && !modositas">
+              <div id="gysReszlet" *ngIf="details && !newLn && !edit">
                 <button type="button" class="btn btn-warning" (click)="onModositasa()">Gyártósor módosítása</button>
                 <button type="button" class="btn btn-primary" (click)="clearForm(f)">Vissza</button>
               </div>
               <!-- Módosítás -->
-              <div id="GysModositas" *ngIf="modositas && !reszletek && !newLn">
+              <div id="GysModositas" *ngIf="edit && !details && !newLn">
                 <button type="submit" class="btn btn-success" [disabled]="!f.valid || !f.dirty">Módosítások mentése</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
-                <button type="button" class="btn btn-danger" (click)="torles = true">Gyártósor törlése</button>
+                <button type="button" class="btn btn-danger" (click)="deleteLn = true">Gyártósor törlése</button>
               </div>
               <!-- Törlés -->
-              <div *ngIf="torles && modositas">
+              <div *ngIf="deleteLn && edit">
                 <h2>Biztosan törli?</h2>
                 <button type="submit" class="btn btn-danger" >Törlés</button>
-                <button type="button" class="btn btn-warning" (click)="torles = false">Mégse</button>
+                <button type="button" class="btn btn-warning" (click)="deleteLn = false">Mégse</button>
               </div>
             </td>
           </tr>
@@ -67,7 +64,6 @@
 
   <div class="row">
     <div class="col-md-12">
-    <!-- <app-gys-list></app-gys-list> -->
     <app-data-table [headers]="lnHeaders"></app-data-table>
     </div>
   </div>

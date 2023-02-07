@@ -27,9 +27,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
-import { GysComponent } from './ln/gys/gys.component';
-import { Rovidit } from './ln/gys/shorten-pipe';
-import { GysService } from './ln/gys/gys.service';
 import { WoComponent } from './workorder/wo/wo.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
 import { WoListComponent } from './workorder/wo-list/wo-list.component';
@@ -41,14 +38,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { GysListComponent } from './ln/gys-list/gys-list.component';
 import { FilterPipePipe } from './ln/filter-pipe.pipe';
 import { DataStorageService } from './shared/data-storage.service';
 import { UserService } from './user/user.service';
-import { SkListComponent } from './lnd/sk-list/sk-list.component';
-import { SkComponent } from './lnd/sk/sk.component';
-import { AkComponent } from './chg/ak/ak.component';
-import { AkListComponent } from './chg/ak-list/ak-list.component';
 
 
 @NgModule({
@@ -69,16 +61,9 @@ import { AkListComponent } from './chg/ak-list/ak-list.component';
     ChgComponent,
     HomeComponent,
     DataTableComponent,
-    GysComponent,
     WodComponent,
-    Rovidit,
     WoFormComponent,
-    GysListComponent,
     FilterPipePipe,
-    SkComponent,
-    SkListComponent,
-    AkComponent,
-    AkListComponent
   ],
   imports: [
     BrowserModule,

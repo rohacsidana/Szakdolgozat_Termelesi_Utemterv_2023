@@ -14,8 +14,6 @@ import { UserService } from './user.service';
 })
 export class UserComponent implements OnInit, OnDestroy {
   loadedUser: DataTableService.User;
-  loadedUserToucher: boolean = false;
-
   myGroup: FormGroup;
   userFound: boolean = true;
   emailExists: boolean = false;
@@ -29,7 +27,6 @@ export class UserComponent implements OnInit, OnDestroy {
   userDataChangedSub: Subscription;
   userData: DataTableService.User[] = [];
 
-  selectedData: DataTableService.User;
   rowSelectSubscription: Subscription;
 
   userHeaders = [
@@ -81,7 +78,7 @@ export class UserComponent implements OnInit, OnDestroy {
           post: new FormControl(data.post, Validators.required),
         });
         this.onSearchUser();
-       // console.log(data);
+        // console.log(data);
       }
     );
   }

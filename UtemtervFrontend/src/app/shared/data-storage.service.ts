@@ -7,6 +7,7 @@ import { map, tap, take, catchError } from 'rxjs/operators';
 import { User, Wo } from '../data-table/data-table.service';
 import { UserService } from '../user/user.service';
 import { WoService } from '../workorder/wo.service';
+import { LnService } from '../ln/ln.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,8 @@ export class DataStorageService {
     private http: HttpClient,
     private woService: WoService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private lnService: LnService
   ) { }
 
   formatDate(dateToFormat: Date): string {
@@ -242,6 +244,31 @@ export class DataStorageService {
   postWo(wo: Wo) { }
   updateWo(wo: Wo) { }
   deleteWo(id: number) { }
+
+  fetchGyartosorok() {
+    this.http.get<
+      {
+        "lnLine": string
+        "lnDesc": string
+      }[]
+    >(URL + "/gys/list").pipe(
+      map((gysek) => {
+        const gysData = gysek.map((gys) => {
+          const record = {
+            ln_line: gys.lnLine,
+            ln_desc: gys.lnDesc,
+          };
+          return { ...record };
+        });
+        return gysData;
+      }),
+      tap({
+        next: (data) => this.lnService.setLines(data.slice()),
+        error: (error) => console.log(error),
+      })
+    )
+    .subscribe();
+  }
 }
 
 export const URL = 'https://localhost:7075';

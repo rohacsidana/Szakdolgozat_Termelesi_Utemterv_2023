@@ -10,46 +10,49 @@
             <td>
               Gyártósor azonosító*
               <input type="text" name="lineInput" [(ngModel)]="line" required="" maxlength="8"
-                [disabled]="!ujLnd && !szerkesztes" />
+                [disabled]="!newLnd && !edit" />
 
             </td>
             <td>
               Tétel kód*
               <input type="number" name="partInput" [(ngModel)]="part" required=""
-                [disabled]="!ujLnd && !szerkesztes" />
+                [disabled]="!newLnd && !edit" />
             </td>
             <td>
               Gyártási sebesség*
               <input type="number" name="rateInput" required="" [(ngModel)]="rate"
-                [disabled]="!ujLnd && !szerkesztes" />
+                [disabled]="!newLnd && !edit" />
             </td>
           </tr>
           <!-- gombok -->
           <tr>
             <td>
-              <p style="color: red;" *ngIf="!f.valid && (ujLnd || szerkesztes)">Az összes mező kötelező!</p>
+              <p style="color: red;" *ngIf="!f.valid && (newLnd || edit)">Az összes mező kötelező!</p>
               <p style="color: red;" *ngIf="!validForm ">
                 Már szerepel a(z) "{{line}}" gyártósor "{{part}}" tétellel!</p>
-              <div *ngIf="!ujLnd && !szerkesztes">
-                <button class="btn btn-primary" (click)="ujLnd = true">
+                <!-- Új lnd -->
+              <div *ngIf="!newLnd && !edit">
+                <button class="btn btn-primary" (click)="newLnd = true">
                   Új gyártási sebesség
                 </button>
               </div>
-              <div *ngIf="ujLnd && !szerkesztes">
+              <div *ngIf="newLnd && !edit">
                 <button type="submit" class="btn btn-success" [disabled]="!f.valid">Hozzáad</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">
                   Mégse
                 </button>
               </div>
-              <div *ngIf="!ujLnd && szerkesztes">
+                <!-- Lnd módosítás -->
+              <div *ngIf="!newLnd && edit">
                 <button type="submit" class="btn btn-success" [disabled]="!f.dirty">Módosít</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
-                <button type="button" class="btn btn-danger" (click)="torles = true">Töröl</button>
+                <button type="button" class="btn btn-danger" (click)="deleteLnd = true">Töröl</button>
               </div>
-              <div *ngIf="torles">
+              <!-- Lnd törlés -->
+              <div *ngIf="deleteLnd">
                 <h2>Biztosan törli?</h2>
-                <button class="btn btn-danger" (click)="gysTorol(f)">Törlés</button>
-                <button class="btn btn-warning" (click)="torles = false">Mégse</button>
+                <button type="submit" class="btn btn-danger">Törlés</button>
+                <button class="btn btn-warning" (click)="deleteLnd = false">Mégse</button>
               </div>
             </td>
           </tr>
@@ -61,7 +64,6 @@
   <div class="row">
     <hr />
     <div class="col-md-12">
-      <!-- <app-sk-list></app-sk-list> -->
       <app-data-table [headers]="lndHeaders"></app-data-table>
     </div>
   </div>
