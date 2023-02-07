@@ -12,9 +12,9 @@ public partial class WomDet
 
     public int WomLot { get; set; }
 
-    public int? WomMat { get; set; }
+    public int WomMat { get; set; }
 
-    public decimal? WomReq { get; set; }
+    public decimal WomReq { get; set; }
 
     public decimal WomRsrv { get; set; }
     [JsonIgnore]

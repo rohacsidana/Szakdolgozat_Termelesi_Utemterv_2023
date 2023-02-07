@@ -64,6 +64,7 @@ exec newWo 'rend1asd', 1000, 10, '20230112'
 exec newWo 'rendaaa1', 1000, 10, '20230112'
 exec newWo 'resadnd1', 1000, 10, '20230112'
 exec newWo 'rend1', 1000, 10, '20230112'
+
 /*Identity insert ha valakinek kellene*/
 --set identity_insert dbo.PT_MSTR on
 --insert into PT_MSTR (pt_part,pt_desc, pt_um, pt_qty_oh) values (2, 'szia', 'g', null)
