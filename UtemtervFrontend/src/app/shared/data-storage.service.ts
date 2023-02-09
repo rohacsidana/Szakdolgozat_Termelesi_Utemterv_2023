@@ -333,6 +333,31 @@ export class DataStorageService {
       ).subscribe()
   }
 
+  updateLn(ln: Ln) {
+    //console.log("Updated User: "+user);
+    let updatedLn = {
+      Line: ln.ln_line,
+      NewDesc: ln.ln_desc,
+    };
+
+    return this.http
+      .put(URL + '/ln/update', updatedLn)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            console.log('Number of rows updated: ' + res);
+            if (res == 1) {
+              this.lnService.editLine(ln.ln_line, ln.ln_desc);
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      )
+      .subscribe();
+  }
+
   fetchLnds() {
     this.http.get<
       {

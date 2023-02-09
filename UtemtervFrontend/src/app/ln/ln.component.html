@@ -11,7 +11,7 @@
             <td>
               Gyártósor azonosító*
               <input type="text" name="azonInput" style="width: 5em" [(ngModel)]="line" required="" maxlength="8"
-                [disabled]="!newLn && !edit" />             
+                [disabled]="!newLn" />             
               <p *ngIf="!validForm" style="color: red">
                 Már létezik ilyen azonosító!
               </p>

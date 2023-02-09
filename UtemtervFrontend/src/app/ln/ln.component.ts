@@ -101,7 +101,8 @@ export class LnComponent implements OnInit, OnDestroy {
     let d = value.descInput
 
     if (!lnExists || (lnExists && value.azonInput === this.selectedLine.ln_line)) {
-      this.lnService.editLine(this.selectedLine.ln_line, { ln_line: l, ln_desc: d })
+      //this.lnService.editLine(this.selectedLine.ln_line, { ln_line: l, ln_desc: d })
+      this.dsService.updateLn({ln_line: this.selectedLine.ln_line, ln_desc: d})
       this.clearForm(form)
     } else {
       this.validForm = false
