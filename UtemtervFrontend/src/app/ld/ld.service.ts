@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Ld } from '../data-table/data-table.service';
+import { Ld } from '../shared/interfaces';
 
 @Injectable({
   providedIn: 'root',

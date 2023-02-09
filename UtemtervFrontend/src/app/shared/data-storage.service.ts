@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { pipe } from 'rxjs-compat';
 import { map, tap, take, catchError } from 'rxjs/operators';
-import { Ld, User, Wo } from '../data-table/data-table.service';
 import { UserService } from '../user/user.service';
 import { WoService } from '../workorder/wo.service';
 import { LnService } from '../ln/ln.service';
 import { LdService } from '../ld/ld.service';
+import { Ld, User, Wo } from './interfaces';
 
 @Injectable({
   providedIn: 'root',

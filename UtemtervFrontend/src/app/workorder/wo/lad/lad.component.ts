@@ -4,6 +4,7 @@ import * as DataTableService from '../../../data-table/data-table.service';
 import { Subscription } from "rxjs";
 import { Sort } from "@angular/material/sort";
 import { WoService } from "../../wo.service";
+import { Lad } from "src/app/shared/interfaces";
 
 @Component({
   selector: 'app-lad',
@@ -13,7 +14,7 @@ import { WoService } from "../../wo.service";
 })
 
 export class LadComponent implements OnInit, OnDestroy {
-  ladData: DataTableService.Lad[] = [];
+  ladData: Lad[] = [];
   ladHeaders: { name: string, szoveg: string }[] = [
     { name: 'lad_id', szoveg: 'Foglalás azonosító' },
     { name: 'lad_part', szoveg: 'Wod_part' },
@@ -24,7 +25,7 @@ export class LadComponent implements OnInit, OnDestroy {
     { name: 'lad_qty_rsrv', szoveg: 'Foglalt mennyiség ' }
   ];
 
-  sortedLadData: DataTableService.Lad[];
+  sortedLadData: Lad[];
 
   sortSub: Subscription;
   ladSub: Subscription;
@@ -35,7 +36,7 @@ export class LadComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.ladSub = this.woService.ladDataChanged.subscribe(
-      (ladData: DataTableService.Lad[]) => {
+      (ladData: Lad[]) => {
         this.ladData = ladData;
         if(!!this.lastSort){
           this.sortData(this.lastSort);
@@ -95,7 +96,7 @@ export class LadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    
+
     this.sortSub.unsubscribe();
     this.ladSub.unsubscribe();
   }

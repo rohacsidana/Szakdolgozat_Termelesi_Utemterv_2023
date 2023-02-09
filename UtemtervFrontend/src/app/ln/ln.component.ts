@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Ln, DataTableService } from '../data-table/data-table.service';
+import { DataTableService } from '../data-table/data-table.service';
 import { LnService } from './ln.service';
 import { DataStorageService } from '../shared/data-storage.service';
+import { Ln } from '../shared/interfaces';
 
 @Component({
   selector: 'app-ln',
@@ -31,7 +32,7 @@ export class LnComponent implements OnInit, OnDestroy {
   getSub: Subscription
   selectSub: Subscription
 
-  constructor(private lnService: LnService, private dtService: DataTableService,   
+  constructor(private lnService: LnService, private dtService: DataTableService,
     private dsService: DataStorageService) { }
 
   ngOnInit(): void {
@@ -64,7 +65,7 @@ export class LnComponent implements OnInit, OnDestroy {
   onSubmit(form: NgForm) {
     let value = form.value
     console.log(value);
-  
+
     if (this.deleteLn) {
       this.onDeleteLine(form)
     }
@@ -138,7 +139,7 @@ export class LnComponent implements OnInit, OnDestroy {
     let d = value.descInput
 
     if (!lnExists) {
-      this.lnService.newLine({ ln_line: l, ln_desc: d })  
+      this.lnService.newLine({ ln_line: l, ln_desc: d })
       this.clearForm(form)
     } else {
       this.validForm = false

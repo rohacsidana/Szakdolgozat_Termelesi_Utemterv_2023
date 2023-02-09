@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Chg } from '../data-table/data-table.service';
+import { Chg } from '../shared/interfaces';
 
 
 @Injectable({
@@ -37,11 +37,11 @@ export class ChgService {
     }
 
     deleteChg(line: string, from: number, to: number) {
-        let index = this.getChgIndex(line, from, to)        
+        let index = this.getChgIndex(line, from, to)
         this.changeTimes.splice(index, 1);
         this.chgChanged.next(this.changeTimes.slice())
         console.log(this.getChangeTimes());
-        
+
     }
 
 

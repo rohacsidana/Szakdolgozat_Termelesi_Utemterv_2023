@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Ln } from '../data-table/data-table.service';
+import { Ln } from '../shared/interfaces';
 
 @Injectable(
     { providedIn: 'root'}
@@ -13,7 +13,7 @@ export class LnService {
     setLines(lns: Ln[]) {
         this.lines = lns
         console.log(this.lines);
-        
+
         this.lnChanged.next(this.lines.slice())
     }
 

@@ -6,6 +6,7 @@ import { Sort } from "@angular/material/sort";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { DataStorageService } from "src/app/shared/data-storage.service";
+import { Wo } from "src/app/shared/interfaces";
 import * as  DataTableService from "../../data-table/data-table.service";
 import { WoService } from "../wo.service";
 @Component({
@@ -37,13 +38,13 @@ export class WoListComponent implements OnInit, OnDestroy {
         { name: 'wo_status', szoveg: 'státusz' },
     ];
 
-    woData: DataTableService.Wo[] = [];
+    woData: Wo[] = [];
 
     woDataChangedSub: Subscription;
     sortSub: Subscription;
 
     woLot: number = 22;
-    sortedWoData: DataTableService.Wo[] = [];
+    sortedWoData: Wo[] = [];
     getItemSub: Subscription;
     selectRow: Subscription;
     lastSort: Sort;
@@ -52,7 +53,7 @@ export class WoListComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.woDataChangedSub = this.woService.woDataChanged.subscribe(
-            (woData: DataTableService.Wo[]) => {
+            (woData: Wo[]) => {
                 this.woData = woData;
                 this.sortedWoData = this.woData.slice();
                 if (!!this.lastSort) {
@@ -64,7 +65,7 @@ export class WoListComponent implements OnInit, OnDestroy {
                 }
             }
         );
-        this.DataStorageService.fetchAllWo(); 
+        this.DataStorageService.fetchAllWo();
 
 
         this.sortSub = this.dtTblService.sortData.subscribe(
@@ -75,12 +76,12 @@ export class WoListComponent implements OnInit, OnDestroy {
         );
 
         this.selectRow = this.dtTblService.selectRow.subscribe(
-            (selectedRow: DataTableService.Wo) => {
+            (selectedRow: Wo) => {
                 let pk = selectedRow.wo_lot
                 this.router.navigate(['../', pk], { relativeTo: this.route });
             }
         );
-        
+
     }
 
     onSubmit(form: NgForm) {
