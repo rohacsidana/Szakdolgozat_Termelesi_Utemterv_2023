@@ -9,7 +9,7 @@ using static UtemtervBackend.Controllers.UserController;
 namespace UtemtervBackend.Controllers
 {
     [EnableCors]
-    [Route("pt")]
+    [Route("api/pt")]
     [ApiController]
     public class PtController : ControllerBase
     {

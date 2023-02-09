@@ -1,5 +1,6 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import {NgForm} from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -39,7 +40,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
     relDate: '',
     user: null
   };
-
+  error: string = null;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -52,32 +53,35 @@ export class WoFormComponent implements OnInit, OnDestroy {
       this.selectedWoLot = +params['lot'];
       this.selectedMode = params['lot'] != null;
       this.newMode = this.router.url === '/workorder/new';
-      
+
       this.initForm();
     });
   }
 
   initForm() {
-    
     if (this.selectedMode) {
-      this.selectedWo = this.woService.getWo(this.selectedWoLot);
+      this.selectedWo = this.woService.getSelectedWo();
+      
+      if (this.selectedWo) {
+        this.selectedWo = this.woService.getWo(this.selectedWoLot);
+      }
       if (this.selectedWo === null) {
-          this.DataStorageService.fetchWo(this.selectedWoLot).pipe(
-            tap(
-              {
-                next: (data) => console.log(data),
-                error: (error) => this.handleError(error) ,
-              }
-            ),
-          )
-          .subscribe((data)=>{
+        this.DataStorageService.fetchWo(this.selectedWoLot).pipe(
+          tap(
+            {
+              next: (data) => console.log(data),
+              error: (error) => this.handleError(error),
+            }
+          ),
+        )
+          .subscribe((data) => {
             if (data !== null) {
               this.selectedWo = data;
               this.initFormData();
             } else {
               this.router.navigate(['../'], { relativeTo: this.route });
             }
-        
+
           });
       } else {
         this.initFormData();
@@ -86,13 +90,17 @@ export class WoFormComponent implements OnInit, OnDestroy {
       this.editing = true;
     }
   }
-
-  handleError(err){
-    console.log(err);
-    this.router.navigate(['../'], { relativeTo: this.route })
-   return throwError(of([]));
-  
+  onHandleError() {
+    this.error = null;
   }
+
+  private handleError(errorRes: HttpErrorResponse) {
+    let errorMessage = 'An unknown error occurred!';
+
+    this.error = errorRes.error;
+    return throwError(errorMessage);
+  }
+
 
   initFormData() {
     this.woFormActData.woLot = this.selectedWo.wo_lot;
@@ -117,13 +125,38 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    console.log(this.woFormActData);
-
+    console.log(this.woFormActData);  
   }
 
   search() {
-      this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
-    
+    let wo = this.woService.getWo(this.woFormActData.woLot);
+    if (wo !== null) {
+
+      this.woService.setSelectedWo(wo);
+    } else {
+      this.DataStorageService.fetchWo(this.selectedWoLot).pipe(
+        tap(
+          {
+            next: (data) => console.log(data),
+            error: (error) => this.handleError(error),
+          }
+        ),
+      )
+        .subscribe((data) => {
+          if (data !== null) {
+            this.woService.setSelectedWo(data);
+            this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
+
+          } else {
+
+          }
+
+        });
+    }
+    console.log(this.woFormActData);
+
+    this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
+
   }
 
   new() {
@@ -146,7 +179,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
   edit() {
     this.editing = true;
-    this.initForm();
+    //this.initForm();
 
     //formot enable
   }
@@ -170,6 +203,6 @@ export class WoFormComponent implements OnInit, OnDestroy {
     return this.woService.getWo(this.selectedWoLot);
   } */
   ngOnDestroy(): void {
-    
+
   }
 }

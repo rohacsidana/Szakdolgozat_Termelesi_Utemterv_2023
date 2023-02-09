@@ -477,7 +477,7 @@ public partial class UtemtervContext : DbContext
                 .HasNoKey()
                 .ToView("ldList");
 
-<<<<<<< HEAD
+
             entity.Property(e => e.LdExpire)
                 .HasColumnType("date")
                 .HasColumnName("ld_expire");
@@ -492,13 +492,12 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("ld_qty_scrp");
         });
-=======
         modelBuilder.Entity<LnList>(entity =>
         {
             entity
                 .HasNoKey()
                 .ToView("lnList");
->>>>>>> 4da5c5401ffd5d24a3d3bb531644c7416fef76aa
+
 
             entity.Property(e => e.LnDesc)
                 .HasMaxLength(24)

@@ -6,7 +6,7 @@ using UtemtervBackend.Models;
 namespace UtemtervBackend.Controllers
 {
      [EnableCors]
-       [Route("ld")]
+       [Route("api/ld")]
        [ApiController]
     public class LdController : ControllerBase
     {
