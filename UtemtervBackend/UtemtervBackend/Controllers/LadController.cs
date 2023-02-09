@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UtemtervBackend.Models;
@@ -7,33 +6,36 @@ using UtemtervBackend.Models;
 namespace UtemtervBackend.Controllers
 {
     [EnableCors]
-    [Route("api/wod")]
+    [Route("api/lad")]
     [ApiController]
-    public class WodController : ControllerBase
+    public class LadController : ControllerBase
     {
         UtemtervContext _context;
-        public WodController(UtemtervContext context)
+        public LadController(UtemtervContext context)
         {
             _context = context;
         }
 
         [HttpGet("{lot}")]
-        public IActionResult allWodSP(int lot)
+        public IActionResult ListLad(int lot)
         {
             try
             {
-                var wods = _context.VwWods.Where(w => w.Lot == lot).ToList();
+                var lads = _context.LadDets.Where(s => s.LadLot == lot).ToList();
 
-                if(wods.Count() > 0)
+                if (lads.Count() == 0)
                 {
-                    return Ok(wods);
+                    return NotFound("No lad found to the workorder.");
                 }
-                    return StatusCode(500, "No wod found.");
+                return Ok(lads);
+
             }
             catch (Exception)
             {
+
                 return StatusCode(500, "An error has occured.");
             }
         }
+
     }
 }

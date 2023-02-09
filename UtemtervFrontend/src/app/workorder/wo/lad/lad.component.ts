@@ -4,6 +4,7 @@ import * as DataTableService from '../../../data-table/data-table.service';
 import { Subscription } from "rxjs";
 import { Sort } from "@angular/material/sort";
 import { WoService } from "../../wo.service";
+import { DataStorageService } from "src/app/shared/data-storage.service";
 
 @Component({
   selector: 'app-lad',
@@ -21,7 +22,8 @@ export class LadComponent implements OnInit, OnDestroy {
     { name: 'lad_lot', szoveg: 'Wod_lot' },
     { name: 'lad_comp', szoveg: 'Ld_part' },
     { name: 'lad_expire', szoveg: 'Ld_expire' },
-    { name: 'lad_qty_rsrv', szoveg: 'Foglalt mennyiség ' }
+    { name: 'lad_qty_rsrv', szoveg: 'Foglalt mennyiség ' },
+    { name: 'lad_qty_used', szoveg: 'Felhasznált mennyiség ' },
   ];
 
   sortedLadData: DataTableService.Lad[];
@@ -29,11 +31,12 @@ export class LadComponent implements OnInit, OnDestroy {
   sortSub: Subscription;
   ladSub: Subscription;
   lastSort: Sort;
-  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService) {
+  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private dataStorageService: DataStorageService) {
     //this.sortedLadData = this.ladData.slice();
   }
 
   ngOnInit() {
+
     this.ladSub = this.woService.ladDataChanged.subscribe(
       (ladData: DataTableService.Lad[]) => {
         this.ladData = ladData;
@@ -42,9 +45,10 @@ export class LadComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.ladData = this.woService.getLads();
+    this.dataStorageService.fetchLad(this.woService.getSelectedWo().wo_lot);
+/*     this.ladData = this.woService.getLads();
     this.sortedLadData = this.ladData.slice();
-
+ */
 
     this.dtTblService.dataChanged.next(this.sortedLadData.slice());
     this.sortSub = this.dtTblService.sortData.subscribe(

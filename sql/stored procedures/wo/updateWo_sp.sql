@@ -20,4 +20,4 @@ begin
 	select * from WO_MSTR where wo_lot = @wo_lot
 end
 
---exec updateWo 'asdasdaassasadsaddsa', 1020, 10,'',10000,'2020-02-02','2020-02-02',null, 'waiting',0
+--exec updateWo 'asdasdaassasadsaddsa', 1020, 10,'',10000,'2020-02-02','2020-02-02',null, 'waiting',true
