@@ -58,6 +58,23 @@ namespace UtemtervBackend.Controllers
             }
         }
 
+        [EnableCors]
+        [HttpPut("update")]
+
+        public IActionResult UpdateLn([FromBody] UpdateLn ln)
+        {
+            try
+            {
+                var updateLn = _context.Database.ExecuteSqlInterpolated($"updateLn {ln.Line}, {ln.NewDesc}");
+
+                return Ok(updateLn);
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e);
+            }
+        }
 
     }
     
@@ -65,5 +82,11 @@ namespace UtemtervBackend.Controllers
     {
         public string LnLine { get; set; }
         public string LnDesc { get; set; }  
+    }
+
+    public class UpdateLn
+    {
+        public string Line { get; set; }
+        public string NewDesc { get; set; }
     }
 }

@@ -29,10 +29,9 @@ export class LnService {
         console.log(this.lines); */
   }
 
-  editLine(line: string, newLn: Ln) {
+  editLine(line: string, newDesc: string) {
     let index = this.getLnIndex(line);
-    this.lines[index].ln_line = newLn.ln_line;
-    this.lines[index].ln_desc = newLn.ln_desc;
+    this.lines[index].ln_desc = newDesc;
   }
 
   deleteLine(line: string) {
