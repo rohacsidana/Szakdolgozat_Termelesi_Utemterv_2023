@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { pipe } from 'rxjs-compat';
 import { map, tap, take, catchError } from 'rxjs/operators';
-import { Ld, User, Wo } from '../data-table/data-table.service';
+import { Ld, User, Wo, Lnd, Ln } from '../data-table/data-table.service';
 import { UserService } from '../user/user.service';
 import { WoService } from '../workorder/wo.service';
 import { LnService } from '../ln/ln.service';
@@ -291,7 +291,7 @@ export class DataStorageService {
         "lnLine": string
         "lnDesc": string
       }[]
-    >(URL + "/gys/list").pipe(
+    >(URL + "/ln/list").pipe(
       map((gysek) => {
         const gysData = gysek.map((gys) => {
           const record = {
@@ -308,6 +308,29 @@ export class DataStorageService {
       })
     )
       .subscribe();
+  }
+
+  newLn(ln: Ln) {
+    //console.log('üdvözlet a newLn től!');
+    this.http
+      .post<any>(URL + '/ln/new', {
+        lnLine: ln.ln_line,
+        lnDesc: ln.ln_desc,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            /* console.log("res line:");
+            console.log(res[0].lnLine); */
+            let l = {
+              ln_line: res[0].lnLine,
+              ln_desc: res[0].lnDesc
+            };
+            this.lnService.newLine(l);
+          },
+          error: (error) => console.log(error),
+        })
+      ).subscribe()
   }
 
   fetchLnds() {

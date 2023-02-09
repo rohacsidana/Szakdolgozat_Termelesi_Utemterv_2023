@@ -12,8 +12,8 @@ import { DataStorageService } from '../shared/data-storage.service';
   providers: [DataTableService, DataStorageService],
 })
 export class LnComponent implements OnInit, OnDestroy {
-  line: string
-  desc: string
+  line: string = ''
+  desc: string = ''
 
   newLn = false
   edit = false
@@ -63,7 +63,7 @@ export class LnComponent implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     let value = form.value
-    console.log(value);
+    //console.log(value);
   
     if (this.deleteLn) {
       this.onDeleteLine(form)
@@ -138,7 +138,11 @@ export class LnComponent implements OnInit, OnDestroy {
     let d = value.descInput
 
     if (!lnExists) {
-      this.lnService.newLine({ ln_line: l, ln_desc: d })  
+      let newLn = { ln_line: l, ln_desc: d }
+      //console.log(newLn);
+      
+      //this.lnService.newLine(newLn)  
+      this.dsService.newLn(newLn)
       this.clearForm(form)
     } else {
       this.validForm = false

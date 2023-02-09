@@ -12,8 +12,7 @@ export class LnService {
 
     setLines(lns: Ln[]) {
         this.lines = lns
-        console.log(this.lines);
-        
+        //console.log(this.lines);
         this.lnChanged.next(this.lines.slice())
     }
 
@@ -29,6 +28,10 @@ export class LnService {
     newLine(newLnd: Ln) {
         this.lines.push(newLnd)
         this.lnChanged.next(this.lines.slice())
+        /* console.log("új ln felvéve");
+        console.log(this.lines); */
+        
+        
     }
 
     editLine(line: string, newLn: Ln) {
