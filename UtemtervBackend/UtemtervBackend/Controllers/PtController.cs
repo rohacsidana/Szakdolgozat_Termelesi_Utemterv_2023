@@ -48,7 +48,7 @@ namespace UtemtervBackend.Controllers
         {
             try
             {
-                var newPt = _context.PtMstrs.FromSqlInterpolated($"newPt {pt.PtDesc}, {pt.PtUm}").ToList();
+                var newPt = _context.PtMstrs.FromSqlInterpolated($"newPt {pt.PtDesc}, {pt.PtUm}, {null}").ToList();
                 return Ok(newPt);
             }
             catch (Exception e)

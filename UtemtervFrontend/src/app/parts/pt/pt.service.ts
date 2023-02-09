@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Pt } from 'src/app/data-table/data-table.service';
+import { Pt } from 'src/app/shared/interfaces';
 
 @Injectable()
 export class PartService {

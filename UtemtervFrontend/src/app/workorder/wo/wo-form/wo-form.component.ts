@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Wo } from 'src/app/data-table/data-table.service';
+import { Wo } from '../../../shared/interfaces';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { WoService } from '../../wo.service';
 

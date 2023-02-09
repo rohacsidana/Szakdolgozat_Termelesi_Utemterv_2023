@@ -5,6 +5,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot, Params, Route } from "@angular/
 import { Subscription } from "rxjs";
 import * as DataTableService from "src/app/data-table/data-table.service";
 import { DataStorageService } from "src/app/shared/data-storage.service";
+import { Wod } from "src/app/shared/interfaces";
 import { WoService } from "../../wo.service";
 
 @Component({
@@ -15,7 +16,7 @@ import { WoService } from "../../wo.service";
 })
 
 export class WodComponent implements OnInit, OnDestroy {
-  wodData: DataTableService.Wod[] = [];
+  wodData: Wod[] = [];
 
   wodHeaders = [
     { name: 'wod_part', szoveg: 'Tétetel szám' },
@@ -30,7 +31,7 @@ export class WodComponent implements OnInit, OnDestroy {
 
   sortSub: Subscription;
   wodSub: Subscription;
-  sortedWodData: DataTableService.Wod[];
+  sortedWodData: Wod[];
   lastSort: Sort;
   lot: number;
   constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private route: ActivatedRoute, private DataStorageService: DataStorageService) {
@@ -38,7 +39,7 @@ export class WodComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.wodSub = this.woService.wodDataChanged.subscribe(
-      (data: DataTableService.Wod[]) => {
+      (data: Wod[]) => {
         this.wodData = data;
         if(!!this.lastSort){
           this.sortedWodData = this.wodData.slice();
@@ -55,7 +56,7 @@ export class WodComponent implements OnInit, OnDestroy {
         this.DataStorageService.fetchWod(this.lot);
       }
     );
-    
+
     this.sortSub = this.dtTblService.sortData.subscribe(
       (sort: Sort) => {
         this.lastSort = sort;
@@ -68,7 +69,7 @@ export class WodComponent implements OnInit, OnDestroy {
 
   sortData(sort: Sort) {
     if(!!!this.lastSort){
-      
+
     }
     const data = this.wodData.slice();
     if (!sort.active || sort.direction === '') {
@@ -110,7 +111,7 @@ export class WodComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-   
+
     this.sortSub.unsubscribe();
     this.wodSub.unsubscribe();
   }
