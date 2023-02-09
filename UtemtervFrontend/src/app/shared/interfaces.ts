@@ -1,3 +1,5 @@
+//itt van az összes interface, táblánként :) 
+
 export interface Pt {
   pt_part: number;
   pt_desc: string;

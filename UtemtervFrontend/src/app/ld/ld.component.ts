@@ -68,7 +68,7 @@ export class LdComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.dataStService.fetchLd();
+    this.dataStService.fetchLds();
 
     this.getItemSub = this.dtTblService.getData.subscribe(() => {
       this.dtTblService.emitDataChanged(this.sortedLdData.slice());

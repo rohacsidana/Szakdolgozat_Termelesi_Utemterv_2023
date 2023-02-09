@@ -1,45 +1,21 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Pt } from 'src/app/shared/interfaces';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PartService {
-  private partData: Pt[] = [
-    {
-      pt_part: 0,
-      pt_desc: 'Asztal',
-      pt_um: 'db',
-    },
-    {
-      pt_part: 1,
-      pt_desc: 'Számítógép',
-      pt_um: 'db',
-    },
-    {
-      pt_part: 2,
-      pt_desc: 'Táska',
-      pt_um: 'db',
-    },
-    {
-      pt_part: 3,
-      pt_desc: 'Müzli',
-      pt_um: 'kg',
-    },
-    {
-      pt_part: 4,
-      pt_desc: 'Fa lap',
-      pt_um: 'm',
-    },
-    {
-      pt_part: 5,
-      pt_desc: 'Csúszásgátló',
-      pt_um: 'db',
-    },
-    {
-      pt_part: 6,
-      pt_desc: 'Processzor',
-      pt_um: 'db',
-    },
-  ];
+  partDataChanged: Subject<Pt[]> = new Subject<Pt[]>();
+  private partData: Pt[] = [];
+
+  setPts(pts: Pt[]) {
+    console.log('setting pts');
+    console.log(pts);
+
+    this.partData = pts;
+    this.partDataChanged.next(this.partData.slice());
+  }
 
   getParts() {
     return this.partData.slice();
@@ -64,13 +40,16 @@ export class PartService {
     } else {
       this.partData.push(part);
     }
+
+    this.partDataChanged.next(this.partData.slice());
   }
 
   deletePart(id: number) {
-    console.log(this.getPart(id));
+    //console.log(this.getPart(id));
 
     if (this.getPart(id)) {
       this.partData.splice(this.partData.indexOf(this.getPart(id)), 1);
+      this.partDataChanged.next(this.partData.slice());
     }
   }
 }

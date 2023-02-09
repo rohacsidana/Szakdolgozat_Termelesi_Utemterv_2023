@@ -8,7 +8,8 @@ import { LnService } from '../ln/ln.service';
 import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
 import { ChgService } from '../chg/chg.service';
-import { Ld, Ln, User, Wo } from './interfaces';
+import { Ld, Ln, Pt, User, Wo } from './interfaces';
+import { PartService } from '../parts/pt/pt.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +19,11 @@ export class DataStorageService {
     private http: HttpClient,
     private woService: WoService,
     private userService: UserService,
-    private router: Router,
     private lnService: LnService,
     private lndService: LndService,
     private ldService: LdService,
-    private chgService: ChgService
+    private chgService: ChgService,
+    private ptService: PartService
   ) {}
 
   formatDate(dateToFormat: Date): string {
@@ -122,9 +123,6 @@ export class DataStorageService {
   newUser(user: User) {
     user.password = 'changeme';
     console.log('New User: ' + user);
-
-    //console.log(formattedDate);
-
     return this.http
       .post<any>(URL + '/user/new', {
         name: user.name,
@@ -199,7 +197,38 @@ export class DataStorageService {
       .subscribe();
   }
 
-  fetchLd() {
+  fetchPts() {
+    return this.http
+      .get<
+        {
+          ptPart: number;
+          ptDesc: string;
+          ptUm: string;
+          ptQtyPer: number;
+        }[]
+      >(URL + '/pt/list')
+      .pipe(
+        map((pts) => {
+          const ptData = pts.map((pt) => {
+            const record: Pt = {
+              pt_part: pt.ptPart,
+              pt_desc: pt.ptDesc,
+              pt_um: pt.ptUm,
+              pt_qty_oh: pt.ptQtyPer,
+            };
+            return { ...record };
+          });
+          return ptData;
+        }),
+        tap({
+          next: (data) => this.ptService.setPts(data.slice()),
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  fetchLds() {
     console.log('fetching lds');
 
     this.http
@@ -235,6 +264,7 @@ export class DataStorageService {
       )
       .subscribe();
   }
+
   fetchWo(id: number) {
     /* let api = "workorder/" + id; */
     return this.http
