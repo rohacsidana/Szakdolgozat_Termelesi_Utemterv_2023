@@ -10,7 +10,7 @@ using UtemtervBackend.Models;
 namespace UtemtervBackend.Controllers
 {
     [EnableCors]
-    [Route("user")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {

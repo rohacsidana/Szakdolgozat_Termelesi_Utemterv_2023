@@ -7,7 +7,7 @@ using UtemtervBackend.Models;
 namespace UtemtervBackend.Controllers
 {
     [EnableCors]
-    [Route("wod")]
+    [Route("api/wod")]
     [ApiController]
     public class WodController : ControllerBase
     {

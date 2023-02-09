@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { pipe } from 'rxjs-compat';
 import { map, tap, take, catchError } from 'rxjs/operators';
-import { User, Wo } from '../data-table/data-table.service';
+import { Ld, User, Wo } from '../data-table/data-table.service';
 import { UserService } from '../user/user.service';
 import { WoService } from '../workorder/wo.service';
 import { LnService } from '../ln/ln.service';
+import { LdService } from '../ld/ld.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +19,9 @@ export class DataStorageService {
     private woService: WoService,
     private userService: UserService,
     private router: Router,
-    private lnService: LnService
-  ) { }
+    private lnService: LnService,
+    private ldService: LdService
+  ) {}
 
   formatDate(dateToFormat: Date): string {
     //átírom olyan formátumra, hogy érthető legyen az sql-nek --> string-ként, nem date-ként adom át
@@ -46,7 +48,6 @@ export class DataStorageService {
       .pipe(
         map((woData) => {
           const woDataNew = woData.map((data) => {
-
             const sor = {
               wo_lot: data.woLot,
               wo_nbr: data.woNbr,
@@ -66,7 +67,6 @@ export class DataStorageService {
               wo_unpld_downtime: data.woUnpldDowntime,
               wo_activated: data.woActivated,
               wo_status: data.woStatus,
-
             };
 
             return { ...sor };
@@ -197,7 +197,42 @@ export class DataStorageService {
       .subscribe();
   }
 
-  
+  fetchLd() {
+    console.log('fetching lds');
+
+    this.http
+      .get<
+        {
+          ldPart: number;
+          ldExpire: Date;
+          ldQtyOh: number;
+          ldQtyRsrv: number;
+          ldQtyScrp: number;
+        }[]
+      >(URL + '/ld/list')
+      .pipe(
+        map((users) => {
+          const ldData = users.map((ld) => {
+            const record: Ld = {
+              ld_part: ld.ldPart,
+              ld_expire: new Date(ld.ldExpire),
+              ld_qty_oh: ld.ldQtyOh,
+              ld_qty_rsrv: ld.ldQtyRsrv,
+              ld_qty_scrp: ld.ldQtyScrp,
+            };
+            return { ...record };
+          });
+          return ldData;
+        }),
+        tap({
+          next: (data) => {
+            this.ldService.setLds(data.slice());
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
   fetchWo(id: number) {
     /* let api = "workorder/" + id; */
     return this.http
@@ -228,7 +263,7 @@ export class DataStorageService {
           });
 
           return { ...woDataNew[0] };
-        },)/* ,
+        }) /* ,
 
         tap({
           next: (data) => console.log(data),
@@ -237,41 +272,43 @@ export class DataStorageService {
       );
   }
 
-  fetchLad(id: number) { }
+  fetchLad(id: number) {}
 
-  fetchWod(id: number) { }
+  fetchWod(id: number) {}
 
-  postWo(wo: Wo) { }
-  updateWo(wo: Wo) { }
-  deleteWo(id: number) { }
+  postWo(wo: Wo) {}
+  updateWo(wo: Wo) {}
+  deleteWo(id: number) {}
 
   fetchGyartosorok() {
-    this.http.get<
-      {
-        "lnLine": string
-        "lnDesc": string
-      }[]
-    >(URL + "/gys/list").pipe(
-      map((gysek) => {
-        const gysData = gysek.map((gys) => {
-          const record = {
-            ln_line: gys.lnLine,
-            ln_desc: gys.lnDesc,
-          };
-          return { ...record };
-        });
-        return gysData;
-      }),
-      tap({
-        next: (data) => this.lnService.setLines(data.slice()),
-        error: (error) => console.log(error),
-      })
-    )
-    .subscribe();
+    this.http
+      .get<
+        {
+          lnLine: string;
+          lnDesc: string;
+        }[]
+      >(URL + '/gys/list')
+      .pipe(
+        map((gysek) => {
+          const gysData = gysek.map((gys) => {
+            const record = {
+              ln_line: gys.lnLine,
+              ln_desc: gys.lnDesc,
+            };
+            return { ...record };
+          });
+          return gysData;
+        }),
+        tap({
+          next: (data) => this.lnService.setLines(data.slice()),
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
   }
 }
 
-export const URL = 'https://localhost:7075';
+export const URL = 'https://localhost:7075/api';
 interface WoResponse {
   woLot: number;
   woNbr: string;

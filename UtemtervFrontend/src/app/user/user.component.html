@@ -48,7 +48,7 @@
               </button>
               <button
                 [className]="searchMode ? 'btn btn-success' : 'btn btn-danger'"
-                (click)="newMode ? onChangeFromNewMode() : onChangeToNewMode()"
+                (click)="newMode ? returnToSearchMode() : onChangeToNewMode()"
                 type="button"
               >
                 {{ searchMode ? "Új" : "Mégse" }}

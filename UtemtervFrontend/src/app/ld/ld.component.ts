@@ -8,13 +8,14 @@ import {
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import * as DataTableService from '../data-table/data-table.service';
+import { DataStorageService } from '../shared/data-storage.service';
 import { LdService } from './ld.service';
 
 @Component({
   selector: 'app-ld',
   templateUrl: './ld.component.html',
   styleUrls: ['./ld.component.css'],
-  providers: [DataTableService.DataTableService, LdService],
+  providers: [DataTableService.DataTableService],
 })
 export class LdComponent implements OnInit, OnDestroy {
   loadedLd: DataTableService.Ld;
@@ -32,8 +33,10 @@ export class LdComponent implements OnInit, OnDestroy {
   sortedLdData: DataTableService.Ld[];
   ldData: DataTableService.Ld[] = this.ldService.getLds();
 
+  lastSort: Sort;
   selectedData: DataTableService.Ld;
   rowSelectSubscription: Subscription;
+  ldDataChangedSub: Subscription;
 
   ldHeaders = [
     { name: 'ld_part', szoveg: 'Tétel' },
@@ -46,12 +49,26 @@ export class LdComponent implements OnInit, OnDestroy {
   constructor(
     private ldService: LdService,
     private dtTblService: DataTableService.DataTableService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dataStService: DataStorageService
   ) {
     this.sortedLdData = ldService.getLds();
   }
 
   ngOnInit(): void {
+    this.ldDataChangedSub = this.ldService.ldDataChanged.subscribe(
+      (ldData: DataTableService.Ld[]) => {
+        this.ldData = ldData;
+        this.sortedLdData = this.ldData.slice();
+        if (!!this.lastSort) {
+          this.sortData(this.lastSort);
+        } else {
+          this.dtTblService.dataChanged.next(this.sortedLdData.slice());
+        }
+      }
+    );
+    this.dataStService.fetchLd();
+    
     this.getItemSub = this.dtTblService.getData.subscribe(() => {
       this.dtTblService.emitDataChanged(this.sortedLdData.slice());
     });
@@ -201,6 +218,7 @@ export class LdComponent implements OnInit, OnDestroy {
     this.getItemSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.rowSelectSubscription.unsubscribe();
+    this.ldDataChangedSub.unsubscribe();
   }
 
   sortData(sort: Sort) {
@@ -222,7 +240,7 @@ export class LdComponent implements OnInit, OnDestroy {
           return 0;
         case 'ld_qty_rsrv':
           return this.compare(a.ld_qty_rsrv, b.ld_qty_rsrv, isAsc);
-        case 'post':
+        case 'ld_qty_scrp':
           return this.compare(a.ld_qty_scrp, b.ld_qty_scrp, isAsc);
 
         default:
