@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { User } from '../data-table/data-table.service';
+import { User } from '../shared/interfaces';
 
 @Injectable({
   providedIn: 'root',

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs-compat';
 import * as DataTableService from 'src/app/data-table/data-table.service';
+import { Pt } from 'src/app/shared/interfaces';
 import { PartService } from './pt.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { PartService } from './pt.service';
   providers: [PartService, DataTableService.DataTableService],
 })
 export class PtComponent {
-  loadedPart: DataTableService.Pt;
+  loadedPart: Pt;
 
   myGroup: FormGroup;
   partFound: boolean = true;
@@ -20,9 +21,9 @@ export class PtComponent {
   partAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
-  sortedPartData: DataTableService.Pt[];
+  sortedPartData: Pt[];
 
-  selectedData: DataTableService.Pt;
+  selectedData: Pt;
   rowSelectSubscription: Subscription;
 
   partHeaders = [
@@ -51,7 +52,7 @@ export class PtComponent {
     });
     this.initForm();
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
-      (data: DataTableService.Pt) => {
+      (data: Pt) => {
         this.myGroup = new FormGroup({
           pt_part: new FormControl(data.pt_part, Validators.required),
           pt_desc: new FormControl(data.pt_desc, Validators.required),

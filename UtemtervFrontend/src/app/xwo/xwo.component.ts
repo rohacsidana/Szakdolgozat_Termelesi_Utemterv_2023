@@ -1,6 +1,5 @@
-;
 import { Component } from "@angular/core";
-import { XWo } from "../data-table/data-table.service";
+import { XWo } from "../shared/interfaces";
 
 @Component({
     selector: 'app-xwo',

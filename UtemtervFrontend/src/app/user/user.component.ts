@@ -4,6 +4,7 @@ import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import * as DataTableService from '../data-table/data-table.service';
 import { DataStorageService } from '../shared/data-storage.service';
+import { User } from '../shared/interfaces';
 import { UserService } from './user.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { UserService } from './user.service';
   providers: [DataTableService.DataTableService],
 })
 export class UserComponent implements OnInit, OnDestroy {
-  loadedUser: DataTableService.User;
+  loadedUser: User;
   myGroup: FormGroup;
   userFound: boolean = true;
   emailExists: boolean = false;
@@ -21,11 +22,11 @@ export class UserComponent implements OnInit, OnDestroy {
   newMode: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
-  sortedUserData: DataTableService.User[] = [];
+  sortedUserData: User[] = [];
   lastSort: Sort;
 
   userDataChangedSub: Subscription;
-  userData: DataTableService.User[] = [];
+  userData: User[] = [];
 
   rowSelectSubscription: Subscription;
 
@@ -47,7 +48,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userDataChangedSub = this.userService.userDataChanged.subscribe(
-      (userData: DataTableService.User[]) => {
+      (userData: User[]) => {
         this.userData = userData;
         this.sortedUserData = this.userData.slice();
         if (!!this.lastSort) {
@@ -69,7 +70,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.initForm();
 
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
-      (data: DataTableService.User) => {
+      (data: User) => {
         this.myGroup = new FormGroup({
           user_id: new FormControl(data.user_id, Validators.required),
           name: new FormControl(data.name, Validators.required),
@@ -172,7 +173,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   onUpdateUser() {
-    let userToUpdate: DataTableService.User = {
+    let userToUpdate: User = {
       user_id: Number(this.myGroup.getRawValue().user_id),
       name: this.myGroup.getRawValue().name,
       birth_date: new Date(this.myGroup.getRawValue().birth_date),

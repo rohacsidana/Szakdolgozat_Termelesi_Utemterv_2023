@@ -2,7 +2,8 @@ import { Component, Input, OnDestroy, OnInit, AfterViewInit } from '@angular/cor
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
-import { DataTables, DataTableService } from './data-table.service';
+import { DataTables } from '../shared/interfaces';
+import { DataTableService } from './data-table.service';
 
 @Component({
   selector: 'app-data-table',
@@ -46,7 +47,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
     //this.dataTblService.getDataEmit();
   }
 
- 
+
   isDate(data) {
     if (data instanceof Date) {
       return true;
@@ -74,7 +75,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
 
   setView() {
 
-    
+
     this.kezdIndex = this.pageIndex * this.pageSize;
     this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex + this.pageSize;
 

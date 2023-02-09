@@ -83,7 +83,12 @@
               <!-- új, módosítás módnál mégse, vissza keresés módra -->
               <button
                 class="btn btn-danger"
-                (click)="clearForm()"
+                (click)="
+                  searchMode = true;
+                  newMode = false;
+                  editMode = fakse;
+                  clearForm()
+                "
                 type="button"
                 *ngIf="newMode || editMode"
               >

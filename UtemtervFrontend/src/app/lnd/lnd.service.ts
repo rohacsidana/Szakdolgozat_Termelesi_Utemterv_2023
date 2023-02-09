@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Lnd } from '../data-table/data-table.service';
 import { Subject } from 'rxjs';
+import { Lnd } from '../shared/interfaces';
 
 
 @Injectable(
@@ -42,11 +42,11 @@ export class LndService {
     }
 
     deleteLine(line: string, part: number) {
-        let index = this.getLndIndex(line, part)        
+        let index = this.getLndIndex(line, part)
         this.rates.splice(index, 1);
         this.lndChanged.next(this.rates.slice())
         console.log(this.getRates());
-        
+
     }
 
     doesLndExist(line: string, part: number) {

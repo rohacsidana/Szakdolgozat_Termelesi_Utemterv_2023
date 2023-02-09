@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
-import { Wo } from "src/app/data-table/data-table.service";
 import { DataStorageService } from "src/app/shared/data-storage.service";
+import { Wo } from "src/app/shared/interfaces";
 import { WoService } from "../wo.service";
 
 @Injectable({
@@ -12,8 +12,8 @@ export class WoListResolverService implements Resolve<Wo[]>{
         private DataStorageService: DataStorageService,
         private woService: WoService
     ){}
-    
-    
+
+
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any|Wo[]{
         const woData = this.woService.getWos();
         if(woData.length === 0){

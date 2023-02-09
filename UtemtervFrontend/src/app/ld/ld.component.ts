@@ -9,6 +9,7 @@ import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import * as DataTableService from '../data-table/data-table.service';
 import { DataStorageService } from '../shared/data-storage.service';
+import { Ld } from '../shared/interfaces';
 import { LdService } from './ld.service';
 
 @Component({
@@ -18,7 +19,7 @@ import { LdService } from './ld.service';
   providers: [DataTableService.DataTableService],
 })
 export class LdComponent implements OnInit, OnDestroy {
-  loadedLd: DataTableService.Ld;
+  loadedLd: Ld;
 
   myGroup: FormGroup;
   ldFound: boolean = true;
@@ -30,11 +31,11 @@ export class LdComponent implements OnInit, OnDestroy {
   ldAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
-  sortedLdData: DataTableService.Ld[];
-  ldData: DataTableService.Ld[] = this.ldService.getLds();
+  sortedLdData: Ld[];
+  ldData: Ld[] = this.ldService.getLds();
 
   lastSort: Sort;
-  selectedData: DataTableService.Ld;
+  selectedData: Ld;
   rowSelectSubscription: Subscription;
   ldDataChangedSub: Subscription;
 
@@ -57,7 +58,7 @@ export class LdComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.ldDataChangedSub = this.ldService.ldDataChanged.subscribe(
-      (ldData: DataTableService.Ld[]) => {
+      (ldData: Ld[]) => {
         this.ldData = ldData;
         this.sortedLdData = this.ldData.slice();
         if (!!this.lastSort) {
@@ -68,7 +69,7 @@ export class LdComponent implements OnInit, OnDestroy {
       }
     );
     this.dataStService.fetchLd();
-    
+
     this.getItemSub = this.dtTblService.getData.subscribe(() => {
       this.dtTblService.emitDataChanged(this.sortedLdData.slice());
     });
@@ -79,15 +80,16 @@ export class LdComponent implements OnInit, OnDestroy {
     this.initForm();
 
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
-      (data: DataTableService.Ld) => {
+      (data: Ld) => {
         this.myGroup = this.formBuilder.group({
           ld_part: new FormControl(
             { value: data.ld_part, disabled: true },
             Validators.required
           ),
-          ld_expire: new FormControl(
-            data.ld_expire.toISOString().split('T')[0]
-          ),
+          ld_expire: new FormControl({
+            value: data.ld_expire.toISOString().split('T')[0],
+            disabled: true,
+          }),
           ld_qty_oh: new FormControl(data.ld_qty_oh, Validators.required),
           ld_qty_rsrv: new FormControl(data.ld_qty_rsrv, Validators.required),
           ld_qty_scrp: new FormControl(data.ld_qty_scrp, Validators.required),
@@ -103,16 +105,27 @@ export class LdComponent implements OnInit, OnDestroy {
   initForm() {
     this.myGroup = this.formBuilder.group({
       ld_part: new FormControl('', Validators.required),
-      ld_expire: new FormControl('', Validators.required),
-      ld_qty_oh: new FormControl('', Validators.required),
-      ld_qty_rsrv: new FormControl('', Validators.required),
-      ld_qty_scrp: new FormControl('', Validators.required),
+      ld_expire: new FormControl(
+        { value: '', disabled: this.searchMode ? true : false },
+        Validators.required
+      ),
+      ld_qty_oh: new FormControl(
+        { value: '', disabled: this.searchMode ? true : false },
+        Validators.required
+      ),
+      ld_qty_rsrv: new FormControl(
+        { value: '', disabled: this.searchMode ? true : false },
+        Validators.required
+      ),
+      ld_qty_scrp: new FormControl(
+        { value: '', disabled: this.searchMode ? true : false },
+        Validators.required
+      ),
     });
   }
 
   onSearchLd() {
     this.filterData(this.myGroup.value.ld_part, this.myGroup.value.ld_expire);
-    this.searchedDataLoaded = true;
   }
 
   onDelete() {
@@ -126,6 +139,9 @@ export class LdComponent implements OnInit, OnDestroy {
     );
 
     this.ldDataChanged();
+    this.searchMode = true;
+    this.editMode = false;
+    this.newMode = false;
     this.clearForm();
   }
 
@@ -143,9 +159,10 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onNewMode() {
+    this.newMode = true;
     this.searchMode = false;
     this.editMode = false;
-    this.newMode = true;
+    this.clearForm();
   }
 
   onSubmit() {
@@ -164,12 +181,14 @@ export class LdComponent implements OnInit, OnDestroy {
       this.ldAlreadyExists = true;
     }
     this.ldDataChanged();
+    this.searchMode = true;
+    this.editMode = false;
+    this.newMode = false;
     this.clearForm();
   }
 
   clearForm() {
-    this.myGroup.enable();
-    this.myGroup.reset();
+    this.initForm();
     this.ldAlreadyExists = false;
     this.ldFound = false;
     this.loadedLd = null;
@@ -177,11 +196,6 @@ export class LdComponent implements OnInit, OnDestroy {
 
     this.sortedLdData = this.ldData;
     this.ldDataChanged();
-
-    //keresés módra állítás
-    this.newMode = false;
-    this.editMode = false;
-    this.searchMode = true;
   }
 
   ldDataChanged() {
@@ -210,7 +224,9 @@ export class LdComponent implements OnInit, OnDestroy {
 
       return filteredSearch;
     });
-
+    this.editMode = true;
+    this.searchMode = false;
+    this.newMode = false;
     this.dtTblService.emitDataChanged(results.slice());
   }
 

@@ -8,6 +8,7 @@ import {
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import * as DataTableService from 'src/app/data-table/data-table.service';
+import { Ps } from 'src/app/shared/interfaces';
 import { PartStrService } from './ps.service';
 
 @Component({
@@ -17,7 +18,7 @@ import { PartStrService } from './ps.service';
   providers: [PartStrService, DataTableService.DataTableService],
 })
 export class PsComponent {
-  loadedPartStr: DataTableService.Ps;
+  loadedPartStr: Ps;
 
   myGroup: FormGroup;
   partStrFound: boolean = true;
@@ -26,9 +27,9 @@ export class PsComponent {
   partStrAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
-  sortedPartStrData: DataTableService.Ps[];
+  sortedPartStrData: Ps[];
 
-  selectedData: DataTableService.Ps;
+  selectedData: Ps;
   rowSelectSubscription: Subscription;
 
   partStrHeaders = [
@@ -64,7 +65,7 @@ export class PsComponent {
     });
     this.initForm();
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
-      (data: DataTableService.Ps) => {
+      (data: Ps) => {
         this.myGroup = this.formBuilder.group({
           ps_par: new FormControl(data.ps_par, Validators.required),
           ps_comp: new FormControl(data.ps_comp, Validators.required),

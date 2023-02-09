@@ -4,8 +4,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Wo } from 'src/app/data-table/data-table.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
+import { Wo } from 'src/app/shared/interfaces';
 import { WoService } from '../../wo.service';
 
 @Component({
@@ -61,7 +61,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
   initForm() {
     if (this.selectedMode) {
       this.selectedWo = this.woService.getSelectedWo();
-      
+
       if (this.selectedWo) {
         this.selectedWo = this.woService.getWo(this.selectedWoLot);
       }
@@ -125,7 +125,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    console.log(this.woFormActData);  
+    console.log(this.woFormActData);
   }
 
   search() {
