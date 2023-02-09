@@ -14,7 +14,7 @@ import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WoComponent } from './workorder/wo/wo.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
-import { WoListResolverService } from './workorder/wo-list/wo-list.resolver';
+import { WoListResolverService } from './workorder/wo-list/wo-list-resolver.service';
 
 
 const routes: Routes = [
@@ -41,8 +41,6 @@ const routes: Routes = [
 
   {
     path: 'workorder',
-
-
     children: [
       { path: '', component: WoComponent, pathMatch: 'full' },
       { path: 'new', component: WoComponent },

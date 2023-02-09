@@ -41,6 +41,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FilterPipePipe } from './ln/filter-pipe.pipe';
 import { DataStorageService } from './shared/data-storage.service';
 import { UserService } from './user/user.service';
+import { AlertComponent } from './shared/alert/alert.component';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { UserService } from './user/user.service';
     WodComponent,
     WoFormComponent,
     FilterPipePipe,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

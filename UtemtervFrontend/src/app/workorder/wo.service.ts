@@ -151,8 +151,14 @@ export class WoService {
         { lad_id: 9, lad_part: 1231, lad_par: 223, lad_lot: 10, lad_comp: 21200, lad_expire: 22, lad_qty_rsrv: 311 },
     ];
     ladDataChanged = new Subject<DataTableService.Lad[]>();
-
+    selectedWo: DataTableService.Wo;
     
+    setSelectedWo(wo: DataTableService.Wo){
+        this.selectedWo = wo;
+    }
+    getSelectedWo(){
+        return this.selectedWo;
+    }
     getWos() {
         return this.woData.slice();
     }
