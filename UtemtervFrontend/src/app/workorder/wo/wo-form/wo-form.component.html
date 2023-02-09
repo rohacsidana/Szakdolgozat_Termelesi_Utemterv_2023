@@ -1,3 +1,11 @@
+<!-- <div class="alert alert-danger" *ngIf="error">
+      <p>{{ error }}</p>
+    </div>  -->
+     <app-alert
+      [message]="error"
+      *ngIf="error"
+      (close)="onHandleError()"
+    ></app-alert>
 <form #woForm="ngForm" (ngSubmit)="onSubmit()">
   <!-- Kereső rész -->
   <div class="row">

@@ -477,6 +477,7 @@ public partial class UtemtervContext : DbContext
                 .HasNoKey()
                 .ToView("ldList");
 
+
             entity.Property(e => e.LdExpire)
                 .HasColumnType("date")
                 .HasColumnName("ld_expire");
@@ -496,6 +497,7 @@ public partial class UtemtervContext : DbContext
             entity
                 .HasNoKey()
                 .ToView("lnList");
+
 
             entity.Property(e => e.LnDesc)
                 .HasMaxLength(24)
