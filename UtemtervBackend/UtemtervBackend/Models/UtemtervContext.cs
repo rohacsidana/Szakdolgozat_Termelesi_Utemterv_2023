@@ -48,6 +48,9 @@ public partial class UtemtervContext : DbContext
     
     public virtual DbSet<LnList> LnLists { get; set; }
 
+    public virtual DbSet<VwWod> VwWods { get; set; }
+
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Utemterv;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
@@ -508,6 +511,36 @@ public partial class UtemtervContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("ln_line");
         });
+
+        modelBuilder.Entity<VwWod>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_Wod");
+
+            entity.Property(e => e.Lot).HasColumnName("lot");
+            entity.Property(e => e.Parent).HasColumnName("parent");
+            entity.Property(e => e.ParentName)
+                .HasMaxLength(24)
+                .IsUnicode(false)
+                .HasColumnName("parent_name");
+            entity.Property(e => e.Part).HasColumnName("part");
+            entity.Property(e => e.PartName)
+                .HasMaxLength(24)
+                .IsUnicode(false)
+                .HasColumnName("part_name");
+            entity.Property(e => e.PartUm)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("part_um");
+            entity.Property(e => e.QtyCompl).HasColumnName("qty_compl");
+            entity.Property(e => e.QtyReq)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("qty_req");
+            entity.Property(e => e.QtyRjct).HasColumnName("qty_rjct");
+        });
+
+
         OnModelCreatingPartial(modelBuilder);
     }
 

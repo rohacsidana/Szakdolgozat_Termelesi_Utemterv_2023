@@ -47,7 +47,7 @@ export class DataStorageService {
 
   fetchAllWo() {
     this.http
-      .get<WoResponse[]>('https://localhost:7075/workorder/list')
+      .get<WoResponse[]>(URL + '/workorder/list')
       .pipe(
         map((woData) => {
           const woDataNew = woData.map((data) => {
@@ -268,7 +268,7 @@ export class DataStorageService {
   fetchWo(id: number) {
     /* let api = "workorder/" + id; */
     return this.http
-      .get<WoResponse[]>('https://localhost:7075/workorder/' + id)
+      .get<WoResponse[]>(URL + '/workorder/' + id)
       .pipe(
         map((woData) => {
           const woDataNew: Wo[] = woData.map((wo) => {
@@ -308,8 +308,73 @@ export class DataStorageService {
 
   fetchWod(id: number) {}
 
-  postWo(wo: Wo) {}
-  updateWo(wo: Wo) {}
+  postWo(wo) {
+    return this.http.post<any>(URL + '/workorder/new', wo)
+    .pipe(
+      map(
+        (res) => {
+          const woA = res.map((data) => {
+            const wo = {wo_lot: data.woLot,
+              wo_nbr: data.woNbr,
+              wo_part: data.woPart,
+              wo_qty_ord: data.woQtyOrd,
+              wo_ord_date: data.woOrdDate,
+              wo_seq: data.woSeq,
+              wo_due_date: data.woDueDate,
+              wo_line: data.woLine,
+              wo_est_run: data.woEstRun,
+              wo_start_date: data.woStartDate,
+              wo_start_time: data.woStartTime,
+              wo_end_time: data.woEndTime,
+              wo_pld_downtime: data.woPldDowntime,
+              wo_unpld_downtime: data.woUnpldDowntime,
+              wo_activated: data.woActivated,
+              wo_status: data.woStatus,
+              wo_rel_date: data.woRelDate,
+              wo_user: data.woUser,}
+            return {...wo}
+          });
+          return { ...woA[0] };
+        }
+      )
+
+    )
+  }
+  updateWo(wo) {
+    console.log(wo);
+    let lot: number = +wo.wo_lot;
+    let vegpont =  URL + '/workorder/update';
+    return this.http.put<any>(vegpont, wo)
+    .pipe(
+      map(
+        (res) => {
+          const woA = res.map((data) => {
+            const wo = {wo_lot: data.woLot,
+              wo_nbr: data.woNbr,
+              wo_part: data.woPart,
+              wo_qty_ord: data.woQtyOrd,
+              wo_ord_date: data.woOrdDate,
+              wo_seq: data.woSeq,
+              wo_due_date: data.woDueDate,
+              wo_line: data.woLine,
+              wo_est_run: data.woEstRun,
+              wo_start_date: data.woStartDate,
+              wo_start_time: data.woStartTime,
+              wo_end_time: data.woEndTime,
+              wo_pld_downtime: data.woPldDowntime,
+              wo_unpld_downtime: data.woUnpldDowntime,
+              wo_activated: data.woActivated,
+              wo_status: data.woStatus,
+              wo_rel_date: data.woRelDate,
+              wo_user: data.woUser,}
+            return {...wo}
+          });
+          return { ...woA[0] };
+        }
+      )
+
+    )
+  }
   deleteWo(id: number) {}
 
   fetchGyartosorok() {
