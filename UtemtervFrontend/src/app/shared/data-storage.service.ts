@@ -8,6 +8,7 @@ import { User, Wo } from '../data-table/data-table.service';
 import { UserService } from '../user/user.service';
 import { WoService } from '../workorder/wo.service';
 import { LnService } from '../ln/ln.service';
+import { LndService } from '../lnd/lnd.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ export class DataStorageService {
     private woService: WoService,
     private userService: UserService,
     private router: Router,
-    private lnService: LnService
+    private lnService: LnService,
+    private lndService: LndService
   ) { }
 
   formatDate(dateToFormat: Date): string {
@@ -197,7 +199,7 @@ export class DataStorageService {
       .subscribe();
   }
 
-  
+
   fetchWo(id: number) {
     /* let api = "workorder/" + id; */
     return this.http
@@ -267,9 +269,39 @@ export class DataStorageService {
         error: (error) => console.log(error),
       })
     )
-    .subscribe();
+      .subscribe();
+  }
+
+  fetchLnds() {
+    this.http.get<
+      {
+        lndLine: string
+        lndPart: number
+        lndRate: number
+      }[]
+    >(URL + "/lnd/list").pipe(
+      map((lnds) => {
+        const lndData = lnds.map((lnd) => {
+          const record = {
+            lnd_line: lnd.lndLine,
+            lnd_part: lnd.lndPart,
+            lnd_rate: lnd.lndRate
+
+          };
+          return { ...record };
+        });
+        return lndData;
+      }),
+      tap({
+        next: (data) => this.lndService.setLnds(data.slice()),
+        error: (error) => console.log(error),
+      })
+    )
+      .subscribe();
   }
 }
+
+
 
 export const URL = 'https://localhost:7075';
 interface WoResponse {

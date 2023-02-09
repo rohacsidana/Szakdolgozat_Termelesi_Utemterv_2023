@@ -40,11 +40,17 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(404, e);
             }
         }
-
-        /*[EnableCors]
+        /*
+        [EnableCors]
         [HttpPost("new")]
 
-        public IActionResult NewGys()*/
+        public IActionResult newGys([FromBody])*/
+
 
     }
+    /*
+    public class NewLn:Ln
+    {
+        public string PtUm { get; set; }
+    }*/
 }

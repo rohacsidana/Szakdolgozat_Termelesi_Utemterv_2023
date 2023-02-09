@@ -3,12 +3,13 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DataTableService, Lnd } from '../data-table/data-table.service';
 import { LndService } from './lnd.service';
+import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
   selector: 'app-lnd',
   templateUrl: './lnd.component.html',
   styleUrls: ['./lnd.component.css'],
-  providers: [DataTableService, LndService]
+  providers: [DataTableService, DataStorageService]
 
 })
 export class LndComponent implements OnInit, OnDestroy {
@@ -33,10 +34,13 @@ export class LndComponent implements OnInit, OnDestroy {
   rates: Lnd[]
   selectedLnd: Lnd
 
-  constructor(private dtService: DataTableService, private lndService: LndService) { }
+  constructor(private dtService: DataTableService, private lndService: LndService, 
+    private dsService: DataStorageService) { }
 
 
   ngOnInit(): void {
+    this.dsService.fetchLnds()
+
     this.rates = this.lndService.getRates()
     this.dtService.emitDataChanged(this.rates.slice())
     /* A data-table-ben figyeli a változást */
