@@ -151,12 +151,12 @@ export class WoService {
         { lad_id: 9, lad_part: 1231, lad_par: 223, lad_lot: 10, lad_comp: 21200, lad_expire: 22, lad_qty_rsrv: 311 },
     ];
     ladDataChanged = new Subject<DataTableService.Lad[]>();
-    selectedWo: DataTableService.Wo;
-    
-    setSelectedWo(wo: DataTableService.Wo){
+    selectedWo: DataTableService.Wo = null;
+
+    setSelectedWo(wo: DataTableService.Wo) {
         this.selectedWo = wo;
     }
-    getSelectedWo(){
+    getSelectedWo() {
         return this.selectedWo;
     }
     getWos() {
@@ -189,14 +189,14 @@ export class WoService {
     getWo(woLot: number) {
 
         if (this.woData.length !== 0) {
-            
+
             return this.woData.find(element => element.wo_lot === woLot);
-        }else{            
+        } else {
             return null;
         }
-       /*  else {
-            return this.DataStorageService.fetchWo(woLot);
-        } */
+        /*  else {
+             return this.DataStorageService.fetchWo(woLot);
+         } */
         /* return apihívás */
 
 

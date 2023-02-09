@@ -61,11 +61,14 @@ export class WoFormComponent implements OnInit, OnDestroy {
   initForm() {
     if (this.selectedMode) {
       this.selectedWo = this.woService.getSelectedWo();
-      
-      if (this.selectedWo) {
+
+      if (this.selectedWo === null) {
         this.selectedWo = this.woService.getWo(this.selectedWoLot);
+      } else {
+        this.initFormData();
       }
       if (this.selectedWo === null) {
+
         this.DataStorageService.fetchWo(this.selectedWoLot).pipe(
           tap(
             {
@@ -75,15 +78,11 @@ export class WoFormComponent implements OnInit, OnDestroy {
           ),
         )
           .subscribe((data) => {
-            if (data !== null) {
-              this.selectedWo = data;
-              this.initFormData();
-            } else {
-              this.router.navigate(['../'], { relativeTo: this.route });
-            }
-
+            this.selectedWo = data;
+            this.initFormData();
           });
       } else {
+
         this.initFormData();
       }
     } else if (this.newMode) {
@@ -92,12 +91,22 @@ export class WoFormComponent implements OnInit, OnDestroy {
   }
   onHandleError() {
     this.error = null;
+    if (this.woFormActData.woLot === null) {
+      this.router.navigate(['../'], { relativeTo: this.route });
+    }else{
+      this.woFormActData.woLot = this.selectedWo.wo_lot;
+    }
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
 
-    this.error = errorRes.error;
+    let errorMessage = 'An unknown error occurred!';
+    if (errorRes.error !== null) {
+      this.error = errorRes.error;
+      errorMessage = errorRes.error;
+    } else {
+      this.error = errorMessage;
+    }
     return throwError(errorMessage);
   }
 
@@ -125,16 +134,16 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    console.log(this.woFormActData);  
+    console.log(this.woFormActData);
   }
 
-  search() {
-    let wo = this.woService.getWo(this.woFormActData.woLot);
+  search() {    
+    let wo = this.woService.getWo(+this.woFormActData.woLot);
     if (wo !== null) {
-
       this.woService.setSelectedWo(wo);
+      this.router.navigate(['./', 'workorder', +this.woFormActData.woLot]);
     } else {
-      this.DataStorageService.fetchWo(this.selectedWoLot).pipe(
+      this.DataStorageService.fetchWo(this.woFormActData.woLot).pipe(
         tap(
           {
             next: (data) => console.log(data),
@@ -143,19 +152,11 @@ export class WoFormComponent implements OnInit, OnDestroy {
         ),
       )
         .subscribe((data) => {
-          if (data !== null) {
             this.woService.setSelectedWo(data);
             this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
 
-          } else {
-
-          }
-
         });
     }
-    console.log(this.woFormActData);
-
-    this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
 
   }
 
@@ -199,9 +200,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
     this.editing = false;
   }
-  /*   getWo(){
-    return this.woService.getWo(this.selectedWoLot);
-  } */
+
   ngOnDestroy(): void {
 
   }
