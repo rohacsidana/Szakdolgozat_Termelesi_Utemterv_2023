@@ -3,14 +3,21 @@ import { Subject } from 'rxjs';
 import { Lnd } from '../shared/interfaces';
 
 
-@Injectable()
+@Injectable(
+    { providedIn: 'root'}
+)
 export class LndService {
     lndChanged = new Subject<Lnd[]>()
 
     private rates: Lnd[] = [
-        {lnd_line: 'lnd_1', lnd_part: 1, lnd_rate: 20},
-        {lnd_line: 'lnd_2', lnd_part: 2, lnd_rate: 30},
+        /* {lnd_line: 'lnd_1', lnd_part: 1, lnd_rate: 20},
+        {lnd_line: 'lnd_2', lnd_part: 2, lnd_rate: 30}, */
     ]
+
+    setLnds(lnds: Lnd[]) {
+        this.rates = lnds
+        this.lndChanged.next(this.rates.slice())
+    }
 
     getRates() {
         return this.rates.slice()

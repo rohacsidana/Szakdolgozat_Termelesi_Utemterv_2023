@@ -1,14 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
-import { pipe } from 'rxjs-compat';
-import { map, tap, take, catchError } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { UserService } from '../user/user.service';
 import { WoService } from '../workorder/wo.service';
 import { LnService } from '../ln/ln.service';
+import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
-import { Ld, User, Wo } from './interfaces';
+import { ChgService } from '../chg/chg.service';
+import { Ld, Ln, User, Wo } from './interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,9 @@ export class DataStorageService {
     private userService: UserService,
     private router: Router,
     private lnService: LnService,
-    private ldService: LdService
+    private lndService: LndService,
+    private ldService: LdService,
+    private chgService: ChgService
   ) {}
 
   formatDate(dateToFormat: Date): string {
@@ -287,7 +289,7 @@ export class DataStorageService {
           lnLine: string;
           lnDesc: string;
         }[]
-      >(URL + '/gys/list')
+      >(URL + '/ln/list')
       .pipe(
         map((gysek) => {
           const gysData = gysek.map((gys) => {
@@ -301,6 +303,90 @@ export class DataStorageService {
         }),
         tap({
           next: (data) => this.lnService.setLines(data.slice()),
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  newLn(ln: Ln) {
+    //console.log('üdvözlet a newLn től!');
+    this.http
+      .post<any>(URL + '/ln/new', {
+        lnLine: ln.ln_line,
+        lnDesc: ln.ln_desc,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            /* console.log("res line:");
+            console.log(res[0].lnLine); */
+            let l = {
+              ln_line: res[0].lnLine,
+              ln_desc: res[0].lnDesc,
+            };
+            this.lnService.newLine(l);
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  fetchLnds() {
+    this.http
+      .get<
+        {
+          lndLine: string;
+          lndPart: number;
+          lndRate: number;
+        }[]
+      >(URL + '/lnd/list')
+      .pipe(
+        map((lnds) => {
+          const lndData = lnds.map((lnd) => {
+            const record = {
+              lnd_line: lnd.lndLine,
+              lnd_part: lnd.lndPart,
+              lnd_rate: lnd.lndRate,
+            };
+            return { ...record };
+          });
+          return lndData;
+        }),
+        tap({
+          next: (data) => this.lndService.setLnds(data.slice()),
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  fetchChgs() {
+    this.http
+      .get<
+        {
+          chgLine: string;
+          chgFrom: number;
+          chgTo: number;
+          chgTime: string;
+        }[]
+      >(URL + '/chg/list')
+      .pipe(
+        map((chgs) => {
+          const chgData = chgs.map((chg) => {
+            const record = {
+              chg_line: chg.chgLine,
+              chg_from: chg.chgFrom,
+              chg_to: chg.chgTo,
+              chg_time: chg.chgTime,
+            };
+            return { ...record };
+          });
+          return chgData;
+        }),
+        tap({
+          next: (data) => this.chgService.setChangeTimes(data.slice()),
           error: (error) => console.log(error),
         })
       )

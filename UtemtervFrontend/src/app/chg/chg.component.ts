@@ -3,13 +3,14 @@ import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { DataTableService } from '../data-table/data-table.service';
 import { ChgService } from './chg.service';
+import { DataStorageService } from '../shared/data-storage.service';
 import { Chg } from '../shared/interfaces';
 
 @Component({
   selector: 'app-chg',
   templateUrl: './chg.component.html',
   styleUrls: ['./chg.component.css'],
-  providers: [DataTableService, ChgService],
+  providers: [DataTableService, DataStorageService]
 })
 export class ChgComponent {
   newChg = false;
@@ -29,19 +30,19 @@ export class ChgComponent {
     { name: 'chg_time', szoveg: 'Átállási idő' },
   ];
 
-  changeTimes: Chg[];
-  selectedChg: Chg;
-  getSub: Subscription;
-  selectSub: Subscription;
+  changeTimes: Chg[]
+  selectedChg: Chg
+  getSub: Subscription
+  selectSub: Subscription
 
-  constructor(
-    private chgService: ChgService,
-    private dtService: DataTableService
-  ) {}
+  constructor(private chgService: ChgService, private dtService: DataTableService,
+    private dsService: DataStorageService) { }
 
   ngOnInit(): void {
-    this.changeTimes = this.chgService.getChangeTimes();
-    this.dtService.emitDataChanged(this.changeTimes.slice());
+    this.dsService.fetchChgs()
+
+    this.changeTimes = this.chgService.getChangeTimes()
+    this.dtService.emitDataChanged(this.changeTimes.slice())
     /* A data-table-ben figyeli a változást */
     this.getSub = this.chgService.chgChanged.subscribe((data) => {
       this.changeTimes = data.slice();

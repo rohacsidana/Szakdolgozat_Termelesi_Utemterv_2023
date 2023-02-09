@@ -7,7 +7,7 @@ using UtemtervBackend.Models;
 namespace UtemtervBackend.Controllers
 {
     [EnableCors]
-    [Route("api/gys")]
+    [Route("api/ln")]
     [ApiController]
     public class LnController : ControllerBase
     {
@@ -40,11 +40,30 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(404, e);
             }
         }
-
-        /*[EnableCors]
+        
         [HttpPost("new")]
 
-        public IActionResult NewGys()*/
+        public IActionResult newLn([FromBody]
+        NewLn ln)
+        {
+            try
+            {
+                var newLn = _context.LnMstrs.FromSqlInterpolated($"newLn {ln.LnLine}, {ln.LnDesc}").ToList();
 
+                return Ok(newLn);
+
+            } catch (Exception e)
+            {
+                return StatusCode(404, e);
+            }
+        }
+
+
+    }
+    
+    public class NewLn
+    {
+        public string LnLine { get; set; }
+        public string LnDesc { get; set; }  
     }
 }
