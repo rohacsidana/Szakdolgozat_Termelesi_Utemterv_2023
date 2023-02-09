@@ -61,6 +61,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
   initForm() {
     if (this.selectedMode) {
       this.selectedWo = this.woService.getSelectedWo();
+      
       if (this.selectedWo) {
         this.selectedWo = this.woService.getWo(this.selectedWoLot);
       }
@@ -92,12 +93,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
   onHandleError() {
     this.error = null;
   }
-  handleError2(err) {
-    console.log(err);
-    this.router.navigate(['../'], { relativeTo: this.route })
-    return throwError(of([]));
 
-  }
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
 
@@ -183,7 +179,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
   edit() {
     this.editing = true;
-    this.initForm();
+    //this.initForm();
 
     //formot enable
   }
