@@ -12,7 +12,6 @@ export class PartService {
   setPts(pts: Pt[]) {
     console.log('setting pts');
     console.log(pts);
-
     this.partData = pts;
     this.partDataChanged.next(this.partData.slice());
   }

@@ -11,7 +11,7 @@ import { PartService } from './pt.service';
   selector: 'app-pt',
   templateUrl: './pt.component.html',
   styleUrls: ['./pt.component.css'],
-  providers: [PartService, DataTableService.DataTableService],
+  providers: [DataTableService.DataTableService],
 })
 export class PtComponent {
   loadedPart: Pt;
@@ -22,10 +22,10 @@ export class PtComponent {
   partAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
-  sortedPartData: Pt[];
+  sortedPartData: Pt[] = [];
   lastSort: Sort;
 
-  partData: Pt[];
+  partData: Pt[] = [];
 
   ptDataChangedSub: Subscription;
   selectedData: Pt;
@@ -38,20 +38,21 @@ export class PtComponent {
     },
     { name: 'pt_desc', szoveg: 'Leírás' },
     { name: 'pt_um', szoveg: 'Mértékegység' },
+    { name: 'pt_qty_oh', szoveg: 'Mennyi van' },
   ];
 
   constructor(
     private partService: PartService,
     private dtTblService: DataTableService.DataTableService,
     private dataStorageService: DataStorageService
-  ) {
-    this.sortedPartData = partService.getParts();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.ptDataChangedSub = this.partService.partDataChanged.subscribe(
       (ptData: Pt[]) => {
         this.partData = ptData;
+        console.log(ptData);
+
         this.sortedPartData = this.partData.slice();
         if (!!this.lastSort) {
           this.sortData(this.lastSort);
@@ -108,6 +109,8 @@ export class PtComponent {
           return this.compare(a.pt_desc, b.pt_desc, isAsc);
         case 'pt_um':
           return this.compare(a.pt_um, b.pt_um, isAsc);
+        case 'pt_qty_oh':
+          return this.compare(a.pt_qty_oh, b.pt_qty_oh, isAsc);
         default:
           return 0;
       }
