@@ -78,7 +78,6 @@ export class UserComponent implements OnInit, OnDestroy {
           post: new FormControl(data.post, Validators.required),
         });
         this.onSearchUser();
-        // console.log(data);
       }
     );
   }
@@ -86,60 +85,38 @@ export class UserComponent implements OnInit, OnDestroy {
   initForm() {
     this.myGroup = new FormGroup({
       user_id: new FormControl('', Validators.required),
-      name: new FormControl('', Validators.required),
-      birth_date: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      post: new FormControl('', Validators.required),
+      name: new FormControl(
+        { value: '', disabled: this.searchMode ? true : false },
+        Validators.required
+      ),
+      birth_date: new FormControl(
+        { value: '', disabled: this.searchMode ? true : false },
+        Validators.required
+      ),
+      email: new FormControl(
+        { value: '', disabled: this.searchMode ? true : false },
+        Validators.required
+      ),
+      post: new FormControl(
+        { value: '', disabled: this.searchMode ? true : false },
+        Validators.required
+      ),
     });
   }
 
-  sortData(sort: Sort) {
-    this.lastSort = sort;
-    const data = this.userService.getUsers();
-    if (!sort.active || sort.direction === '') {
-      this.sortedUserData = data;
-      this.dtTblService.emitDataChanged(this.sortedUserData.slice());
-      return;
-    }
-
-    this.sortedUserData = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'user_id':
-          return this.compare(a.user_id, b.user_id, isAsc);
-        case 'name':
-          return this.compare(a.name, b.name, isAsc);
-        case 'birth_date':
-          return 0;
-        case 'email':
-          return this.compare(a.email, b.email, isAsc);
-        case 'post':
-          return this.compare(a.post, b.post, isAsc);
-
-        default:
-          return 0;
-      }
-    });
-
-    this.sortedUserData = data.slice();
-    this.dtTblService.emitDataChanged(this.sortedUserData.slice());
-  }
-
-  compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  onChangeFromNewMode() {
-    this.clearForm();
+  returnToSearchMode() {
     this.newMode = false;
     this.searchMode = true;
+    this.clearForm();
   }
+
   onChangeToNewMode() {
     this.newMode = true;
     this.searchMode = false;
     this.clearForm();
     this.myGroup.get('user_id').disable();
   }
+
   onSearchUser() {
     if (this.userService.getUser(this.myGroup.getRawValue().user_id)) {
       //lekérem a beirt azonosito szerinti felhasználót
@@ -160,7 +137,7 @@ export class UserComponent implements OnInit, OnDestroy {
       this.myGroup.get('user_id').disable();
     } else {
       this.clearForm();
-      this.searchMode = false;
+      this.searchMode = true;
       this.userFound = false;
     }
     //console.log(this.userFound);
@@ -219,8 +196,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   clearForm() {
-    this.myGroup.enable();
-    this.myGroup.reset();
+    this.initForm();
     this.emailExists = false;
     this.userFound = true;
     this.loadedUser = null;
@@ -236,5 +212,41 @@ export class UserComponent implements OnInit, OnDestroy {
     this.sortSub.unsubscribe();
     this.rowSelectSubscription.unsubscribe();
     this.userDataChangedSub.unsubscribe();
+  }
+
+  sortData(sort: Sort) {
+    this.lastSort = sort;
+    const data = this.userService.getUsers();
+    if (!sort.active || sort.direction === '') {
+      this.sortedUserData = data;
+      this.dtTblService.emitDataChanged(this.sortedUserData.slice());
+      return;
+    }
+
+    this.sortedUserData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'user_id':
+          return this.compare(a.user_id, b.user_id, isAsc);
+        case 'name':
+          return this.compare(a.name, b.name, isAsc);
+        case 'birth_date':
+          return 0;
+        case 'email':
+          return this.compare(a.email, b.email, isAsc);
+        case 'post':
+          return this.compare(a.post, b.post, isAsc);
+
+        default:
+          return 0;
+      }
+    });
+
+    this.sortedUserData = data.slice();
+    this.dtTblService.emitDataChanged(this.sortedUserData.slice());
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 }

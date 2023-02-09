@@ -492,12 +492,13 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("ld_qty_scrp");
         });
-
         modelBuilder.Entity<LnList>(entity =>
         {
             entity
                 .HasNoKey()
                 .ToView("lnList");
+
+
             entity.Property(e => e.LnDesc)
                 .HasMaxLength(24)
                 .IsUnicode(false)

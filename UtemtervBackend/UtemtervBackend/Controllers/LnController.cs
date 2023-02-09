@@ -7,7 +7,7 @@ using UtemtervBackend.Models;
 namespace UtemtervBackend.Controllers
 {
     [EnableCors]
-    [Route("gys")]
+    [Route("api/gys")]
     [ApiController]
     public class LnController : ControllerBase
     {
