@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Wo } from 'src/app/data-table/data-table.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { WoService } from '../../wo.service';
@@ -93,12 +93,12 @@ export class WoFormComponent implements OnInit, OnDestroy {
     this.error = null;
     if (this.woFormActData.woLot === null) {
       this.router.navigate(['../'], { relativeTo: this.route });
-    }else{
+    } else {
       this.woFormActData.woLot = this.selectedWo.wo_lot;
     }
   }
 
-  private handleError(errorRes: HttpErrorResponse) {
+  handleError(errorRes: HttpErrorResponse) {
 
     let errorMessage = 'An unknown error occurred!';
     if (errorRes.error !== null) {
@@ -122,7 +122,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
     this.woFormActData.estTime = this.selectedWo.wo_est_run;
     this.woFormActData.seq = this.selectedWo.wo_seq;
     this.woFormActData.dueDate = this.selectedWo.wo_due_date;
-    this.woFormActData.startDate = this.selectedWo.wo_start_date;
+    this.woFormActData.startDate = this.selectedWo.wo_start_date;     
     this.woFormActData.startTime = this.selectedWo.wo_start_time;
     this.woFormActData.endTime = this.selectedWo.wo_end_time;
     this.woFormActData.pldDown = this.selectedWo.wo_pld_downtime;
@@ -137,7 +137,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
     console.log(this.woFormActData);
   }
 
-  search() {    
+  search() {
     let wo = this.woService.getWo(+this.woFormActData.woLot);
     if (wo !== null) {
       this.woService.setSelectedWo(wo);
@@ -152,8 +152,8 @@ export class WoFormComponent implements OnInit, OnDestroy {
         ),
       )
         .subscribe((data) => {
-            this.woService.setSelectedWo(data);
-            this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
+          this.woService.setSelectedWo(data);
+          this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
 
         });
     }
@@ -186,11 +186,37 @@ export class WoFormComponent implements OnInit, OnDestroy {
   }
 
   save() {
+    /*Response alapján eldönteni az editinget. */
     //this.editing = false;
-    if (this.editing) {
-      //this.DataStorageService.updateWo(this.woFormActData);
+    if (this.selectedMode) {
+      this.DataStorageService.updateWo({woNbr: this.woFormActData.order,woPart: this.woFormActData.part, woQtyOrd: this.woFormActData.qtyOrd, woDueDate: this.woFormActData.dueDate, woLot: this.woFormActData.woLot,woLine: this.woFormActData.line, woStartDate: this.woFormActData.startDate, woRelDate: this.woFormActData.relDate,woActivated:this.woFormActData.activated, woStatus: this.woFormActData.status})
+      .pipe(
+        tap(
+          {
+            next: (data) => this.woService.updateWo(data),
+            error: (error) => this.handleError(error),
+          }
+        ))
+        .subscribe();
     } else {
-      //this.DataStorageService.postWo(this.woFormActData);
+
+      this.DataStorageService.postWo({ woNbr: this.woFormActData.order, woPart: this.woFormActData.part, woQtyOrd: this.woFormActData.qtyOrd, woDueDate: this.woFormActData.dueDate })
+        .pipe(
+          tap(
+            {
+              next: (data) => this.woService.addWoData(data),
+              error: (error) => this.handleError(error),
+            }
+          ),
+
+        )
+        .subscribe(
+          (resp) => {
+            this.router.navigate(['../','workorder', resp.wo_lot]);
+
+          }
+        );
+      ;
       //this.router.navigate(['workorder']);
     }
   }

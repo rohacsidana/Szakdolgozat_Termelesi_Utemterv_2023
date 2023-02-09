@@ -66,10 +66,6 @@ export class WodComponent implements OnInit, OnDestroy {
 
   }
 
-  onSubmit(form: NgForm) {
-
-  }
-
 
   sortData(sort: Sort) {
     if(!!!this.lastSort){

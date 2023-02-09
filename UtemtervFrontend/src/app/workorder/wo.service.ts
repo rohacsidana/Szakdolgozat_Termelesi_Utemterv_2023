@@ -153,6 +153,10 @@ export class WoService {
     ladDataChanged = new Subject<DataTableService.Lad[]>();
     selectedWo: DataTableService.Wo = null;
 
+    addWoData(wo: DataTableService.Wo) {
+        this.woData.push(wo);
+        this.woDataChanged.next(this.woData.slice());
+    }
     setSelectedWo(wo: DataTableService.Wo) {
         this.selectedWo = wo;
     }
@@ -170,6 +174,14 @@ export class WoService {
         return this.ladData.slice();
     }
 
+    updateWo(wo: DataTableService.Wo) {
+        let index = this.woData.findIndex((element) => element.wo_lot === wo.wo_lot);
+        this.woData[index] = {
+            ...this.woData[index],
+            ...wo
+        };
+        this.woDataChanged.next(this.woData.slice());
+    }
 
     setWoData(woData: DataTableService.Wo[]) {
         this.woData = woData.slice();

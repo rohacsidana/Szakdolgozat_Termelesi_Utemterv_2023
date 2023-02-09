@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using UtemtervBackend.Models;
@@ -56,7 +57,7 @@ namespace UtemtervBackend.Controllers
             catch (Exception)
             {
 
-                return StatusCode(404, "An erros has occured.");
+                return StatusCode(404, "An error has occured.");
             }
             return Ok();
         }
@@ -68,8 +69,12 @@ namespace UtemtervBackend.Controllers
            {
                 //var vlmi =  _context.Database.ExecuteSqlInterpolated($"newWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}");
                 var vlmi =  _context.WoMstrs.FromSqlInterpolated($"newWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}").ToList();
-
-                return Ok(vlmi);
+                if (vlmi.IsNullOrEmpty()) {
+                    return StatusCode(500, "An error has occured.");
+                }
+                else { 
+                    return Ok(vlmi);
+                }
             }
             catch (Exception e)
             {
@@ -78,14 +83,14 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [HttpPut("{lot}/update")]
-        public IActionResult updateWo([FromBody] WoMstr wo)
+        [HttpPut("update")]
+        public IActionResult updateWo([FromBody] UpdateWo wo)
         {
             try
             {
                 var vlmi = _context.WoMstrs
-                        .FromSqlInterpolated($"updateWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}")
-                        .ToList();
+                        .FromSqlInterpolated($"updateWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}, {wo.WoLot}, {wo.WoStartDate}, {wo.WoRelDate},{wo.WOLine},{wo.WoStatus}, {wo.WoActivated}")
+                        ;
                 return Ok(vlmi);
             }
             catch (Exception e)
@@ -100,10 +105,20 @@ namespace UtemtervBackend.Controllers
 
 public class NewWo
 {
-    public string WoNbr { get; set; }
+    public string WoNbr { get; set; } = ""; 
     public int WoPart { get; set; }
     public int WoQtyOrd { get; set; }
     public DateTime WoDueDate { get; set; }
 
 
+}
+
+public class UpdateWo: NewWo
+{
+    public int WoLot { get; set; }
+    public string ?WOLine { get; set; } = "";
+    public DateTime ?WoStartDate { get; set; }
+    public DateTime ?WoRelDate { get; set; }
+    public bool ?WoActivated { get; set; } 
+    public string ?WoStatus {get; set; } = "";
 }
