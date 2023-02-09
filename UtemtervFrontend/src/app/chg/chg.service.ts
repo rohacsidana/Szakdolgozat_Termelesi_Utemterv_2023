@@ -10,9 +10,14 @@ export class ChgService {
     chgChanged = new Subject<Chg[]>();
 
     private changeTimes: Chg[] = [
-        { chg_line: 'ln_1', chg_from: 1, chg_to: 2, chg_time: '00:15' },
-        { chg_line: 'ln_2', chg_from: 2, chg_to: 3, chg_time: '00:20' },
+        /* { chg_line: 'ln_1', chg_from: 1, chg_to: 2, chg_time: '00:15' },
+        { chg_line: 'ln_2', chg_from: 2, chg_to: 3, chg_time: '00:20' }, */
     ]
+
+    setChangeTimes(chgs: Chg[]) {
+        this.changeTimes = chgs
+        this.chgChanged.next(this.changeTimes.slice())
+    }
 
     getChangeTimes() {
         return this.changeTimes.slice()

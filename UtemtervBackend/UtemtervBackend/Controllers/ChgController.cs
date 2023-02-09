@@ -5,14 +5,13 @@ using UtemtervBackend.Models;
 
 namespace UtemtervBackend.Controllers
 {
-    [EnableCors]
-    [Route("api/lnd")]
+    [Route("api/chg")]
     [ApiController]
-    public class LndController : ControllerBase
+    public class ChgController : ControllerBase
     {
 
         UtemtervContext _context;
-        public LndController(UtemtervContext context)
+        public ChgController(UtemtervContext context)
         {
             _context = context;
         }
@@ -20,26 +19,25 @@ namespace UtemtervBackend.Controllers
         [EnableCors]
         [HttpGet("list")]
 
-        public IActionResult LndList()
+        public IActionResult ChgList()
         {
             try
             {
-                var lndList = _context.LndDets.ToList();
+                var chgList = _context.ChgMstrs.ToList();
 
-                if (lndList.Count() == 0)
+                if (chgList.Count() == 0)
                 {
-                    return NotFound("Lnd det not found.");
+                    return NotFound("Chg master not found.");
                 }
 
-                return Ok(lndList);
+                return Ok(chgList);
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return StatusCode(404, e);
             }
 
         }
-
     }
 }
-

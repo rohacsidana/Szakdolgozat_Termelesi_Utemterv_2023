@@ -10,6 +10,7 @@ import { WoService } from '../workorder/wo.service';
 import { LnService } from '../ln/ln.service';
 import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
+import { ChgService } from '../chg/chg.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +23,10 @@ export class DataStorageService {
     private router: Router,
     private lnService: LnService,
     private lndService: LndService,
-    private ldService: LdService
+    private ldService: LdService,
+    private chgService: ChgService
   ) { }
-  
+
 
   formatDate(dateToFormat: Date): string {
     //átírom olyan formátumra, hogy érthető legyen az sql-nek --> string-ként, nem date-ként adom át
@@ -275,13 +277,13 @@ export class DataStorageService {
       );
   }
 
-  fetchLad(id: number) {}
+  fetchLad(id: number) { }
 
-  fetchWod(id: number) {}
+  fetchWod(id: number) { }
 
-  postWo(wo: Wo) {}
-  updateWo(wo: Wo) {}
-  deleteWo(id: number) {}
+  postWo(wo: Wo) { }
+  updateWo(wo: Wo) { }
+  deleteWo(id: number) { }
 
   fetchGyartosorok() {
     this.http.get<
@@ -330,6 +332,35 @@ export class DataStorageService {
       }),
       tap({
         next: (data) => this.lndService.setLnds(data.slice()),
+        error: (error) => console.log(error),
+      })
+    )
+      .subscribe();
+  }
+
+  fetchChgs() {
+    this.http.get<
+      {
+        chgLine: string;
+        chgFrom: number;
+        chgTo: number;
+        chgTime: string
+      }[]
+    >(URL + "/chg/list").pipe(
+      map((chgs) => {
+        const chgData = chgs.map((chg) => {
+          const record = {
+            chg_line: chg.chgLine,
+            chg_from: chg.chgFrom,
+            chg_to: chg.chgTo,
+            chg_time: chg.chgTime
+          };
+          return { ...record };
+        });
+        return chgData;
+      }),
+      tap({
+        next: (data) => this.chgService.setChangeTimes(data.slice()),
         error: (error) => console.log(error),
       })
     )

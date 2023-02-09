@@ -3,12 +3,13 @@ import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Chg, DataTableService } from '../data-table/data-table.service';
 import { ChgService } from './chg.service';
+import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
   selector: 'app-chg',
   templateUrl: './chg.component.html',
   styleUrls: ['./chg.component.css'],
-  providers: [DataTableService, ChgService]
+  providers: [DataTableService, DataStorageService]
 })
 export class ChgComponent {
   newChg = false
@@ -33,10 +34,13 @@ export class ChgComponent {
   getSub: Subscription
   selectSub: Subscription
 
-  constructor(private chgService: ChgService, private dtService: DataTableService) { }
+  constructor(private chgService: ChgService, private dtService: DataTableService,
+    private dsService: DataStorageService) { }
 
 
   ngOnInit(): void {
+    this.dsService.fetchChgs()
+
     this.changeTimes = this.chgService.getChangeTimes()
     this.dtService.emitDataChanged(this.changeTimes.slice())
     /* A data-table-ben figyeli a változást */
