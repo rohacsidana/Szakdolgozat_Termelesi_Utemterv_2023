@@ -8,7 +8,8 @@ import { LnService } from '../ln/ln.service';
 import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
 import { ChgService } from '../chg/chg.service';
-import { Ld, Ln, User, Wo } from './interfaces';
+import { Ld, Ln, Pt, User, Wo } from './interfaces';
+import { PartService } from '../parts/pt/pt.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +19,11 @@ export class DataStorageService {
     private http: HttpClient,
     private woService: WoService,
     private userService: UserService,
-    private router: Router,
     private lnService: LnService,
     private lndService: LndService,
     private ldService: LdService,
-    private chgService: ChgService
+    private chgService: ChgService,
+    private ptService: PartService
   ) {}
 
   formatDate(dateToFormat: Date): string {
@@ -46,7 +47,7 @@ export class DataStorageService {
 
   fetchAllWo() {
     this.http
-      .get<WoResponse[]>('https://localhost:7075/workorder/list')
+      .get<WoResponse[]>(URL + '/workorder/list')
       .pipe(
         map((woData) => {
           const woDataNew = woData.map((data) => {
@@ -122,9 +123,6 @@ export class DataStorageService {
   newUser(user: User) {
     user.password = 'changeme';
     console.log('New User: ' + user);
-
-    //console.log(formattedDate);
-
     return this.http
       .post<any>(URL + '/user/new', {
         name: user.name,
@@ -199,7 +197,38 @@ export class DataStorageService {
       .subscribe();
   }
 
-  fetchLd() {
+  fetchPts() {
+    return this.http
+      .get<
+        {
+          ptPart: number;
+          ptDesc: string;
+          ptUm: string;
+          ptQtyPer: number;
+        }[]
+      >(URL + '/pt/list')
+      .pipe(
+        map((pts) => {
+          const ptData = pts.map((pt) => {
+            const record: Pt = {
+              pt_part: pt.ptPart,
+              pt_desc: pt.ptDesc,
+              pt_um: pt.ptUm,
+              pt_qty_oh: pt.ptQtyPer,
+            };
+            return { ...record };
+          });
+          return ptData;
+        }),
+        tap({
+          next: (data) => this.ptService.setPts(data.slice()),
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  fetchLds() {
     console.log('fetching lds');
 
     this.http
@@ -235,10 +264,11 @@ export class DataStorageService {
       )
       .subscribe();
   }
+
   fetchWo(id: number) {
     /* let api = "workorder/" + id; */
     return this.http
-      .get<WoResponse[]>('https://localhost:7075/workorder/' + id)
+      .get<WoResponse[]>(URL + '/workorder/' + id)
       .pipe(
         map((woData) => {
           const woDataNew: Wo[] = woData.map((wo) => {
@@ -278,8 +308,73 @@ export class DataStorageService {
 
   fetchWod(id: number) {}
 
-  postWo(wo: Wo) {}
-  updateWo(wo: Wo) {}
+  postWo(wo) {
+    return this.http.post<any>(URL + '/workorder/new', wo)
+    .pipe(
+      map(
+        (res) => {
+          const woA = res.map((data) => {
+            const wo = {wo_lot: data.woLot,
+              wo_nbr: data.woNbr,
+              wo_part: data.woPart,
+              wo_qty_ord: data.woQtyOrd,
+              wo_ord_date: data.woOrdDate,
+              wo_seq: data.woSeq,
+              wo_due_date: data.woDueDate,
+              wo_line: data.woLine,
+              wo_est_run: data.woEstRun,
+              wo_start_date: data.woStartDate,
+              wo_start_time: data.woStartTime,
+              wo_end_time: data.woEndTime,
+              wo_pld_downtime: data.woPldDowntime,
+              wo_unpld_downtime: data.woUnpldDowntime,
+              wo_activated: data.woActivated,
+              wo_status: data.woStatus,
+              wo_rel_date: data.woRelDate,
+              wo_user: data.woUser,}
+            return {...wo}
+          });
+          return { ...woA[0] };
+        }
+      )
+
+    )
+  }
+  updateWo(wo) {
+    console.log(wo);
+    let lot: number = +wo.wo_lot;
+    let vegpont =  URL + '/workorder/update';
+    return this.http.put<any>(vegpont, wo)
+    .pipe(
+      map(
+        (res) => {
+          const woA = res.map((data) => {
+            const wo = {wo_lot: data.woLot,
+              wo_nbr: data.woNbr,
+              wo_part: data.woPart,
+              wo_qty_ord: data.woQtyOrd,
+              wo_ord_date: data.woOrdDate,
+              wo_seq: data.woSeq,
+              wo_due_date: data.woDueDate,
+              wo_line: data.woLine,
+              wo_est_run: data.woEstRun,
+              wo_start_date: data.woStartDate,
+              wo_start_time: data.woStartTime,
+              wo_end_time: data.woEndTime,
+              wo_pld_downtime: data.woPldDowntime,
+              wo_unpld_downtime: data.woUnpldDowntime,
+              wo_activated: data.woActivated,
+              wo_status: data.woStatus,
+              wo_rel_date: data.woRelDate,
+              wo_user: data.woUser,}
+            return {...wo}
+          });
+          return { ...woA[0] };
+        }
+      )
+
+    )
+  }
   deleteWo(id: number) {}
 
   fetchGyartosorok() {

@@ -1,3 +1,5 @@
+//itt van az összes interface, táblánként :) 
+
 export interface Pt {
   pt_part: number;
   pt_desc: string;
@@ -40,7 +42,6 @@ export interface Wod {
   par_name: string;
   wod_qty_req: number;
   part_um: string;
-  gy_req: number;
   wod_qty_compl: number;
   wod_qty_rjct: number;
 }
@@ -77,6 +78,7 @@ export interface Lad {
   lad_comp: number; //Ld_part Int
   lad_expire: number; //Ld_expire
   lad_qty_rsrv: number; //Foglalt
+  lad_qty_used: number; //Felhasznált menny.
 }
 export interface Ld {
   ld_part: number;

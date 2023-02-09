@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs-compat';
 import * as DataTableService from 'src/app/data-table/data-table.service';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Pt } from 'src/app/shared/interfaces';
 import { PartService } from './pt.service';
 
@@ -22,7 +23,11 @@ export class PtComponent {
   getItemSub: Subscription;
   sortSub: Subscription;
   sortedPartData: Pt[];
+  lastSort: Sort;
 
+  partData: Pt[];
+
+  ptDataChangedSub: Subscription;
   selectedData: Pt;
   rowSelectSubscription: Subscription;
 
@@ -37,12 +42,26 @@ export class PtComponent {
 
   constructor(
     private partService: PartService,
-    private dtTblService: DataTableService.DataTableService
+    private dtTblService: DataTableService.DataTableService,
+    private dataStorageService: DataStorageService
   ) {
     this.sortedPartData = partService.getParts();
   }
 
   ngOnInit(): void {
+    this.ptDataChangedSub = this.partService.partDataChanged.subscribe(
+      (ptData: Pt[]) => {
+        this.partData = ptData;
+        this.sortedPartData = this.partData.slice();
+        if (!!this.lastSort) {
+          this.sortData(this.lastSort);
+        } else {
+          this.dtTblService.dataChanged.next(this.sortedPartData.slice());
+        }
+      }
+    );
+    this.dataStorageService.fetchPts();
+
     this.getItemSub = this.dtTblService.getData.subscribe(() => {
       this.dtTblService.emitDataChanged(this.sortedPartData.slice());
     });
@@ -167,6 +186,7 @@ export class PtComponent {
   }
 
   ngOnDestroy(): void {
+    this.ptDataChangedSub.unsubscribe();
     this.getItemSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.rowSelectSubscription.unsubscribe();

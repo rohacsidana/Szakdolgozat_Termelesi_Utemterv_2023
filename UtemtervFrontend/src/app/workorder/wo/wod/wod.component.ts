@@ -23,9 +23,8 @@ export class WodComponent implements OnInit, OnDestroy {
     { name: 'part_name', szoveg: 'Tétetel név' },
     { name: 'wod_par', szoveg: 'Szülő tétel' },
     { name: 'par_name', szoveg: 'Szülő név' },
-    { name: 'wod_qty_req', szoveg: 'Szükséges menny. szül.' },
-    { name: 'part_um', szoveg: 'Szükséges menny. gyrt.' },
-    { name: 'gy_req', szoveg: 'Mértékegység' },
+    { name: 'wod_qty_req', szoveg: 'Szükséges menny.' },  
+    { name: 'part_um', szoveg: 'Mértékegység' },
     { name: 'wod_qty_compl', szoveg: 'Kész egység' },
     { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység' },
   ];
@@ -67,10 +66,6 @@ export class WodComponent implements OnInit, OnDestroy {
 
   }
 
-  onSubmit(form: NgForm) {
-
-  }
-
 
   sortData(sort: Sort) {
     if(!!!this.lastSort){
@@ -98,8 +93,6 @@ export class WodComponent implements OnInit, OnDestroy {
           return this.compare(a.wod_qty_req, b.wod_qty_req, isAsc);
         case 'part_um':
           return this.compare(a.part_um, b.part_um, isAsc);
-        case 'gy_req':
-          return this.compare(a.gy_req, b.gy_req, isAsc);
         case 'wod_qty_compl':
           return this.compare(a.wod_qty_compl, b.wod_qty_compl, isAsc);
         case 'wod_qty_rjct':
