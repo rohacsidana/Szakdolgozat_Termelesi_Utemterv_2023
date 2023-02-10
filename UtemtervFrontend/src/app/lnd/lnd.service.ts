@@ -15,6 +15,7 @@ export class LndService {
     ]
 
     setLnds(lnds: Lnd[]) {
+        
         this.rates = lnds
         this.lndChanged.next(this.rates.slice())
     }
