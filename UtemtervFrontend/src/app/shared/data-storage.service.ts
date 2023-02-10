@@ -8,8 +8,9 @@ import { LnService } from '../ln/ln.service';
 import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
 import { ChgService } from '../chg/chg.service';
-import { Ld, Ln, Pt, User, Wo } from './interfaces';
+import { Lad, Ld, Ln, Pt, User, Wo, Wod } from './interfaces';
 import { PartService } from '../parts/pt/pt.service';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -304,9 +305,41 @@ export class DataStorageService {
       );
   }
 
-  fetchLad(id: number) {}
 
-  fetchWod(id: number) {}
+  fetchLad(id: number) {
+    return this.http.get<any>(URL+'/lad/'+id)
+    .pipe(
+      map(
+        (lads)=>{
+            const newLads = lads.map(
+              (lad)=>{
+                 const newLad: Lad = {lad_id: lad.ladId, lad_part: lad.ladPart, lad_par: lad.ladPar, lad_lot: lad.ladLot, lad_comp: lad.ladComp, lad_expire: lad.ladExpire, lad_qty_rsrv: lad.ladQtyRsrv, lad_qty_used: lad.ladQtyUsed }
+                return {...newLad};
+                }
+            );
+            return newLads;
+        }
+      )
+    )
+    
+  }
+
+  fetchWod(id: number) {
+    return this.http.get<any>(URL + '/wod/' + id)
+    .pipe(
+      map(
+        (wodData)=>{
+            const newWods: Wod[] = wodData.map(
+              (wod)=>{
+                  const newWod: Wod = {wod_part: wod.part, part_name: wod.partName, wod_par: wod.parent, par_name: wod.parentName, wod_qty_req: wod.qtyReq, part_um: wod.partUm, wod_qty_compl: wod.qtyCompl, wod_qty_rjct: wod.qtyRjct} 
+                  return {...newWod};
+                }
+            );
+            return newWods;
+        }
+      )
+    )
+  }
 
   postWo(wo) {
     return this.http.post<any>(URL + '/workorder/new', wo)

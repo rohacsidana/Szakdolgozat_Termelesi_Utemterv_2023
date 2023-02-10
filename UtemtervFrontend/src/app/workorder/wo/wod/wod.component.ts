@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
 import { ActivatedRoute, ActivatedRouteSnapshot, Params, Route } from "@angular/router";
-import { Subscription } from "rxjs";
+import { Subscription, throwError } from "rxjs";
+import { tap} from "rxjs/operators";
 import * as DataTableService from "src/app/data-table/data-table.service";
 import { DataStorageService } from "src/app/shared/data-storage.service";
 import { Wod } from "src/app/shared/interfaces";
@@ -25,8 +26,8 @@ export class WodComponent implements OnInit, OnDestroy {
     { name: 'par_name', szoveg: 'Szülő név' },
     { name: 'wod_qty_req', szoveg: 'Szükséges menny.' },  
     { name: 'part_um', szoveg: 'Mértékegység' },
-    { name: 'wod_qty_compl', szoveg: 'Kész egység' },
-    { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység' },
+    { name: 'wod_qty_compl', szoveg: 'Kész egység', input: {type: "number"} },
+    { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység', input: {type: "number"} },
   ];
 
   sortSub: Subscription;
@@ -53,7 +54,23 @@ export class WodComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(
       (params: Params)=>{
         this.lot = +params["lot"];
-        this.DataStorageService.fetchWod(this.lot);
+        this.DataStorageService.fetchWod(this.lot)
+        .pipe(
+          tap({
+            next: data => this.woService.setWodData(data.slice()),
+            error: error => {
+              
+              
+              if(this.woService.woError === null){
+                console.log("ures");
+                
+                this.woService.setWodData([])
+            }
+            return throwError(error.error);
+          }
+          })
+        )
+        .subscribe();;
       }
     );
 
