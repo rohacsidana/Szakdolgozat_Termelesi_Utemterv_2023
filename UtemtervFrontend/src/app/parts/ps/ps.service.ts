@@ -1,35 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Ps } from 'src/app/shared/interfaces';
+import { Subject } from 'rxjs';
+import { Ps, psDisplay, Pt } from 'src/app/shared/interfaces';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PartStrService {
-  private partStrData: Ps[] = [
-    {
-      ps_par: 1,
-      ps_comp: 2,
-      ps_qty_per: 5,
-    },
-    {
-      ps_par: 1,
-      ps_comp: 3,
-      ps_qty_per: 2,
-    },
-    {
-      ps_par: 1,
-      ps_comp: 4,
-      ps_qty_per: 1,
-    },
-    {
-      ps_par: 2,
-      ps_comp: 6,
-      ps_qty_per: 35,
-    },
-    {
-      ps_par: 2,
-      ps_comp: 7,
-      ps_qty_per: 6,
-    },
-  ];
+  private partStrData: Ps[] = [];
+  //private displayedData: [];
+  partStrDataChanged: Subject<Ps[]> = new Subject<Ps[]>();
+
+  setPartStrs(psData: Ps[]) {
+    this.partStrData = psData;
+    console.log(this.partStrData);
+
+    this.partStrDataChanged.next(this.partStrData.slice());
+  }
 
   getPartStrs() {
     return this.partStrData.slice();
@@ -59,6 +45,7 @@ export class PartStrService {
     } else {
       this.partStrData.push(partStr);
     }
+    this.partStrDataChanged.next(this.partStrData.slice());
   }
 
   deletePartStr(par: number, comp: number) {
@@ -70,5 +57,6 @@ export class PartStrService {
         1
       );
     }
+    // this.partStrDataChanged.next(this.partStrData.slice());
   }
 }

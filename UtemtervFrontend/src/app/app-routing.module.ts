@@ -15,7 +15,7 @@ import { WoComponent } from './workorder/wo/wo.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
 import { WoListResolverService } from './workorder/wo-list/wo-list-resolver.service';
-
+import { PtResolver } from './pt.resolver';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: 'auth', component: AuthComponent },
   {
     path: 'part',
+    resolve: [PtResolver],
     children: [
       { path: '', component: PtComponent },
       { path: 'structure', component: PsComponent },
@@ -54,8 +55,6 @@ const routes: Routes = [
           { path: '', outlet: 'lad', component: LadComponent },
         ],
       },
-
-
     ],
   },
   /* { path: 'workorder/new', component: WoComponent}, */
@@ -73,4 +72,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

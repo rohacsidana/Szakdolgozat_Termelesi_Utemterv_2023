@@ -13,7 +13,7 @@
               <input type="text" name="azonInput" style="width: 5em" [(ngModel)]="line" required="" maxlength="8"
                 [disabled]="!newLn" />             
               <p *ngIf="!validForm" style="color: red">
-                Már létezik ilyen azonosító!
+                {{errorMessage}}
               </p>
             </td>
             <td>
