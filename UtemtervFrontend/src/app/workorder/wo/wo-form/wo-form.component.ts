@@ -91,6 +91,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
   }
   onHandleError() {
     this.error = null;
+    this.woService.woError = null;
     if (this.woFormActData.woLot === null) {
       this.router.navigate(['../'], { relativeTo: this.route });
     } else {
@@ -107,6 +108,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
     } else {
       this.error = errorMessage;
     }
+    this.woService.woError = this.error;
     return throwError(errorMessage);
   }
 

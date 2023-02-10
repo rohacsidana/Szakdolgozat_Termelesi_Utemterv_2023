@@ -25,6 +25,7 @@ namespace UtemtervBackend.Controllers
 
                 if (lads.Count() == 0)
                 {
+                    
                     return NotFound("No lad found to the workorder.");
                 }
                 return Ok(lads);

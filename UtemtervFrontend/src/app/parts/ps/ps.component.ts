@@ -17,7 +17,7 @@ import { PartStrService } from './ps.service';
   selector: 'app-ps',
   templateUrl: './ps.component.html',
   styleUrls: ['./ps.component.css'],
-  providers: [PartStrService, DataTableService.DataTableService],
+  providers: [DataTableService.DataTableService],
 })
 export class PsComponent {
   loadedPartStr: Ps;
@@ -77,41 +77,31 @@ export class PsComponent {
   }
 
   ngOnInit(): void {
-    //this.partData = this.partService.getParts();
+    this.partData = this.partService.getParts();
     //console.log(this.partStrData);
     this.ptDataChangedSub = this.partService.partDataChanged.subscribe(
-      (ptData: Pt[]) => {
-        this.partData = ptData;
-        console.log(ptData);
+      (partData: Pt[]) => {
+        this.partData = partData;
       }
     );
-    console.log('---------PART DATA');
-    console.log(this.partData);
 
     this.partStrDataChangedSub =
       this.partStrService.partStrDataChanged.subscribe((psData: Ps[]) => {
         this.originalPartStrData = psData;
-        console.log(psData);
 
         this.sortedPartStrData = this.psData_to_displayPs(
           this.originalPartStrData.slice()
         );
-        console.log(this.sortedPartStrData);
 
         if (!!this.lastSort) {
           this.sortData(this.lastSort);
         } else {
-          this.dtTblService.dataChanged.next(
-            this.psData_to_displayPs(this.sortedPartStrData.slice())
-          );
+          this.partStrDataChanged();
         }
+        this.partStrDataChanged();
       });
     this.dataStorageService.fetchPsS();
-    console.log(this.originalPartStrData);
 
-    console.log(this.sortedPartStrData);
-
-    this.dtTblService.emitDataChanged(this.sortedPartStrData.slice());
     this.sortSub = this.dtTblService.sortData.subscribe((sort: Sort) => {
       this.sortData(sort);
     });
@@ -140,9 +130,7 @@ export class PsComponent {
   sortData(sort: Sort) {
     const data = this.psData_to_displayPs(this.partStrService.getPartStrs());
     if (!sort.active || sort.direction === '') {
-      this.sortedPartStrData = data;
-      this.dtTblService.emitDataChanged(this.sortedPartStrData.slice());
-      return;
+      this.partStrDataChanged();
     }
 
     this.sortedPartStrData = data.sort((a, b) => {
@@ -162,9 +150,7 @@ export class PsComponent {
           return 0;
       }
     });
-
-    this.sortedPartStrData = data.slice();
-    this.dtTblService.emitDataChanged(this.sortedPartStrData.slice());
+    this.partStrDataChanged();
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -271,8 +257,7 @@ export class PsComponent {
   }
 
   partStrDataChanged() {
-    console.log('Ps Data Changed');
-    console.log(this.partStrService.getPartStrs());
+    //console.log(this.partStrService.getPartStrs());
 
     this.sortedPartStrData = this.psData_to_displayPs(
       this.partStrService.getPartStrs()
@@ -292,6 +277,11 @@ export class PsComponent {
     return this.partData[i].pt_desc;
   }
   psData_to_displayPs(psData: Ps[]): psDisplay[] {
+    /*
+    console.log('------DISPLAYING DATA TO DISPLAY PS');
+    console.log('original data:');
+    console.log(psData); */
+
     let transformedData: psDisplay[] = [];
     for (let i = 0; i < psData.length; i++) {
       transformedData.push({
@@ -302,6 +292,9 @@ export class PsComponent {
         ps_qty_per: psData[i].ps_qty_per,
       });
     }
+    /*
+    console.log('transformed data:');
+    console.log(transformedData); */
     return transformedData;
   }
 }
