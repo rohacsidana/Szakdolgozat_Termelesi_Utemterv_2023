@@ -8,7 +8,7 @@ import { LnService } from '../ln/ln.service';
 import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
 import { ChgService } from '../chg/chg.service';
-import { Lad, Ld, Ln, Pt, User, Wo, Wod, Ps} from './interfaces';
+import { Lad, Ld, Ln, Pt, User, Wo, Wod, Ps, Lnd } from './interfaces';
 import { PartService } from '../parts/pt/pt.service';
 import { throwError } from 'rxjs';
 import { PartStrService } from '../parts/ps/ps.service';
@@ -565,6 +565,34 @@ export class DataStorageService {
         }),
         tap({
           next: (data) => this.lndService.setLnds(data.slice()),
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  newLnd(lnd: Lnd) {
+    console.log('üdvözlet a newLn től!');
+    this.http
+      .post<any>(URL + '/lnd/new', {
+        lndLine: lnd.lnd_line,
+        lndPart: lnd.lnd_part,
+        lndRate: lnd.lnd_rate
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            /* console.log("res line:");
+            console.log(res[0].lnLine); */
+            let l = {
+              lnd_line: res[0].lndLine,
+              lnd_part: res[0].lndPart,
+              lnd_rate: res[0].lndRate
+            };
+            console.log(l);
+
+            this.lndService.newRate(l);
+          },
           error: (error) => console.log(error),
         })
       )
