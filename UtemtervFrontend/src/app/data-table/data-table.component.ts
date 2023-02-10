@@ -11,7 +11,9 @@ import { DataTableService } from './data-table.service';
   styleUrls: ['data-table.component.css'],
 })
 export class DataTableComponent implements OnDestroy, OnInit {
-  @Input() headers: { name: string; szoveg: string }[];
+  @Input() headers: { name: string; szoveg: string, input?: {
+    type: string
+    } }[];
 
   length: number;
   data: DataTables[] = [];
