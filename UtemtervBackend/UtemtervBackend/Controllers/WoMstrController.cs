@@ -84,21 +84,22 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult updateWo([FromBody] UpdateWo wo)
+        public IActionResult UpdateWo([FromBody] UpdateWo wo)
         {
             try
             {
                 var vlmi = _context.WoMstrs
-                        .FromSqlInterpolated($"updateWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}, {wo.WoLot}, {wo.WoStartDate}, {wo.WoRelDate},{wo.WOLine},{wo.WoStatus}, {wo.WoActivated}")
-                        ;
-                return Ok(vlmi);
+                        .FromSqlInterpolated($"updateWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}, {wo.WoLot}, {wo.WoStartDate}, {wo.WoRelDate},{wo.WOLine},{wo.WoStatus}, {wo.WoActivated}");
+                    return Ok(vlmi);
+
+                    
             }
             catch (Exception)
             {
                 return StatusCode(404, "An error has occured.");
             }
         }
-
+    
     }
 
 }

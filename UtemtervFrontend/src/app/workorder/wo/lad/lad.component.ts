@@ -6,7 +6,7 @@ import { tap } from "rxjs/operators";
 import { Sort } from "@angular/material/sort";
 import { WoService } from "../../wo.service";
 import { DataStorageService } from "src/app/shared/data-storage.service";
-import { Lad } from "src/app/shared/interfaces";
+import { DataTables, Lad } from "src/app/shared/interfaces";
 import { ActivatedRoute, Params } from "@angular/router";
 
 @Component({
@@ -34,6 +34,8 @@ export class LadComponent implements OnInit, OnDestroy {
 
   sortSub: Subscription;
   ladSub: Subscription;
+  dtSub: Subscription;
+  woGetSub: Subscription;
   constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private dataStorageService: DataStorageService, private route: ActivatedRoute) {
    
   }
@@ -83,6 +85,18 @@ export class LadComponent implements OnInit, OnDestroy {
         this.sortData(sort);
       }
     );
+
+    this.dtSub = this.dtTblService.changedData.subscribe(
+      (data: Lad[])=>{
+        this.ladData = data;
+        this.woService.setLadData(this.ladData);
+      }
+    );
+    this.woGetSub = this.woService.getDataFromTable.subscribe(
+      ()=>{
+        this.dtTblService.getchangedData.next();
+      }
+    );
   }
 
   sortData(sort: Sort) {
@@ -125,7 +139,7 @@ export class LadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    this.dtSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.ladSub.unsubscribe();
   }

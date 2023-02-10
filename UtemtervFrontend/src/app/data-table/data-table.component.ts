@@ -11,13 +11,15 @@ import { DataTableService } from './data-table.service';
   styleUrls: ['data-table.component.css'],
 })
 export class DataTableComponent implements OnDestroy, OnInit {
-  @Input() headers: { name: string; szoveg: string, input?: {
-    type: string
-    } }[];
+  @Input() headers: {
+    name: string; szoveg: string, input?: {
+      type: string
+    }
+  }[];
 
   length: number;
   data: DataTables[] = [];
-  viewData: DataTables[]  = [];
+  viewData: DataTables[] = [];
 
   pageSize = 5;
   pageIndex = 0;
@@ -28,6 +30,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
   dateType: boolean = false;
 
   dtSub: Subscription;
+  getChgData: Subscription;
 
   constructor(private dataTblService: DataTableService) {
     this.dtSub = this.dataTblService.dataChanged.subscribe((data) => {
@@ -37,6 +40,12 @@ export class DataTableComponent implements OnDestroy, OnInit {
       this.length = this.data.length;
       this.setView();
     });
+
+    this.getChgData = this.dataTblService.getchangedData.subscribe(
+      ()=>{
+       this.dataTblService.changedData.next(this.data.slice());
+      }
+    );
   }
 
   ngOnInit() {
@@ -80,9 +89,8 @@ export class DataTableComponent implements OnDestroy, OnInit {
 
     this.kezdIndex = this.pageIndex * this.pageSize;
     this.vegIndex = this.pageIndex === 0 ? this.pageSize : this.kezdIndex + this.pageSize;
-
-
     this.viewData = this.data.slice(this.kezdIndex, this.vegIndex);
+    console.log(this.data);
   }
 
   ngOnDestroy() {

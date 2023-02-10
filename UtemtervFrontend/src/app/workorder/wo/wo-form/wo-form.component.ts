@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
+import { of, Subscription, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Wo } from '../../../shared/interfaces';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
@@ -41,6 +41,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
     user: null
   };
   error: string = null;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -56,6 +57,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
       this.initForm();
     });
+  
   }
 
   initForm() {
@@ -195,7 +197,8 @@ export class WoFormComponent implements OnInit, OnDestroy {
       .pipe(
         tap(
           {
-            next: (data) => this.woService.updateWo(data),
+            next: (data) => {this.woService.updateWo(data)
+                              this.editing = false},
             error: (error) => this.handleError(error),
           }
         ))
@@ -227,6 +230,27 @@ export class WoFormComponent implements OnInit, OnDestroy {
     this.DataStorageService.deleteWo(this.woFormActData.woLot);
 
     this.editing = false;
+
+
+    let sub1: Subscription;
+    sub1 = this.woService.ladDataChanged.subscribe(
+    ()=> {
+      console.log(this.woService.getLads());
+      sub1.unsubscribe();
+    }
+    );
+
+    let sub2: Subscription;
+    sub2 = this.woService.wodDataChanged.subscribe(
+    ()=> {
+      console.log(this.woService.getWods());
+      sub2.unsubscribe();
+    }
+    );
+    this.woService.getDataFromTable.next();
+    
+      
+    
   }
 
   ngOnDestroy(): void {
