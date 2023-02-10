@@ -6,6 +6,7 @@ import { Sort } from "@angular/material/sort";
 import { WoService } from "../../wo.service";
 import { DataStorageService } from "src/app/shared/data-storage.service";
 import { Lad } from "src/app/shared/interfaces";
+import { ActivatedRoute, Params } from "@angular/router";
 
 @Component({
   selector: 'app-lad',
@@ -27,12 +28,12 @@ export class LadComponent implements OnInit, OnDestroy {
     { name: 'lad_qty_used', szoveg: 'Felhasznált mennyiség ' },
   ];
 
-  sortedLadData: Lad[];
+  sortedLadData: Lad[] = [];
 
   sortSub: Subscription;
   ladSub: Subscription;
   lastSort: Sort;
-  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private dataStorageService: DataStorageService) {
+  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private dataStorageService: DataStorageService, private route: ActivatedRoute) {
     //this.sortedLadData = this.ladData.slice();
   }
 
@@ -46,7 +47,12 @@ export class LadComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.dataStorageService.fetchLad(this.woService.getSelectedWo().wo_lot);
+      this.route.params.subscribe(
+        (params: Params)=>{
+          this.dataStorageService.fetchLad(+params['lot']);
+        }
+      );
+   // this.dataStorageService.fetchLad(this.woService.getSelectedWo().wo_lot);
 /*     this.ladData = this.woService.getLads();
     this.sortedLadData = this.ladData.slice();
  */

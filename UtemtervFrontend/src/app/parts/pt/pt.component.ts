@@ -20,7 +20,6 @@ export class PtComponent {
   partFound: boolean = true;
   searchMode: boolean = true;
   partAlreadyExists: boolean = false;
-  getItemSub: Subscription;
   sortSub: Subscription;
   sortedPartData: Pt[] = [];
   lastSort: Sort;
@@ -51,7 +50,7 @@ export class PtComponent {
     this.ptDataChangedSub = this.partService.partDataChanged.subscribe(
       (ptData: Pt[]) => {
         this.partData = ptData;
-        console.log(ptData);
+        //console.log(ptData);
 
         this.sortedPartData = this.partData.slice();
         if (!!this.lastSort) {
@@ -63,9 +62,6 @@ export class PtComponent {
     );
     this.dataStorageService.fetchPts();
 
-    this.getItemSub = this.dtTblService.getData.subscribe(() => {
-      this.dtTblService.emitDataChanged(this.sortedPartData.slice());
-    });
     this.dtTblService.emitDataChanged(this.sortedPartData.slice());
     this.sortSub = this.dtTblService.sortData.subscribe((sort: Sort) => {
       this.sortData(sort);
@@ -190,7 +186,6 @@ export class PtComponent {
 
   ngOnDestroy(): void {
     this.ptDataChangedSub.unsubscribe();
-    this.getItemSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.rowSelectSubscription.unsubscribe();
   }

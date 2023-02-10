@@ -1,4 +1,4 @@
-//itt van az összes interface, táblánként :) 
+//itt van az összes interface, táblánként :)
 
 export interface Pt {
   pt_part: number;
@@ -24,7 +24,6 @@ export interface XWo {
   wo_end_time: string;
   wo_pld_downtime: string;
   wo_unpld_downtime: string;
-  wo_activated: boolean;
 }
 
 export interface User {
@@ -70,6 +69,13 @@ export interface Ps {
   ps_comp: number;
   ps_qty_per: number;
 }
+export interface psDisplay {
+  ps_par: number;
+  ps_par_name: string;
+  ps_comp: number;
+  ps_comp_name: string;
+  ps_qty_per: number;
+}
 export interface Lad {
   lad_id: number; //Foglalás azon
   lad_part: number; //Wod_part In
@@ -112,8 +118,10 @@ export type DataTables =
   | Lad
   | Pt
   | Ps
+  | psDisplay
   | Lad
   | Ld
   | Ln
   | Lnd
-  | Chg;
+  | Chg
+  | XWo;

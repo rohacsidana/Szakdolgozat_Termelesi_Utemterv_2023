@@ -8,7 +8,9 @@ import {
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import * as DataTableService from 'src/app/data-table/data-table.service';
-import { Ps } from 'src/app/shared/interfaces';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
+import { Ps, psDisplay, Pt } from 'src/app/shared/interfaces';
+import { PartService } from '../pt/pt.service';
 import { PartStrService } from './ps.service';
 
 @Component({
@@ -25,9 +27,16 @@ export class PsComponent {
   searchMode: boolean = true;
   newMode: boolean = false;
   partStrAlreadyExists: boolean = false;
-  getItemSub: Subscription;
+
   sortSub: Subscription;
-  sortedPartStrData: Ps[];
+  sortedPartStrData: psDisplay[] = [];
+  lastSort: Sort;
+
+  partStrData: psDisplay[] = [];
+  originalPartStrData: Ps[] = [];
+  partStrDataChangedSub: Subscription;
+  partData: Pt[] = [];
+  ptDataChangedSub: Subscription;
 
   selectedData: Ps;
   rowSelectSubscription: Subscription;
@@ -38,8 +47,16 @@ export class PsComponent {
       szoveg: 'Szülő',
     },
     {
-      name: 'ps_comp',
+      name: 'ps_par_name',
+      szoveg: 'Szülő neve',
+    },
+    {
+      name: 'ps_comp_name',
       szoveg: 'Beépülő',
+    },
+    {
+      name: 'ps_comp',
+      szoveg: 'Beépülő neve',
     },
     {
       name: 'ps_qty_per',
@@ -49,16 +66,51 @@ export class PsComponent {
 
   constructor(
     private partStrService: PartStrService,
+    private partService: PartService,
     private dtTblService: DataTableService.DataTableService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dataStorageService: DataStorageService
   ) {
-    this.sortedPartStrData = partStrService.getPartStrs();
+    this.sortedPartStrData = this.psData_to_displayPs(
+      partStrService.getPartStrs()
+    );
   }
 
   ngOnInit(): void {
-    this.getItemSub = this.dtTblService.getData.subscribe(() => {
-      this.dtTblService.emitDataChanged(this.sortedPartStrData.slice());
-    });
+    //this.partData = this.partService.getParts();
+    //console.log(this.partStrData);
+    this.ptDataChangedSub = this.partService.partDataChanged.subscribe(
+      (ptData: Pt[]) => {
+        this.partData = ptData;
+        console.log(ptData);
+      }
+    );
+    console.log('---------PART DATA');
+    console.log(this.partData);
+
+    this.partStrDataChangedSub =
+      this.partStrService.partStrDataChanged.subscribe((psData: Ps[]) => {
+        this.originalPartStrData = psData;
+        console.log(psData);
+
+        this.sortedPartStrData = this.psData_to_displayPs(
+          this.originalPartStrData.slice()
+        );
+        console.log(this.sortedPartStrData);
+
+        if (!!this.lastSort) {
+          this.sortData(this.lastSort);
+        } else {
+          this.dtTblService.dataChanged.next(
+            this.psData_to_displayPs(this.sortedPartStrData.slice())
+          );
+        }
+      });
+    this.dataStorageService.fetchPsS();
+    console.log(this.originalPartStrData);
+
+    console.log(this.sortedPartStrData);
+
     this.dtTblService.emitDataChanged(this.sortedPartStrData.slice());
     this.sortSub = this.dtTblService.sortData.subscribe((sort: Sort) => {
       this.sortData(sort);
@@ -86,7 +138,7 @@ export class PsComponent {
   }
 
   sortData(sort: Sort) {
-    const data = this.partStrService.getPartStrs();
+    const data = this.psData_to_displayPs(this.partStrService.getPartStrs());
     if (!sort.active || sort.direction === '') {
       this.sortedPartStrData = data;
       this.dtTblService.emitDataChanged(this.sortedPartStrData.slice());
@@ -98,8 +150,12 @@ export class PsComponent {
       switch (sort.active) {
         case 'ps_par':
           return this.compare(a.ps_par, b.ps_par, isAsc);
+        case 'ps_par_name':
+          return this.compare(a.ps_par_name, b.ps_par_name, isAsc);
         case 'ps_comp':
           return this.compare(a.ps_comp, b.ps_comp, isAsc);
+        case 'ps_comp_name':
+          return this.compare(a.ps_comp_name, b.ps_comp_name, isAsc);
         case 'ps_qty_per':
           return this.compare(a.ps_qty_per, b.ps_qty_per, isAsc);
         default:
@@ -218,13 +274,34 @@ export class PsComponent {
     console.log('Ps Data Changed');
     console.log(this.partStrService.getPartStrs());
 
-    this.sortedPartStrData = this.partStrService.getPartStrs();
+    this.sortedPartStrData = this.psData_to_displayPs(
+      this.partStrService.getPartStrs()
+    );
     this.dtTblService.emitDataChanged(this.sortedPartStrData.slice());
   }
 
   ngOnDestroy(): void {
-    this.getItemSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.rowSelectSubscription.unsubscribe();
+  }
+  getPartName(part: number): string {
+    let i = 0;
+    while (i < this.partData.length && this.partData[i].pt_part !== part) {
+      i++;
+    }
+    return this.partData[i].pt_desc;
+  }
+  psData_to_displayPs(psData: Ps[]): psDisplay[] {
+    let transformedData: psDisplay[] = [];
+    for (let i = 0; i < psData.length; i++) {
+      transformedData.push({
+        ps_par: psData[i].ps_par,
+        ps_comp_name: this.getPartName(psData[i].ps_par),
+        ps_comp: psData[i].ps_comp,
+        ps_par_name: this.getPartName(psData[i].ps_comp),
+        ps_qty_per: psData[i].ps_qty_per,
+      });
+    }
+    return transformedData;
   }
 }

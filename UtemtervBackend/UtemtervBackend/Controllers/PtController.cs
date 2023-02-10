@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Policy;
 using UtemtervBackend.Models;
-using static UtemtervBackend.Controllers.UserController;
 
 namespace UtemtervBackend.Controllers
 {
@@ -77,7 +76,7 @@ namespace UtemtervBackend.Controllers
         [HttpDelete("delete/{id}")]
 
 
-        public IActionResult deleteUser(int pt_part)
+        public IActionResult deletePt(int pt_part)
         {
             try
             {
