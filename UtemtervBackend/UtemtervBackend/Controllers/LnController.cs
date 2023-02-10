@@ -76,7 +76,23 @@ namespace UtemtervBackend.Controllers
             }
         }
 
+        [EnableCors]
+        [HttpDelete("delete/{line}")]
+
+        public IActionResult deleteLn(string line)
+        {
+            try
+            {
+                var deletedLines = _context.Database.ExecuteSqlRaw($"deleteLn {line}");
+                return Ok(deletedLines);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e);
+            }
+        }
     }
+    
     
     public class NewLn
     {
@@ -88,5 +104,9 @@ namespace UtemtervBackend.Controllers
     {
         public string Line { get; set; }
         public string NewDesc { get; set; }
+    }
+    public class DeleteLn
+    {
+        public string Line { get; set; }
     }
 }

@@ -15,6 +15,8 @@ import { Ln } from '../shared/interfaces';
 export class LnComponent implements OnInit, OnDestroy {
   line: string = '';
   desc: string = '';
+  lnUsed = false
+  errorMessage: string
 
   newLn = false;
   edit = false;
@@ -36,7 +38,7 @@ export class LnComponent implements OnInit, OnDestroy {
     private lnService: LnService,
     private dtService: DataTableService,
     private dsService: DataStorageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.dsService.fetchGyartosorok();
@@ -53,9 +55,10 @@ export class LnComponent implements OnInit, OnDestroy {
     this.selectSub = this.dtService.selectRow.subscribe((data: Ln) => {
       this.selectedLine = data;
       this.onViewLine();
-      console.log('kiválasztottad ezt:');
-      console.log(this.selectedLine);
+      /* console.log('kiválasztottad ezt:');
+      console.log(this.selectedLine); */
     });
+    this.errorMessage = 'Ismeretlen hiba történt'
   }
 
   ngOnDestroy(): void {
@@ -73,12 +76,13 @@ export class LnComponent implements OnInit, OnDestroy {
     if (this.newLn) {
       this.onNewLn(form);
     }
-    if (this.edit) {
+    if (this.edit && !this.deleteLn) {
       this.onEditLine(form);
     }
   }
 
   onViewLine() {
+    this.validForm = true
     this.details = true;
     this.newLn = false;
     this.edit = false;
@@ -96,37 +100,38 @@ export class LnComponent implements OnInit, OnDestroy {
 
   onEditLine(form: NgForm) {
     let value = form.value
-    let lnExists = this.lnService.doesLnExist(value.azonInput)
     let l = value.azonInput
     let d = value.descInput
 
-    if (!lnExists || (lnExists && value.azonInput === this.selectedLine.ln_line)) {
-      //this.lnService.editLine(this.selectedLine.ln_line, { ln_line: l, ln_desc: d })
-      this.dsService.updateLn({ln_line: this.selectedLine.ln_line, ln_desc: d})
-      this.clearForm(form)
-    } else {
-      this.validForm = false;
-    }
+    this.dsService.updateLn({ ln_line: this.selectedLine.ln_line, ln_desc: d })
+    this.clearForm(form)
+
   }
 
   onDeleteLine(form: NgForm) {
-    this.lnService.deleteLine(this.selectedLine.ln_line);
-    console.log(this.selectedLine.ln_line);
-    this.clearForm(form);
+    //this.lnService.deleteLine(this.selectedLine.ln_line);
+    this.dsService.deleteLn(this.selectedLine.ln_line)
+    this.clearForm(form)
+    
+
+    //this.lnExistsError(form)
+    /* console.log(this.selectedLine.ln_line);
     console.log('lines:');
     console.log(this.lines);
     console.log('getLines:');
-    console.log(this.lnService.getLines());
+    console.log(this.lnService.getLines()); */
   }
 
   clearForm(form: NgForm) {
     this.line = '';
     this.desc = '';
+    this.errorMessage = 'Ismeretlen hiba történt'
     this.newLn = false;
     this.edit = false;
     this.details = false;
     this.deleteLn = false;
     this.validForm = true;
+    this.lnUsed = false
     form.resetForm();
   }
 
@@ -136,6 +141,10 @@ export class LnComponent implements OnInit, OnDestroy {
     let l = value.azonInput;
     let d = value.descInput;
 
+    if (!d) {
+      d = ''
+    }
+
     if (!lnExists) {
       let newLn = { ln_line: l, ln_desc: d };
       //console.log(newLn);
@@ -144,6 +153,7 @@ export class LnComponent implements OnInit, OnDestroy {
       this.dsService.newLn(newLn);
       this.clearForm(form);
     } else {
+      this.errorMessage = 'Már létezik ilyen azonosító!'
       this.validForm = false;
     }
   }

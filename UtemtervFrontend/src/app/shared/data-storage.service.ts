@@ -24,7 +24,7 @@ export class DataStorageService {
     private ldService: LdService,
     private chgService: ChgService,
     private ptService: PartService
-  ) {}
+  ) { }
 
   formatDate(dateToFormat: Date): string {
     //átírom olyan formátumra, hogy érthető legyen az sql-nek --> string-ként, nem date-ként adom át
@@ -304,78 +304,82 @@ export class DataStorageService {
       );
   }
 
-  fetchLad(id: number) {}
+  fetchLad(id: number) { }
 
-  fetchWod(id: number) {}
+  fetchWod(id: number) { }
 
   postWo(wo) {
     return this.http.post<any>(URL + '/workorder/new', wo)
-    .pipe(
-      map(
-        (res) => {
-          const woA = res.map((data) => {
-            const wo = {wo_lot: data.woLot,
-              wo_nbr: data.woNbr,
-              wo_part: data.woPart,
-              wo_qty_ord: data.woQtyOrd,
-              wo_ord_date: data.woOrdDate,
-              wo_seq: data.woSeq,
-              wo_due_date: data.woDueDate,
-              wo_line: data.woLine,
-              wo_est_run: data.woEstRun,
-              wo_start_date: data.woStartDate,
-              wo_start_time: data.woStartTime,
-              wo_end_time: data.woEndTime,
-              wo_pld_downtime: data.woPldDowntime,
-              wo_unpld_downtime: data.woUnpldDowntime,
-              wo_activated: data.woActivated,
-              wo_status: data.woStatus,
-              wo_rel_date: data.woRelDate,
-              wo_user: data.woUser,}
-            return {...wo}
-          });
-          return { ...woA[0] };
-        }
-      )
+      .pipe(
+        map(
+          (res) => {
+            const woA = res.map((data) => {
+              const wo = {
+                wo_lot: data.woLot,
+                wo_nbr: data.woNbr,
+                wo_part: data.woPart,
+                wo_qty_ord: data.woQtyOrd,
+                wo_ord_date: data.woOrdDate,
+                wo_seq: data.woSeq,
+                wo_due_date: data.woDueDate,
+                wo_line: data.woLine,
+                wo_est_run: data.woEstRun,
+                wo_start_date: data.woStartDate,
+                wo_start_time: data.woStartTime,
+                wo_end_time: data.woEndTime,
+                wo_pld_downtime: data.woPldDowntime,
+                wo_unpld_downtime: data.woUnpldDowntime,
+                wo_activated: data.woActivated,
+                wo_status: data.woStatus,
+                wo_rel_date: data.woRelDate,
+                wo_user: data.woUser,
+              }
+              return { ...wo }
+            });
+            return { ...woA[0] };
+          }
+        )
 
-    )
+      )
   }
   updateWo(wo) {
     console.log(wo);
     let lot: number = +wo.wo_lot;
-    let vegpont =  URL + '/workorder/update';
+    let vegpont = URL + '/workorder/update';
     return this.http.put<any>(vegpont, wo)
-    .pipe(
-      map(
-        (res) => {
-          const woA = res.map((data) => {
-            const wo = {wo_lot: data.woLot,
-              wo_nbr: data.woNbr,
-              wo_part: data.woPart,
-              wo_qty_ord: data.woQtyOrd,
-              wo_ord_date: data.woOrdDate,
-              wo_seq: data.woSeq,
-              wo_due_date: data.woDueDate,
-              wo_line: data.woLine,
-              wo_est_run: data.woEstRun,
-              wo_start_date: data.woStartDate,
-              wo_start_time: data.woStartTime,
-              wo_end_time: data.woEndTime,
-              wo_pld_downtime: data.woPldDowntime,
-              wo_unpld_downtime: data.woUnpldDowntime,
-              wo_activated: data.woActivated,
-              wo_status: data.woStatus,
-              wo_rel_date: data.woRelDate,
-              wo_user: data.woUser,}
-            return {...wo}
-          });
-          return { ...woA[0] };
-        }
-      )
+      .pipe(
+        map(
+          (res) => {
+            const woA = res.map((data) => {
+              const wo = {
+                wo_lot: data.woLot,
+                wo_nbr: data.woNbr,
+                wo_part: data.woPart,
+                wo_qty_ord: data.woQtyOrd,
+                wo_ord_date: data.woOrdDate,
+                wo_seq: data.woSeq,
+                wo_due_date: data.woDueDate,
+                wo_line: data.woLine,
+                wo_est_run: data.woEstRun,
+                wo_start_date: data.woStartDate,
+                wo_start_time: data.woStartTime,
+                wo_end_time: data.woEndTime,
+                wo_pld_downtime: data.woPldDowntime,
+                wo_unpld_downtime: data.woUnpldDowntime,
+                wo_activated: data.woActivated,
+                wo_status: data.woStatus,
+                wo_rel_date: data.woRelDate,
+                wo_user: data.woUser,
+              }
+              return { ...wo }
+            });
+            return { ...woA[0] };
+          }
+        )
 
-    )
+      )
   }
-  deleteWo(id: number) {}
+  deleteWo(id: number) { }
 
   fetchGyartosorok() {
     this.http
@@ -405,7 +409,7 @@ export class DataStorageService {
   }
 
   newLn(ln: Ln) {
-    //console.log('üdvözlet a newLn től!');
+    console.log('üdvözlet a newLn től!');
     this.http
       .post<any>(URL + '/ln/new', {
         lnLine: ln.ln_line,
@@ -420,6 +424,8 @@ export class DataStorageService {
               ln_line: res[0].lnLine,
               ln_desc: res[0].lnDesc,
             };
+            console.log(l);
+
             this.lnService.newLine(l);
           },
           error: (error) => console.log(error),
@@ -448,6 +454,25 @@ export class DataStorageService {
           error: (error) => {
             console.log(error);
           },
+        })
+      )
+      .subscribe();
+  }
+
+  deleteLn(line: string) {
+    this.http
+      .delete(URL + '/ln/delete/' + line)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            if (res == 1) {
+              this.lnService.deleteLine(line);
+              console.log('töröltem');
+            }  else {
+              console.log('nem töröltem');
+            }
+          },
+          error: (error) => console.log(error),
         })
       )
       .subscribe();
