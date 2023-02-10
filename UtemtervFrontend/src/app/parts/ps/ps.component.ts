@@ -29,10 +29,9 @@ export class PsComponent {
   partStrAlreadyExists: boolean = false;
 
   sortSub: Subscription;
-  sortedPartStrData: psDisplay[] = [];
+  partStrData: psDisplay[] = [];
   lastSort: Sort;
 
-  partStrData: psDisplay[] = [];
   originalPartStrData: Ps[] = [];
   partStrDataChangedSub: Subscription;
   partData: Pt[] = [];
@@ -71,9 +70,7 @@ export class PsComponent {
     private formBuilder: FormBuilder,
     private dataStorageService: DataStorageService
   ) {
-    this.sortedPartStrData = this.psData_to_displayPs(
-      partStrService.getPartStrs()
-    );
+    this.partStrData = this.psDataTransform(partStrService.getPartStrs());
   }
 
   ngOnInit(): void {
@@ -88,8 +85,7 @@ export class PsComponent {
     this.partStrDataChangedSub =
       this.partStrService.partStrDataChanged.subscribe((psData: Ps[]) => {
         this.originalPartStrData = psData;
-
-        this.sortedPartStrData = this.psData_to_displayPs(
+        this.partStrData = this.psDataTransform(
           this.originalPartStrData.slice()
         );
 
@@ -128,12 +124,12 @@ export class PsComponent {
   }
 
   sortData(sort: Sort) {
-    const data = this.psData_to_displayPs(this.partStrService.getPartStrs());
+    const data = this.psDataTransform(this.partStrService.getPartStrs());
     if (!sort.active || sort.direction === '') {
       this.partStrDataChanged();
     }
 
-    this.sortedPartStrData = data.sort((a, b) => {
+    this.partStrData = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'ps_par':
@@ -206,7 +202,7 @@ export class PsComponent {
   }
 
   onDelete() {
-    this.partStrService.deletePartStr(
+    this.dataStorageService.deletePs(
       this.myGroup.getRawValue().ps_par,
       this.myGroup.getRawValue().ps_comp
     );
@@ -237,12 +233,28 @@ export class PsComponent {
     } */
   }
   onSubmit() {
-    this.partStrService.savePartStr({
+    let psInput = {
       ps_par: Number(this.myGroup.getRawValue().ps_par),
       ps_comp: Number(this.myGroup.getRawValue().ps_comp),
       ps_qty_per: Number(this.myGroup.value.ps_qty_per),
-    });
-    //console.log(this.myGroup.value);
+    };
+    //this.partStrData[0].ps_qty_per = 100;
+
+    this.dataStorageService.newPs(psInput).subscribe();
+
+    this.partStrDataChanged();
+    this.clearForm();
+    this.searchMode = true;
+  }
+
+  onUpdate() {
+    let psInput = {
+      ps_par: Number(this.myGroup.getRawValue().ps_par),
+      ps_comp: Number(this.myGroup.getRawValue().ps_comp),
+      ps_qty_per: Number(this.myGroup.value.ps_qty_per),
+    };
+
+    this.dataStorageService.updatePs(psInput);
     this.partStrDataChanged();
     this.clearForm();
     this.searchMode = true;
@@ -259,10 +271,8 @@ export class PsComponent {
   partStrDataChanged() {
     //console.log(this.partStrService.getPartStrs());
 
-    this.sortedPartStrData = this.psData_to_displayPs(
-      this.partStrService.getPartStrs()
-    );
-    this.dtTblService.emitDataChanged(this.sortedPartStrData.slice());
+    this.partStrData = this.psDataTransform(this.partStrService.getPartStrs());
+    this.dtTblService.emitDataChanged(this.partStrData.slice());
   }
 
   ngOnDestroy(): void {
@@ -274,9 +284,13 @@ export class PsComponent {
     while (i < this.partData.length && this.partData[i].pt_part !== part) {
       i++;
     }
-    return this.partData[i].pt_desc;
+    if (i < this.partData.length) {
+      return this.partData[i].pt_desc;
+    } else {
+      return '';
+    }
   }
-  psData_to_displayPs(psData: Ps[]): psDisplay[] {
+  psDataTransform(psData: Ps[]): psDisplay[] {
     /*
     console.log('------DISPLAYING DATA TO DISPLAY PS');
     console.log('original data:');

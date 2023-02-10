@@ -8,7 +8,7 @@ import { LnService } from '../ln/ln.service';
 import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
 import { ChgService } from '../chg/chg.service';
-import { Lad, Ld, Ln, Pt, User, Wo, Wod, Ps, Lnd } from './interfaces';
+import { Lad, Ld, Ln, Pt, User, Wo, Wod, Ps, Lnd , psDisplay } from './interfaces';
 import { PartService } from '../parts/pt/pt.service';
 import { throwError } from 'rxjs';
 import { PartStrService } from '../parts/ps/ps.service';
@@ -270,6 +270,78 @@ export class DataStorageService {
       .subscribe();
   }
 
+  newPs(ps: Ps) {
+    console.log('new ps INCOMING!');
+
+    console.log('New Ps: ');
+    console.log(ps);
+
+    return this.http
+      .post<any>(URL + '/ps/new', {
+        psPar: ps.ps_par,
+        psComp: ps.ps_comp,
+        psQtyPer: ps.ps_qty_per,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            if (res) {
+              let str = {
+                ps_par: ps.ps_par,
+                ps_comp: ps.ps_comp,
+                ps_qty_per: ps.ps_qty_per,
+              };
+              this.partStrService.savePartStr(str);
+            }
+          },
+          error: (error) => console.log(error),
+        })
+      );
+  }
+
+  updatePs(ps: Ps) {
+    return this.http
+      .put<number>(URL + '/ps/update', {
+        psPar: ps.ps_par,
+        psComp: ps.ps_comp,
+        psQtyPer: ps.ps_qty_per,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            console.log('update response:');
+            console.log(res);
+
+            if (res > 0) {
+              this.partStrService.savePartStr(ps);
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      )
+      .subscribe();
+  }
+
+  deletePs(par, comp) {
+    const ps = { psPar: par, psComp: comp };
+    return this.http
+      .delete<any>(URL + '/ps/delete/' + par + '/' + comp)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            console.log('Number of deleted partstr: ' + res);
+            if (res > 0) {
+              this.partStrService.deletePartStr(par, comp);
+            }
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
   fetchLds() {
     console.log('fetching lds');
 
@@ -306,6 +378,12 @@ export class DataStorageService {
       )
       .subscribe();
   }
+
+  newLd(ld: Ld) {}
+
+  updateLd(ld: Ld) {}
+
+  deleteLd(part: number, exp: Date) {}
 
   fetchWo(id: number) {
     /* let api = "workorder/" + id; */
@@ -344,40 +422,46 @@ export class DataStorageService {
     );
   }
 
-
   fetchLad(id: number) {
-    return this.http.get<any>(URL + '/lad/' + id)
-      .pipe(
-        map(
-          (lads) => {
-            const newLads = lads.map(
-              (lad) => {
-                const newLad: Lad = { lad_id: lad.ladId, lad_part: lad.ladPart, lad_par: lad.ladPar, lad_lot: lad.ladLot, lad_comp: lad.ladComp, lad_expire: lad.ladExpire, lad_qty_rsrv: lad.ladQtyRsrv, lad_qty_used: lad.ladQtyUsed }
-                return { ...newLad };
-              }
-            );
-            return newLads;
-          }
-        )
-      )
-
+    return this.http.get<any>(URL + '/lad/' + id).pipe(
+      map((lads) => {
+        const newLads = lads.map((lad) => {
+          const newLad: Lad = {
+            lad_id: lad.ladId,
+            lad_part: lad.ladPart,
+            lad_par: lad.ladPar,
+            lad_lot: lad.ladLot,
+            lad_comp: lad.ladComp,
+            lad_expire: lad.ladExpire,
+            lad_qty_rsrv: lad.ladQtyRsrv,
+            lad_qty_used: lad.ladQtyUsed,
+          };
+          return { ...newLad };
+        });
+        return newLads;
+      })
+    );
   }
 
   fetchWod(id: number) {
-    return this.http.get<any>(URL + '/wod/' + id)
-      .pipe(
-        map(
-          (wodData) => {
-            const newWods: Wod[] = wodData.map(
-              (wod) => {
-                const newWod: Wod = { wod_part: wod.part, part_name: wod.partName, wod_par: wod.parent, par_name: wod.parentName, wod_qty_req: wod.qtyReq, part_um: wod.partUm, wod_qty_compl: wod.qtyCompl, wod_qty_rjct: wod.qtyRjct }
-                return { ...newWod };
-              }
-            );
-            return newWods;
-          }
-        )
-      )
+    return this.http.get<any>(URL + '/wod/' + id).pipe(
+      map((wodData) => {
+        const newWods: Wod[] = wodData.map((wod) => {
+          const newWod: Wod = {
+            wod_part: wod.part,
+            part_name: wod.partName,
+            wod_par: wod.parent,
+            par_name: wod.parentName,
+            wod_qty_req: wod.qtyReq,
+            part_um: wod.partUm,
+            wod_qty_compl: wod.qtyCompl,
+            wod_qty_rjct: wod.qtyRjct,
+          };
+          return { ...newWod };
+        });
+        return newWods;
+      })
+    );
   }
 
   postWo(wo) {
@@ -410,6 +494,7 @@ export class DataStorageService {
       })
     );
   }
+
   updateWo(wo) {
     console.log(wo);
     let lot: number = +wo.wo_lot;
@@ -443,7 +528,8 @@ export class DataStorageService {
       })
     );
   }
-  deleteWo(id: number) { }
+
+  deleteWo(id: number) {}
 
   fetchGyartosorok() {
     this.http
