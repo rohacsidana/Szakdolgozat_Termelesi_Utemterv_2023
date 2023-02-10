@@ -1,7 +1,8 @@
 
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import * as DataTableService from '../../../data-table/data-table.service';
-import { Subscription } from "rxjs";
+import { Subscription, throwError } from "rxjs";
+import { tap } from "rxjs/operators";
 import { Sort } from "@angular/material/sort";
 import { WoService } from "../../wo.service";
 import { DataStorageService } from "src/app/shared/data-storage.service";
@@ -16,25 +17,25 @@ import { ActivatedRoute, Params } from "@angular/router";
 })
 
 export class LadComponent implements OnInit, OnDestroy {
-  ladData: Lad[] = [];
-  ladHeaders: { name: string, szoveg: string }[] = [
+  ladHeaders: { name: string, szoveg: string, input?: {type: string} }[] = [
     { name: 'lad_id', szoveg: 'Foglalás azonosító' },
     { name: 'lad_part', szoveg: 'Wod_part' },
     { name: 'lad_par', szoveg: 'Wod_par' },
     { name: 'lad_lot', szoveg: 'Wod_lot' },
     { name: 'lad_comp', szoveg: 'Ld_part' },
     { name: 'lad_expire', szoveg: 'Ld_expire' },
-    { name: 'lad_qty_rsrv', szoveg: 'Foglalt mennyiség ' },
-    { name: 'lad_qty_used', szoveg: 'Felhasznált mennyiség ' },
+    { name: 'lad_qty_rsrv', szoveg: 'Foglalt mennyiség' },
+    { name: 'lad_qty_used', szoveg: 'Felhasznált mennyiség', input: {type: "number"}},
   ];
-
+  
+  ladData: Lad[] = [];
   sortedLadData: Lad[] = [];
+  lastSort: Sort;
 
   sortSub: Subscription;
   ladSub: Subscription;
-  lastSort: Sort;
   constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private dataStorageService: DataStorageService, private route: ActivatedRoute) {
-    //this.sortedLadData = this.ladData.slice();
+   
   }
 
   ngOnInit() {
@@ -42,20 +43,38 @@ export class LadComponent implements OnInit, OnDestroy {
     this.ladSub = this.woService.ladDataChanged.subscribe(
       (ladData: Lad[]) => {
         this.ladData = ladData;
-        if(!!this.lastSort){
+        if (!!this.lastSort) {
+          this.sortedLadData = this.ladData.slice();
           this.sortData(this.lastSort);
+        }else{
+          this.sortedLadData = this.ladData.slice();
+          this.dtTblService.dataChanged.next(this.sortedLadData.slice());
         }
       }
     );
-      this.route.params.subscribe(
-        (params: Params)=>{
-          this.dataStorageService.fetchLad(+params['lot']);
-        }
-      );
-   // this.dataStorageService.fetchLad(this.woService.getSelectedWo().wo_lot);
-/*     this.ladData = this.woService.getLads();
-    this.sortedLadData = this.ladData.slice();
- */
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.dataStorageService.fetchLad(+params['lot'])
+        .pipe(
+          tap({
+            next: data => this.woService.setLadData(data.slice()),
+            error: error => {
+              
+              
+              if(this.woService.woError === null){
+                console.log("ures");
+                
+                this.woService.setLadData([])
+            }
+            return throwError(error.error);
+          }
+          })
+        )
+        .subscribe();
+        
+      }
+    );
+ 
 
     this.dtTblService.dataChanged.next(this.sortedLadData.slice());
     this.sortSub = this.dtTblService.sortData.subscribe(

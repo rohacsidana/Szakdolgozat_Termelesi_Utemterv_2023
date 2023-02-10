@@ -95,7 +95,7 @@ namespace UtemtervBackend.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(404, e);
+                return StatusCode(404, "An error has occured.");
             }
         }
 

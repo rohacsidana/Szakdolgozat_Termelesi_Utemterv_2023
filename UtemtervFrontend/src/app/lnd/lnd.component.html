@@ -10,13 +10,13 @@
             <td>
               Gyártósor azonosító*
               <input type="text" name="lineInput" [(ngModel)]="line" required="" maxlength="8"
-                [disabled]="!newLnd && !edit" />
+                [disabled]="!newLnd" />
 
             </td>
             <td>
               Tétel kód*
               <input type="number" name="partInput" [(ngModel)]="part" required=""
-                [disabled]="!newLnd && !edit" />
+                [disabled]="!newLnd" />
             </td>
             <td>
               Gyártási sebesség*

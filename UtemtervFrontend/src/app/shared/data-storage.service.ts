@@ -8,8 +8,9 @@ import { LnService } from '../ln/ln.service';
 import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
 import { ChgService } from '../chg/chg.service';
-import { Ld, Ln, Ps, Pt, User, Wo } from './interfaces';
+import { Lad, Ld, Ln, Pt, User, Wo, Wod, Ps} from './interfaces';
 import { PartService } from '../parts/pt/pt.service';
+import { throwError } from 'rxjs';
 import { PartStrService } from '../parts/ps/ps.service';
 
 @Injectable({
@@ -343,9 +344,41 @@ export class DataStorageService {
     );
   }
 
-  fetchLad(id: number) {}
 
-  fetchWod(id: number) {}
+  fetchLad(id: number) {
+    return this.http.get<any>(URL+'/lad/'+id)
+    .pipe(
+      map(
+        (lads)=>{
+            const newLads = lads.map(
+              (lad)=>{
+                 const newLad: Lad = {lad_id: lad.ladId, lad_part: lad.ladPart, lad_par: lad.ladPar, lad_lot: lad.ladLot, lad_comp: lad.ladComp, lad_expire: lad.ladExpire, lad_qty_rsrv: lad.ladQtyRsrv, lad_qty_used: lad.ladQtyUsed }
+                return {...newLad};
+                }
+            );
+            return newLads;
+        }
+      )
+    )
+    
+  }
+
+  fetchWod(id: number) {
+    return this.http.get<any>(URL + '/wod/' + id)
+    .pipe(
+      map(
+        (wodData)=>{
+            const newWods: Wod[] = wodData.map(
+              (wod)=>{
+                  const newWod: Wod = {wod_part: wod.part, part_name: wod.partName, wod_par: wod.parent, par_name: wod.parentName, wod_qty_req: wod.qtyReq, part_um: wod.partUm, wod_qty_compl: wod.qtyCompl, wod_qty_rjct: wod.qtyRjct} 
+                  return {...newWod};
+                }
+            );
+            return newWods;
+        }
+      )
+    )
+  }
 
   postWo(wo) {
     return this.http.post<any>(URL + '/workorder/new', wo).pipe(
@@ -410,7 +443,7 @@ export class DataStorageService {
       })
     );
   }
-  deleteWo(id: number) {}
+  deleteWo(id: number) { }
 
   fetchGyartosorok() {
     this.http
@@ -440,7 +473,7 @@ export class DataStorageService {
   }
 
   newLn(ln: Ln) {
-    //console.log('üdvözlet a newLn től!');
+    console.log('üdvözlet a newLn től!');
     this.http
       .post<any>(URL + '/ln/new', {
         lnLine: ln.ln_line,
@@ -455,6 +488,8 @@ export class DataStorageService {
               ln_line: res[0].lnLine,
               ln_desc: res[0].lnDesc,
             };
+            console.log(l);
+
             this.lnService.newLine(l);
           },
           error: (error) => console.log(error),
@@ -483,6 +518,25 @@ export class DataStorageService {
           error: (error) => {
             console.log(error);
           },
+        })
+      )
+      .subscribe();
+  }
+
+  deleteLn(line: string) {
+    this.http
+      .delete(URL + '/ln/delete/' + line)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            if (res == 1) {
+              this.lnService.deleteLine(line);
+              console.log('töröltem');
+            }  else {
+              console.log('nem töröltem');
+            }
+          },
+          error: (error) => console.log(error),
         })
       )
       .subscribe();

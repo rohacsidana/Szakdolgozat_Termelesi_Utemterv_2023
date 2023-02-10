@@ -9,19 +9,19 @@ export class WoService {
     /*lad és wod értékei*/
     woData: Wo[] = [];
     woDataChanged = new Subject<Wo[]>();
-    wodData: Wod[] =[]
-   
+    wodData: Wod[] = [];
+
     wodDataChanged = new Subject<Wod[]>();
     ladData: Lad[] = [];
     ladDataChanged = new Subject<Lad[]>();
     selectedWo: Wo = null;
-
+    woError: string = null;
     addWoData(wo: Wo) {
         this.woData.push(wo);
         this.woDataChanged.next(this.woData.slice());
     }
 
-    setSelectedWo(wo: Wo){
+    setSelectedWo(wo: Wo) {
         this.selectedWo = wo;
     }
     getSelectedWo() {
@@ -67,7 +67,7 @@ export class WoService {
         if (this.woData.length !== 0) {
 
             return this.woData.find(element => element.wo_lot === woLot);
-        }else{
+        } else {
             return null;
         }
         /*  else {

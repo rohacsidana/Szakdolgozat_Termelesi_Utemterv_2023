@@ -22,8 +22,8 @@ export class LnService {
     return this.lines.findIndex((index) => index.ln_line === line);
   }
 
-  newLine(newLnd: Ln) {
-    this.lines.push(newLnd);
+  newLine(newLn: Ln) {
+    this.lines.push(newLn);
     this.lnChanged.next(this.lines.slice());
     /* console.log("új ln felvéve");
         console.log(this.lines); */
@@ -51,5 +51,6 @@ export class LnService {
     if (index >= 0) {
       return true;
     }
+
   }
 }
