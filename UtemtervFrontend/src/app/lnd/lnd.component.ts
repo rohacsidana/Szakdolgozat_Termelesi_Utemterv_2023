@@ -41,12 +41,12 @@ export class LndComponent implements OnInit, OnDestroy {
     private lndService: LndService,
     private dsService: DataStorageService,
     private lnService: LnService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     /* console.log(this.lnService.doesLnExist('ln_1'));
     console.log(this.lnService.getLines()); */
-    
+
     this.dsService.fetchLnds()
 
     this.rates = this.lndService.getRates();
@@ -80,7 +80,7 @@ export class LndComponent implements OnInit, OnDestroy {
     if (this.newLnd) {
       this.onNewLnd(form);
     }
-    if (this.edit) {
+    if (this.edit && !this.deleteLnd) {
       this.editLnd(form);
     }
     if (this.deleteLnd) {
@@ -104,25 +104,23 @@ export class LndComponent implements OnInit, OnDestroy {
     let l = value.lineInput;
     let p = value.partInput;
     let r = value.rateInput;
-    
-    if (this.lndService.doesLineExists(l)) {
-      if (!this.lndService.doesLndExist(l, p)) {
-        //this.lndService.newRate({ lnd_line: l, lnd_part: p, lnd_rate: r });
-        this.dsService.newLnd({lnd_line: l, lnd_part: p, lnd_rate: r})
-        this.clearForm(form);
-      } else {
-        this.errorMessage = `Már szerepel a(z) "${l}" gyártósor "${p}" tétellel!`
-        this.validForm = false;
-      }
+
+    if (!this.lndService.doesLndExist(l, p)) {
+      //this.lndService.newRate({ lnd_line: l, lnd_part: p, lnd_rate: r });
+      this.dsService.newLnd({ lnd_line: l, lnd_part: p, lnd_rate: r })
+      this.clearForm(form);
     } else {
-      this.validForm = false
+      this.errorMessage = `Már szerepel a(z) "${l}" gyártósor "${p}" tétellel!`
+      this.validForm = false;
     }
+
     console.log(this.lndService.getRates());
   }
 
   editStarted() {
     this.edit = true;
     this.newLnd = false;
+    this.deleteLnd = false
 
     this.line = this.selectedLnd.lnd_line;
     this.part = this.selectedLnd.lnd_part;
@@ -133,25 +131,27 @@ export class LndComponent implements OnInit, OnDestroy {
     let value = form.value;
     let l = value.lineInput;
     let p = value.partInput;
-    let r = form.value.rateInput;
+    let r = value.rateInput;
 
-    if (!this.lndService.doesLndExist(l, p)) {
-      this.lndService.editLnd(
+   
+      /* this.lndService.editLnd(
         this.selectedLnd.lnd_line,
         this.selectedLnd.lnd_part,
         { lnd_line: l, lnd_part: p, lnd_rate: r }
-      );
+      ); */
+      this.dsService.updateLnd({lnd_line: this.selectedLnd.lnd_line, lnd_part: this.selectedLnd.lnd_part, 
+        lnd_rate: r})
+      //this.lndService.editLnd(this.selectedLnd)
       this.clearForm(form);
-    } else {
-      this.validForm = false;
-    }
+    
   }
 
   onDeleteLnd(form: NgForm) {
-    this.lndService.deleteLine(
+    /*this.lndService.deleteLine(
       this.selectedLnd.lnd_line,
       this.selectedLnd.lnd_part
-    );
+    );*/
+    this.dsService.deleteLnd(this.selectedLnd)
     this.clearForm(form);
   }
 }

@@ -43,8 +43,8 @@ namespace UtemtervBackend.Controllers
 
         [HttpPost("new")]
 
-        public IActionResult newLn([FromBody]
-        NewLnd lnd)
+        public IActionResult NewLn([FromBody]
+        NewLnd_UpdateLnd lnd)
         {
             try
             {
@@ -58,8 +58,44 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(404, e);
             }
         }
-        
-        public class NewLnd
+
+        [EnableCors]
+        [HttpPut("update")]
+
+        public IActionResult UpdateLnd([FromBody] NewLnd_UpdateLnd lnd)
+        {
+            try
+            {
+                var updateLnd = _context.Database.ExecuteSqlInterpolated($"updateLnd {lnd.LndLine}, {lnd.LndPart}, {lnd.LndRate}");
+
+                return Ok(updateLnd);
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e);
+            }
+        }
+
+        [EnableCors]
+        [HttpDelete("delete/{line}/{part}")]
+
+        public IActionResult deleteLnd(string line, int part)
+        {
+            try
+            {
+                var updateLn = _context.Database.ExecuteSqlInterpolated($"deleteLnd {line}, {part}");
+
+                return Ok(updateLn);
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e);
+            }
+        }
+
+        public class NewLnd_UpdateLnd
         {
             public string LndLine { get; set; }
             public int LndPart { get; set; }

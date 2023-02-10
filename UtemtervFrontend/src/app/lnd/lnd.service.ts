@@ -39,10 +39,9 @@ export class LndService {
         this.lndChanged.next(this.rates.slice())
     }
 
-    editLnd(line: string, part: number, newLnd: Lnd) {
-        let index = this.getLndIndex(line, part)
-        this.rates[index].lnd_line = newLnd.lnd_line;
-        this.rates[index].lnd_part = newLnd.lnd_part;
+    editLnd(lnd: Lnd) {
+        let index = this.getLndIndex(lnd.lnd_line, lnd.lnd_part)
+        this.rates[index].lnd_rate = lnd.lnd_rate;
     }
 
     deleteLine(line: string, part: number) {

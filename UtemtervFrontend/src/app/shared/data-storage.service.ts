@@ -27,7 +27,7 @@ export class DataStorageService {
     private chgService: ChgService,
     private ptService: PartService,
     private partStrService: PartStrService
-  ) {}
+  ) { }
 
   formatDate(dateToFormat: Date): string {
     //átírom olyan formátumra, hogy érthető legyen az sql-nek --> string-ként, nem date-ként adom át
@@ -346,38 +346,38 @@ export class DataStorageService {
 
 
   fetchLad(id: number) {
-    return this.http.get<any>(URL+'/lad/'+id)
-    .pipe(
-      map(
-        (lads)=>{
+    return this.http.get<any>(URL + '/lad/' + id)
+      .pipe(
+        map(
+          (lads) => {
             const newLads = lads.map(
-              (lad)=>{
-                 const newLad: Lad = {lad_id: lad.ladId, lad_part: lad.ladPart, lad_par: lad.ladPar, lad_lot: lad.ladLot, lad_comp: lad.ladComp, lad_expire: lad.ladExpire, lad_qty_rsrv: lad.ladQtyRsrv, lad_qty_used: lad.ladQtyUsed }
-                return {...newLad};
-                }
+              (lad) => {
+                const newLad: Lad = { lad_id: lad.ladId, lad_part: lad.ladPart, lad_par: lad.ladPar, lad_lot: lad.ladLot, lad_comp: lad.ladComp, lad_expire: lad.ladExpire, lad_qty_rsrv: lad.ladQtyRsrv, lad_qty_used: lad.ladQtyUsed }
+                return { ...newLad };
+              }
             );
             return newLads;
-        }
+          }
+        )
       )
-    )
-    
+
   }
 
   fetchWod(id: number) {
     return this.http.get<any>(URL + '/wod/' + id)
-    .pipe(
-      map(
-        (wodData)=>{
+      .pipe(
+        map(
+          (wodData) => {
             const newWods: Wod[] = wodData.map(
-              (wod)=>{
-                  const newWod: Wod = {wod_part: wod.part, part_name: wod.partName, wod_par: wod.parent, par_name: wod.parentName, wod_qty_req: wod.qtyReq, part_um: wod.partUm, wod_qty_compl: wod.qtyCompl, wod_qty_rjct: wod.qtyRjct} 
-                  return {...newWod};
-                }
+              (wod) => {
+                const newWod: Wod = { wod_part: wod.part, part_name: wod.partName, wod_par: wod.parent, par_name: wod.parentName, wod_qty_req: wod.qtyReq, part_um: wod.partUm, wod_qty_compl: wod.qtyCompl, wod_qty_rjct: wod.qtyRjct }
+                return { ...newWod };
+              }
             );
             return newWods;
-        }
+          }
+        )
       )
-    )
   }
 
   postWo(wo) {
@@ -532,7 +532,7 @@ export class DataStorageService {
             if (res == 1) {
               this.lnService.deleteLine(line);
               console.log('töröltem');
-            }  else {
+            } else {
               console.log('nem töröltem');
             }
           },
@@ -592,6 +592,52 @@ export class DataStorageService {
             console.log(l);
 
             this.lndService.newRate(l);
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  updateLnd(lnd: Lnd) {
+    console.log("Updated Lnd: " + lnd);
+    let updatedLnd = {
+      LndLine: lnd.lnd_line,
+      LndPart: lnd.lnd_part,
+      LndRate: lnd.lnd_rate
+    };
+
+    return this.http
+      .put(URL + '/lnd/update', updatedLnd)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            if (res == 1) {
+              this.lndService.editLnd(lnd);
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      )
+      .subscribe();
+  }
+
+  deleteLnd(lnd: Lnd) {
+    console.log("üdv a deleteLnd ből");
+
+    this.http
+      .delete(URL + '/lnd/delete/' + lnd.lnd_line + '/' + lnd.lnd_part)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            if (res == 1) {
+              this.lndService.deleteLine(lnd.lnd_line, lnd.lnd_part);
+              console.log(res);
+            } else {
+              console.log(res);
+            }
           },
           error: (error) => console.log(error),
         })
