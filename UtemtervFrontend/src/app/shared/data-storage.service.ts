@@ -201,6 +201,8 @@ export class DataStorageService {
   }
 
   fetchPts() {
+    console.log('fetching pt');
+
     return this.http
       .get<
         {
@@ -234,6 +236,8 @@ export class DataStorageService {
   }
 
   fetchPsS() {
+    console.log('fetching ps');
+
     return this.http
       .get<
         {
