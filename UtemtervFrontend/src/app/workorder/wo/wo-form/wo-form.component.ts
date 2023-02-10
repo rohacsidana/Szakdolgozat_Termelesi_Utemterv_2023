@@ -72,7 +72,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
         this.DataStorageService.fetchWo(this.selectedWoLot).pipe(
           tap(
             {
-              next: (data) => console.log(data),
+              next: (data) => console.log(),
               error: (error) => this.handleError(error),
             }
           ),
@@ -148,7 +148,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
       this.DataStorageService.fetchWo(this.woFormActData.woLot).pipe(
         tap(
           {
-            next: (data) => console.log(data),
+            next: (data) => console.log(),
             error: (error) => this.handleError(error),
           }
         ),
