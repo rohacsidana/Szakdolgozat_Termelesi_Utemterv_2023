@@ -14,6 +14,7 @@ export class WoService {
     wodDataChanged = new Subject<Wod[]>();
     ladData: Lad[] = [];
     ladDataChanged = new Subject<Lad[]>();
+    getDataFromTable = new Subject<any>();
     selectedWo: Wo = null;
     woError: string = null;
     addWoData(wo: Wo) {
