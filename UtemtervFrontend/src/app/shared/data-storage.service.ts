@@ -8,8 +8,9 @@ import { LnService } from '../ln/ln.service';
 import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
 import { ChgService } from '../chg/chg.service';
-import { Ld, Ln, Pt, User, Wo } from './interfaces';
+import { Ld, Ln, Ps, Pt, User, Wo } from './interfaces';
 import { PartService } from '../parts/pt/pt.service';
+import { PartStrService } from '../parts/ps/ps.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,8 @@ export class DataStorageService {
     private lndService: LndService,
     private ldService: LdService,
     private chgService: ChgService,
-    private ptService: PartService
+    private ptService: PartService,
+    private partStrService: PartStrService
   ) {}
 
   formatDate(dateToFormat: Date): string {
@@ -204,7 +206,7 @@ export class DataStorageService {
           ptPart: number;
           ptDesc: string;
           ptUm: string;
-          ptQtyPer: number;
+          ptQtyOh: number;
         }[]
       >(URL + '/pt/list')
       .pipe(
@@ -214,14 +216,49 @@ export class DataStorageService {
               pt_part: pt.ptPart,
               pt_desc: pt.ptDesc,
               pt_um: pt.ptUm,
-              pt_qty_oh: pt.ptQtyPer,
+              pt_qty_oh: pt.ptQtyOh,
             };
             return { ...record };
           });
           return ptData;
         }),
         tap({
-          next: (data) => this.ptService.setPts(data.slice()),
+          next: (data) => {
+            this.ptService.setPts(data.slice());
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  fetchPsS() {
+    return this.http
+      .get<
+        {
+          psPar: number;
+          psComp: number;
+          psQtyPer: number;
+        }[]
+      >(URL + '/ps/list')
+      .pipe(
+        map((strs) => {
+          const psData = strs.map((ps) => {
+            const record: Ps = {
+              ps_par: ps.psPar,
+              ps_comp: ps.psComp,
+              ps_qty_per: ps.psQtyPer,
+            };
+            return { ...record };
+          });
+          //console.log(psData);
+
+          return psData;
+        }),
+        tap({
+          next: (data) => {
+            this.partStrService.setPartStrs(data);
+          },
           error: (error) => console.log(error),
         })
       )
@@ -267,41 +304,39 @@ export class DataStorageService {
 
   fetchWo(id: number) {
     /* let api = "workorder/" + id; */
-    return this.http
-      .get<WoResponse[]>(URL + '/workorder/' + id)
-      .pipe(
-        map((woData) => {
-          const woDataNew: Wo[] = woData.map((wo) => {
-            return {
-              wo_lot: wo.woLot,
-              wo_nbr: wo.woNbr,
-              wo_part: wo.woPart,
-              wo_qty_ord: wo.woQtyOrd,
-              wo_ord_date: wo.woOrdDate,
-              wo_seq: wo.woSeq,
-              wo_due_date: wo.woDueDate,
-              wo_line: wo.woLine,
-              wo_est_run: wo.woEstRun,
-              wo_start_date: wo.woStartDate,
-              wo_start_time: wo.woStartTime,
-              wo_end_time: wo.woEndTime,
-              wo_pld_downtime: wo.woPldDowntime,
-              wo_unpld_downtime: wo.woUnpldDowntime,
-              wo_activated: wo.woActivated,
-              wo_status: wo.woStatus,
-              wo_rel_date: wo.woRelDate,
-              wo_user: wo.woUser,
-            };
-          });
+    return this.http.get<WoResponse[]>(URL + '/workorder/' + id).pipe(
+      map((woData) => {
+        const woDataNew: Wo[] = woData.map((wo) => {
+          return {
+            wo_lot: wo.woLot,
+            wo_nbr: wo.woNbr,
+            wo_part: wo.woPart,
+            wo_qty_ord: wo.woQtyOrd,
+            wo_ord_date: wo.woOrdDate,
+            wo_seq: wo.woSeq,
+            wo_due_date: wo.woDueDate,
+            wo_line: wo.woLine,
+            wo_est_run: wo.woEstRun,
+            wo_start_date: wo.woStartDate,
+            wo_start_time: wo.woStartTime,
+            wo_end_time: wo.woEndTime,
+            wo_pld_downtime: wo.woPldDowntime,
+            wo_unpld_downtime: wo.woUnpldDowntime,
+            wo_activated: wo.woActivated,
+            wo_status: wo.woStatus,
+            wo_rel_date: wo.woRelDate,
+            wo_user: wo.woUser,
+          };
+        });
 
-          return { ...woDataNew[0] };
-        }) /* ,
+        return { ...woDataNew[0] };
+      }) /* ,
 
         tap({
           next: (data) => console.log(data),
           error: (error) => console.error(error),
         }) */
-      );
+    );
   }
 
   fetchLad(id: number) {}
@@ -309,71 +344,67 @@ export class DataStorageService {
   fetchWod(id: number) {}
 
   postWo(wo) {
-    return this.http.post<any>(URL + '/workorder/new', wo)
-    .pipe(
-      map(
-        (res) => {
-          const woA = res.map((data) => {
-            const wo = {wo_lot: data.woLot,
-              wo_nbr: data.woNbr,
-              wo_part: data.woPart,
-              wo_qty_ord: data.woQtyOrd,
-              wo_ord_date: data.woOrdDate,
-              wo_seq: data.woSeq,
-              wo_due_date: data.woDueDate,
-              wo_line: data.woLine,
-              wo_est_run: data.woEstRun,
-              wo_start_date: data.woStartDate,
-              wo_start_time: data.woStartTime,
-              wo_end_time: data.woEndTime,
-              wo_pld_downtime: data.woPldDowntime,
-              wo_unpld_downtime: data.woUnpldDowntime,
-              wo_activated: data.woActivated,
-              wo_status: data.woStatus,
-              wo_rel_date: data.woRelDate,
-              wo_user: data.woUser,}
-            return {...wo}
-          });
-          return { ...woA[0] };
-        }
-      )
-
-    )
+    return this.http.post<any>(URL + '/workorder/new', wo).pipe(
+      map((res) => {
+        const woA = res.map((data) => {
+          const wo = {
+            wo_lot: data.woLot,
+            wo_nbr: data.woNbr,
+            wo_part: data.woPart,
+            wo_qty_ord: data.woQtyOrd,
+            wo_ord_date: data.woOrdDate,
+            wo_seq: data.woSeq,
+            wo_due_date: data.woDueDate,
+            wo_line: data.woLine,
+            wo_est_run: data.woEstRun,
+            wo_start_date: data.woStartDate,
+            wo_start_time: data.woStartTime,
+            wo_end_time: data.woEndTime,
+            wo_pld_downtime: data.woPldDowntime,
+            wo_unpld_downtime: data.woUnpldDowntime,
+            wo_activated: data.woActivated,
+            wo_status: data.woStatus,
+            wo_rel_date: data.woRelDate,
+            wo_user: data.woUser,
+          };
+          return { ...wo };
+        });
+        return { ...woA[0] };
+      })
+    );
   }
   updateWo(wo) {
     console.log(wo);
     let lot: number = +wo.wo_lot;
-    let vegpont =  URL + '/workorder/update';
-    return this.http.put<any>(vegpont, wo)
-    .pipe(
-      map(
-        (res) => {
-          const woA = res.map((data) => {
-            const wo = {wo_lot: data.woLot,
-              wo_nbr: data.woNbr,
-              wo_part: data.woPart,
-              wo_qty_ord: data.woQtyOrd,
-              wo_ord_date: data.woOrdDate,
-              wo_seq: data.woSeq,
-              wo_due_date: data.woDueDate,
-              wo_line: data.woLine,
-              wo_est_run: data.woEstRun,
-              wo_start_date: data.woStartDate,
-              wo_start_time: data.woStartTime,
-              wo_end_time: data.woEndTime,
-              wo_pld_downtime: data.woPldDowntime,
-              wo_unpld_downtime: data.woUnpldDowntime,
-              wo_activated: data.woActivated,
-              wo_status: data.woStatus,
-              wo_rel_date: data.woRelDate,
-              wo_user: data.woUser,}
-            return {...wo}
-          });
-          return { ...woA[0] };
-        }
-      )
-
-    )
+    let vegpont = URL + '/workorder/update';
+    return this.http.put<any>(vegpont, wo).pipe(
+      map((res) => {
+        const woA = res.map((data) => {
+          const wo = {
+            wo_lot: data.woLot,
+            wo_nbr: data.woNbr,
+            wo_part: data.woPart,
+            wo_qty_ord: data.woQtyOrd,
+            wo_ord_date: data.woOrdDate,
+            wo_seq: data.woSeq,
+            wo_due_date: data.woDueDate,
+            wo_line: data.woLine,
+            wo_est_run: data.woEstRun,
+            wo_start_date: data.woStartDate,
+            wo_start_time: data.woStartTime,
+            wo_end_time: data.woEndTime,
+            wo_pld_downtime: data.woPldDowntime,
+            wo_unpld_downtime: data.woUnpldDowntime,
+            wo_activated: data.woActivated,
+            wo_status: data.woStatus,
+            wo_rel_date: data.woRelDate,
+            wo_user: data.woUser,
+          };
+          return { ...wo };
+        });
+        return { ...woA[0] };
+      })
+    );
   }
   deleteWo(id: number) {}
 
