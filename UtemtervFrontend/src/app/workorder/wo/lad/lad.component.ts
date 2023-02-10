@@ -62,7 +62,7 @@ export class LadComponent implements OnInit, OnDestroy {
               
               
               if(this.woService.woError === null){
-                console.log("ures");
+                
                 
                 this.woService.setLadData([])
             }

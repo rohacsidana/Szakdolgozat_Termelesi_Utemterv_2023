@@ -1,4 +1,4 @@
-alter trigger SzerkFelv on ps_mstr
+create trigger SzerkFelv on ps_mstr
 instead of insert
 as
 begin
@@ -18,4 +18,4 @@ end
 go
 
 --test
-insert into PS_MSTR values (1019, 1017, 5)
+--insert into PS_MSTR values (1019, 1017, 5)
