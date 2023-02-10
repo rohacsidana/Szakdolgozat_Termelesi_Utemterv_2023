@@ -24,7 +24,6 @@ export interface XWo {
   wo_end_time: string;
   wo_pld_downtime: string;
   wo_unpld_downtime: string;
-  wo_activated: boolean;
 }
 
 export interface User {
@@ -124,4 +123,5 @@ export type DataTables =
   | Ld
   | Ln
   | Lnd
-  | Chg;
+  | Chg
+  | XWo;

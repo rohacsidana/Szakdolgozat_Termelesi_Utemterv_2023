@@ -21,12 +21,17 @@
         (click)="selectRow(item)"
         style="cursor: pointer"
       >
-        <td *ngFor="let col of item | keyvalue : natural">
+        <td *ngFor="let col of item | keyvalue : natural; let index = index">
           <!-- {{ col.value }} -->
-          <div *ngIf="isDate(col.value)">
-            {{ col.value.toISOString().split("T")[0] }}
+          <div *ngIf="!!!headers[index].input; else inp">
+            <div *ngIf="isDate(col.value)">
+              {{ col.value.toISOString().split("T")[0] }}
+            </div>
+            <div *ngIf="!isDate(col.value)">{{ col.value }}</div>
           </div>
-          <div *ngIf="!isDate(col.value)">{{ col.value }}</div>
+          <ng-template #inp>
+              <input [type]="headers[index].input.type" [value]="col.value">
+          </ng-template>
         </td>
       </tr>
     </tbody>
