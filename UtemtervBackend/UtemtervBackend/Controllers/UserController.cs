@@ -26,7 +26,7 @@ namespace UtemtervBackend.Controllers
         {
             try
             {
-                var userList = _context.UserLists.ToList();
+                var userList = _context.Users.ToList();
 
                 if (userList.Count() == 0)
                 {
@@ -35,9 +35,9 @@ namespace UtemtervBackend.Controllers
                 }
                 return Ok(userList);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, "An Error has occured.");
+                return StatusCode(404,e);
             }
         }
         [EnableCors]
@@ -63,7 +63,6 @@ namespace UtemtervBackend.Controllers
             try
             {
                 var updateUser = _context.Database.ExecuteSqlInterpolated($"updateUser {user.UserID}, {user.Name}, {user.BirthDate}, {user.Email}, {CreateMD5(user.Password)}, {user.Post}");
-               // var updateUser = _context.Database.ExecuteSqlInterpolated($"updateUser {220}, {"VDSVSDVVVVVVVVVV"}, {"20020202"}, {"a@g.v"}, {CreateMD5("ucés")}, {8}");
                 return Ok(updateUser);
             }
             catch (Exception e)

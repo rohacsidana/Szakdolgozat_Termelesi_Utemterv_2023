@@ -42,7 +42,7 @@ public partial class UtemtervContext : DbContext
 
     public virtual DbSet<XwoHist> XwoHists { get; set; }
 
-    public virtual DbSet<UserList> UserLists { get; set; }
+    //public virtual DbSet<UserList> UserLists { get; set; }
 
     public virtual DbSet<LdList> LdLists { get; set; }
 
@@ -447,31 +447,31 @@ public partial class UtemtervContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__XWO_HIST__xwo_lo__6A30C649");
         });
-        modelBuilder.Entity<UserList>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("userList");
+        //modelBuilder.Entity<UserList>(entity =>
+        //{
+        //    entity
+        //        .HasNoKey()
+        //        .ToView("userList");
 
-            entity.Property(e => e.BirthDate)
-                .HasColumnType("date")
-                .HasColumnName("birth_date");
-            entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("email");
-            entity.Property(e => e.Name)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("name");
-            entity.Property(e => e.Post)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("post");
-            entity.Property(e => e.UserId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("user_id");
-        });
+        //    entity.Property(e => e.BirthDate)
+        //        .HasColumnType("date")
+        //        .HasColumnName("birth_date");
+        //    entity.Property(e => e.Email)
+        //        .HasMaxLength(50)
+        //        .IsUnicode(false)
+        //        .HasColumnName("email");
+        //    entity.Property(e => e.Name)
+        //        .HasMaxLength(30)
+        //        .IsUnicode(false)
+        //        .HasColumnName("name");
+        //    entity.Property(e => e.Post)
+        //        .HasMaxLength(10)
+        //        .IsUnicode(false)
+        //        .HasColumnName("post");
+        //    entity.Property(e => e.UserId)
+        //        .ValueGeneratedOnAdd()
+        //        .HasColumnName("user_id");
+        //});
         modelBuilder.Entity<LdList>(entity =>
         {
             entity

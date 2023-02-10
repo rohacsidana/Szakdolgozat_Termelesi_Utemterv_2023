@@ -1,1 +1,0 @@
-create view userListasselect "user_id", "name", birth_date, email, postfrom "USER"

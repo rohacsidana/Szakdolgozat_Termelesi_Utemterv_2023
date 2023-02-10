@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Lnd } from '../shared/interfaces';
+import { LnService } from '../ln/ln.service';
 
 
 @Injectable(
@@ -8,6 +9,8 @@ import { Lnd } from '../shared/interfaces';
 )
 export class LndService {
     lndChanged = new Subject<Lnd[]>()
+
+    constructor(private lnService: LnService) {}
 
     private rates: Lnd[] = [
         /* {lnd_line: 'lnd_1', lnd_part: 1, lnd_rate: 20},
@@ -60,5 +63,9 @@ export class LndService {
         if (index >= 0) {
             return true
         }
+    }
+
+    doesLineExists(line: string) {
+        return this.lnService.doesLnExist(line)
     }
 }

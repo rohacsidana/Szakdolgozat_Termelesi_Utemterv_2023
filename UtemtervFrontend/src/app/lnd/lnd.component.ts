@@ -5,12 +5,13 @@ import { DataTableService } from '../data-table/data-table.service';
 import { Lnd } from '../shared/interfaces';
 import { LndService } from './lnd.service';
 import { DataStorageService } from '../shared/data-storage.service';
+import { LnService } from '../ln/ln.service';
 
 @Component({
   selector: 'app-lnd',
   templateUrl: './lnd.component.html',
   styleUrls: ['./lnd.component.css'],
-  providers: [DataTableService, LndService, DataStorageService],
+  providers: [DataTableService, LndService, DataStorageService, LnService],
 })
 export class LndComponent implements OnInit, OnDestroy {
   edit = false;
@@ -20,6 +21,7 @@ export class LndComponent implements OnInit, OnDestroy {
   line: string;
   part: number;
   rate: number;
+  errorMessage: string
 
   newLnd = false;
 
@@ -37,10 +39,14 @@ export class LndComponent implements OnInit, OnDestroy {
   constructor(
     private dtService: DataTableService,
     private lndService: LndService,
-    private dsService: DataStorageService
+    private dsService: DataStorageService,
+    private lnService: LnService
   ) {}
 
   ngOnInit(): void {
+    /* console.log(this.lnService.doesLnExist('ln_1'));
+    console.log(this.lnService.getLines()); */
+    
     this.dsService.fetchLnds()
 
     this.rates = this.lndService.getRates();
@@ -58,6 +64,8 @@ export class LndComponent implements OnInit, OnDestroy {
       console.log('kiválasztottad ezt:');
       console.log(this.selectedLnd);
     });
+
+    this.errorMessage = 'Ismeretlen hiba történt!'
   }
 
   ngOnDestroy(): void {
@@ -96,12 +104,18 @@ export class LndComponent implements OnInit, OnDestroy {
     let l = value.lineInput;
     let p = value.partInput;
     let r = value.rateInput;
-
-    if (!this.lndService.doesLndExist(l, p)) {
-      this.lndService.newRate({ lnd_line: l, lnd_part: p, lnd_rate: r });
-      this.clearForm(form);
+    
+    if (this.lndService.doesLineExists(l)) {
+      if (!this.lndService.doesLndExist(l, p)) {
+        //this.lndService.newRate({ lnd_line: l, lnd_part: p, lnd_rate: r });
+        this.dsService.newLnd({lnd_line: l, lnd_part: p, lnd_rate: r})
+        this.clearForm(form);
+      } else {
+        this.errorMessage = `Már szerepel a(z) "${l}" gyártósor "${p}" tétellel!`
+        this.validForm = false;
+      }
     } else {
-      this.validForm = false;
+      this.validForm = false
     }
     console.log(this.lndService.getRates());
   }

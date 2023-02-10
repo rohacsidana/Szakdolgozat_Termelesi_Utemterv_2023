@@ -29,7 +29,7 @@
             <td>
               <p style="color: red;" *ngIf="!f.valid && (newLnd || edit)">Az összes mező kötelező!</p>
               <p style="color: red;" *ngIf="!validForm ">
-                Már szerepel a(z) "{{line}}" gyártósor "{{part}}" tétellel!</p>
+                {{errorMessage}}</p>
                 <!-- Új lnd -->
               <div *ngIf="!newLnd && !edit">
                 <button class="btn btn-primary" (click)="newLnd = true">
