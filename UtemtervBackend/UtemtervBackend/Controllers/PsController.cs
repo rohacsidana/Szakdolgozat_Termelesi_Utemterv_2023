@@ -71,14 +71,14 @@ namespace UtemtervBackend.Controllers
         }
 
         [EnableCors]
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{par}/{comp}")]
 
 
-        public IActionResult deleteUser([FromBody] DeletePs ps)
+        public IActionResult deleteUser(int par, int comp)
         {
             try
             {
-                var numberOfDeleted = _context.Database.ExecuteSqlRaw($"deletePs {ps.PsPar}, {ps.PsComp}");
+                var numberOfDeleted = _context.Database.ExecuteSqlRaw($"deletePs {par}, {comp}");
                 return Ok(numberOfDeleted);
             }
             catch (Exception e)

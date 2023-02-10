@@ -12,10 +12,8 @@ export class PartStrService {
 
   setPartStrs(psData: Ps[]) {
     console.log('setting ps');
-
     this.partStrData = psData;
     //console.log(this.partStrData);
-
     this.partStrDataChanged.next(this.partStrData.slice());
   }
 

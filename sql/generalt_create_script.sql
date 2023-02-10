@@ -1,3 +1,4 @@
+--create database Utemterv
 USE [Utemterv]
 GO
 /****** Object:  UserDefinedFunction [dbo].[getTypeDic]    Script Date: 2023.02.10. 12:43:55 ******/
