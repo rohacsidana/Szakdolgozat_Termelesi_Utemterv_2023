@@ -76,10 +76,10 @@ namespace UtemtervBackend.Controllers
                     return Ok(vlmi);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
-                return StatusCode(404, e);
+                return StatusCode(404, "An error has occured.");
             }
         }
 
@@ -93,7 +93,7 @@ namespace UtemtervBackend.Controllers
                         ;
                 return Ok(vlmi);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return StatusCode(404, "An error has occured.");
             }

@@ -1,5 +1,5 @@
 create proc segedSzerk
-	@part
+	@part int
 as
 
 with seged(part, par, szint)
