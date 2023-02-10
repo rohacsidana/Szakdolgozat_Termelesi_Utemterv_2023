@@ -25,7 +25,7 @@ namespace UtemtervBackend.Controllers
             try
             {
                 var gysList =
-            _context.LnLists.ToList();
+            _context.LnMstrs.ToList();
 
                 if (gysList.Count() == 0)
                 {
@@ -99,7 +99,6 @@ namespace UtemtervBackend.Controllers
         public string LnLine { get; set; }
         public string LnDesc { get; set; }  
     }
-
     public class UpdateLn
     {
         public string Line { get; set; }

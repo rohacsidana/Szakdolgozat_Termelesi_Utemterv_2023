@@ -45,8 +45,6 @@ public partial class UtemtervContext : DbContext
     public virtual DbSet<UserList> UserLists { get; set; }
 
     public virtual DbSet<LdList> LdLists { get; set; }
-    
-    public virtual DbSet<LnList> LnLists { get; set; }
 
     public virtual DbSet<VwWod> VwWods { get; set; }
 
@@ -494,22 +492,6 @@ public partial class UtemtervContext : DbContext
             entity.Property(e => e.LdQtyScrp)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("ld_qty_scrp");
-        });
-        modelBuilder.Entity<LnList>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("lnList");
-
-
-            entity.Property(e => e.LnDesc)
-                .HasMaxLength(24)
-                .IsUnicode(false)
-                .HasColumnName("ln_desc");
-            entity.Property(e => e.LnLine)
-                .HasMaxLength(8)
-                .IsUnicode(false)
-                .HasColumnName("ln_line");
         });
 
         modelBuilder.Entity<VwWod>(entity =>

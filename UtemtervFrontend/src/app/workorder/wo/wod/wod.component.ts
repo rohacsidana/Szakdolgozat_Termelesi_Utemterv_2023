@@ -3,7 +3,7 @@ import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
 import { ActivatedRoute, ActivatedRouteSnapshot, Params, Route } from "@angular/router";
 import { Subscription, throwError } from "rxjs";
-import { tap} from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import * as DataTableService from "src/app/data-table/data-table.service";
 import { DataStorageService } from "src/app/shared/data-storage.service";
 import { Wod } from "src/app/shared/interfaces";
@@ -24,10 +24,10 @@ export class WodComponent implements OnInit, OnDestroy {
     { name: 'part_name', szoveg: 'Tétetel név' },
     { name: 'wod_par', szoveg: 'Szülő tétel' },
     { name: 'par_name', szoveg: 'Szülő név' },
-    { name: 'wod_qty_req', szoveg: 'Szükséges menny.' },  
+    { name: 'wod_qty_req', szoveg: 'Szükséges menny.' },
     { name: 'part_um', szoveg: 'Mértékegység' },
-    { name: 'wod_qty_compl', szoveg: 'Kész egység', input: {type: "number"} },
-    { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység', input: {type: "number"} },
+    { name: 'wod_qty_compl', szoveg: 'Kész egység', input: { type: "number" } },
+    { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység', input: { type: "number" } },
   ];
 
   sortSub: Subscription;
@@ -42,35 +42,33 @@ export class WodComponent implements OnInit, OnDestroy {
     this.wodSub = this.woService.wodDataChanged.subscribe(
       (data: Wod[]) => {
         this.wodData = data;
-        if(!!this.lastSort){
+        if (!!this.lastSort) {
           this.sortedWodData = this.wodData.slice();
           this.sortData(this.lastSort);
-        }else{
+        } else {
           this.sortedWodData = this.wodData.slice();
           this.dtTblService.dataChanged.next(this.sortedWodData.slice());
         }
       }
     );
     this.route.params.subscribe(
-      (params: Params)=>{
+      (params: Params) => {
         this.lot = +params["lot"];
         this.DataStorageService.fetchWod(this.lot)
-        .pipe(
-          tap({
-            next: data => this.woService.setWodData(data.slice()),
-            error: error => {
-              
-              
-              if(this.woService.woError === null){
-                console.log("ures");
-                
-                this.woService.setWodData([])
-            }
-            return throwError(error.error);
-          }
-          })
-        )
-        .subscribe();;
+          .pipe(
+            tap({
+              next: data => this.woService.setWodData(data.slice()),
+              error: error => {
+
+
+                if (this.woService.woError === null) {
+                  this.woService.setWodData([])
+                }
+                return throwError(error.error);
+              }
+            })
+          )
+          .subscribe();
       }
     );
 
@@ -85,7 +83,7 @@ export class WodComponent implements OnInit, OnDestroy {
 
 
   sortData(sort: Sort) {
-    if(!!!this.lastSort){
+    if (!!!this.lastSort) {
 
     }
     const data = this.wodData.slice();

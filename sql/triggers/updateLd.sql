@@ -1,4 +1,4 @@
-alter trigger updatedLd on ld_det
+create trigger updatedLd on ld_det
 after update
 as
 	declare @ujOh decimal(18,5),@part int, @regiOh decimal(18,5), @kulonbseg decimal(18,5);

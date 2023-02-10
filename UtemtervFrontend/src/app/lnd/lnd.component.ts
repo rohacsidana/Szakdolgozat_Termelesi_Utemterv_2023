@@ -4,12 +4,13 @@ import { Subscription } from 'rxjs';
 import { DataTableService } from '../data-table/data-table.service';
 import { Lnd } from '../shared/interfaces';
 import { LndService } from './lnd.service';
+import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
   selector: 'app-lnd',
   templateUrl: './lnd.component.html',
   styleUrls: ['./lnd.component.css'],
-  providers: [DataTableService, LndService],
+  providers: [DataTableService, LndService, DataStorageService],
 })
 export class LndComponent implements OnInit, OnDestroy {
   edit = false;
@@ -35,10 +36,13 @@ export class LndComponent implements OnInit, OnDestroy {
 
   constructor(
     private dtService: DataTableService,
-    private lndService: LndService
+    private lndService: LndService,
+    private dsService: DataStorageService
   ) {}
 
   ngOnInit(): void {
+    this.dsService.fetchLnds()
+
     this.rates = this.lndService.getRates();
     this.dtService.emitDataChanged(this.rates.slice());
     /* A data-table-ben figyeli a változást */
