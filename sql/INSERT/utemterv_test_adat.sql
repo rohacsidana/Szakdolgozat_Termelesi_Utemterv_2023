@@ -47,8 +47,8 @@ insert into "USER" (name, birth_date, email, password, post) values ('Correna De
 --DBCC CHECKIDENT ('user', RESEED, 0);
 GO
 exec newWo 'rend1', 1000, 10, '20230112'
-exec newWo 'rend12', 1000, 10, '20230112'
-exec newWo 'rend13', 1000, 10, '20230112'
+exec newWo 'rend12', 1020, 10, '20230112'
+-- exec newWo 'rend13', 1001, 10, '20230112'--teszt
 exec newWo 'rend14', 1000, 10, '20230112'
 exec newWo 'rend15', 1000, 10, '20230112'
 exec newWo 'rend16', 1000, 10, '20230112'

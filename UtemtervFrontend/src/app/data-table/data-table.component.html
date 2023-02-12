@@ -1,7 +1,5 @@
-
-
-  <div class="table-responsive">
-    <table
+<div class="table-responsive">
+  <table
     matSort
     (matSortChange)="handleSortData($event)"
     class="table table-hover"
@@ -19,11 +17,11 @@
     </thead>
     <tbody>
       <tr
-      *ngFor="let item of viewData"
+        *ngFor="let item of viewData"
         (click)="selectRow(item)"
         style="cursor: pointer"
       >
-        <td *ngFor="let col of item | keyvalue : natural; let index = index">
+        <td *ngFor="let col of item | keyvalue : natural; let index = index; trackBy: trackByFn">
           <!-- {{ col.value }} -->
           <div *ngIf="!!!headers[index].input; else inp">
             <div *ngIf="isDate(col.value)">
@@ -32,7 +30,12 @@
             <div *ngIf="!isDate(col.value)">{{ col.value }}</div>
           </div>
           <ng-template #inp>
-              <input [type]="headers[index].input.type" [(ngModel)]="col.value" [value]="col.value">
+            <input
+              [type]="headers[index].input.type"
+              [(ngModel)]="item[col.key] = +item[col.key]"
+              [value]="+item[col.key]"
+               
+            />
           </ng-template>
         </td>
       </tr>
@@ -40,13 +43,12 @@
   </table>
 </div>
 <mat-paginator
-[pageSizeOptions]="pageSizeOptions"
-[pageIndex]="pageIndex"
-[length]="length"
-showFirstLastButtons
+  [pageSizeOptions]="pageSizeOptions"
+  [pageIndex]="pageIndex"
+  [length]="length"
+  showFirstLastButtons
   aria-label="Select page of periodic elements"
   (page)="handlePageEvent($event)"
   style="background-color: rgb(250, 250, 250)"
-  >
+>
 </mat-paginator>
-

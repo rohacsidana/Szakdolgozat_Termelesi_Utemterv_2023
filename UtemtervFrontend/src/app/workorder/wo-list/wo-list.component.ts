@@ -61,7 +61,7 @@ export class WoListComponent implements OnInit, OnDestroy {
                     this.sortData(this.lastSort);
                 } else {
                     this.sortedWoData = this.woData.slice();
-                    this.dtTblService.dataChanged.next(this.sortedWoData.slice());
+                    this.dtTblService.emitDataChanged(this.sortedWoData.slice());
                 }
             }
         );
@@ -94,7 +94,7 @@ export class WoListComponent implements OnInit, OnDestroy {
         const data = this.woData.slice();
         if (!sort.active || sort.direction === '') {
             this.sortedWoData = data;
-            this.dtTblService.dataChanged.next(this.sortedWoData.slice());
+            this.dtTblService.emitDataChanged(this.sortedWoData.slice());
             return;
         }
 
@@ -141,7 +141,7 @@ export class WoListComponent implements OnInit, OnDestroy {
         });
 
         this.sortedWoData = data.slice();
-        this.dtTblService.dataChanged.next(this.sortedWoData.slice());
+        this.dtTblService.emitDataChanged(this.sortedWoData.slice());
     }
 
     compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -156,7 +156,7 @@ export class WoListComponent implements OnInit, OnDestroy {
         const data = this.sortedWoData.slice();
         let filter = arg.toString();
         const results = data.filter(value => value.wo_lot.toString().includes(filter));
-        this.dtTblService.dataChanged.next(results.slice());
+        this.dtTblService.emitDataChanged(results.slice());
     }
 
 }

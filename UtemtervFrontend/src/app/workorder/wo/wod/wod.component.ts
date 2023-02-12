@@ -49,7 +49,7 @@ export class WodComponent implements OnInit, OnDestroy {
           this.sortData(this.lastSort);
         } else {
           this.sortedWodData = this.wodData.slice();
-          this.dtTblService.dataChanged.next(this.sortedWodData.slice());
+          this.dtTblService.emitDataChanged(this.sortedWodData.slice());
         }
       }
     );
@@ -82,16 +82,10 @@ export class WodComponent implements OnInit, OnDestroy {
     );
 
 
-    this.dtSub = this.dtTblService.changedData.subscribe(
-      (data: Wod[]) => {
-        this.wodData = data;
-        this.woService.setWodData(this.wodData);
-      }
-    );
 
     this.woGetSub = this.woService.getDataFromTable.subscribe(
       () => {
-        this.dtTblService.getchangedData.next();
+       this.woService.setWodData(this.dtTblService.getChangedData());
       }
     );
 
@@ -105,7 +99,7 @@ export class WodComponent implements OnInit, OnDestroy {
     const data = this.wodData.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedWodData = data;
-      this.dtTblService.dataChanged.next(this.sortedWodData.slice());
+      this.dtTblService.emitDataChanged(this.sortedWodData.slice());
       return;
     }
 
@@ -134,7 +128,7 @@ export class WodComponent implements OnInit, OnDestroy {
     });
 
     this.sortedWodData = data.slice();
-    this.dtTblService.dataChanged.next(this.sortedWodData.slice());
+    this.dtTblService.emitDataChanged(this.sortedWodData.slice());
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
