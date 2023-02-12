@@ -35,7 +35,6 @@ export class WodComponent implements OnInit, OnDestroy {
   sortedWodData: Wod[];
   lastSort: Sort;
   lot: number;
-  dtSub: Subscription;
   woGetSub: Subscription;
   constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private route: ActivatedRoute, private DataStorageService: DataStorageService) {
   }
@@ -137,7 +136,6 @@ export class WodComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.woGetSub.unsubscribe();
-    this.dtSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.wodSub.unsubscribe();
   }

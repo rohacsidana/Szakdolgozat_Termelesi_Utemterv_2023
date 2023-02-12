@@ -34,7 +34,6 @@ export class LadComponent implements OnInit, OnDestroy {
 
   sortSub: Subscription;
   ladSub: Subscription;
-  dtSub: Subscription;
   woGetSub: Subscription;
   constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private dataStorageService: DataStorageService, private route: ActivatedRoute) {
    
@@ -135,7 +134,6 @@ export class LadComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.woGetSub.unsubscribe();
-    this.dtSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.ladSub.unsubscribe();
   }
