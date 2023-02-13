@@ -54,7 +54,7 @@ export class UserComponent implements OnInit, OnDestroy {
         if (!!this.lastSort) {
           this.sortData(this.lastSort);
         } else {
-          this.dtTblService.dataChanged.next(this.sortedUserData.slice());
+          this.dtTblService.emitDataChanged(this.sortedUserData.slice());
         }
       }
     );

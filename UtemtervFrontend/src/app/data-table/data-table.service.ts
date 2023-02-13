@@ -3,29 +3,23 @@ import { Sort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 import { DataTables } from '../shared/interfaces';
 
-
-
 @Injectable()
 export class DataTableService {
+  data: DataTables[] = [];
   dataChanged = new Subject<DataTables[]>();
   getData = new Subject<any>();
   selectRow = new Subject<DataTables>();
   sortData = new Subject<Sort>();
-  getchangedData = new Subject<any>();
-  changedData = new Subject<DataTables[]>();
-  
-  emitDataChanged(data: DataTables[]) {
 
-    this.dataChanged.next(data);
+  getChangedData(): DataTables[]{
+    return this.data.slice();
   }
-
-  getDataEmit() {
-    this.getData.next();
+  emitDataChanged(data: DataTables[]) {
+    this.data = data.slice();
+    this.dataChanged.next(this.data);
   }
 
   emitSelectedRow(data: DataTables) {
     this.selectRow.next(data);
   }
 }
-
-

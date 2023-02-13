@@ -59,7 +59,7 @@ export class XWoCoponent implements OnInit {
     }
 
     ngOnInit() {
-        this.datatableservice.dataChanged.next(this.woData.slice());
+        this.datatableservice.emitDataChanged(this.woData.slice());
     }
 }
 /*

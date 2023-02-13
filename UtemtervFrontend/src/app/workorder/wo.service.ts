@@ -53,12 +53,12 @@ export class WoService {
         this.woDataChanged.next(this.woData.slice());
     }
 
-    setLadData(ladData: Lad[]) {
+    setLadData(ladData) {
         this.ladData = ladData.slice();
         this.ladDataChanged.next(this.ladData.slice());
     }
 
-    setWodData(wodData: Wod[]) {
+    setWodData(wodData) {
         this.wodData = wodData.slice();
         this.wodDataChanged.next(this.wodData.slice());
     }

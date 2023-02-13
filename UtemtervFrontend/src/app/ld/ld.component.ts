@@ -64,7 +64,7 @@ export class LdComponent implements OnInit, OnDestroy {
         if (!!this.lastSort) {
           this.sortData(this.lastSort);
         } else {
-          this.dtTblService.dataChanged.next(this.sortedLdData.slice());
+          this.dtTblService.emitDataChanged(this.sortedLdData.slice());
         }
       }
     );

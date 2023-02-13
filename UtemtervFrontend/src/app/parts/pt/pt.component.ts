@@ -56,7 +56,7 @@ export class PtComponent {
         if (!!this.lastSort) {
           this.sortData(this.lastSort);
         } else {
-          this.dtTblService.dataChanged.next(this.sortedPartData.slice());
+          this.dtTblService.emitDataChanged(this.sortedPartData.slice());
         }
       }
     );

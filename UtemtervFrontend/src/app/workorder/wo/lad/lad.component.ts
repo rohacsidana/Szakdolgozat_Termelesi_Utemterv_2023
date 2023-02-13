@@ -34,7 +34,6 @@ export class LadComponent implements OnInit, OnDestroy {
 
   sortSub: Subscription;
   ladSub: Subscription;
-  dtSub: Subscription;
   woGetSub: Subscription;
   constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private dataStorageService: DataStorageService, private route: ActivatedRoute) {
    
@@ -50,7 +49,7 @@ export class LadComponent implements OnInit, OnDestroy {
           this.sortData(this.lastSort);
         }else{
           this.sortedLadData = this.ladData.slice();
-          this.dtTblService.dataChanged.next(this.sortedLadData.slice());
+          this.dtTblService.emitDataChanged(this.sortedLadData.slice());
         }
       }
     );
@@ -78,7 +77,7 @@ export class LadComponent implements OnInit, OnDestroy {
     );
  
 
-    this.dtTblService.dataChanged.next(this.sortedLadData.slice());
+    this.dtTblService.emitDataChanged(this.sortedLadData.slice());
     this.sortSub = this.dtTblService.sortData.subscribe(
       (sort: Sort) => {
         this.lastSort = sort;
@@ -86,15 +85,10 @@ export class LadComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.dtSub = this.dtTblService.changedData.subscribe(
-      (data: Lad[])=>{
-        this.ladData = data;
-        this.woService.setLadData(this.ladData);
-      }
-    );
+
     this.woGetSub = this.woService.getDataFromTable.subscribe(
       ()=>{
-        this.dtTblService.getchangedData.next();
+       this.woService.setLadData(this.dtTblService.getChangedData());
       }
     );
   }
@@ -103,7 +97,7 @@ export class LadComponent implements OnInit, OnDestroy {
     const data = this.ladData.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedLadData = data;
-      this.dtTblService.dataChanged.next(this.sortedLadData.slice());
+      this.dtTblService.emitDataChanged(this.sortedLadData.slice());
       return;
     }
 
@@ -131,7 +125,7 @@ export class LadComponent implements OnInit, OnDestroy {
     });
 
     this.sortedLadData = data.slice();
-    this.dtTblService.dataChanged.next(this.sortedLadData.slice());
+    this.dtTblService.emitDataChanged(this.sortedLadData.slice());
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -139,7 +133,7 @@ export class LadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.dtSub.unsubscribe();
+    this.woGetSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.ladSub.unsubscribe();
   }
