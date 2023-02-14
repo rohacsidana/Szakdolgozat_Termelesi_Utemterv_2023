@@ -1,4 +1,4 @@
-create function dbo.ptFaStruktura (@ps_par int)
+alter function dbo.ptFaStruktura (@ps_par int)
 returns @szerkezet table (ps_par int, ps_comp int, szint int)
 as
 begin

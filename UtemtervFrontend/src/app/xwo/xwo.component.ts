@@ -34,7 +34,8 @@ export class XWoCoponent implements OnInit {
 
     xwoHeaders: {
         name: string, szoveg: string, input?: {
-            type: string
+            type: string;
+            step?: number;
         }
     }[] = [
             { name: "wo_lot", szoveg: "GYR azon" },
@@ -47,7 +48,7 @@ export class XWoCoponent implements OnInit {
             { name: "ln_desc", szoveg: "Gyártósor megnevezés" },
             { name: "item_per_hour", szoveg: "Óránkénti elkészülési egység" },
             { name: "wo_est_run", szoveg: "Várható elkészülési idő" },
-            { name: "wo_seq", szoveg: "sorrend", input: { type: "number" } },
+            { name: "wo_seq", szoveg: "sorrend", input: { type: "number", step: 10 } },
             { name: "wo_rel_date", szoveg: "Kibocsátási dátum" },
             { name: "wo_start_date", szoveg: "Esedékesség dátum" },
             { name: "wo_start_time", szoveg: "Kezdési idő" },

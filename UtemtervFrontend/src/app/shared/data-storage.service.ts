@@ -65,9 +65,9 @@ export class DataStorageService {
               wo_seq: data.woSeq,
               wo_qty_ord: data.woQtyOrd,
               wo_ord_date: data.woOrdDate,
-              wo_due_date: data.woDueDate,
-              wo_start_date: data.woStartDate,
-              wo_rel_date: data.woRelDate,
+              wo_due_date: data.woDueDate === null ? null :   (new Date(data.woDueDate)).toISOString().split('T')[0],
+              wo_start_date: data.woStartDate === null ? null :  (new Date(data.woStartDate)).toISOString().split('T')[0],
+              wo_rel_date: data.woRelDate === null ? null : (new Date(data.woRelDate)).toISOString().split('T')[0],
               wo_est_run: data.woEstRun,
               wo_start_time: data.woStartTime,
               wo_end_time: data.woEndTime,
@@ -394,26 +394,26 @@ export class DataStorageService {
     /* let api = "workorder/" + id; */
     return this.http.get<WoResponse[]>(URL + '/workorder/' + id).pipe(
       map((woData) => {
-        const woDataNew: Wo[] = woData.map((wo) => {
+        const woDataNew: Wo[] = woData.map((data) => {
           return {
-            wo_lot: wo.woLot,
-            wo_nbr: wo.woNbr,
-            wo_part: wo.woPart,
-            wo_qty_ord: wo.woQtyOrd,
-            wo_ord_date: wo.woOrdDate,
-            wo_seq: wo.woSeq,
-            wo_due_date: wo.woDueDate,
-            wo_line: wo.woLine,
-            wo_est_run: wo.woEstRun,
-            wo_start_date: wo.woStartDate,
-            wo_start_time: wo.woStartTime,
-            wo_end_time: wo.woEndTime,
-            wo_pld_downtime: wo.woPldDowntime,
-            wo_unpld_downtime: wo.woUnpldDowntime,
-            wo_activated: wo.woActivated,
-            wo_status: wo.woStatus,
-            wo_rel_date: wo.woRelDate,
-            wo_user: wo.woUser,
+            wo_lot: data.woLot,
+            wo_nbr: data.woNbr,
+            wo_part: data.woPart,
+            wo_qty_ord: data.woQtyOrd,
+            wo_ord_date: data.woOrdDate,
+            wo_seq: data.woSeq,
+            wo_due_date: data.woDueDate === null ? null : (new Date(data.woDueDate)).toISOString().split('T')[0],
+            wo_line: data.woLine,
+            wo_est_run: data.woEstRun,
+            wo_start_date: data.woStartDate === null ? null :  (new Date(data.woStartDate)).toISOString().split('T')[0],
+            wo_start_time: data.woStartTime,
+            wo_end_time: data.woEndTime,
+            wo_pld_downtime: data.woPldDowntime,
+            wo_unpld_downtime: data.woUnpldDowntime,
+            wo_activated: data.woActivated,
+            wo_status: data.woStatus,
+            wo_rel_date:  data.woRelDate === null ? null :   (new Date(data.woRelDate)).toISOString().split('T')[0],
+            wo_user: data.woUser,
           };
         });
 
@@ -534,7 +534,10 @@ export class DataStorageService {
     );
   }
 
-  deleteWo(id: number) { }
+  deleteWo(id: number) {
+    return this.http.delete(URL + '/workorder'+'/delete/'  + id);
+      
+  }
 
   fetchGyartosorok() {
     this.http

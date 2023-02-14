@@ -77,7 +77,7 @@
     </button>
 
     <button
-      *ngIf="selectedMode && editing"
+      *ngIf="selectedMode && editing && (selectedWo.wo_status != null && selectedWo.wo_status == 'waiting')"
       class="btn btn-danger"
       type="button"
       (click)="delete()"
@@ -98,7 +98,7 @@
               id="order"
               name="order"
               class="form-control"
-              [disabled]="!editing"
+              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status != 'waiting' : false)"
               [(ngModel)]="woFormActData.order"
               value="woFormActData.order"
             />
@@ -112,7 +112,7 @@
               id="part"
               name="part"
               class="form-control"
-              [disabled]="!editing"
+              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status != 'waiting' : false)"
               [(ngModel)]="woFormActData.part"
               value="woFormActData.part"
             />
@@ -124,7 +124,7 @@
               name="status"
               id="status"
               class="form-control"
-              [disabled]="!editing"
+              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status == 'completed' : false) "
               [(ngModel)]="woFormActData.status"
               value="woFormActData.status"
               maxlength="10"
@@ -139,7 +139,7 @@
               name="line"
               id="line"
               class="form-control"
-              [disabled]="!editing"
+              [disabled]="!editing || (selectedWo.wo_status != null ? (selectedWo.wo_status == 'ongoing' || selectedWo.wo_status == 'completed'):false)"
               [(ngModel)]="woFormActData.line"
               value="woFormActData.line"
               maxlength="8"
@@ -153,7 +153,7 @@
               name="qtyOrd"
               id="qtyOrd"
               class="form-control"
-              [disabled]="!editing"
+              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status != 'waiting' : false)"
               [(ngModel)]="woFormActData.qtyOrd"
               value="woFormActData.qtyOrd"
             />
@@ -202,7 +202,7 @@
               name="dueDate"
               id="dueDate"
               class="form-control"
-              [disabled]="!editing"
+              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status != 'waiting' : false)"
               [(ngModel)]="woFormActData.dueDate"
               value="woFormActData.dueDate"
             />
@@ -214,7 +214,8 @@
               name="startDate"
               id="startDate"
               class="form-control"
-              [disabled]="!editing"
+              [disabled]="!editing || (selectedWo.wo_status != null ? (selectedWo.wo_status == 'ongoing' || selectedWo.wo_status == 'completed') : false)"
+              
               [(ngModel)]="woFormActData.startDate"
               value="woFormActData.startDate"
             />
@@ -274,7 +275,7 @@
               name="activated"
               id="activated"
               class="form-control"
-              [disabled]="!editing"
+              disabled
               [(ngModel)]="woFormActData.activated"
               value="woFormActData.activated"
             />
@@ -286,7 +287,7 @@
               name="relDate"
               id="relDate"
               class="form-control"
-              [disabled]="!editing"
+              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status != 'completed' : false)"
               [(ngModel)]="woFormActData.relDate"
               value="woFormActData.relDate"
             />

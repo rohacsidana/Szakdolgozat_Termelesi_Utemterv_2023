@@ -16,6 +16,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
     szoveg: string;
     input?: {
       type: string;
+      step?: number;
     };
   }[];
 
