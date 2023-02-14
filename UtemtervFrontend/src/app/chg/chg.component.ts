@@ -140,13 +140,13 @@ export class ChgComponent {
     let f = value.fromInput;
     let to = value.toInput;
     let time = value.timeInput;
-
+    
 
     this.dsService.updateChg({
       chg_line: this.selectedChg.chg_line,
       chg_from: this.selectedChg.chg_from,
       chg_to: this.selectedChg.chg_to,
-      chg_time: time
+      chg_time: time + ':00'
     })
     /* this.chgService.editChg(
       this.selectedChg.chg_line,
