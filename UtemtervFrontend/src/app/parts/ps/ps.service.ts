@@ -49,6 +49,7 @@ export class PartStrService {
   }
 
   deletePartStr(par: number, comp: number) {
+    console.log("Ps to delete:");
     console.log(this.getPartStr(par, comp));
 
     if (this.getPartStr(par, comp)) {
@@ -57,6 +58,6 @@ export class PartStrService {
         1
       );
     }
-    // this.partStrDataChanged.next(this.partStrData.slice());
+    this.partStrDataChanged.next(this.partStrData.slice());
   }
 }

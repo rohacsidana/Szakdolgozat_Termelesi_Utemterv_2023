@@ -108,15 +108,19 @@
                   </div>
                   <div class="col-xs-4">
                     <label for="email">Email:</label>
-                    <input
-                      (change)="checkEmailExistance()"
-                      type="text"
-                      name="email"
-                      id="email"
-                      class="form-control"
-                      maxlength="50"
-                      formControlName="email"
-                    />
+                    <div class="input-group">
+                      <span class="input-group-addon">@</span>
+                      <input
+                        class="form-control"
+                        (change)="checkEmailExistance()"
+                        type="text"
+                        name="email"
+                        id="email"
+                        class="form-control"
+                        maxlength="50"
+                        formControlName="email"
+                      />
+                    </div>
                   </div>
                   <div class="col-xs-4">
                     <label for="post">Besorolás:</label>

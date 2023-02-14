@@ -27,7 +27,7 @@ export class DataStorageService {
     private chgService: ChgService,
     private ptService: PartService,
     private partStrService: PartStrService
-  ) { }
+  ) {}
 
   formatDate(dateToFormat: Date): string {
     //átírom olyan formátumra, hogy érthető legyen az sql-nek --> string-ként, nem date-ként adom át
@@ -41,6 +41,8 @@ export class DataStorageService {
       (dateToFormat.getMonth() + 1) +
       dayZero +
       dateToFormat.getDate();
+
+    console.log(formattedDate);
 
     return formattedDate;
 
@@ -113,6 +115,7 @@ export class DataStorageService {
             };
             return { ...record };
           });
+
           return userData;
         }),
         tap({
@@ -146,7 +149,9 @@ export class DataStorageService {
             };
             this.userService.saveUser(u);
           },
-          error: (error) => console.log(error),
+          error: (error) => {
+            console.log(error);
+          },
         })
       );
   }
@@ -661,12 +666,12 @@ export class DataStorageService {
   }
 
   newLnd(lnd: Lnd) {
-    console.log('üdvözlet a newLn től!');
+    console.log('üdvözlet a newLnd től!');
     this.http
       .post<any>(URL + '/lnd/new', {
         lndLine: lnd.lnd_line,
         lndPart: lnd.lnd_part,
-        lndRate: lnd.lnd_rate
+        lndRate: lnd.lnd_rate,
       })
       .pipe(
         tap({
@@ -676,24 +681,24 @@ export class DataStorageService {
             let l = {
               lnd_line: res[0].lndLine,
               lnd_part: res[0].lndPart,
-              lnd_rate: res[0].lndRate
+              lnd_rate: res[0].lndRate,
             };
             console.log(l);
 
             this.lndService.newRate(l);
           },
-          error: (error) => console.log(error),
+          error: (error) => console.log(error),       
         })
       )
       .subscribe();
   }
 
   updateLnd(lnd: Lnd) {
-    console.log("Updated Lnd: " + lnd);
+    console.log('Updated Lnd: ' + lnd);
     let updatedLnd = {
       LndLine: lnd.lnd_line,
       LndPart: lnd.lnd_part,
-      LndRate: lnd.lnd_rate
+      LndRate: lnd.lnd_rate,
     };
 
     return this.http
@@ -714,7 +719,7 @@ export class DataStorageService {
   }
 
   deleteLnd(lnd: Lnd) {
-    console.log("üdv a deleteLnd ből");
+    console.log('üdv a deleteLnd ből');
 
     this.http
       .delete(URL + '/lnd/delete/' + lnd.lnd_line + '/' + lnd.lnd_part)

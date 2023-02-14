@@ -23,7 +23,10 @@ import { ChgComponent } from './chg/chg.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
@@ -42,7 +45,7 @@ import { FilterPipePipe } from './ln/filter-pipe.pipe';
 import { DataStorageService } from './shared/data-storage.service';
 import { UserService } from './user/user.service';
 import { AlertComponent } from './shared/alert/alert.component';
-
+import { HungarianPaginator } from './shared/hungarian-paginator';
 
 @NgModule({
   declarations: [
@@ -65,7 +68,7 @@ import { AlertComponent } from './shared/alert/alert.component';
     WodComponent,
     WoFormComponent,
     FilterPipePipe,
-    AlertComponent
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,7 +93,7 @@ import { AlertComponent } from './shared/alert/alert.component';
     MatSelectModule,
     MatInputModule,
   ],
-  providers: [],
+  providers: [{ provide: MatPaginatorIntl, useClass: HungarianPaginator }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

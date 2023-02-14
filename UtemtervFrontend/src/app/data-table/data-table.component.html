@@ -25,7 +25,7 @@
           <!-- {{ col.value }} -->
           <div *ngIf="!!!headers[index].input; else inp">
             <div *ngIf="isDate(col.value)">
-              {{ col.value.toISOString().split("T")[0] }}
+              {{ formatDate(col.value) }}
             </div>
             <div *ngIf="!isDate(col.value)">{{ col.value }}</div>
           </div>
@@ -34,8 +34,7 @@
               [type]="headers[index].input.type"
               [(ngModel)]="item[col.key] = +item[col.key]"
               [value]="+item[col.key]"
-               [step]="headers[index].input.step"
-            />
+               [step]="headers[index].input.step"/>
           </ng-template>
         </td>
       </tr>
