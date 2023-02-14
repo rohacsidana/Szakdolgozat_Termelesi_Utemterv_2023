@@ -1,4 +1,18 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span routerLink="/home" style="cursor: pointer" id="app-title"
+    >Termelési Ütemterv</span
+  >
+</mat-toolbar>
+
 <mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-content>
+    <!-- ide töltődik be a tartalom -->
+    <router-outlet class="responsive"></router-outlet>
+  </mat-sidenav-content>
+
   <mat-sidenav
     #drawer
     class="sidenav"
@@ -7,38 +21,21 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
   >
-    <mat-toolbar>Menü</mat-toolbar>
+    <mat-toolbar></mat-toolbar>
     <mat-nav-list>
       <!-- comp teszt -->
-      <a mat-list-item routerLink="/home">Home</a>
-      <a mat-list-item routerLink="/auth">Auth</a>
+      <a mat-list-item routerLink="/home">Kezdőlap</a>
+      <a mat-list-item routerLink="/auth">Autentikáció</a>
       <a mat-list-item routerLink="/part">Tételek</a>
       <a mat-list-item routerLink="/part/structure">Tételszerkezet</a>
       <a mat-list-item routerLink="/inventory">Készlet</a>
       <a mat-list-item routerLink="/line">Gyártósor</a>
       <a mat-list-item routerLink="/line/change">Átállásidő</a>
-      <a mat-list-item routerLink="/line/rate">lnd</a>
-      <a mat-list-item routerLink="../workorder/list">wo list</a>
-      <a mat-list-item routerLink="../workorder">wo - GYR</a>
-      <a mat-list-item routerLink="/prodsch">xwo - Termelési Ütemterv</a>
+      <a mat-list-item routerLink="/line/rate">Gyártási sebesség</a>
+      <a mat-list-item routerLink="../workorder/list">Gyártási Rendelések</a>
+      <a mat-list-item routerLink="../workorder">Gyártási Rendelés</a>
+      <a mat-list-item routerLink="/prodsch">Termelési Ütemterv</a>
       <a mat-list-item routerLink="/user">Felhasználók</a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async"
-      >
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>Termelési ütemterv</span>
-    </mat-toolbar>
-    <!-- Add Content Here -->
-    <!-- <app-user></app-user> -->
-    <router-outlet class="responsive"></router-outlet>
-  </mat-sidenav-content>
 </mat-sidenav-container>
