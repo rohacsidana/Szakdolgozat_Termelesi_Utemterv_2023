@@ -663,7 +663,7 @@ export class DataStorageService {
   }
 
   newLnd(lnd: Lnd) {
-    console.log('üdvözlet a newLn től!');
+    console.log('üdvözlet a newLnd től!');
     this.http
       .post<any>(URL + '/lnd/new', {
         lndLine: lnd.lnd_line,
@@ -684,7 +684,7 @@ export class DataStorageService {
 
             this.lndService.newRate(l);
           },
-          error: (error) => console.log(error),
+          error: (error) => console.log(error),       
         })
       )
       .subscribe();
