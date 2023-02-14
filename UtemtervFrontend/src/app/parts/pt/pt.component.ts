@@ -37,7 +37,7 @@ export class PtComponent {
     },
     { name: 'pt_desc', szoveg: 'Leírás' },
     { name: 'pt_um', szoveg: 'Mértékegység' },
-    { name: 'pt_qty_oh', szoveg: 'Mennyi van' },
+    { name: 'pt_qty_oh', szoveg: 'Készlet' },
   ];
 
   constructor(

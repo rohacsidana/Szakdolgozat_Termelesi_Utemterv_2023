@@ -223,6 +223,7 @@ export class PsComponent {
       this.partStrAlreadyExists = false;
     }
   }
+
   onNew(isNewMode: boolean) {
     /* if (isNewMode) {
       console.log('New Mode on');
@@ -232,6 +233,7 @@ export class PsComponent {
       this.newMode = false;
     } */
   }
+
   onSubmit() {
     let psInput = {
       ps_par: Number(this.myGroup.getRawValue().ps_par),
@@ -279,6 +281,7 @@ export class PsComponent {
     this.sortSub.unsubscribe();
     this.rowSelectSubscription.unsubscribe();
   }
+  
   getPartName(part: number): string {
     let i = 0;
     while (i < this.partData.length && this.partData[i].pt_part !== part) {
@@ -290,6 +293,7 @@ export class PsComponent {
       return '';
     }
   }
+
   psDataTransform(psData: Ps[]): psDisplay[] {
     /*
     console.log('------DISPLAYING DATA TO DISPLAY PS');
