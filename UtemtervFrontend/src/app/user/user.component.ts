@@ -155,6 +155,8 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    console.log(new Date(this.myGroup.getRawValue().birth_date));
+
     this.checkEmailExistance();
     if (!this.emailExists) {
       this.dataStorageService

@@ -83,7 +83,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
     this.viewData = this.data.slice(this.kezdIndex, this.vegIndex);
 
   }
-  
+
   ngOnDestroy() {
     this.dtSub.unsubscribe();
   }
@@ -93,6 +93,20 @@ export class DataTableComponent implements OnDestroy, OnInit {
   }
 
   trackByFn(index: any, item: any) {
-    return index;  
+    return index;
   }
+
+  formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 }
