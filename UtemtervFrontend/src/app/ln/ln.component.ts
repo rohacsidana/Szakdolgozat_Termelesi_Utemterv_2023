@@ -20,7 +20,6 @@ export class LnComponent implements OnInit, OnDestroy {
 
   newLn = false;
   edit = false;
-  details = false;
   deleteLn = false;
   validForm = true;
 
@@ -54,7 +53,7 @@ export class LnComponent implements OnInit, OnDestroy {
     /* Visszaadja a kiválasztott sort kattintásra */
     this.selectSub = this.dtService.selectRow.subscribe((data: Ln) => {
       this.selectedLine = data;
-      this.onViewLine();
+      this.onEditStarted();
       /* console.log('kiválasztottad ezt:');
       console.log(this.selectedLine); */
     });
@@ -81,27 +80,17 @@ export class LnComponent implements OnInit, OnDestroy {
     }
   }
 
-  onViewLine() {
-    this.validForm = true
-    this.details = true;
+  onEditStarted() {
+    this.edit = true;
     this.newLn = false;
-    this.edit = false;
+    this.deleteLn = false;
 
     this.line = this.selectedLine.ln_line;
     this.desc = this.selectedLine.ln_desc;
   }
 
-  onModositasa() {
-    this.edit = true;
-    this.newLn = false;
-    this.details = false;
-    this.deleteLn = false;
-  }
-
   onEditLine(form: NgForm) {
-    let value = form.value
-    let l = value.azonInput
-    let d = value.descInput
+    let d = form.value.descInput
 
     this.dsService.updateLn({ ln_line: this.selectedLine.ln_line, ln_desc: d })
     this.clearForm(form)
@@ -128,7 +117,6 @@ export class LnComponent implements OnInit, OnDestroy {
     this.errorMessage = 'Ismeretlen hiba történt'
     this.newLn = false;
     this.edit = false;
-    this.details = false;
     this.deleteLn = false;
     this.validForm = true;
     this.lnUsed = false

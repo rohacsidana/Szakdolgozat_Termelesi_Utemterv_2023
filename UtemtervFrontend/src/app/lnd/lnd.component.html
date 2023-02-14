@@ -20,7 +20,7 @@
             </td>
             <td>
               Gyártási sebesség*
-              <input type="number" name="rateInput" required="" [(ngModel)]="rate"
+              <input type="number" name="rateInput" required="" [min]="1" [(ngModel)]="rate"
                 [disabled]="!newLnd && !edit" />
             </td>
           </tr>

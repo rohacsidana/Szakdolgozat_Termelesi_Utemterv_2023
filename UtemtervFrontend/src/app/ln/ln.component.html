@@ -28,22 +28,22 @@
               && f.touched">A gyártósor azonosító kötelező!</p>
               <!-- gombok -->
               <!-- Új gyártósor -->
-              <div id="ujGysDiv" *ngIf="!newLn && !details && !edit">
+              <div id="ujGysDiv" *ngIf="!newLn && !edit">
                 <button type="button" class="btn btn-primary" (click)="newLn=!newLn">
                   Új gyártósor
                 </button>
               </div>
-              <div id="ujGysMentes" *ngIf="newLn && !details && !edit">
+              <div id="ujGysMentes" *ngIf="newLn && !edit">
                 <button type="submit" class="btn btn-success" [disabled]="!f.valid">Gyártósor felvétele</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
               </div>
               <!-- Részletek -->
-              <div id="gysReszlet" *ngIf="details && !newLn && !edit">
+              <!-- <div id="gysReszlet" *ngIf="details && !newLn && !edit">
                 <button type="button" class="btn btn-warning" (click)="onModositasa()">Gyártósor módosítása</button>
                 <button type="button" class="btn btn-primary" (click)="clearForm(f)">Vissza</button>
-              </div>
+              </div> -->
               <!-- Módosítás -->
-              <div id="GysModositas" *ngIf="edit && !details && !newLn">
+              <div id="GysModositas" *ngIf="edit && !newLn">
                 <button type="submit" class="btn btn-success" [disabled]="!f.valid || !f.dirty">Módosítások mentése</button>
                 <button type="button" class="btn btn-warning" (click)="clearForm(f)">Mégse</button>
                 <button type="button" class="btn btn-danger" (click)="deleteLn = true">Gyártósor törlése</button>
