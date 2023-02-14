@@ -30,14 +30,14 @@ namespace UtemtervBackend.Controllers
 
                 if (woList.Count() == 0)
                 {
-                    return NotFound("Workorder not found.");
+                    return NotFound("WO_NOT_FOUND");
                 }
                 return Ok(woList);
             }
             catch (Exception)
             {
 
-                return StatusCode(500, "An Error has occured.");
+                return StatusCode(500, "UNKNOWN_ERROR");
             }
         }
 
@@ -50,14 +50,14 @@ namespace UtemtervBackend.Controllers
 
                 if (wo.Count() == 0)
                 {
-                    return NotFound("Workorder not found.");
+                    return NotFound("WO_NOT_FOUND");
                 }
                 return Ok(wo);
             }
             catch (Exception)
             {
 
-                return StatusCode(404, "An error has occured.");
+                return StatusCode(404, "UNKNOWN_ERROR");
             }
             return Ok();
         }
@@ -70,7 +70,7 @@ namespace UtemtervBackend.Controllers
                 //var vlmi =  _context.Database.ExecuteSqlInterpolated($"newWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}");
                 var vlmi =  _context.WoMstrs.FromSqlInterpolated($"newWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}").ToList();
                 if (vlmi.IsNullOrEmpty()) {
-                    return StatusCode(500, "An error has occured.");
+                    return StatusCode(500, "UNKNOWN_ERROR");
                 }
                 else { 
                     return Ok(vlmi);
@@ -79,7 +79,7 @@ namespace UtemtervBackend.Controllers
             catch (Exception)
             {
 
-                return StatusCode(404, "An error has occured.");
+                return StatusCode(404, "UNKNOWN_ERROR");
             }
         }
 
@@ -96,10 +96,29 @@ namespace UtemtervBackend.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(404, "An error has occured.");
+                return StatusCode(404, "UNKNOWN_ERROR");
             }
         }
-    
+
+
+        [HttpDelete("delete/{lot}")]
+        public IActionResult DeleteWo(int lot)
+        {
+            try
+            {
+                var rowsAffected = _context.Database.ExecuteSqlRaw($"woDelete {lot}");
+                if(rowsAffected > 0)
+                {
+                    return Ok(rowsAffected);
+                }
+                return StatusCode(500, "STATUS_ERROR");
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(404, "UNKNOWN_ERROR");
+            }
+        }
     }
 
 }

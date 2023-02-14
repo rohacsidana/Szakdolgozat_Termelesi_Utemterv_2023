@@ -104,12 +104,24 @@ export class WoFormComponent implements OnInit, OnDestroy {
   handleError(errorRes: HttpErrorResponse) {
 
     let errorMessage = 'An unknown error occurred!';
-    if (errorRes.error !== null) {
-      this.error = errorRes.error;
-      errorMessage = errorRes.error;
-    } else {
-      this.error = errorMessage;
-    }
+  
+
+      switch (errorRes.error) {
+        case "WO_NOT_FOUND":
+          errorMessage = "Workorder not found"
+          break;
+        case "STATUS_ERROR":
+            errorMessage = "Due of the status value you can not change that."
+          break;
+        case "UNKNOWN_ERROR":
+            errorMessage = "An unknown error occurred";
+
+        default:
+          errorMessage = "An unknown error occurred";
+          break;
+      }
+ 
+    this.error = errorMessage;
     this.woService.woError = this.error;
     return throwError(errorMessage);
   }
@@ -227,8 +239,22 @@ export class WoFormComponent implements OnInit, OnDestroy {
   }
 
   delete() {
-    this.DataStorageService.deleteWo(this.woFormActData.woLot);
+    this.DataStorageService.deleteWo(this.woFormActData.woLot)
+    .pipe(
+      tap(
+        {
+          next: data=> this.woService.deleteWo(this.woFormActData.woLot),
+          error: error => this.handleError(error),
+        }
+      )
+    )
+    .subscribe(
+      ()=>{
+        this.router.navigate(['../'], {relativeTo: this.route})
+      }
+    );
 
+/* 
     this.editing = false;
 
 
@@ -250,7 +276,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
     this.woService.getDataFromTable.next();
     
       
-    
+     */
   }
 
   ngOnDestroy(): void {
