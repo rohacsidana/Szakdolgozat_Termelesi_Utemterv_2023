@@ -34,7 +34,7 @@
               [type]="headers[index].input.type"
               [(ngModel)]="item[col.key] = +item[col.key]"
               [value]="+item[col.key]"
-               
+               [step]="headers[index].input.step"
             />
           </ng-template>
         </td>

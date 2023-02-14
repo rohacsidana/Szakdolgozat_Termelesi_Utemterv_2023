@@ -119,6 +119,21 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(404, "UNKNOWN_ERROR");
             }
         }
+
+
+        [HttpGet("prodsch/{line}/{week}")]
+        public IActionResult GetUtemezhetoWo(string line, int week)
+        {
+            try
+            {
+                var wos = _context.
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 
 }
