@@ -77,7 +77,7 @@
     </button>
 
     <button
-      *ngIf="selectedMode && editing"
+      *ngIf="selectedMode && editing && selectedWo.wo_status == 'waiting'"
       class="btn btn-danger"
       type="button"
       (click)="delete()"
