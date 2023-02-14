@@ -8,18 +8,7 @@ import { LnService } from '../ln/ln.service';
 import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
 import { ChgService } from '../chg/chg.service';
-import {
-  Lad,
-  Ld,
-  Ln,
-  Pt,
-  User,
-  Wo,
-  Wod,
-  Ps,
-  Lnd,
-  psDisplay,
-} from './interfaces';
+import { Lad, Ld, Ln, Pt, User, Wo, Wod, Ps, Lnd, psDisplay, Chg } from './interfaces';
 import { PartService } from '../parts/pt/pt.service';
 import { throwError } from 'rxjs';
 import { PartStrService } from '../parts/ps/ps.service';
@@ -395,11 +384,11 @@ export class DataStorageService {
       .subscribe();
   }
 
-  newLd(ld: Ld) {}
+  newLd(ld: Ld) { }
 
-  updateLd(ld: Ld) {}
+  updateLd(ld: Ld) { }
 
-  deleteLd(part: number, exp: Date) {}
+  deleteLd(part: number, exp: Date) { }
 
   fetchWo(id: number) {
     /* let api = "workorder/" + id; */
@@ -545,7 +534,7 @@ export class DataStorageService {
     );
   }
 
-  deleteWo(id: number) {}
+  deleteWo(id: number) { }
 
   fetchGyartosorok() {
     this.http
@@ -772,6 +761,81 @@ export class DataStorageService {
         }),
         tap({
           next: (data) => this.chgService.setChangeTimes(data.slice()),
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  newChg(chg: Chg) {
+    console.log('üdvözlet a newChg tól!');
+    this.http
+      .post<any>(URL + '/chg/new', {
+        chgLine: chg.chg_line,
+        chgFrom: chg.chg_from,
+        chgTo: chg.chg_to,
+        chgTime: chg.chg_time
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            let c: Chg = {
+              chg_line: res[0].chgLine,
+              chg_from: res[0].chgFrom,
+              chg_to: res[0].chgTo,
+              chg_time: res[0].chgTime
+            };
+            console.log(c);
+
+            this.chgService.newChg(c);
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  updateChg(chg: Chg) {
+    console.log("Updated Chg: " + chg);
+    let updatedChg = {
+      chgLine: chg.chg_line,
+      chgFrom: chg.chg_from,
+      chgTo: chg.chg_to,
+      chgTime: chg.chg_time
+    };
+
+    return this.http
+      .put(URL + '/chg/update', updatedChg)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            if (res == 1) {
+              this.chgService.editChg(chg);
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      )
+      .subscribe();
+  }
+
+  deleteChg(chg: Chg) {
+    console.log("üdv a deleteChg ból");
+
+    this.http
+      .delete(URL + '/chg/delete/' + chg.chg_line + '/' + chg.chg_from + '/' + chg.chg_to)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            if (res == 1) {
+              this.chgService.deleteChg(chg.chg_line, chg.chg_from, chg.chg_to);
+              console.log(res);
+            } else {
+              console.log(res);
+            }
+          },
           error: (error) => console.log(error),
         })
       )

@@ -70,7 +70,7 @@ export class ChgComponent {
     if (this.newChg) {
       this.onNewChg(form);
     }
-    if (this.edit) {
+    if (this.edit && !this.deleteChg) {
       this.onEditChg(form);
     }
     if (this.deleteChg) {
@@ -107,13 +107,22 @@ export class ChgComponent {
     let to = value.toInput;
     let time = value.timeInput;
 
+    console.log(typeof time);
+    console.log(time);
+
     if (!this.chgService.doesChgExist(l, f, to)) {
-      this.chgService.newChg({
+      this.dsService.newChg({
         chg_line: l,
         chg_from: f,
         chg_to: to,
         chg_time: time,
-      });
+      })
+      /* this.chgService.newChg({
+        chg_line: l,
+        chg_from: f,
+        chg_to: to,
+        chg_time: time,
+      }); */
       this.clearForm(form);
     } else {
       this.validForm = false;
@@ -132,25 +141,31 @@ export class ChgComponent {
     let to = value.toInput;
     let time = value.timeInput;
 
-    if (!this.chgService.doesChgExist(l, f, to)) {
-      this.chgService.editChg(
-        this.selectedChg.chg_line,
-        this.selectedChg.chg_from,
-        this.selectedChg.chg_to,
-        { chg_line: l, chg_from: f, chg_to: to, chg_time: time }
-      );
-      this.clearForm(form);
-    } else {
-      this.validForm = false;
-    }
+
+    this.dsService.updateChg({
+      chg_line: this.selectedChg.chg_line,
+      chg_from: this.selectedChg.chg_from,
+      chg_to: this.selectedChg.chg_to,
+      chg_time: time
+    })
+    /* this.chgService.editChg(
+      this.selectedChg.chg_line,
+      this.selectedChg.chg_from,
+      this.selectedChg.chg_to,
+      { chg_line: l, chg_from: f, chg_to: to, chg_time: time }
+    ); */
+    this.clearForm(form);
+
+
   }
 
   onDeleteChg(form: NgForm) {
-    this.chgService.deleteChg(
+    this.dsService.deleteChg(this.selectedChg)
+    /* this.chgService.deleteChg(
       this.selectedChg.chg_line,
       this.selectedChg.chg_from,
       this.selectedChg.chg_to
-    );
+    ); */
     this.clearForm(form);
   }
 }
