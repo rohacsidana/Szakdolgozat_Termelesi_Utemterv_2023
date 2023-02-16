@@ -17,6 +17,7 @@ import { LadComponent } from './workorder/wo/lad/lad.component';
 import { PtResolver } from './pt.resolver';
 import { LnResolver } from './ln.resolver';
 import { LoginComponent } from './auth/login/login.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -69,6 +70,7 @@ const routes: Routes = [
 
   { path: 'prodsch', component: XWoCoponent },
   { path: 'user', component: UserComponent },
+  { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
 @NgModule({
