@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { AuthComponent } from './auth/auth.component';
+import { AuthComponent } from './auth/login.component';
 
 import { XWoCoponent } from './xwo/xwo.component';
 import { LnComponent } from './ln/ln.component';
