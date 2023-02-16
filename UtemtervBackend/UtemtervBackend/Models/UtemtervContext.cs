@@ -48,6 +48,7 @@ public partial class UtemtervContext : DbContext
 
     public virtual DbSet<VwWod> VwWods { get; set; }
 
+    public virtual DbSet<HetiUtemterv> HetiUtemtervs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -525,6 +526,60 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("qty_req");
             entity.Property(e => e.QtyRjct).HasColumnName("qty_rjct");
+        });
+
+        modelBuilder.Entity<HetiUtemterv>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("hetiUtemterv");
+
+            entity.Property(e => e.Egys)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("egys");
+            entity.Property(e => e.EstRun).HasColumnName("est_run");
+            entity.Property(e => e.LnDesc)
+                .HasMaxLength(24)
+                .IsUnicode(false)
+                .HasColumnName("ln_desc");
+            entity.Property(e => e.PtDesc)
+                .HasMaxLength(24)
+                .IsUnicode(false)
+                .HasColumnName("pt_desc");
+            entity.Property(e => e.PtUm)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("pt_um");
+            entity.Property(e => e.WoEndTime)
+                .HasColumnType("datetime")
+                .HasColumnName("wo_end_time");
+            entity.Property(e => e.WoLine)
+                .HasMaxLength(8)
+                .IsUnicode(false)
+                .HasColumnName("wo_line");
+            entity.Property(e => e.WoLot).HasColumnName("wo_lot");
+            entity.Property(e => e.WoNbr)
+                .HasMaxLength(18)
+                .IsUnicode(false)
+                .HasColumnName("wo_nbr");
+            entity.Property(e => e.WoPart).HasColumnName("wo_part");
+            entity.Property(e => e.WoPldDowntime)
+                .HasPrecision(0)
+                .HasColumnName("wo_pld_downtime");
+            entity.Property(e => e.WoQtyOrd).HasColumnName("wo_qty_ord");
+            entity.Property(e => e.WoRelDate)
+                .HasColumnType("date")
+                .HasColumnName("wo_rel_date");
+            entity.Property(e => e.WoSeq).HasColumnName("wo_seq");
+            entity.Property(e => e.WoStartDate)
+                .HasColumnType("date")
+                .HasColumnName("wo_start_date");
+            entity.Property(e => e.WoStartTime)
+                .HasPrecision(0)
+                .HasColumnName("wo_start_time");
+            entity.Property(e => e.WoUnpldDowntime)
+                .HasPrecision(0)
+                .HasColumnName("wo_unpld_downtime");
         });
 
 

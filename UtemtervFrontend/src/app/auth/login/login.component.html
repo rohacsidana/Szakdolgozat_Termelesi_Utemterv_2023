@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 style="text-align: center">Bejelentkezés</h2>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-xs-12">
+          <form
+            [formGroup]="form"
+            (ngSubmit)="onLogin()"
+            class="form-horizontal"
+          >
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="email">Email:</label>
+              <div class="col-md-3">
+                <input
+                  id="email"
+                  name="email"
+                  type="text"
+                  maxlength="50"
+                  class="form-control input-md"
+                  formControlName="email"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="email">Jelszó:</label>
+              <div class="col-md-3">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  maxlength="25"
+                  class="form-control input-md"
+                  formControlName="password"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="submit">
+                <button type="submit" class="btn btn-default">Belépés</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+</div>

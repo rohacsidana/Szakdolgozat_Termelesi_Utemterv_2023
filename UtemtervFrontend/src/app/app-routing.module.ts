@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthComponent } from './auth/auth.component';
+
 import { HomeComponent } from './home/home.component';
 import { LnComponent } from './ln/ln.component';
 import { PsComponent } from './parts/ps/ps.component';
@@ -14,14 +14,15 @@ import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WoComponent } from './workorder/wo/wo.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
-import { WoListResolverService } from './workorder/wo-list/wo-list-resolver.service';
 import { PtResolver } from './pt.resolver';
 import { LnResolver } from './ln.resolver';
+import { LoginComponent } from './auth/login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'logout', redirectTo: 'login' },
   { path: 'home', component: HomeComponent },
-  { path: 'auth', component: AuthComponent },
+  { path: 'login', component: LoginComponent },
   {
     path: 'part',
     resolve: [PtResolver],
