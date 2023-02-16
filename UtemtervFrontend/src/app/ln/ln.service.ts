@@ -10,15 +10,11 @@ export class LnService {
 
   setLines(lns: Ln[]) {
     this.lines = lns;
-    console.log("lnservice");
-    
     console.log(this.lines);
     this.lnChanged.next(this.lines.slice());
   }
 
   getLines() {
-    console.log("lekérem");
-    
     return this.lines.slice();
   }
 
