@@ -22,7 +22,8 @@ public partial class LadDet
 
     public decimal? LadQtyUsed { get; set; }
     [JsonIgnore]
+
     public virtual LdDet? Lad { get; set; }
     [JsonIgnore]
-    public virtual WodDet? LadNavigation { get; set; }
+    public virtual WomDet? LadNavigation { get; set; }
 }

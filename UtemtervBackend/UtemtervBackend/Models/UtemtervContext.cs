@@ -109,9 +109,9 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<LadDet>(entity =>
         {
-            entity.HasKey(e => e.LadId).HasName("PK__LAD_DET__24E373655BEE47CF");
+            entity.HasKey(e => e.LadId).HasName("PK__LAD_DET__24E37365A97F565C");
 
-            entity.ToTable("LAD_DET");
+            entity.ToTable("LAD_DET", tb => tb.HasTrigger("Lad_reserve"));
 
             entity.Property(e => e.LadId).HasColumnName("lad_id");
             entity.Property(e => e.LadComp).HasColumnName("lad_comp");
@@ -125,24 +125,28 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("lad_qty_rsrv");
             entity.Property(e => e.LadQtyUsed)
-                .HasDefaultValueSql("((0))")
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("lad_qty_used");
 
             entity.HasOne(d => d.Lad).WithMany(p => p.LadDets)
                 .HasForeignKey(d => new { d.LadComp, d.LadExpire })
-                .HasConstraintName("FK__LAD_DET__693CA210");
+                .HasConstraintName("FK__LAD_DET__5812160E");
 
             entity.HasOne(d => d.LadNavigation).WithMany(p => p.LadDets)
-                .HasForeignKey(d => new { d.LadPart, d.LadPar, d.LadLot })
-                .HasConstraintName("FK__LAD_DET__68487DD7");
+                .HasForeignKey(d => new { d.LadPart, d.LadPar, d.LadLot, d.LadComp })
+                .HasConstraintName("FK__LAD_DET__571DF1D5");
         });
 
         modelBuilder.Entity<LdDet>(entity =>
         {
-            entity.HasKey(e => new { e.LdPart, e.LdExpire }).HasName("PK__LD_DET__DA795338DCFDE6BB");
+            entity.HasKey(e => new { e.LdPart, e.LdExpire }).HasName("PK__LD_DET__DA7953388426B81A");
 
-            entity.ToTable("LD_DET");
+            entity.ToTable("LD_DET", tb =>
+            {
+                tb.HasTrigger("ldDetInsert");
+                tb.HasTrigger("torleskorPtUpdate");
+                tb.HasTrigger("updatedLd");
+            });
 
             entity.Property(e => e.LdPart).HasColumnName("ld_part");
             entity.Property(e => e.LdExpire)
@@ -161,7 +165,7 @@ public partial class UtemtervContext : DbContext
             entity.HasOne(d => d.LdPartNavigation).WithMany(p => p.LdDets)
                 .HasForeignKey(d => d.LdPart)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__LD_DET__ld_part__5AEE82B9");
+                .HasConstraintName("FK__LD_DET__ld_part__59063A47");
         });
 
         modelBuilder.Entity<LnMstr>(entity =>
@@ -348,7 +352,7 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<WodDet>(entity =>
         {
-            entity.HasKey(e => new { e.WodPart, e.WodPar, e.WodLot }).HasName("PK__WOD_DET__0041D0AE4CFA5873");
+            entity.HasKey(e => new { e.WodPart, e.WodPar, e.WodLot }).HasName("PK__WOD_DET__0041D0AEB650DC6D");
 
             entity.ToTable("WOD_DET");
 
@@ -364,22 +368,22 @@ public partial class UtemtervContext : DbContext
             entity.HasOne(d => d.WodLotNavigation).WithMany(p => p.WodDets)
                 .HasForeignKey(d => d.WodLot)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WOD_DET__wod_lot__656C112C");
+                .HasConstraintName("FK__WOD_DET__wod_lot__60A75C0F");
 
             entity.HasOne(d => d.WodParNavigation).WithMany(p => p.WodDetWodParNavigations)
                 .HasForeignKey(d => d.WodPar)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WOD_DET__wod_par__6477ECF3");
+                .HasConstraintName("FK__WOD_DET__wod_par__628FA481");
 
             entity.HasOne(d => d.WodPartNavigation).WithMany(p => p.WodDetWodPartNavigations)
                 .HasForeignKey(d => d.WodPart)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WOD_DET__wod_par__6383C8BA");
+                .HasConstraintName("FK__WOD_DET__wod_par__619B8048");
         });
 
         modelBuilder.Entity<WomDet>(entity =>
         {
-            entity.HasKey(e => new { e.WomPart, e.WomPar, e.WomLot, e.WomMat }).HasName("PK__WOM_DET__B98536D620903BF9");
+            entity.HasKey(e => new { e.WomPart, e.WomPar, e.WomLot, e.WomMat }).HasName("PK__WOM_DET__B98536D6C4588D08");
 
             entity.ToTable("WOM_DET", tb => tb.HasTrigger("Wom_pt_qty_oh"));
 
@@ -394,14 +398,15 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("wom_rsrv");
 
-            entity.HasOne(d => d.WomMatNavigation).WithMany(p => p.WomDets)
-                .HasForeignKey(d => d.WomMat)
-                .HasConstraintName("FK__WOM_DET__wom_mat__6754599E");
-
-            entity.HasOne(d => d.Wom).WithOne(p => p.WomDet)
-                .HasForeignKey<WomDet>(d => new { d.WomPart, d.WomPar, d.WomLot })
+            entity.HasOne(d => d.Wom).WithMany(p => p.WomDets)
+                .HasForeignKey(d => new { d.WomPart, d.WomMat })
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WOM_DET__66603565");
+                .HasConstraintName("FK__WOM_DET__6383C8BA");
+
+            entity.HasOne(d => d.WomNavigation).WithMany(p => p.WomDets)
+                .HasForeignKey(d => new { d.WomPart, d.WomPar, d.WomLot })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__WOM_DET__6477ECF3");
         });
 
         modelBuilder.Entity<XwoHist>(entity =>

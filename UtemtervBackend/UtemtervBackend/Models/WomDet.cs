@@ -18,7 +18,9 @@ public partial class WomDet
 
     public decimal WomRsrv { get; set; }
     [JsonIgnore]
-    public virtual WodDet Wom { get; set; } = null!;
+    public virtual ICollection<LadDet> LadDets { get; } = new List<LadDet>();
     [JsonIgnore]
-    public virtual PtMstr? WomMatNavigation { get; set; }
+    public virtual PsMstr Wom { get; set; } = null!;
+    [JsonIgnore]
+    public virtual WodDet WomNavigation { get; set; } = null!;
 }

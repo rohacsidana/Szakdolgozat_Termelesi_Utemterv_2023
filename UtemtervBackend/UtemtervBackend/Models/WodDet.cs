@@ -18,13 +18,11 @@ public partial class WodDet
 
     public int WodQtyRjct { get; set; }
     [JsonIgnore]
-    public virtual ICollection<LadDet> LadDets { get; } = new List<LadDet>();
-    [JsonIgnore]
     public virtual WoMstr WodLotNavigation { get; set; } = null!;
     [JsonIgnore]
     public virtual PtMstr WodParNavigation { get; set; } = null!;
     [JsonIgnore]
     public virtual PtMstr WodPartNavigation { get; set; } = null!;
     [JsonIgnore]
-    public virtual WomDet? WomDet { get; set; }
+    public virtual ICollection<WomDet> WomDets { get; } = new List<WomDet>();
 }

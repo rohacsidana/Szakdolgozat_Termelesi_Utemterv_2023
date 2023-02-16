@@ -121,19 +121,19 @@ namespace UtemtervBackend.Controllers
         }
 
 
-        [HttpGet("prodsch/{line}/{week}")]
-        public IActionResult GetUtemezhetoWo(string line, int week)
-        {
-            try
-            {
-                var wos = _context.
-            }
-            catch (Exception)
-            {
+        //[HttpGet("prodsch/{line}/{week}")]
+        //public IActionResult GetUtemezhetoWo(string line, int week)
+        //{
+        //    try
+        //    {
+        //        var wos = _context.
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-        }
+        //        throw;
+        //    }
+        //}
     }
 
 }

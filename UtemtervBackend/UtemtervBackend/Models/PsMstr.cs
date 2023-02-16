@@ -15,4 +15,6 @@ public partial class PsMstr
     public virtual PtMstr PsCompNavigation { get; set; } = null!;
     [JsonIgnore]
     public virtual PtMstr PsParNavigation { get; set; } = null!;
+    [JsonIgnore]
+    public virtual ICollection<WomDet> WomDets { get; } = new List<WomDet>();
 }
