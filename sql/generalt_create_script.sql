@@ -1,11 +1,11 @@
 USE [master]
 GO
-/****** Object:  Database [Utemterv]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Database [Utemterv]    Script Date: 2023. 02. 16. 8:42:05 ******/
 CREATE DATABASE [Utemterv]
 GO
 USE [Utemterv]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPSTreeStructure]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPSTreeStructure]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -38,7 +38,7 @@ END
 
 --select * from dbo.GetPSTreeStructure (1007)
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPTTreeStructure]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPTTreeStructure]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -63,7 +63,7 @@ BEGIN
     RETURN
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[getTypeDic]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[getTypeDic]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -85,7 +85,7 @@ begin
 end
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[hurokHiba]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[hurokHiba]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -109,7 +109,7 @@ begin
 return @vissza
 end
 GO
-/****** Object:  UserDefinedFunction [dbo].[isChgInSzerkezetesAnyagok]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[isChgInSzerkezetesAnyagok]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -129,7 +129,7 @@ CREATE function [dbo].[isChgInSzerkezetesAnyagok](@from int, @to int)
 		return @benne
     END
 GO
-/****** Object:  UserDefinedFunction [dbo].[keszTermekE]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[keszTermekE]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -155,7 +155,7 @@ begin
 end
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[ldPartNotInSzerkezetes]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[ldPartNotInSzerkezetes]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -173,7 +173,7 @@ create function [dbo].[ldPartNotInSzerkezetes](@part int)
 		return @benne
     END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ptFaStruktura]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[ptFaStruktura]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -198,7 +198,7 @@ begin
     return
 end
 GO
-/****** Object:  UserDefinedFunction [dbo].[szerkezetesE]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[szerkezetesE]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -225,7 +225,7 @@ BEGIN
     RETURN @structure;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[vanEStrukturaja]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[vanEStrukturaja]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -252,7 +252,7 @@ BEGIN
     RETURN @structure;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[workWeekSeq]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  UserDefinedFunction [dbo].[workWeekSeq]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -277,7 +277,7 @@ end
 
 --set datefirst  1
 GO
-/****** Object:  Table [dbo].[PS_MSTR]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[PS_MSTR]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -293,7 +293,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[nincsSzerkezete]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  View [dbo].[nincsSzerkezete]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -307,7 +307,7 @@ WHERE ps_comp NOT IN (
     WHERE ps_par IS NOT NULL
 )
 GO
-/****** Object:  Table [dbo].[PT_MSTR]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[PT_MSTR]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -323,7 +323,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[WOD_DET]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[WOD_DET]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -343,7 +343,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[vw_Wod]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  View [dbo].[vw_Wod]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -355,7 +355,7 @@ select wod_lot as lot, wod_part as part, beepulo.pt_desc as part_name, wod_par a
 from WOD_DET inner join PT_MSTR beepulo on wod_part = beepulo.pt_part
 			inner join PT_MSTR szulo on wod_par = szulo.pt_part
 GO
-/****** Object:  View [dbo].[szerkezetesAnyagok]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  View [dbo].[szerkezetesAnyagok]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -368,7 +368,7 @@ except
 select ps.ps_comp
 from PS_MSTR ps
 GO
-/****** Object:  View [dbo].[k_f_termekek]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  View [dbo].[k_f_termekek]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -382,7 +382,7 @@ from PT_MSTR pt inner join PS_MSTR ps on pt.pt_part = ps.ps_par
 --select * from k_f_termekek
 
 GO
-/****** Object:  View [dbo].[ptps]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  View [dbo].[ptps]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -395,7 +395,7 @@ from PS_MSTR ps inner join PT_MSTR pt on ps.ps_comp = pt.pt_part
 
 
 GO
-/****** Object:  Table [dbo].[CHG_MSTR]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[CHG_MSTR]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -413,7 +413,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DICTIONARY]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[DICTIONARY]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -428,7 +428,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[LAD_DET]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[LAD_DET]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -448,7 +448,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[LD_DET]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[LD_DET]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -466,7 +466,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[LN_MSTR]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[LN_MSTR]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -480,7 +480,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[LND_DET]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[LND_DET]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -496,7 +496,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[USER]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[USER]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -518,7 +518,7 @@ UNIQUE NONCLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[WO_MSTR]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[WO_MSTR]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -548,7 +548,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[WOM_DET]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[WOM_DET]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -569,7 +569,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[XWO_HIST]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Table [dbo].[XWO_HIST]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -696,7 +696,7 @@ ALTER TABLE [dbo].[WO_MSTR]  WITH CHECK ADD  CONSTRAINT [CK_WO_MSTR_wo_seq_un] C
 GO
 ALTER TABLE [dbo].[WO_MSTR] CHECK CONSTRAINT [CK_WO_MSTR_wo_seq_un]
 GO
-/****** Object:  StoredProcedure [dbo].[deleteChg]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[deleteChg]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -712,7 +712,7 @@ begin
 	where chg_line = @chg_line and chg_from = @chg_from and chg_to = @chg_to
 end
 GO
-/****** Object:  StoredProcedure [dbo].[deleteLd]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[deleteLd]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -730,7 +730,7 @@ as
 	and lad_expire = @exp
 	)
 GO
-/****** Object:  StoredProcedure [dbo].[deleteLn]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[deleteLn]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -759,7 +759,7 @@ begin
 	)
 end
 GO
-/****** Object:  StoredProcedure [dbo].[deleteLnd]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[deleteLnd]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -776,7 +776,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[deletePs]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[deletePs]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -789,7 +789,7 @@ as
 delete from PS_MSTR where ps_par = @par and ps_comp = @comp 
 	and ps_comp in (select * from nincsSzerkezete)
 GO
-/****** Object:  StoredProcedure [dbo].[deletePt]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[deletePt]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -845,7 +845,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[deleteUser]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[deleteUser]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -864,7 +864,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[estrun]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[estrun]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -926,7 +926,7 @@ group by szint
 --insert into PT_MSTR (pt_part, pt_desc, pt_um, pt_qty_oh) values (100000, 'teszt1', 'g', null)
 
 GO
-/****** Object:  StoredProcedure [dbo].[getWo]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[getWo]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -941,7 +941,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[newChg]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[newChg]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -958,7 +958,7 @@ begin
 	select * from CHG_MSTR where chg_line = @chg_line and chg_from = @chg_from and chg_to = @chg_to
 end
 GO
-/****** Object:  StoredProcedure [dbo].[newLd]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[newLd]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -970,7 +970,7 @@ create proc [dbo].[newLd]
 as 
 	insert into LD_DET values(@part, cast(@expire as date), @oh, 0, 0)
 GO
-/****** Object:  StoredProcedure [dbo].[newLn]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[newLn]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -987,7 +987,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[newLnd]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[newLnd]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1004,7 +1004,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[newPs]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[newPs]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1019,7 +1019,7 @@ insert into PS_MSTR values(@par, @comp, @qty)
 select ps_par, ps_comp, ps_qty_per from PS_MSTR where ps_par = @par and ps_comp = @comp
 end
 GO
-/****** Object:  StoredProcedure [dbo].[newPt]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[newPt]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1038,7 +1038,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[newStructure]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[newStructure]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1080,7 +1080,7 @@ as
 	end
 
 GO
-/****** Object:  StoredProcedure [dbo].[newUser]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[newUser]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1103,7 +1103,7 @@ end
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[newWo]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[newWo]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1125,7 +1125,7 @@ end
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[segedSzerk]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[segedSzerk]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1148,7 +1148,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[tesztSzerk]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[tesztSzerk]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1170,7 +1170,7 @@ as
 )
 select * from szerkezet
 GO
-/****** Object:  StoredProcedure [dbo].[updateChg]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[updateChg]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1188,7 +1188,7 @@ begin
 	where chg_line = @chg_line and chg_from = @chg_from and chg_to = @chg_to
 end
 GO
-/****** Object:  StoredProcedure [dbo].[updateLd]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[updateLd]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1205,7 +1205,7 @@ as
 
 	
 GO
-/****** Object:  StoredProcedure [dbo].[updateLn]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[updateLn]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1221,7 +1221,7 @@ begin
 	where ln_line = @ln_line
 end
 GO
-/****** Object:  StoredProcedure [dbo].[updateLnd]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[updateLnd]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1239,7 +1239,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[updatePs]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[updatePs]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1255,7 +1255,7 @@ end
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[updatePt]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[updatePt]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1271,7 +1271,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[updateUser]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[updateUser]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1291,7 +1291,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[updateWo]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[updateWo]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1318,7 +1318,7 @@ begin
 	select * from WO_MSTR where wo_lot = @wo_lot
 end
 GO
-/****** Object:  StoredProcedure [dbo].[wodAll]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[wodAll]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1333,7 +1333,7 @@ begin
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[woDelete]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[woDelete]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1351,7 +1351,7 @@ as
 --exec woDelete 10190
 
 GO
-/****** Object:  StoredProcedure [dbo].[woList]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  StoredProcedure [dbo].[woList]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1364,12 +1364,12 @@ begin
 end
 
 GO
-/****** Object:  Trigger [dbo].[Lad_reserve]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Trigger [dbo].[Lad_reserve]    Script Date: 2023. 02. 16. 8:42:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-create trigger [dbo].[Lad_reserve]
+CREATE trigger [dbo].[Lad_reserve]
 	on [dbo].[LAD_DET]
 	after insert
 as
@@ -1387,17 +1387,14 @@ begin
 
 
 	update PT_MSTR
-	set pt_qty_oh = pt_qty_oh - inserted.lad_qty_rsrv
+	set pt_qty_oh = IIF(pt_qty_oh is null, inserted.lad_qty_rsrv * -1, pt_qty_oh - inserted.lad_qty_rsrv)
 	from inserted
 	where pt_part = inserted.lad_comp
-end
-
-
-
+end;
 GO
 ALTER TABLE [dbo].[LAD_DET] ENABLE TRIGGER [Lad_reserve]
 GO
-/****** Object:  Trigger [dbo].[ldDetInsert]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Trigger [dbo].[ldDetInsert]    Script Date: 2023. 02. 16. 8:42:08 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1427,7 +1424,7 @@ end
 GO
 ALTER TABLE [dbo].[LD_DET] ENABLE TRIGGER [ldDetInsert]
 GO
-/****** Object:  Trigger [dbo].[torleskorPtUpdate]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Trigger [dbo].[torleskorPtUpdate]    Script Date: 2023. 02. 16. 8:42:08 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1442,7 +1439,7 @@ update PT_MSTR set pt_qty_oh = pt_qty_oh - @ohDeleted
 GO
 ALTER TABLE [dbo].[LD_DET] ENABLE TRIGGER [torleskorPtUpdate]
 GO
-/****** Object:  Trigger [dbo].[updatedLd]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Trigger [dbo].[updatedLd]    Script Date: 2023. 02. 16. 8:42:09 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1475,7 +1472,7 @@ as
 GO
 ALTER TABLE [dbo].[LD_DET] ENABLE TRIGGER [updatedLd]
 GO
-/****** Object:  Trigger [dbo].[SzerkFelv]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Trigger [dbo].[SzerkFelv]    Script Date: 2023. 02. 16. 8:42:09 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1500,7 +1497,7 @@ end
 GO
 ALTER TABLE [dbo].[PS_MSTR] ENABLE TRIGGER [SzerkFelv]
 GO
-/****** Object:  Trigger [dbo].[UpdateStatus]    Script Date: 2023. 02. 16. 8:05:08 ******/
+/****** Object:  Trigger [dbo].[UpdateStatus]    Script Date: 2023. 02. 16. 8:42:10 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1544,26 +1541,6 @@ END
 
 GO
 ALTER TABLE [dbo].[WO_MSTR] ENABLE TRIGGER [UpdateStatus]
-GO
-/****** Object:  Trigger [dbo].[Wom_pt_qty_oh]    Script Date: 2023. 02. 16. 8:05:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-create trigger [dbo].[Wom_pt_qty_oh]
-	on [dbo].[WOM_DET]
-	after INSERT
-as
-begin
-	update PT_MSTR
-	set	pt_qty_oh = IIF(pt_qty_oh is null, inserted.wom_req * -1, pt_qty_oh - inserted.wom_req)
-	from inserted
-	where pt_part = inserted.wom_mat
-end
-
-
-GO
-ALTER TABLE [dbo].[WOM_DET] ENABLE TRIGGER [Wom_pt_qty_oh]
 GO
 USE [master]
 GO

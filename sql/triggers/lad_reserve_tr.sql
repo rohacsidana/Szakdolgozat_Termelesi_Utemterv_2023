@@ -16,7 +16,7 @@ begin
 
 
 	update PT_MSTR
-	set pt_qty_oh = pt_qty_oh - inserted.lad_qty_rsrv
+	set pt_qty_oh = IIF(pt_qty_oh is null, inserted.lad_qty_rsrv * -1, pt_qty_oh - inserted.lad_qty_rsrv)
 	from inserted
 	where pt_part = inserted.lad_comp
 end;
