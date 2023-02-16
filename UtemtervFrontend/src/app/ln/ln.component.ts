@@ -40,9 +40,11 @@ export class LnComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.dsService.fetchGyartosorok();
+    //this.dsService.fetchGyartosorok();
 
     this.lines = this.lnService.getLines();
+    //console.log(this.lines);
+    
     this.dtService.emitDataChanged(this.lines.slice());
     /* A data-table-ben figyeli a változást */
     this.getSub = this.lnService.lnChanged.subscribe((data) => {

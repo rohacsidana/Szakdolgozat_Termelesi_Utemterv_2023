@@ -2,16 +2,17 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DataTableService } from '../data-table/data-table.service';
-import { Lnd } from '../shared/interfaces';
+import { Lnd, Ln, Pt } from '../shared/interfaces';
 import { LndService } from './lnd.service';
 import { DataStorageService } from '../shared/data-storage.service';
 import { LnService } from '../ln/ln.service';
+import { PartService } from '../parts/pt/pt.service';
 
 @Component({
   selector: 'app-lnd',
   templateUrl: './lnd.component.html',
   styleUrls: ['./lnd.component.css'],
-  providers: [DataTableService, LndService, DataStorageService, LnService],
+  providers: [DataTableService, DataStorageService],
 })
 export class LndComponent implements OnInit, OnDestroy {
   edit = false;
@@ -33,21 +34,46 @@ export class LndComponent implements OnInit, OnDestroy {
 
   getSub: Subscription;
   selectSub: Subscription;
+  lnChangedSub: Subscription
+  ptChangedSub: Subscription
   rates: Lnd[];
+  lns: Ln[]
+  parts: Pt[]
+  lines: string[]
   selectedLnd: Lnd;
 
   constructor(
     private dtService: DataTableService,
     private lndService: LndService,
     private dsService: DataStorageService,
-    private lnService: LnService
+    private lnService: LnService,
+    private ptService: PartService
   ) { }
 
   ngOnInit(): void {
     /* console.log(this.lnService.doesLnExist('ln_1'));
     console.log(this.lnService.getLines()); */
 
+
+    this.lns = this.lnService.getLines()
+    console.log(this.ptService.getParts());
+
     this.dsService.fetchLnds()
+
+    this.lnChangedSub = this.lnService.lnChanged.subscribe((data: Ln[]) => {
+      this.lns = data.slice()
+      console.log("lns sub:");
+      console.log(data);
+
+    })
+
+    this.ptChangedSub = this.ptService.partDataChanged.subscribe((data) => {
+      this.parts = data.slice()
+      console.log("pts sub:");
+      console.log(data);
+      
+      
+    })
 
     this.rates = this.lndService.getRates();
     this.dtService.emitDataChanged(this.rates.slice());
@@ -65,12 +91,15 @@ export class LndComponent implements OnInit, OnDestroy {
       console.log(this.selectedLnd);
     });
 
+
     this.errorMessage = 'Ismeretlen hiba történt!'
   }
 
   ngOnDestroy(): void {
     this.getSub.unsubscribe();
     this.selectSub.unsubscribe();
+    this.lnChangedSub.unsubscribe()
+    this.ptChangedSub.unsubscribe()
   }
 
   onSubmit(form: NgForm) {
@@ -100,24 +129,41 @@ export class LndComponent implements OnInit, OnDestroy {
   }
 
   onNewLnd(form: NgForm) {
+    this.validForm = true
     let value = form.value;
     let l = value.lineInput;
     let p = value.partInput;
     let r = value.rateInput;
 
-    if (!this.lndService.doesLndExist(l, p)) {
+    //---------hibaüzenetek-----------
+    if (!this.lnService.doesLnExist(l)) {
+      this.errorMessage = 'Nem létezik ilyen gyártósor!'
+      this.validForm = false
+    }
+
+    if (this.lndService.doesLndExist(l, p)) {
       //this.lndService.newRate({ lnd_line: l, lnd_part: p, lnd_rate: r });
-      this.dsService.newLnd({ lnd_line: l, lnd_part: p, lnd_rate: r })
-      this.clearForm(form);
-    } else {
       this.errorMessage = `Már szerepel a(z) "${l}" gyártósor "${p}" tétellel!`
       this.validForm = false;
     }
 
-    console.log(this.lndService.getRates());
+    if (!this.ptService.getPart(p)) {
+      this.errorMessage = 'Nem létezik ilyen tétel!'
+      this.validForm = false
+    }
+
+    //lnd felvétele, ha nincs hiba
+    if (this.validForm) {
+      this.dsService.newLnd({ lnd_line: l, lnd_part: p, lnd_rate: r })
+      this.clearForm(form);
+    }
+
+    //console.log(this.lndService.getRates());
+
   }
 
   editStarted() {
+    this.validForm = true
     this.edit = true;
     this.newLnd = false;
     this.deleteLnd = false
@@ -133,17 +179,19 @@ export class LndComponent implements OnInit, OnDestroy {
     let p = value.partInput;
     let r = value.rateInput;
 
-   
-      /* this.lndService.editLnd(
-        this.selectedLnd.lnd_line,
-        this.selectedLnd.lnd_part,
-        { lnd_line: l, lnd_part: p, lnd_rate: r }
-      ); */
-      this.dsService.updateLnd({lnd_line: this.selectedLnd.lnd_line, lnd_part: this.selectedLnd.lnd_part, 
-        lnd_rate: r})
-      //this.lndService.editLnd(this.selectedLnd)
-      this.clearForm(form);
-    
+
+    /* this.lndService.editLnd(
+      this.selectedLnd.lnd_line,
+      this.selectedLnd.lnd_part,
+      { lnd_line: l, lnd_part: p, lnd_rate: r }
+    ); */
+    this.dsService.updateLnd({
+      lnd_line: this.selectedLnd.lnd_line, lnd_part: this.selectedLnd.lnd_part,
+      lnd_rate: r
+    })
+    //this.lndService.editLnd(this.selectedLnd)
+    this.clearForm(form);
+
   }
 
   onDeleteLnd(form: NgForm) {

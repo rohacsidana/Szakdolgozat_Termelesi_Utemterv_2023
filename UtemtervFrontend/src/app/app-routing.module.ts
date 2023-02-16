@@ -16,6 +16,7 @@ import { WodComponent } from './workorder/wo/wod/wod.component';
 import { LadComponent } from './workorder/wo/lad/lad.component';
 import { WoListResolverService } from './workorder/wo-list/wo-list-resolver.service';
 import { PtResolver } from './pt.resolver';
+import { LnResolver } from './ln.resolver';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'inventory', component: LdComponent },
   {
     path: 'line',
+    resolve: [LnResolver, PtResolver],
     children: [
       { path: '', component: LnComponent },
       { path: 'change', component: ChgComponent },
