@@ -121,19 +121,25 @@ namespace UtemtervBackend.Controllers
         }
 
 
-        //[HttpGet("prodsch/{line}/{week}")]
-        //public IActionResult GetUtemezhetoWo(string line, int week)
-        //{
-        //    try
-        //    {
-        //        var wos = _context.
-        //    }
-        //    catch (Exception)
-        //    {
+        [HttpGet("prodsch/{line}/{week}")]
+        public IActionResult GetUtemezhetoWo(string line, int week)
+        {
+            try
+            {
+                var wos = _context.HetiUtemtervs.FromSqlRaw($"getHetiUtemterv {week}, {line}");
+                //if (wos.Count() > 0)
+                //{
+                return Ok(wos);
 
-        //        throw;
-        //    }
-        //}
+                //}
+                return NotFound("NO_WO_FOUND");
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500,e);
+            }
+        }
     }
 
 }
@@ -157,3 +163,5 @@ public class UpdateWo: NewWo
     public bool ?WoActivated { get; set; } 
     public string ?WoStatus {get; set; } = "";
 }
+
+        
