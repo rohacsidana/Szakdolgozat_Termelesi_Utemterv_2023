@@ -10,18 +10,18 @@
               <td>
                 Gyártósor azonosító*
                 <input type="text" name="lineInput" [(ngModel)]="line" required="" maxlength="8"
-                  [disabled]="!newChg && !edit" />
+                  [disabled]="!newChg" />
   
               </td>
               <td>
                 Tételről*
                 <input type="number" name="fromInput" [(ngModel)]="from" required=""
-                  [disabled]="!newChg && !edit" />
+                  [disabled]="!newChg" />
               </td>
               <td>
                 Tételre*
                 <input type="number" name="toInput" required="" [(ngModel)]="to"
-                  [disabled]="!newChg && !edit" />
+                  [disabled]="!newChg" />
               </td>
               <td>
                 Idő*
@@ -34,7 +34,7 @@
               <td>
                 <p style="color: red;" *ngIf="!f.valid && (newChg || edit)">Az összes mező kötelező!</p>
                 <p style="color: red;" *ngIf="!validForm ">
-                  Már van ilyen átállás!</p>
+                  {{errorMessage}}</p>
                   <!-- Új chg -->
                 <div *ngIf="!newChg && !edit">
                   <button class="btn btn-primary" (click)="newChg = true">

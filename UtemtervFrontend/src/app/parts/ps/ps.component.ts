@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
-import { Subscription } from 'rxjs';
+import { Subscription, UnsubscriptionError } from 'rxjs';
 import * as DataTableService from 'src/app/data-table/data-table.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Ps, psDisplay, Pt } from 'src/app/shared/interfaces';
@@ -278,10 +278,12 @@ export class PsComponent {
   }
 
   ngOnDestroy(): void {
+    this.ptDataChangedSub.unsubscribe()
+    this.partStrDataChangedSub.unsubscribe()
     this.sortSub.unsubscribe();
     this.rowSelectSubscription.unsubscribe();
   }
-  
+
   getPartName(part: number): string {
     let i = 0;
     while (i < this.partData.length && this.partData[i].pt_part !== part) {

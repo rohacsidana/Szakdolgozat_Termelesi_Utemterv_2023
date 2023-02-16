@@ -540,6 +540,8 @@ export class DataStorageService {
   }
 
   fetchGyartosorok() {
+    console.log("fetching gys");
+    
     this.http
       .get<
         {

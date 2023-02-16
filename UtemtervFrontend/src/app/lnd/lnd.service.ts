@@ -64,7 +64,4 @@ export class LndService {
         }
     }
 
-    doesLineExists(line: string) {
-        return this.lnService.doesLnExist(line)
-    }
 }
