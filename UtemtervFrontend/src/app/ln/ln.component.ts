@@ -15,6 +15,7 @@ import { Ln } from '../shared/interfaces';
 export class LnComponent implements OnInit, OnDestroy {
   line: string = '';
   desc: string = '';
+  search: string = ''
   lnUsed = false
   errorMessage: string
 
@@ -22,6 +23,7 @@ export class LnComponent implements OnInit, OnDestroy {
   edit = false;
   deleteLn = false;
   validForm = true;
+  successSearch = true
 
   lnHeaders = [
     { name: 'ln_line', szoveg: 'Gyártósor azonosító' },
@@ -56,8 +58,8 @@ export class LnComponent implements OnInit, OnDestroy {
     this.selectSub = this.dtService.selectRow.subscribe((data: Ln) => {
       this.selectedLine = data;
       this.onEditStarted();
-      /* console.log('kiválasztottad ezt:');
-      console.log(this.selectedLine); */
+      console.log('kiválasztottad ezt:');
+      console.log(this.selectedLine);
     });
     this.errorMessage = 'Ismeretlen hiba történt'
   }
@@ -122,6 +124,7 @@ export class LnComponent implements OnInit, OnDestroy {
     this.deleteLn = false;
     this.validForm = true;
     this.lnUsed = false
+    this.successSearch = true
     form.resetForm();
   }
 
@@ -145,6 +148,19 @@ export class LnComponent implements OnInit, OnDestroy {
     } else {
       this.errorMessage = 'Már létezik ilyen azonosító!'
       this.validForm = false;
+    }
+  }
+
+  onSearch(form: NgForm) {
+    let i = this.lnService.getLnIndex(form.value.searchInput)
+    console.log(i);
+    if (i >= 0) {
+      this.selectedLine = this.lines[i]
+      this.successSearch = true
+      this.onEditStarted()
+    } else {
+      this.successSearch = false
+      this.errorMessage = 'Nem található ilyen gyártósor'
     }
   }
 }
