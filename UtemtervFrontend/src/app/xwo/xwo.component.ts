@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DataTableService } from "../data-table/data-table.service";
+import { DataStorageService } from "../shared/data-storage.service";
 import { XWo } from "../shared/interfaces";
 
 @Component({
@@ -56,11 +57,12 @@ export class XWoCoponent implements OnInit {
             { name: "wo_pld_downtime", szoveg: "Tervezett állási idő" },
             { name: "wo_unpld_downtime", szoveg: "Nem tervezett állási idő" },
         ];
-    constructor(private datatableservice: DataTableService) {
+    constructor(private datatableservice: DataTableService, private dataStorageService: DataStorageService) {
     }
 
     ngOnInit() {
         this.datatableservice.emitDataChanged(this.woData.slice());
+        this.dataStorageService.fetchUtemterv(1,'line_01');
     }
 }
 /*

@@ -846,6 +846,44 @@ export class DataStorageService {
       )
       .subscribe();
   }
+
+  fetchUtemterv(week: number, line: string){
+      this.http.get(URL + "/workorder/prodsch/"+line+'/'+week )
+        .pipe(
+          map(
+            (data)=>{
+              console.log(data);
+              
+              /* const wos = data.map(
+              (wo)=>{
+                /* const e_wo = {
+                  wo_lot: data.,
+                  wo_nbr: data.,
+                  wo_part: data.,
+                  pt_desc: data.,
+                  wo_qty_ord: data.,
+                  part_um: data.,
+                  wo_line: data.,
+                  ln_desc: data.,
+                  item_per_hour: data.,
+                  wo_est_run: data.,
+                  wo_seq: data.,
+                  wo_rel_date: data.,
+                  wo_start_date: data.,
+                  wo_start_time: data.,
+                  wo_end_time: data.,
+                  wo_pld_downtime: data.,
+                  wo_unpld_downtime: data.,
+                } 
+              } 
+              )*/
+            }
+          )
+        ).subscribe();
+
+  }
+
+
 }
 
 export const URL = 'https://localhost:7075/api';
