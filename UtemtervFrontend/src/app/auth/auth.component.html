@@ -1,4 +1,4 @@
-<!-- <div class="container">
+<div class="container">
   <div class="row">
     <div class="col-lg-12">
       <h2 style="text-align: center">Bejelentkezés</h2>
@@ -6,55 +6,49 @@
   </div>
   <hr />
   <div class="row">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="col-lg-12">
       <div class="row">
-        <label for="name">Név:</label>
         <div class="col-xs-12">
-          <input
-            type="text"
-            id="name"
-            name="name"
-            class="form-control"
-            maxlength="30"
-            formControlName="name"
-          />
-        </div>
-      </div>
-      <div class="row">
-        <label for="birth_date">Születési Dátum:</label>
+          <form
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+            class="form-horizontal"
+          >
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="email">Email:</label>
+              <div class="col-md-3">
+                <input
+                  id="email"
+                  name="email"
+                  type="text"
+                  maxlength="50"
+                  class="form-control input-md"
+                  formControlName="email"
+                />
+              </div>
+            </div>
 
-        <div class="col-xs-12">
-          <input
-            type="date"
-            id="birth_date"
-            name="birth_date"
-            class="form-control"
-            formControlName="birth_date"
-          />
-        </div>
-      </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="email">Jelszó:</label>
+              <div class="col-md-3">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  maxlength="25"
+                  class="form-control input-md"
+                  formControlName="password"
+                />
+              </div>
+            </div>
 
-      <div class="row">
-        <label for="email">Email:</label>
-        <div class="input-group">
-          <span class="input-group-addon">@</span>
-          <div class="col-xs-12">
-            <input
-              class="form-control"
-              type="text"
-              name="email"
-              id="email"
-              class="form-control"
-              maxlength="50"
-              formControlName="email"
-            />
-          </div>
+            <div class="submit">
+              <button type="submit" class="btn btn-default">Belépés</button>
+            </div>
+          </form>
         </div>
       </div>
-    </form>
+      <hr />
+    </div>
   </div>
-  <hr />
-  <div class="row"></div>
 </div>
- -->
-<div>auth megjelenik</div>
