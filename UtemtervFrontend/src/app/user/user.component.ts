@@ -96,7 +96,7 @@ export class UserComponent implements OnInit, OnDestroy {
       ),
       email: new FormControl(
         { value: '', disabled: this.searchMode ? true : false },
-        Validators.required
+        [Validators.required, Validators.email]
       ),
       post: new FormControl(
         { value: '', disabled: this.searchMode ? true : false },

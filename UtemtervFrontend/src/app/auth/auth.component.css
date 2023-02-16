@@ -1,4 +1,11 @@
-form{
+input {
+  width: 300px;
+}
+form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+}
+.submit {
+  align-self: center;
 }
