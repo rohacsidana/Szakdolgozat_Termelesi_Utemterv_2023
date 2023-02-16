@@ -3,6 +3,11 @@ select * from PS_MSTR
 select * from WO_MSTR
 select * from "USER"
 
+insert into DICTIONARY values('waiting','wo_status',null);
+insert into DICTIONARY values('accepted','wo_status',null);
+insert into DICTIONARY values('ongoing','wo_status',null);
+insert into DICTIONARY values('completed','wo_status',null);
+
 insert into PT_MSTR values('asztal', 'db', null);
 insert into PT_MSTR values('asztal lap', 'db', null);
 insert into PT_MSTR values('asztallb kész', 'db', null);
@@ -70,7 +75,3 @@ exec newWo 'rend1', 1000, 10, '20230112'
 --insert into PT_MSTR (pt_part,pt_desc, pt_um, pt_qty_oh) values (2, 'szia', 'g', null)
 --set identity_insert dbo.PT_MSTR off
 
-insert into DICTIONARY values('waiting','wo_status',null);
-insert into DICTIONARY values('accepted','wo_status',null);
-insert into DICTIONARY values('ongoing','wo_status',null);
-insert into DICTIONARY values('completed','wo_status',null);
