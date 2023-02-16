@@ -14,7 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { AuthComponent } from './auth/login.component';
 
 import { XWoCoponent } from './xwo/xwo.component';
 import { LnComponent } from './ln/ln.component';
@@ -46,6 +45,8 @@ import { DataStorageService } from './shared/data-storage.service';
 import { UserService } from './user/user.service';
 import { AlertComponent } from './shared/alert/alert.component';
 import { HungarianPaginator } from './shared/hungarian-paginator';
+import { LoginComponent } from './auth/login/login.component';
+import { LogoutComponent } from './auth/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,6 @@ import { HungarianPaginator } from './shared/hungarian-paginator';
     UserComponent,
     PtComponent,
     PsComponent,
-    AuthComponent,
     WoComponent,
     LadComponent,
     WoListComponent,
@@ -69,6 +69,8 @@ import { HungarianPaginator } from './shared/hungarian-paginator';
     WoFormComponent,
     FilterPipePipe,
     AlertComponent,
+    LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
