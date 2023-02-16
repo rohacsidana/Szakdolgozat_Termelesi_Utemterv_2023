@@ -40,7 +40,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { FilterPipePipe } from './ln/filter-pipe.pipe';
 import { DataStorageService } from './shared/data-storage.service';
 import { UserService } from './user/user.service';
 import { AlertComponent } from './shared/alert/alert.component';
@@ -67,7 +66,6 @@ import { LogoutComponent } from './auth/logout/logout.component';
     DataTableComponent,
     WodComponent,
     WoFormComponent,
-    FilterPipePipe,
     AlertComponent,
     LoginComponent,
     LogoutComponent,
