@@ -34,7 +34,7 @@
               <td>
                 <p style="color: red;" *ngIf="!f.valid && (newChg || edit)">Az összes mező kötelező!</p>
                 <p style="color: red;" *ngIf="!validForm ">
-                  Már van ilyen átállás!</p>
+                  {{errorMessage}}</p>
                   <!-- Új chg -->
                 <div *ngIf="!newChg && !edit">
                   <button class="btn btn-primary" (click)="newChg = true">

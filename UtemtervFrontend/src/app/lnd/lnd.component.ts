@@ -38,8 +38,8 @@ export class LndComponent implements OnInit, OnDestroy {
   ptChangedSub: Subscription
   rates: Lnd[];
   lns: Ln[]
-  parts: Pt[]
   lines: string[]
+  parts: Pt[]
   selectedLnd: Lnd;
 
   constructor(
@@ -56,23 +56,18 @@ export class LndComponent implements OnInit, OnDestroy {
 
 
     this.lns = this.lnService.getLines()
-    console.log(this.ptService.getParts());
+    this.parts = this.ptService.getParts()
 
     this.dsService.fetchLnds()
 
     this.lnChangedSub = this.lnService.lnChanged.subscribe((data: Ln[]) => {
       this.lns = data.slice()
-      console.log("lns sub:");
-      console.log(data);
 
     })
 
     this.ptChangedSub = this.ptService.partDataChanged.subscribe((data) => {
       this.parts = data.slice()
-      console.log("pts sub:");
-      console.log(data);
-      
-      
+    
     })
 
     this.rates = this.lndService.getRates();
@@ -90,7 +85,6 @@ export class LndComponent implements OnInit, OnDestroy {
       console.log('kiválasztottad ezt:');
       console.log(this.selectedLnd);
     });
-
 
     this.errorMessage = 'Ismeretlen hiba történt!'
   }
@@ -140,16 +134,16 @@ export class LndComponent implements OnInit, OnDestroy {
       this.errorMessage = 'Nem létezik ilyen gyártósor!'
       this.validForm = false
     }
+    
+    if (!this.ptService.getPart(p)) {
+      this.errorMessage = 'Nem létezik ilyen tétel!'
+      this.validForm = false
+    }
 
     if (this.lndService.doesLndExist(l, p)) {
       //this.lndService.newRate({ lnd_line: l, lnd_part: p, lnd_rate: r });
       this.errorMessage = `Már szerepel a(z) "${l}" gyártósor "${p}" tétellel!`
       this.validForm = false;
-    }
-
-    if (!this.ptService.getPart(p)) {
-      this.errorMessage = 'Nem létezik ilyen tétel!'
-      this.validForm = false
     }
 
     //lnd felvétele, ha nincs hiba
