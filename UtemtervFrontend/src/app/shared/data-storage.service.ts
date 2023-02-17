@@ -227,7 +227,7 @@ export class DataStorageService {
   }
 
   fetchPts() {
-    console.log('fetching pt');
+    //console.log('fetching pt');
 
     return this.http
       .get<
@@ -260,9 +260,84 @@ export class DataStorageService {
       )
       .subscribe();
   }
+  newPt(pt: { pt_desc: string; pt_um: string }) {
+    /*  console.log('New Pt: ');
+    console.log(pt); */
+
+    return this.http
+      .post<any>(URL + '/pt/new', {
+        ptDesc: pt.pt_desc,
+        ptUm: pt.pt_um,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            if (res) {
+              console.log(res);
+
+              let newPt = {
+                pt_part: res[0].ptPart,
+                pt_desc: pt.pt_desc,
+                pt_um: pt.pt_um,
+                pt_qty_oh: null,
+              };
+              console.log(newPt);
+
+              this.ptService.newPart(newPt);
+            }
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  updatePt(pt: Pt) {
+    console.log(pt);
+
+    return this.http
+      .put<number>(URL + '/pt/update', {
+        ptDesc: pt.pt_desc,
+        ptPart: pt.pt_part,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            console.log('update response:');
+            console.log(res);
+
+            if (res > 0) {
+              this.ptService.updatePart(pt);
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      )
+      .subscribe();
+  }
+
+  deletePt(part: number) {
+
+    return this.http
+      .delete<any>(URL + '/pt/delete/' + part)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            console.log('Number of deleted parts: ' + res);
+            if (res > 0) {
+              this.ptService.deletePart(part);
+            }
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
 
   fetchPsS() {
-    console.log('fetching ps');
+    //console.log('fetching ps');
 
     return this.http
       .get<
@@ -932,8 +1007,8 @@ export class DataStorageService {
         .pipe(
           map(
             (res)=>{
-              
-              
+
+
                const wos = res.map(
               (data)=>{
                  const e_wo = {
@@ -954,9 +1029,9 @@ export class DataStorageService {
                   wo_end_time: data.woEndTime,
                   wo_pld_downtime: data.woPldDowntime,
                   wo_unpld_downtime: data.woUnpldDowntime,
-                } 
+                }
                 return{...e_wo}
-              } 
+              }
               )
               console.log(wos);
               return wos;
@@ -968,7 +1043,7 @@ export class DataStorageService {
 
   updateWoSeq(lot: number, seq: number){
    return this.http.patch(URL+'/workorder/prodsch/'+lot+'/'+seq, []);
-    
+
   }
 
 
