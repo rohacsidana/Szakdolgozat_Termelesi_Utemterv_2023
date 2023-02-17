@@ -46,6 +46,7 @@ import { AlertComponent } from './shared/alert/alert.component';
 import { HungarianPaginator } from './shared/hungarian-paginator';
 import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './auth/logout/logout.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { LogoutComponent } from './auth/logout/logout.component';
     AlertComponent,
     LoginComponent,
     LogoutComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,7 +8,19 @@ import { LnService } from '../ln/ln.service';
 import { LndService } from '../lnd/lnd.service';
 import { LdService } from '../ld/ld.service';
 import { ChgService } from '../chg/chg.service';
-import { Lad, Ld, Ln, Pt, User, Wo, Wod, Ps, Lnd, psDisplay, Chg } from './interfaces';
+import {
+  Lad,
+  Ld,
+  Ln,
+  Pt,
+  User,
+  Wo,
+  Wod,
+  Ps,
+  Lnd,
+  psDisplay,
+  Chg,
+} from './interfaces';
 import { PartService } from '../parts/pt/pt.service';
 import { throwError } from 'rxjs';
 import { PartStrService } from '../parts/ps/ps.service';
@@ -42,7 +54,7 @@ export class DataStorageService {
       dayZero +
       dateToFormat.getDate();
 
-    console.log(formattedDate);
+    //console.log(formattedDate);
 
     return formattedDate;
 
@@ -65,9 +77,18 @@ export class DataStorageService {
               wo_seq: data.woSeq,
               wo_qty_ord: data.woQtyOrd,
               wo_ord_date: data.woOrdDate,
-              wo_due_date: data.woDueDate === null ? null :   (new Date(data.woDueDate)).toISOString().split('T')[0],
-              wo_start_date: data.woStartDate === null ? null :  (new Date(data.woStartDate)).toISOString().split('T')[0],
-              wo_rel_date: data.woRelDate === null ? null : (new Date(data.woRelDate)).toISOString().split('T')[0],
+              wo_due_date:
+                data.woDueDate === null
+                  ? null
+                  : new Date(data.woDueDate).toISOString().split('T')[0],
+              wo_start_date:
+                data.woStartDate === null
+                  ? null
+                  : new Date(data.woStartDate).toISOString().split('T')[0],
+              wo_rel_date:
+                data.woRelDate === null
+                  ? null
+                  : new Date(data.woRelDate).toISOString().split('T')[0],
               wo_est_run: data.woEstRun,
               wo_start_time: data.woStartTime,
               wo_end_time: data.woEndTime,
@@ -276,8 +297,6 @@ export class DataStorageService {
   }
 
   newPs(ps: Ps) {
-    console.log('new ps INCOMING!');
-
     console.log('New Ps: ');
     console.log(ps);
 
@@ -330,7 +349,6 @@ export class DataStorageService {
   }
 
   deletePs(par, comp) {
-    const ps = { psPar: par, psComp: comp };
     return this.http
       .delete<any>(URL + '/ps/delete/' + par + '/' + comp)
       .pipe(
@@ -383,12 +401,58 @@ export class DataStorageService {
       )
       .subscribe();
   }
+  newLd(ld: Ld) {
+    /*
+    console.log('New Ld: ');
+    console.log(ld); */
 
-  newLd(ld: Ld) { }
+    return this.http
+      .post<any>(URL + '/ld/new', {
+        ldPart: ld.ld_part,
+        ldExpire: this.formatDate(ld.ld_expire),
+        ldQtyOh: ld.ld_qty_oh,
+        ldQtyRsrv: ld.ld_qty_rsrv,
+        ldQtyScrp: ld.ld_qty_scrp,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            if (res) {
+              let newLd = {
+                ld_part: ld.ld_part,
+                ld_expire: ld.ld_expire,
+                ld_qty_oh: ld.ld_qty_oh,
+                ld_qty_rsrv: ld.ld_qty_rsrv,
+                ld_qty_scrp: ld.ld_qty_scrp,
+              };
+              this.ldService.saveLd(newLd, 'new');
+              console.log(res);
+            }
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
 
-  updateLd(ld: Ld) { }
-
-  deleteLd(part: number, exp: Date) { }
+  updateLd(ld: Ld) {}
+  par: { ldPart: number; ldExpire: Date };
+  deleteLd(part: number, exp: Date) {
+    return this.http
+      .delete<any>(URL + '/ld/delete/' + part + '/' + this.formatDate(exp))
+      .pipe(
+        tap({
+          next: (res: number) => {
+            console.log('Number of deleted lds: ' + res);
+            if (res > 0) {
+              this.ldService.deleteLd(part, exp);
+            }
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
 
   fetchWo(id: number) {
     /* let api = "workorder/" + id; */
@@ -402,17 +466,26 @@ export class DataStorageService {
             wo_qty_ord: data.woQtyOrd,
             wo_ord_date: data.woOrdDate,
             wo_seq: data.woSeq,
-            wo_due_date: data.woDueDate === null ? null : (new Date(data.woDueDate)).toISOString().split('T')[0],
+            wo_due_date:
+              data.woDueDate === null
+                ? null
+                : new Date(data.woDueDate).toISOString().split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
-            wo_start_date: data.woStartDate === null ? null :  (new Date(data.woStartDate)).toISOString().split('T')[0],
+            wo_start_date:
+              data.woStartDate === null
+                ? null
+                : new Date(data.woStartDate).toISOString().split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
             wo_unpld_downtime: data.woUnpldDowntime,
             wo_activated: data.woActivated,
             wo_status: data.woStatus,
-            wo_rel_date:  data.woRelDate === null ? null :   (new Date(data.woRelDate)).toISOString().split('T')[0],
+            wo_rel_date:
+              data.woRelDate === null
+                ? null
+                : new Date(data.woRelDate).toISOString().split('T')[0],
             wo_user: data.woUser,
           };
         });
@@ -535,13 +608,12 @@ export class DataStorageService {
   }
 
   deleteWo(id: number) {
-    return this.http.delete(URL + '/workorder'+'/delete/'  + id);
-      
+    return this.http.delete(URL + '/workorder' + '/delete/' + id);
   }
 
   fetchGyartosorok() {
-    console.log("fetching gys");
-    
+    console.log('fetching gys');
+
     this.http
       .get<
         {
@@ -689,7 +761,7 @@ export class DataStorageService {
 
             this.lndService.newRate(l);
           },
-          error: (error) => console.log(error),       
+          error: (error) => console.log(error),
         })
       )
       .subscribe();
@@ -779,7 +851,7 @@ export class DataStorageService {
         chgLine: chg.chg_line,
         chgFrom: chg.chg_from,
         chgTo: chg.chg_to,
-        chgTime: chg.chg_time
+        chgTime: chg.chg_time,
       })
       .pipe(
         tap({
@@ -788,7 +860,7 @@ export class DataStorageService {
               chg_line: res[0].chgLine,
               chg_from: res[0].chgFrom,
               chg_to: res[0].chgTo,
-              chg_time: res[0].chgTime
+              chg_time: res[0].chgTime,
             };
             console.log(c);
 
@@ -801,12 +873,12 @@ export class DataStorageService {
   }
 
   updateChg(chg: Chg) {
-    console.log("Updated Chg: " + chg);
+    console.log('Updated Chg: ' + chg);
     let updatedChg = {
       chgLine: chg.chg_line,
       chgFrom: chg.chg_from,
       chgTo: chg.chg_to,
-      chgTime: chg.chg_time
+      chgTime: chg.chg_time,
     };
 
     return this.http
@@ -827,10 +899,18 @@ export class DataStorageService {
   }
 
   deleteChg(chg: Chg) {
-    console.log("üdv a deleteChg ból");
+    console.log('üdv a deleteChg ból');
 
     this.http
-      .delete(URL + '/chg/delete/' + chg.chg_line + '/' + chg.chg_from + '/' + chg.chg_to)
+      .delete(
+        URL +
+          '/chg/delete/' +
+          chg.chg_line +
+          '/' +
+          chg.chg_from +
+          '/' +
+          chg.chg_to
+      )
       .pipe(
         tap({
           next: (res: number) => {

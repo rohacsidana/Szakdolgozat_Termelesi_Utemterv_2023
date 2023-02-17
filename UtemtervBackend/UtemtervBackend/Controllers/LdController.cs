@@ -53,13 +53,13 @@ namespace UtemtervBackend.Controllers
         }
 
         [EnableCors]
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{part}/{exp}")]
 
-        public IActionResult deleteLd([FromBody] Ld ld)
+        public IActionResult deleteLd(int part, int exp)
         {
             try
             {
-                var newRows = _context.Database.ExecuteSqlInterpolated($"deleteLd {ld.LdPart}, {ld.LdExpire}");
+                var newRows = _context.Database.ExecuteSqlInterpolated($"deleteLd {part}, {exp}");
                 return Ok(newRows);
             }catch(Exception e)
             {

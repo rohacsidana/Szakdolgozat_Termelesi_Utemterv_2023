@@ -63,6 +63,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.getItemSub = this.dtTblService.getData.subscribe(() => {
       this.dtTblService.emitDataChanged(this.sortedUserData.slice());
     });
+
     this.dtTblService.emitDataChanged(this.sortedUserData.slice());
     this.sortSub = this.dtTblService.sortData.subscribe((sort: Sort) => {
       this.sortData(sort);
@@ -73,10 +74,6 @@ export class UserComponent implements OnInit, OnDestroy {
       (data: User) => {
         this.myGroup = new FormGroup({
           user_id: new FormControl(data.user_id, Validators.required),
-          name: new FormControl(data.name, Validators.required),
-          email: new FormControl(data.email, Validators.required),
-          birth_date: new FormControl(data.birth_date, Validators.required),
-          post: new FormControl(data.post, Validators.required),
         });
         this.onSearchUser();
       }
@@ -124,12 +121,16 @@ export class UserComponent implements OnInit, OnDestroy {
       this.loadedUser = this.userService.getUser(
         Number(this.myGroup.getRawValue().user_id)
       );
+      console.log(this.loadedUser.birth_date);
+      let tempDate = new Date(this.loadedUser.birth_date);
+      tempDate = new Date(tempDate.setDate(tempDate.getDate() + 1));
+
       this.userFound = true;
       this.myGroup = new FormGroup({
         user_id: new FormControl(this.loadedUser.user_id, Validators.required),
         name: new FormControl(this.loadedUser.name, Validators.required),
         birth_date: new FormControl(
-          this.loadedUser.birth_date.toISOString().split('T')[0],
+          tempDate.toISOString().split('T')[0],
           Validators.required
         ),
         email: new FormControl(this.loadedUser.email, Validators.required),

@@ -81,13 +81,15 @@ export class LdComponent implements OnInit, OnDestroy {
 
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
       (data: Ld) => {
+        let tempDate = new Date(data.ld_expire);
+        tempDate = new Date(tempDate.setDate(tempDate.getDate() + 1));
         this.myGroup = this.formBuilder.group({
           ld_part: new FormControl(
             { value: data.ld_part, disabled: true },
             Validators.required
           ),
           ld_expire: new FormControl({
-            value: data.ld_expire.toISOString().split('T')[0],
+            value: tempDate.toISOString().split('T')[0],
             disabled: true,
           }),
           ld_qty_oh: new FormControl(data.ld_qty_oh, Validators.required),
@@ -129,7 +131,7 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.ldService.deleteLd(
+    this.dataStService.deleteLd(
       Number(this.myGroup.getRawValue().ld_part),
       new Date(this.myGroup.getRawValue().ld_expire)
     );
@@ -167,19 +169,13 @@ export class LdComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.checkLdAlreadyExists();
-    let succesfulSave: boolean = this.ldService.saveLd(
-      {
-        ld_part: Number(this.myGroup.getRawValue().ld_part),
-        ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
-        ld_qty_oh: this.myGroup.getRawValue().ld_qty_oh,
-        ld_qty_rsrv: this.myGroup.getRawValue().ld_qty_rsrv,
-        ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp,
-      },
-      this.newMode ? 'new' : 'edit'
-    );
-    if (!succesfulSave) {
-      this.ldAlreadyExists = true;
-    }
+    this.dataStService.newLd({
+      ld_part: Number(this.myGroup.getRawValue().ld_part),
+      ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
+      ld_qty_oh: this.myGroup.getRawValue().ld_qty_oh,
+      ld_qty_rsrv: this.myGroup.getRawValue().ld_qty_rsrv,
+      ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp,
+    });
     this.ldDataChanged();
     this.searchMode = true;
     this.editMode = false;
@@ -230,13 +226,6 @@ export class LdComponent implements OnInit, OnDestroy {
     this.dtTblService.emitDataChanged(results.slice());
   }
 
-  ngOnDestroy(): void {
-    this.getItemSub.unsubscribe();
-    this.sortSub.unsubscribe();
-    this.rowSelectSubscription.unsubscribe();
-    this.ldDataChangedSub.unsubscribe();
-  }
-
   sortData(sort: Sort) {
     const data = this.ldData;
     if (!sort.active || sort.direction === '') {
@@ -270,5 +259,11 @@ export class LdComponent implements OnInit, OnDestroy {
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  ngOnDestroy(): void {
+    this.getItemSub.unsubscribe();
+    this.sortSub.unsubscribe();
+    this.rowSelectSubscription.unsubscribe();
+    this.ldDataChangedSub.unsubscribe();
   }
 }

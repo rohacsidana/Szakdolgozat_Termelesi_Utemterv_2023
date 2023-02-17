@@ -18,13 +18,15 @@ export class LndComponent implements OnInit, OnDestroy {
   edit = false;
   validForm = true;
   deleteLnd = false;
+  newLnd = false;
+  successSearch = true
 
   line: string;
   part: number;
   rate: number;
   errorMessage: string
+  search: string = ''
 
-  newLnd = false;
 
   lndHeaders = [
     { name: 'lnd_line', szoveg: 'Gyártósor azonosító' },
@@ -151,9 +153,6 @@ export class LndComponent implements OnInit, OnDestroy {
       this.dsService.newLnd({ lnd_line: l, lnd_part: p, lnd_rate: r })
       this.clearForm(form);
     }
-
-    //console.log(this.lndService.getRates());
-
   }
 
   editStarted() {
@@ -195,5 +194,9 @@ export class LndComponent implements OnInit, OnDestroy {
     );*/
     this.dsService.deleteLnd(this.selectedLnd)
     this.clearForm(form);
+  }
+
+  onSearch(form: NgForm){
+
   }
 }
