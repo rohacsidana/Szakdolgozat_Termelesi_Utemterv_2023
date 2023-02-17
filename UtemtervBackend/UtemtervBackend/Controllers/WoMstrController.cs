@@ -129,7 +129,7 @@ namespace UtemtervBackend.Controllers
                 var wos = _context.HetiUtemtervs.FromSqlRaw($"getHetiUtemterv {week}, {line}");
                 //if (wos.Count() > 0)
                 //{
-                return Ok(wos);
+                    return Ok(wos);
 
                 //}
                 return NotFound("NO_WO_FOUND");

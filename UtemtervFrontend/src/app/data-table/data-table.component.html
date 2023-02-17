@@ -34,7 +34,9 @@
               [type]="headers[index].input.type"
               [(ngModel)]="item[col.key] = +item[col.key]"
               [value]="+item[col.key]"
-               [step]="headers[index].input.step"/>
+               [step]="headers[index].input.step"
+               (focusout)="focusOffInput(item)"
+               />
           </ng-template>
         </td>
       </tr>

@@ -9,6 +9,7 @@ export class DataTableService {
   dataChanged = new Subject<DataTables[]>();
   getData = new Subject<any>();
   selectRow = new Subject<DataTables>();
+  inputDataChanged = new Subject<DataTables>();
   sortData = new Subject<Sort>();
 
   getChangedData(): DataTables[]{
