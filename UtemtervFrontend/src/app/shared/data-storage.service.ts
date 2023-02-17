@@ -1002,40 +1002,51 @@ export class DataStorageService {
       .subscribe();
   }
 
-  fetchUtemterv(week: number, line: string) {
-    this.http
-      .get(URL + '/workorder/prodsch/' + line + '/' + week)
-      .pipe(
-        map((data) => {
-          console.log(data);
+  fetchUtemterv(week: number, line: string){
+     return this.http.get<any>(URL + "/workorder/prodsch/"+line+'/'+week )
+        .pipe(
+          map(
+            (res)=>{
 
-          /* const wos = data.map(
-              (wo)=>{
-                /* const e_wo = {
-                  wo_lot: data.,
-                  wo_nbr: data.,
-                  wo_part: data.,
-                  pt_desc: data.,
-                  wo_qty_ord: data.,
-                  part_um: data.,
-                  wo_line: data.,
-                  ln_desc: data.,
-                  item_per_hour: data.,
-                  wo_est_run: data.,
-                  wo_seq: data.,
-                  wo_rel_date: data.,
-                  wo_start_date: data.,
-                  wo_start_time: data.,
-                  wo_end_time: data.,
-                  wo_pld_downtime: data.,
-                  wo_unpld_downtime: data.,
+
+               const wos = res.map(
+              (data)=>{
+                 const e_wo = {
+                  wo_lot: data.woLot,
+                  wo_nbr: data.woNbr,
+                  wo_part: data.woPart,
+                  pt_desc: data.ptDesc,
+                  wo_qty_ord: data.woQtyOrd,
+                  part_um: data.ptUm,
+                  wo_line: data.woLine,
+                  ln_desc: data.lnDesc,
+                  item_per_hour: data.egys,
+                  wo_est_run: data.estRun,
+                  wo_seq: data.woSeq,
+                  wo_rel_date: data.woRelDate,
+                  wo_start_date: data.woStartDate,
+                  wo_start_time: data.woStartTime,
+                  wo_end_time: data.woEndTime,
+                  wo_pld_downtime: data.woPldDowntime,
+                  wo_unpld_downtime: data.woUnpldDowntime,
                 }
+                return{...e_wo}
               }
-              )*/
-        })
-      )
-      .subscribe();
+              )
+              console.log(wos);
+              return wos;
+            }
+          )
+        )
+
   }
+
+  updateWoSeq(lot: number, seq: number){
+   return this.http.patch(URL+'/workorder/prodsch/'+lot+'/'+seq, []);
+
+  }
+
+
 }
 
 export const URL = 'https://localhost:7075/api';

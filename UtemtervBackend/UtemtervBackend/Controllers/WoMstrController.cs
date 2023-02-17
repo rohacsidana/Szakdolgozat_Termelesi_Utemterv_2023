@@ -126,18 +126,34 @@ namespace UtemtervBackend.Controllers
         {
             try
             {
-                var wos = _context.HetiUtemtervs.FromSqlRaw($"getHetiUtemterv {week}, {line}");
-                //if (wos.Count() > 0)
-                //{
-                return Ok(wos);
+                var wos = _context.HetiUtemtervs.FromSqlRaw($"getHetiUtemterv {week}, {line}").ToList();
+                if (wos.Count() > 0)
+                {
+                    return Ok(wos);
 
-                //}
+                }
                 return NotFound("NO_WO_FOUND");
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
-                return StatusCode(500,e);
+                return StatusCode(500, "UNKNOWN_ERROR");
+            }
+        }
+
+        [HttpPatch("prodsch/{lot}/{seq}")]
+        public IActionResult SetWoSeq(int lot, int seq)
+        {
+            try
+            {
+            var res = _context.Database.ExecuteSqlRaw($"updateWoSeq {lot}, {seq}");
+            return Ok(res);
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "SEQ_ERROR");
             }
         }
     }

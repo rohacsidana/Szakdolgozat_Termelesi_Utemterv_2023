@@ -54,7 +54,6 @@ export class LndService {
 
     doesLndExist(line: string, part: number) {
         let index = this.getLndIndex(line, part)
-
         if (index < 0) {
             return false
         }

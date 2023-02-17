@@ -1,7 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Sort } from "@angular/material/sort";
+import { Subscription, throwError } from "rxjs";
+import { tap } from "rxjs/operators";
 import { DataTableService } from "../data-table/data-table.service";
 import { DataStorageService } from "../shared/data-storage.service";
 import { XWo } from "../shared/interfaces";
+import { WoService } from "../workorder/wo.service";
 
 @Component({
     selector: 'app-xwo',
@@ -10,29 +15,11 @@ import { XWo } from "../shared/interfaces";
     providers: [DataTableService]
 })
 
-export class XWoCoponent implements OnInit {
-    woData: XWo[] = [
-        {
-            wo_lot: 1
-            , wo_nbr: '1'
-            , wo_part: 1
-            , pt_desc: 'elem'
-            , wo_qty_ord: 10
-            , part_um: 'db'
-            , wo_line: '1'
-            , ln_desc: 'gysor1'
-            , item_per_hour: 1
-            , wo_est_run: '01:13'
-            , wo_seq: 1
-            , wo_rel_date: '2023-01-25'
-            , wo_start_date: '2022-01-24'
-            , wo_start_time: '23:30'
-            , wo_end_time: '00:00'
-            , wo_pld_downtime: '00:00'
-            , wo_unpld_downtime: '01:01'
-        }
-    ];
-
+export class XWoCoponent implements OnInit, OnDestroy {
+    xwoData: XWo[] = [];
+    sortedWodData: XWo[] = [];
+    error: string = null;
+    lastSort: Sort = null;
     xwoHeaders: {
         name: string, szoveg: string, input?: {
             type: string;
@@ -57,31 +44,76 @@ export class XWoCoponent implements OnInit {
             { name: "wo_pld_downtime", szoveg: "Tervezett állási idő" },
             { name: "wo_unpld_downtime", szoveg: "Nem tervezett állási idő" },
         ];
-    constructor(private datatableservice: DataTableService, private dataStorageService: DataStorageService) {
+
+    xwoDataChangedSub: Subscription;
+    dtTableInputSub: Subscription;
+    constructor(private datatableservice: DataTableService, private dataStorageService: DataStorageService, private woService: WoService) {
     }
 
     ngOnInit() {
-        this.datatableservice.emitDataChanged(this.woData.slice());
-        this.dataStorageService.fetchUtemterv(1,'line_01');
+        this.xwoDataChangedSub =  this.woService.xwoDataChanged.subscribe(
+            (data)=>{
+                this.xwoData = [...data.map(xwo=>{return{...xwo}})];
+                this.sortedWodData = [...this.xwoData.map(xwo=>{return{...xwo}})];
+                
+                this.datatableservice.emitDataChanged([...this.sortedWodData.map(xwo=>{return{...xwo}})]);
+            }
+        );
+        this.dtTableInputSub = this.datatableservice.inputDataChanged.subscribe(
+            (data:XWo)=>{
+                
+                this.dataStorageService.updateWoSeq(data.wo_lot, data.wo_seq)
+                .pipe(
+                    tap({
+                        next: ()=> this.woService.setXWo({...data}),
+                        error: (error)=>this.handleError(error)
+                    })
+                )
+                .subscribe();
+                
+            }
+        );
+        this.dataStorageService.fetchUtemterv(1,'line_01')
+        .pipe(
+            tap({
+            next: (data) => this.woService.setXWos(data),
+            error: (error) => this.handleError(error)
+        }))
+        .subscribe();
+        
+    }
+    
+    onHandleError() {
+        this.error = null;
+        this.woService.woError = null;
+      
+        this.datatableservice.emitDataChanged([...this.sortedWodData.map(xwo=>{return{...xwo}})]);
+      }
+    
+      handleError(errorRes: HttpErrorResponse) {
+    
+        let errorMessage = 'An unknown error occurred!';
+      
+    
+          switch (errorRes.error) {
+            case "SEQ_ERROR":
+              errorMessage = "There are more then on workorder with the same seq"
+              break;
+            
+            case "UNKNOWN_ERROR":
+                errorMessage = "An unknown error occurred";
+    
+            default:
+              errorMessage = "An unknown error occurred";
+              break;
+          }
+     
+        this.error = errorMessage;
+        this.woService.woError = this.error;
+        return throwError(errorMessage);
+      }
+    ngOnDestroy(): void {
+        this.xwoDataChangedSub.unsubscribe();
     }
 }
-/*
-wo_lot, szoveg: "GYR azon,"
-wo_nbr, szoveg: "GYR szám,"
-wo_part, szoveg: "GYR tételkód,"
-pt_desc, szoveg: "Megnevezés,"
-wo_qty_ord, szoveg: "Mennyiség,"
-part_um, szoveg: "Mértékegység,"
-wo_line, szoveg: "Gyártósor,"
-ln_desc, szoveg: "Gyártósor megnevezés,"
-item_per_hour, szoveg: "Óránkénti elkészülési egység
-wo_est_run, szoveg: "Várható elkészülési idő,"
-wo_seq, szoveg: "sorrend,"
-wo_rel_date, szoveg: "Kibocsátási dátum,"
-wo_start_date, szoveg: "Esedékesség dátum,"
-wo_start_time, szoveg: "Kezdési idő,"
-wo_end_time, szoveg: "Végzési idő,"
-wo_pld_downtime, szoveg: "Tervezett állási idő,"
-wo_unpld_downtime, szoveg: "Nem tervezett állási idő
-*/
 
