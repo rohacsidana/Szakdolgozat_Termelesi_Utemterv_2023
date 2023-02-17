@@ -19,12 +19,14 @@ export class ChgComponent {
   edit = false;
   deleteChg = false;
   validForm = true;
+  successSearch = true
 
   line: string;
   from: number;
   to: number;
   time: string;
   errorMessage: string
+  search: string = ''
 
   chgHeaders = [
     { name: 'chg_line', szoveg: 'Gyártósor azonosító' },

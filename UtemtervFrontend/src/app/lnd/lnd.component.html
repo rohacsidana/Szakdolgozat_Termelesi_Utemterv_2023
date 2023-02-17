@@ -200,7 +200,7 @@
                       maxlength="24"
                       class="form-control"
                       [(ngModel)]="part"
-                      [disabled]="!newLnd && !edit"
+                      [disabled]="!newLnd"
                     />
                   </div>
                   <div class="col-xs-4">
@@ -222,7 +222,7 @@
         </div>
       </div>
       <hr />
-      <!-- ln headerek -->
+      <!-- lnd headerek -->
       <div class="row">
         <div class="col-lg-12">
           <app-data-table [headers]="lndHeaders"></app-data-table>
