@@ -110,4 +110,7 @@ export class DataTableComponent implements OnDestroy, OnInit {
 
     return [year, month, day].join('-');
 }
+focusOffInput(item){
+  this.dataTblService.inputDataChanged.next(item);
+}
 }

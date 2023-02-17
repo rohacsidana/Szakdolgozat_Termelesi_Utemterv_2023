@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Lad, Wo, Wod } from '../shared/interfaces';
+import { Lad, Wo, Wod, XWo } from '../shared/interfaces';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,6 +17,9 @@ export class WoService {
   getDataFromTable = new Subject<any>();
   selectedWo: Wo = null;
   woError: string = null;
+  xwoData: XWo[] =  [];
+  xwoDataChanged = new Subject<XWo[]>();
+
   addWoData(wo: Wo) {
     this.woData.push(wo);
     this.woDataChanged.next(this.woData.slice());
@@ -79,5 +82,26 @@ export class WoService {
              return this.DataStorageService.fetchWo(woLot);
          } */
     /* return apihívás */
+  }
+
+  setXWos(xwos){
+    this.xwoData = xwos.slice();
+    this.xwoDataChanged.next([...this.xwoData]);
+  }
+  setXWo(newXwo){
+
+    let index = this.xwoData.findIndex((value)=>{
+      return value.wo_lot === newXwo.wo_lot
+    });
+    const xwo = this.xwoData[index];
+    const updatedXwo = {
+      ...xwo,
+      ...newXwo
+    }
+    const updatedXwos = [...this.xwoData]
+    updatedXwos[index] = updatedXwo;
+    this.xwoData = [...updatedXwos]
+    this.xwoDataChanged.next([...this.xwoData]);
+    
   }
 }

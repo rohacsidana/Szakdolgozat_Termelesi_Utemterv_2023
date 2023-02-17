@@ -1,3 +1,8 @@
+<app-alert
+    [message]="error"
+    *ngIf="error"
+    (close)="onHandleError()"
+  ></app-alert>
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
