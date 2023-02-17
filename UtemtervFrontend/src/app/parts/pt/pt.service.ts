@@ -10,7 +10,7 @@ export class PartService {
   private partData: Pt[] = [];
 
   setPts(pts: Pt[]) {
-    console.log('setting pts');
+    //console.log('setting pts');
     //console.log(pts);
     this.partData = pts;
     this.partDataChanged.next(this.partData.slice());
@@ -28,27 +28,23 @@ export class PartService {
     }
   }
 
-  savePart(part: Pt) {
-    if (this.getPart(part.pt_part)) {
-      //ha létezik ilyen pt_part-tel part, updateljuk
-      for (let i = 0; i < this.partData.length; i++) {
-        if (this.partData[i].pt_part == part.pt_part) {
-          this.partData[i] = part;
-        }
+  updatePart(part: Pt) {
+    for (let i = 0; i < this.partData.length; i++) {
+      if (this.partData[i].pt_part == part.pt_part) {
+        this.partData[i] = part;
       }
-    } else {
-      this.partData.push(part);
     }
 
     this.partDataChanged.next(this.partData.slice());
   }
+  newPart(part: Pt) {
+    this.partData.push(part);
+    console.log(part);
+    this.partDataChanged.next(this.partData.slice());
+  }
 
   deletePart(id: number) {
-    //console.log(this.getPart(id));
-
-    if (this.getPart(id)) {
-      this.partData.splice(this.partData.indexOf(this.getPart(id)), 1);
-      this.partDataChanged.next(this.partData.slice());
-    }
+    this.partData.splice(this.partData.indexOf(this.getPart(id)), 1);
+    this.partDataChanged.next(this.partData.slice());
   }
 }

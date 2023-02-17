@@ -73,15 +73,16 @@ namespace UtemtervBackend.Controllers
         }
 
         [EnableCors]
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{part}")]
 
 
-        public IActionResult deletePt(int pt_part)
+        public IActionResult deletePt(int part)
         {
             try
             {
-                var numberOfDeleted = _context.Database.ExecuteSqlRaw($"deletePt {pt_part}");
+                var numberOfDeleted = _context.Database.ExecuteSqlRaw($"deletePt {part}");
                 return Ok(numberOfDeleted);
+
             }
             catch(Exception e)
             {

@@ -12,7 +12,7 @@ export class UserService {
   emailExists: boolean = false;
 
   setUsers(data: User[]) {
-    console.log('setting users');
+    //console.log('setting users');
     this.userData = data.slice();
     this.userDataChanged.next(this.userData.slice());
   }

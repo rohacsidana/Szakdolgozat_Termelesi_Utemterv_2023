@@ -16,9 +16,12 @@ import { PartService } from './pt.service';
 export class PtComponent {
   loadedPart: Pt;
 
+  searchMode: boolean = true;
+  newMode: boolean = false;
+  editMode: boolean = false;
+
   myGroup: FormGroup;
   partFound: boolean = true;
-  searchMode: boolean = true;
   partAlreadyExists: boolean = false;
   sortSub: Subscription;
   sortedPartData: Pt[] = [];
@@ -50,8 +53,6 @@ export class PtComponent {
     this.ptDataChangedSub = this.partService.partDataChanged.subscribe(
       (ptData: Pt[]) => {
         this.partData = ptData;
-        //console.log(ptData);
-
         this.sortedPartData = this.partData.slice();
         if (!!this.lastSort) {
           this.sortData(this.lastSort);
@@ -70,21 +71,30 @@ export class PtComponent {
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
       (data: Pt) => {
         this.myGroup = new FormGroup({
-          pt_part: new FormControl(data.pt_part, Validators.required),
-          pt_desc: new FormControl(data.pt_desc, Validators.required),
-          pt_um: new FormControl(data.pt_um, Validators.required),
+          pt_part: new FormControl(
+            { value: data.pt_part, disabled: true },
+            Validators.required
+          ),
         });
         this.onSearchPart();
-        console.log(data);
       }
     );
   }
 
   initForm() {
     this.myGroup = new FormGroup({
-      pt_part: new FormControl('', Validators.required),
+      pt_part: new FormControl(
+        { value: '', disabled: this.searchMode ? false : true },
+        Validators.required
+      ),
       pt_desc: new FormControl('', Validators.required),
-      pt_um: new FormControl('', Validators.required),
+      pt_um: new FormControl(
+        {
+          value: '',
+          disabled: this.searchMode || this.editMode ? true : false,
+        },
+        Validators.required
+      ),
     });
   }
 
@@ -120,32 +130,59 @@ export class PtComponent {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  onChangeMode() {
+  onEditMode() {
+    this.newMode = false;
+    this.editMode = true;
+    this.searchMode = false;
+  }
+
+  onNewMode() {
     this.clearForm();
-    this.searchMode = !this.searchMode;
+    this.newMode = true;
+    this.editMode = false;
+    this.searchMode = false;
+
+    this.myGroup = new FormGroup({
+      pt_part: new FormControl(
+        { value: '', disabled: true },
+        Validators.required
+      ),
+      pt_desc: new FormControl('', Validators.required),
+      pt_um: new FormControl('', Validators.required),
+    });
   }
 
   onSearchPart() {
-    if (this.partService.getPart(this.myGroup.value.pt_part)) {
-      //lekérem a beirt pt_part szerinti tételt
-      this.loadedPart = this.partService.getPart(
-        Number(this.myGroup.value.pt_part)
-      );
+    this.loadedPart = this.partService.getPart(
+      Number(this.myGroup.value.pt_part)
+    );
+    console.log(this.loadedPart);
+
+    if (this.loadedPart) {
       this.partFound = true;
+      this.onEditMode();
+      //lekérem a beirt pt_part szerinti tételt
       this.myGroup = new FormGroup({
-        pt_part: new FormControl(this.loadedPart.pt_part, Validators.required),
+        pt_part: new FormControl(
+          { value: this.loadedPart.pt_part, disabled: true },
+          Validators.required
+        ),
         pt_desc: new FormControl(this.loadedPart.pt_desc, Validators.required),
-        pt_um: new FormControl(this.loadedPart.pt_um, Validators.required),
+        pt_um: new FormControl(
+          { value: this.loadedPart.pt_um, disabled: true },
+          Validators.required
+        ),
       });
     } else {
       this.clearForm();
       this.partFound = false;
     }
-    console.log('Part found: ' + this.partFound);
   }
 
   onDelete() {
-    this.partService.deletePart(Number(this.myGroup.value.pt_part));
+    this.dataStorageService.deletePt(
+      Number(this.myGroup.getRawValue().pt_part)
+    );
     this.partDataChanged();
     this.clearForm();
     this.loadedPart = null;
@@ -160,23 +197,29 @@ export class PtComponent {
   }
 
   onSubmit() {
-    console.log('Part already exists: ' + this.partAlreadyExists);
-    this.partService.savePart({
-      pt_part: Number(this.myGroup.value.pt_part),
-      pt_desc: this.myGroup.value.pt_desc,
-      pt_um: this.myGroup.value.pt_um,
-    });
-    //console.log(this.myGroup.value);
+    if (this.editMode) {
+      this.dataStorageService.updatePt({
+        pt_part: this.myGroup.getRawValue().pt_part,
+        pt_desc: this.myGroup.value.pt_desc,
+        pt_um: this.myGroup.getRawValue().pt_um,
+      });
+    } else if (this.newMode) {
+      this.dataStorageService.newPt({
+        pt_desc: this.myGroup.value.pt_desc,
+        pt_um: this.myGroup.value.pt_um,
+      });
+    }
     this.partDataChanged();
     this.clearForm();
-    this.searchMode = true;
   }
 
   clearForm() {
-    this.myGroup.reset();
-    this.partAlreadyExists = false;
     this.partFound = true;
-    this.loadedPart = null;
+    //keresés módra állítás
+    this.searchMode = true;
+    this.editMode = false;
+    this.newMode = false;
+    this.initForm();
   }
 
   partDataChanged() {

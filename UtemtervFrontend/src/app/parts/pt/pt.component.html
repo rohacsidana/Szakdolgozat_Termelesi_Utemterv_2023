@@ -22,7 +22,6 @@
                       name="pt_part"
                       class="form-control"
                       formControlName="pt_part"
-                      (change)="checkPartAlreadyExists()"
                     />
                     <div class="input-group-btn">
                       <button
@@ -39,37 +38,47 @@
                 </div>
               </div>
               <button
-                *ngIf="!searchMode"
+                *ngIf="newMode"
                 class="btn btn-success"
                 type="submit"
                 style="z-index: auto"
-                [disabled]="!myGroup.valid || partAlreadyExists"
+                [disabled]="!myGroup.valid"
               >
                 Mentés
               </button>
               <button
                 [className]="searchMode ? 'btn btn-success' : 'btn btn-danger'"
-                (click)="onChangeMode()"
                 type="button"
+                (click)="onNewMode()"
+                *ngIf="searchMode"
               >
-                {{ searchMode ? "Új" : "Mégse" }}
+                Új
               </button>
               <button
                 class="btn btn-danger"
                 (click)="onDelete()"
                 type="button"
-                [disabled]="!loadedPart"
-                *ngIf="searchMode && loadedPart"
+                *ngIf="editMode"
               >
                 Törlés
               </button>
               <button
                 class="btn btn-warning"
                 type="submit"
-                [disabled]="!myGroup.valid || !loadedPart"
-                *ngIf="searchMode && loadedPart"
+                [disabled]="!myGroup.valid"
+                *ngIf="editMode"
               >
                 Módosítások mentése
+              </button>
+              <button
+                class="btn btn-warning"
+                type="button"
+                (click)="clearForm()"
+                e
+                e
+                *ngIf="newMode || editMode"
+              >
+                Mégse
               </button>
             </div>
             <!-- "hiba" üzenetek -->
@@ -77,9 +86,6 @@
               <div class="col-xs-12">
                 <p *ngIf="!partFound && searchMode">
                   Nem található ilyen azonosítójú tétel!
-                </p>
-                <p *ngIf="partAlreadyExists && !searchMode">
-                  Már létezik ilyen azonosítójú tétel!
                 </p>
               </div>
             </div>
@@ -95,7 +101,6 @@
                       name="pt_desc"
                       class="form-control"
                       maxlength="24"
-                      [attr.disabled]="!partFound && searchMode"
                       formControlName="pt_desc"
                     />
                   </div>
