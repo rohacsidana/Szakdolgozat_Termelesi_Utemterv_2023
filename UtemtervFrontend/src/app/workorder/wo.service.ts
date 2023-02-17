@@ -89,8 +89,9 @@ export class WoService {
     this.xwoDataChanged.next([...this.xwoData]);
   }
   setXWo(newXwo){
+
     let index = this.xwoData.findIndex((value)=>{
-      return value.wo_lot = xwo.wo_lot
+      return value.wo_lot === newXwo.wo_lot
     });
     const xwo = this.xwoData[index];
     const updatedXwo = {
@@ -101,5 +102,6 @@ export class WoService {
     updatedXwos[index] = updatedXwo;
     this.xwoData = [...updatedXwos]
     this.xwoDataChanged.next([...this.xwoData]);
+    
   }
 }

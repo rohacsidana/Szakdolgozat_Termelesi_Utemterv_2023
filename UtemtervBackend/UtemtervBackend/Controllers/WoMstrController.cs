@@ -141,7 +141,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [HttpPut("prodsch /{lot}/{seq}")]
+        [HttpPatch("prodsch/{lot}/{seq}")]
         public IActionResult SetWoSeq(int lot, int seq)
         {
             try
@@ -153,7 +153,7 @@ namespace UtemtervBackend.Controllers
             catch (Exception)
             {
 
-                return StatusCode(500, "SEQ_ALREADY_EXISTS");
+                return StatusCode(500, "SEQ_ERROR");
             }
         }
     }

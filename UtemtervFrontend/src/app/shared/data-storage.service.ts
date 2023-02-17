@@ -966,6 +966,11 @@ export class DataStorageService {
 
   }
 
+  updateWoSeq(lot: number, seq: number){
+   return this.http.patch(URL+'/workorder/prodsch/'+lot+'/'+seq, []);
+    
+  }
+
 
 }
 

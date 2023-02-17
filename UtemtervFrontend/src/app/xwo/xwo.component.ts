@@ -56,13 +56,20 @@ export class XWoCoponent implements OnInit, OnDestroy {
                 this.xwoData = [...data.map(xwo=>{return{...xwo}})];
                 this.sortedWodData = [...this.xwoData.map(xwo=>{return{...xwo}})];
                 
-                this.datatableservice.emitDataChanged(this.sortedWodData.slice());
+                this.datatableservice.emitDataChanged([...this.sortedWodData.map(xwo=>{return{...xwo}})]);
             }
         );
         this.dtTableInputSub = this.datatableservice.inputDataChanged.subscribe(
-            (data)=>{
-                console.log(data);
-                console.log(this.xwoData);
+            (data:XWo)=>{
+                
+                this.dataStorageService.updateWoSeq(data.wo_lot, data.wo_seq)
+                .pipe(
+                    tap({
+                        next: ()=> this.woService.setXWo({...data}),
+                        error: (error)=>this.handleError(error)
+                    })
+                )
+                .subscribe();
                 
             }
         );
@@ -80,7 +87,7 @@ export class XWoCoponent implements OnInit, OnDestroy {
         this.error = null;
         this.woService.woError = null;
       
-        /* adat vissza állítás*/
+        this.datatableservice.emitDataChanged([...this.sortedWodData.map(xwo=>{return{...xwo}})]);
       }
     
       handleError(errorRes: HttpErrorResponse) {
