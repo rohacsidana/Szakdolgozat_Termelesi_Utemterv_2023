@@ -24,7 +24,7 @@ public partial class WoMstr
 
     public DateTime WoDueDate { get; set; }
 
-    public DateTime? WoStartDate { get; set; }
+    public DateTime WoStartDate { get; set; }
 
     public DateTime? WoRelDate { get; set; }
 
@@ -32,15 +32,15 @@ public partial class WoMstr
 
     public TimeSpan? WoStartTime { get; set; }
 
-    public DateTime? WoEndTime { get; set; }
+    public TimeSpan? WoEndTime { get; set; }
 
     public TimeSpan? WoPldDowntime { get; set; }
 
-    public TimeSpan? WoUnpldDowntime { get; set; }
+    public TimeSpan WoUnpldDowntime { get; set; }
 
     public bool WoActivated { get; set; }
 
-    public string? WoStatus { get; set; }
+    public string WoStatus { get; set; } = null!;
     [JsonIgnore]
     public virtual LnMstr? WoLineNavigation { get; set; }
     [JsonIgnore]
