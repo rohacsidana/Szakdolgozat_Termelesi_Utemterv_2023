@@ -105,7 +105,7 @@ export class DataStorageService {
         }),
         tap({
           next: (data) => {
-            this.woService.setWoData(data.slice());
+            this.woService.setWoData([...data]);
           },
           error: (error) => console.log(error),
         })
@@ -564,7 +564,7 @@ export class DataStorageService {
             wo_user: data.woUser,
           };
         });
-
+        
         return { ...woDataNew[0] };
       }) /* ,
 
@@ -621,6 +621,8 @@ export class DataStorageService {
     return this.http.post<any>(URL + '/workorder/new', wo).pipe(
       map((res) => {
         const woA = res.map((data) => {
+          console.log(data);
+          
           const wo = {
             wo_lot: data.woLot,
             wo_nbr: data.woNbr,
@@ -628,17 +630,23 @@ export class DataStorageService {
             wo_qty_ord: data.woQtyOrd,
             wo_ord_date: data.woOrdDate,
             wo_seq: data.woSeq,
-            wo_due_date: data.woDueDate,
+            wo_due_date: data.woDueDate === null
+            ? null
+            : new Date(data.woDueDate ).toISOString().split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
-            wo_start_date: data.woStartDate,
+            wo_start_date: data.woStartDate === null
+            ? null
+            : new Date(data.woStartDate).toISOString().split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
             wo_unpld_downtime: data.woUnpldDowntime,
             wo_activated: data.woActivated,
             wo_status: data.woStatus,
-            wo_rel_date: data.woRelDate,
+            wo_rel_date: data.woRelDate === null
+            ? null
+            : new Date(data.woStartDate).toISOString().split('T')[0],
             wo_user: data.woUser,
           };
           return { ...wo };
@@ -662,17 +670,23 @@ export class DataStorageService {
             wo_qty_ord: data.woQtyOrd,
             wo_ord_date: data.woOrdDate,
             wo_seq: data.woSeq,
-            wo_due_date: data.woDueDate,
+            wo_due_date: data.woDueDate === null
+            ? null
+            : new Date(data.woDueDate ).toISOString().split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
-            wo_start_date: data.woStartDate,
+            wo_start_date: data.woStartDate === null
+            ? null
+            : new Date(data.woStartDate).toISOString().split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
             wo_unpld_downtime: data.woUnpldDowntime,
             wo_activated: data.woActivated,
             wo_status: data.woStatus,
-            wo_rel_date: data.woRelDate,
+            wo_rel_date: data.woRelDate === null
+            ? null
+            : new Date(data.woRelDate ).toISOString().split('T')[0],
             wo_user: data.woUser,
           };
           return { ...wo };
@@ -1023,8 +1037,12 @@ export class DataStorageService {
                   item_per_hour: data.egys,
                   wo_est_run: data.estRun,
                   wo_seq: data.woSeq,
-                  wo_rel_date: data.woRelDate,
-                  wo_start_date: data.woStartDate,
+                  wo_rel_date: data.woRelDate  === null
+                  ? null
+                  : new Date(data.woRelDate).toISOString().split('T')[0],
+                  wo_start_date: data.woStartDate === null
+                  ? null
+                  : new Date(data.woStartDate).toISOString().split('T')[0],
                   wo_start_time: data.woStartTime,
                   wo_end_time: data.woEndTime,
                   wo_pld_downtime: data.woPldDowntime,

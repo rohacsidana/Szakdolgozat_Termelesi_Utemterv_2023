@@ -104,4 +104,13 @@ export class WoService {
     this.xwoDataChanged.next([...this.xwoData]);
     
   }
+
+  addWo(wo){
+    console.log(wo);
+    
+    const newWo = {...wo};
+    const newWos = [...this.woData, {...newWo}];
+    this.woData = [...newWos]
+    this.woDataChanged.next([...this.woData]);
+  }
 }

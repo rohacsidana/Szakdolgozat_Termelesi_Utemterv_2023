@@ -58,13 +58,11 @@ export class LadComponent implements OnInit, OnDestroy {
         this.dataStorageService.fetchLad(+params['lot'])
         .pipe(
           tap({
-            next: data => this.woService.setLadData(data.slice()),
+            next: data => this.woService.setLadData([...data]),
             error: error => {
               
               
               if(this.woService.woError === null){
-                
-                
                 this.woService.setLadData([])
             }
             return throwError(error.error);
@@ -88,7 +86,7 @@ export class LadComponent implements OnInit, OnDestroy {
 
     this.woGetSub = this.woService.getDataFromTable.subscribe(
       ()=>{
-       this.woService.setLadData(this.dtTblService.getChangedData());
+       this.woService.setLadData([...this.dtTblService.getChangedData()]);
       }
     );
   }

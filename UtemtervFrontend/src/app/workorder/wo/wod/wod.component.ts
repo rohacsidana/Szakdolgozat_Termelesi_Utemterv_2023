@@ -58,7 +58,7 @@ export class WodComponent implements OnInit, OnDestroy {
         this.DataStorageService.fetchWod(this.lot)
           .pipe(
             tap({
-              next: data => this.woService.setWodData(data.slice()),
+              next: data => this.woService.setWodData([...data]),
               error: error => {
 
 
@@ -84,7 +84,7 @@ export class WodComponent implements OnInit, OnDestroy {
 
     this.woGetSub = this.woService.getDataFromTable.subscribe(
       () => {
-       this.woService.setWodData(this.dtTblService.getChangedData());
+       this.woService.setWodData([...this.dtTblService.getChangedData()]);
       }
     );
 

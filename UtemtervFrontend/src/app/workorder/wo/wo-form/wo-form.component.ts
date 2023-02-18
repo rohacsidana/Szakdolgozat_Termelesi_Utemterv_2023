@@ -18,7 +18,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
   editing: boolean = false;
   newMode: boolean = false;
-  selectedWo: Wo = {
+  selectedWo: Wo =   {
     wo_lot: null,
     wo_nbr: null,
     wo_part: null,
@@ -82,9 +82,10 @@ export class WoFormComponent implements OnInit, OnDestroy {
   initForm() {
     if (this.selectedMode) {
       this.selectedWo = this.woService.getSelectedWo();
-
+      
       if (this.selectedWo === null) {
         this.selectedWo = this.woService.getWo(this.selectedWoLot);
+        
       } else {
         this.initFormData();
       }
@@ -93,13 +94,15 @@ export class WoFormComponent implements OnInit, OnDestroy {
         this.DataStorageService.fetchWo(this.selectedWoLot).pipe(
           tap(
             {
-              next: (data) => console.log(),
+              next: (data) => this.woService.addWo({...data}),
               error: (error) => this.handleError(error),
             }
           ),
         )
           .subscribe((data) => {
-            this.selectedWo = data;
+
+            this.selectedWo = {...data};
+        
             this.initFormData();
           });
       } else {
@@ -170,25 +173,24 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    console.log(this.woFormActData);
   }
 
   search() {
     let wo = this.woService.getWo(+this.woFormActData.woLot);
     if (wo !== null) {
-      this.woService.setSelectedWo(wo);
+      this.woService.setSelectedWo({...wo});
       this.router.navigate(['./', 'workorder', +this.woFormActData.woLot]);
     } else {
       this.DataStorageService.fetchWo(this.woFormActData.woLot).pipe(
         tap(
           {
-            next: (data) => console.log(),
+            next: (data) => this.woService.addWoData({...data}),
             error: (error) => this.handleError(error),
           }
         ),
       )
         .subscribe((data) => {
-          this.woService.setSelectedWo(data);
+          this.woService.setSelectedWo({...data});
           this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
 
         });
@@ -229,7 +231,9 @@ export class WoFormComponent implements OnInit, OnDestroy {
       .pipe(
         tap(
           {
-            next: (data) => {this.woService.updateWo(data)
+            next: (data) => {this.woService.updateWo({...data})
+                              this.selectedWo = {...data};
+                             this.initFormData();
                               this.editing = false},
             error: (error) => this.handleError(error),
           }
@@ -241,17 +245,15 @@ export class WoFormComponent implements OnInit, OnDestroy {
         .pipe(
           tap(
             {
-              next: (data) => this.woService.addWoData(data),
+              next: (data) => {this.woService.addWoData(data);
+                this.router.navigate(['../','workorder', data.wo_lot]);},
               error: (error) => this.handleError(error),
             }
           ),
 
         )
         .subscribe(
-          (resp) => {
-            this.router.navigate(['../','workorder', resp.wo_lot]);
-
-          }
+          
         );
       ;
       //this.router.navigate(['workorder']);
