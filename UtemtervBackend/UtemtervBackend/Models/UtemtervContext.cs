@@ -300,7 +300,7 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("date")
                 .HasColumnName("wo_due_date");
             entity.Property(e => e.WoEndTime)
-                .HasPrecision(0)
+                .HasColumnType("datetime")
                 .HasColumnName("wo_end_time");
             entity.Property(e => e.WoEstRun)
                 .HasComputedColumnSql("(CONVERT([time],CONVERT([varchar],dateadd(second,([wo_qty_ord]/[dbo].[orankentiEgyseg]([wo_part],[wo_line]))*(3600),(0)),(108))))", false)
@@ -330,7 +330,7 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("date")
                 .HasColumnName("wo_start_date");
             entity.Property(e => e.WoStartTime)
-                .HasPrecision(0)
+                .HasColumnType("datetime")
                 .HasColumnName("wo_start_time");
             entity.Property(e => e.WoStatus)
                 .HasMaxLength(10)

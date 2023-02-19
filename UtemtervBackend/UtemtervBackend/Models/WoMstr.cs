@@ -30,9 +30,9 @@ public partial class WoMstr
 
     public TimeSpan? WoEstRun { get; set; }
 
-    public TimeSpan? WoStartTime { get; set; }
+    public DateTime? WoStartTime { get; set; }
 
-    public TimeSpan? WoEndTime { get; set; }
+    public DateTime? WoEndTime { get; set; }
 
     public TimeSpan? WoPldDowntime { get; set; }
 
