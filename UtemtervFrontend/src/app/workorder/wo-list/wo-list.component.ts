@@ -78,6 +78,7 @@ export class WoListComponent implements OnInit, OnDestroy {
         this.selectRow = this.dtTblService.selectRow.subscribe(
             (selectedRow: Wo) => {
                 let pk = selectedRow.wo_lot
+                this.woService.setSelectedWo({...selectedRow})
                 this.router.navigate(['../', pk], { relativeTo: this.route });
             }
         );
@@ -151,6 +152,7 @@ export class WoListComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.sortSub.unsubscribe();
         this.woDataChangedSub.unsubscribe();
+        this.selectRow.unsubscribe();
     }
     filterData(arg: number) {
         const data = this.sortedWoData.slice();
