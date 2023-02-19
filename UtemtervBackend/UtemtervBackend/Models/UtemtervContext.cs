@@ -112,7 +112,11 @@ public partial class UtemtervContext : DbContext
         {
             entity.HasKey(e => e.LadId).HasName("PK__LAD_DET__24E37365A97F565C");
 
-            entity.ToTable("LAD_DET", tb => tb.HasTrigger("Lad_reserve"));
+            entity.ToTable("LAD_DET", tb =>
+            {
+                tb.HasTrigger("Lad_reserve");
+                tb.HasTrigger("lad_update");
+            });
 
             entity.Property(e => e.LadId).HasColumnName("lad_id");
             entity.Property(e => e.LadComp).HasColumnName("lad_comp");

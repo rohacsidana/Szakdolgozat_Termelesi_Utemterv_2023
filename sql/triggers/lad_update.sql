@@ -1,4 +1,4 @@
-create trigger lad_update
+create trigger lad_reserve_update
 	on lad_det
 	after update
 as

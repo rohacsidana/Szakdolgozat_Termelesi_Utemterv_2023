@@ -18,12 +18,12 @@ public partial class LadDet
 
     public DateTime? LadExpire { get; set; }
 
-    public decimal? LadQtyRsrv { get; set; }
+    public decimal LadQtyRsrv { get; set; }
 
     public decimal? LadQtyUsed { get; set; }
     [JsonIgnore]
-
     public virtual LdDet? Lad { get; set; }
     [JsonIgnore]
+
     public virtual WomDet? LadNavigation { get; set; }
 }
