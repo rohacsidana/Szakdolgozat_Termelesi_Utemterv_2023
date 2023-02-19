@@ -156,4 +156,11 @@ export class WoService {
     this.woError = error;
     this.errorChanged.next(error);
   }
+  isUtemezheto(){
+    let index = 0
+    while(index < this.xwoData.length && !(this.xwoData[index].wo_seq == null)){
+      index++;
+    }
+    return index >= this.xwoData.length;
+  }
 }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 using UtemtervBackend.Models;
 
 namespace UtemtervBackend.Controllers
@@ -156,7 +157,26 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(500, "SEQ_ERROR");
             }
         }
+
+        [HttpPatch("prodsch")]
+        public IActionResult ScheduleWo([FromBody] ProdSch prod)
+        {
+            try
+            {
+                var res = _context.HetiUtemtervs.FromSqlInterpolated($"scheduleWo {prod.Week}, {prod.WoLine}, {prod.StartTime}");
+                 
+                return Ok(res);
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "SEQ_ERROR");
+            }
+        }
     }
+
+    
 
 }
 
@@ -180,4 +200,9 @@ public class UpdateWo: NewWo
     public string ?WoStatus {get; set; } = "";
 }
 
-        
+public class ProdSch
+{
+    public int Week { get; set; }
+    public string WoLine { get; set; }
+    public string StartTime { get; set; }
+}

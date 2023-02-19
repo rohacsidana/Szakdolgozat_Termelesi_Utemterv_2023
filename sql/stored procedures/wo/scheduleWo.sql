@@ -19,7 +19,7 @@ begin
 
 	from wo_mstr most
 	where most.wo_line = @line
-	and datepart(week, most.wo_start_date) = @week ;
+	and datepart(week, most.wo_start_date) = @week;
 
 	with #utemterv (wo_lot,elotte, seq,wo_part, wo_start_time,wo_end_time,wo_pld_downtime, wo_unpld_downtime )
 	as
@@ -30,8 +30,8 @@ begin
 			elso.elotte as elotte,
 			elso.seq as seq,
 			elso.wo_part as wo_part,
-			dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), @start_time) as wo_start_time,
-			dbo.segedDatumIdoSum(dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), @start_time), elso.est_run),
+			dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), cast(@start_time as time)) as wo_start_time,
+			dbo.segedDatumIdoSum(dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), cast(@start_time as time)), elso.est_run),
 			iif(elso.utana is not null,iif(elso.wo_part <> elso.utana_part, (select chg_time from CHG_MSTR where (elso.wo_part = chg_from and elso.utana_part = chg_to) or (elso.wo_part = chg_to and elso.utana_part = chg_from) ), '00:00' ), null) as wo_pld_downtime
 			,elso.wo_unpld_downtime as wo_pld_down_time
 			
@@ -62,6 +62,11 @@ begin
 	
 	
 	drop table #seged
+
+	select *
+	from hetiutemterv
+	where wo_line = @line
+	and datepart(week, wo_start_date) = @week;
 
 	/*összehasonlítás képpen*/
 	--go

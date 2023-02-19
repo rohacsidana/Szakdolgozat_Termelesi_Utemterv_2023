@@ -82,7 +82,7 @@ export interface Lad {
   lad_par: number; //Wod_par Int
   lad_lot: number; //Wod_lot Int
   lad_comp: number; //Ld_part Int
-  lad_expire: number; //Ld_expire
+  lad_expire: string; //Ld_expire
   lad_qty_rsrv: number; //Foglalt
   lad_qty_used: number; //Felhasznált menny.
 }
