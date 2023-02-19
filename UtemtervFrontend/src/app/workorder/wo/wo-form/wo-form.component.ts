@@ -18,7 +18,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
   editing: boolean = false;
   newMode: boolean = false;
-  selectedWo: Wo =   {
+  selectedWo: Wo = {
     wo_lot: null,
     wo_nbr: null,
     wo_part: null,
@@ -33,9 +33,9 @@ export class WoFormComponent implements OnInit, OnDestroy {
     wo_end_time: null,
     wo_pld_downtime: null,
     wo_unpld_downtime: null,
-    wo_activated:null,
+    wo_activated: null,
     wo_status: null,
-    wo_rel_date:  null,
+    wo_rel_date: null,
     wo_user: null,
   };
   @ViewChild('woForm') woForm: NgForm;
@@ -57,17 +57,23 @@ export class WoFormComponent implements OnInit, OnDestroy {
     unpldDown: '',
     activated: false,
     relDate: '',
-    user: null
+    user: null,
   };
   error: string = null;
+  errorSub: Subscription;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private woService: WoService,
     private DataStorageService: DataStorageService
-  ) { }
+  ) {}
   ngOnInit() {
+    this.errorSub = this.woService.errorChanged.subscribe(
+      (error)=>{
+        this.error = error;
+      }
+    );
     /* this.newMode = this.woService.newMode; */
     this.route.params.subscribe((params: Params) => {
       this.selectedWoLot = +params['lot'];
@@ -76,41 +82,30 @@ export class WoFormComponent implements OnInit, OnDestroy {
 
       this.initForm();
     });
-  
   }
 
   initForm() {
     if (this.selectedMode) {
       this.selectedWo = this.woService.getSelectedWo();
-      
-      if (this.selectedWo === null) {
-        this.selectedWo = this.woService.getWo(this.selectedWoLot);
-        
-      } else {
-        this.initFormData();
-      }
-      if (this.selectedWo === null) {
 
-        this.DataStorageService.fetchWo(this.selectedWoLot).pipe(
-          tap(
-            {
-              next: (data) => this.woService.addWo({...data}),
+      if (this.selectedWo === null) {
+        this.DataStorageService.fetchWo(this.selectedWoLot)
+          .pipe(
+            tap({
+              next: (data) => {
+                this.woService.setSelectedWo({ ...data });
+                this.selectedWo = { ...data };
+
+                this.initFormData();
+              },
               error: (error) => this.handleError(error),
-            }
-          ),
-        )
-          .subscribe((data) => {
-
-            this.selectedWo = {...data};
-        
-            this.initFormData();
-          });
+            })
+          )
+          .subscribe();
       } else {
-
         this.initFormData();
       }
     } else if (this.newMode) {
-      
       this.editing = true;
     }
   }
@@ -125,30 +120,27 @@ export class WoFormComponent implements OnInit, OnDestroy {
   }
 
   handleError(errorRes: HttpErrorResponse) {
-
     let errorMessage = 'An unknown error occurred!';
-  
 
-      switch (errorRes.error) {
-        case "WO_NOT_FOUND":
-          errorMessage = "Workorder not found"
-          break;
-        case "STATUS_ERROR":
-            errorMessage = "Due of the status value you can not change that."
-          break;
-        case "UNKNOWN_ERROR":
-            errorMessage = "An unknown error occurred";
+    switch (errorRes.error) {
+      case 'WO_NOT_FOUND':
+        errorMessage = 'Workorder not found';
+        break;
+      case 'STATUS_ERROR':
+        errorMessage = 'Due of the status value you can not change that.';
+        break;
+      case 'UNKNOWN_ERROR':
+        errorMessage = 'An unknown error occurred';
 
-        default:
-          errorMessage = "An unknown error occurred";
-          break;
-      }
- 
+      default:
+        errorMessage = 'An unknown error occurred';
+        break;
+    }
+
     this.error = errorMessage;
     this.woService.woError = this.error;
     return throwError(errorMessage);
   }
-
 
   initFormData() {
     this.woFormActData.woLot = this.selectedWo.wo_lot;
@@ -161,7 +153,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
     this.woFormActData.estTime = this.selectedWo.wo_est_run;
     this.woFormActData.seq = this.selectedWo.wo_seq;
     this.woFormActData.dueDate = this.selectedWo.wo_due_date;
-    this.woFormActData.startDate = this.selectedWo.wo_start_date;     
+    this.woFormActData.startDate = this.selectedWo.wo_start_date;
     this.woFormActData.startTime = this.selectedWo.wo_start_time;
     this.woFormActData.endTime = this.selectedWo.wo_end_time;
     this.woFormActData.pldDown = this.selectedWo.wo_pld_downtime;
@@ -171,31 +163,26 @@ export class WoFormComponent implements OnInit, OnDestroy {
     this.woFormActData.user = this.selectedWo.wo_user;
   }
 
-
-  onSubmit() {
-  }
+  onSubmit() {}
 
   search() {
-    let wo = this.woService.getWo(+this.woFormActData.woLot);
+    /*   let wo = this.woService.getWo(+this.woFormActData.woLot);
     if (wo !== null) {
       this.woService.setSelectedWo({...wo});
       this.router.navigate(['./', 'workorder', +this.woFormActData.woLot]);
-    } else {
-      this.DataStorageService.fetchWo(this.woFormActData.woLot).pipe(
-        tap(
-          {
-            next: (data) => this.woService.addWoData({...data}),
-            error: (error) => this.handleError(error),
-          }
-        ),
+    } else { */
+    this.DataStorageService.fetchWo(this.woFormActData.woLot)
+      .pipe(
+        tap({
+          next: (data) => {
+            this.woService.setSelectedWo({ ...data });
+            this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
+          },
+          error: (error) => this.handleError(error),
+        })
       )
-        .subscribe((data) => {
-          this.woService.setSelectedWo({...data});
-          this.router.navigate(['./', 'workorder', this.woFormActData.woLot]);
-
-        });
-    }
-
+      .subscribe();
+    //}
   }
 
   new() {
@@ -217,6 +204,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
   }
 
   edit() {
+    this.initFormData();
     this.editing = true;
     //this.initForm();
 
@@ -227,56 +215,65 @@ export class WoFormComponent implements OnInit, OnDestroy {
     /*Response alapján eldönteni az editinget. */
     //this.editing = false;
     if (this.selectedMode) {
-      this.DataStorageService.updateWo({woNbr: this.woFormActData.order,woPart: this.woFormActData.part, woQtyOrd: this.woFormActData.qtyOrd, woDueDate: this.woFormActData.dueDate, woLot: this.woFormActData.woLot,woLine: this.woFormActData.line, woStartDate: this.woFormActData.startDate, woRelDate: this.woFormActData.relDate,woActivated:this.woFormActData.activated, woStatus: this.woFormActData.status})
-      .pipe(
-        tap(
-          {
-            next: (data) => {this.woService.updateWo({...data})
-                              this.selectedWo = {...data};
-                             this.initFormData();
-                              this.editing = false},
+      this.DataStorageService.updateWo({
+        woNbr: this.woFormActData.order,
+        woPart: this.woFormActData.part,
+        woQtyOrd: this.woFormActData.qtyOrd,
+        woDueDate: this.woFormActData.dueDate,
+        woLot: this.woFormActData.woLot,
+        woLine: this.woFormActData.line,
+        woStartDate: this.woFormActData.startDate,
+        woRelDate: this.woFormActData.relDate,
+        woActivated: this.woFormActData.activated,
+        woStatus: this.woFormActData.status,
+      })
+        .pipe(
+          tap({
+            next: (data) => {
+              this.woService.setSelectedWo({ ...data });
+              this.selectedWo = { ...data };
+              this.initFormData();
+              this.editing = false;
+            },
             error: (error) => this.handleError(error),
-          }
-        ))
+          })
+        )
         .subscribe();
     } else {
-
-      this.DataStorageService.postWo({ woNbr: this.woFormActData.order, woPart: this.woFormActData.part, woQtyOrd: this.woFormActData.qtyOrd, woDueDate: this.woFormActData.dueDate })
+      this.DataStorageService.postWo({
+        woNbr: this.woFormActData.order,
+        woPart: this.woFormActData.part,
+        woQtyOrd: this.woFormActData.qtyOrd,
+        woDueDate: this.woFormActData.dueDate,
+      })
         .pipe(
-          tap(
-            {
-              next: (data) => {this.woService.addWoData(data);
-                this.router.navigate(['../','workorder', data.wo_lot]);},
-              error: (error) => this.handleError(error),
-            }
-          ),
-
+          tap({
+            next: (data) => {
+              this.woService.setSelectedWo({ ...data });
+              this.router.navigate(['../', 'workorder', data.wo_lot]);
+            },
+            error: (error) => this.handleError(error),
+          })
         )
-        .subscribe(
-          
-        );
-      ;
+        .subscribe();
       //this.router.navigate(['workorder']);
     }
   }
 
   delete() {
     this.DataStorageService.deleteWo(this.woFormActData.woLot)
-    .pipe(
-      tap(
-        {
-          next: data=> this.woService.deleteWo(this.woFormActData.woLot),
-          error: error => this.handleError(error),
-        }
+      .pipe(
+        tap({
+          next: (data) => this.woService.deleteWo(this.woFormActData.woLot),
+          error: (error) => this.handleError(error),
+        })
       )
-    )
-    .subscribe(
-      ()=>{
-        this.router.navigate(['../'], {relativeTo: this.route})
-      }
-    );
+      .subscribe(() => {
+        this.woService.setSelectedWo(null);
+        this.router.navigate(['../'], { relativeTo: this.route });
+      });
 
-/* 
+    /* 
     this.editing = false;
 
 
@@ -302,6 +299,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    
+    this.errorSub.unsubscribe();
   }
 }

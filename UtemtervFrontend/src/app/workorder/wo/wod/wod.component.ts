@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Sort } from "@angular/material/sort";
@@ -18,8 +19,7 @@ import { WoService } from "../../wo.service";
 
 export class WodComponent implements OnInit, OnDestroy {
   wodData: Wod[] = [];
-
-  wodHeaders = [
+  wodHeadersCompleted = [
     { name: 'wod_part', szoveg: 'Tétetel szám' },
     { name: 'part_name', szoveg: 'Tétetel név' },
     { name: 'wod_par', szoveg: 'Szülő tétel' },
@@ -30,16 +30,63 @@ export class WodComponent implements OnInit, OnDestroy {
     { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység', input: { type: "number" } },
   ];
 
+  wodHeadersNotCompl = [
+    { name: 'wod_part', szoveg: 'Tétetel szám' },
+    { name: 'part_name', szoveg: 'Tétetel név' },
+    { name: 'wod_par', szoveg: 'Szülő tétel' },
+    { name: 'par_name', szoveg: 'Szülő név' },
+    { name: 'wod_qty_req', szoveg: 'Szükséges menny.' },
+    { name: 'part_um', szoveg: 'Mértékegység' },
+    { name: 'wod_qty_compl', szoveg: 'Kész egység'},
+    { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység'},
+  ];
+  wodHeaders = this.wodHeadersNotCompl;
+  
   sortSub: Subscription;
   wodSub: Subscription;
   sortedWodData: Wod[];
   lastSort: Sort;
   lot: number;
   woGetSub: Subscription;
+  selectedChanged: Subscription;
+  inputDataChanged: Subscription;
   constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private route: ActivatedRoute, private DataStorageService: DataStorageService) {
   }
 
   ngOnInit() {
+    this.selectedChanged = this.woService.selectedWoChanged.subscribe(
+      (data)=>{
+        
+        const newStatus = data.wo_status;
+        
+        
+        if(newStatus === "completed"){
+          
+          this.wodHeaders = this.wodHeadersCompleted;
+        }else{
+          this.wodHeaders = this.wodHeadersNotCompl;
+
+        }
+      }
+    );
+    this.inputDataChanged = this.dtTblService.inputDataChanged.subscribe(
+      (data)=>{
+        console.log("input keud végbement");
+        this.DataStorageService.setWod(data)
+        .pipe(
+          tap({
+            next: (data)=> this.woService.updateWod(data),
+            error: (error)=> this.handleError(error)
+          })
+        )
+        .subscribe(
+          ()=>{
+            console.log("végbement");
+            
+          }
+        );
+      }
+    );
     this.wodSub = this.woService.wodDataChanged.subscribe(
       (data: Wod[]) => {
         this.wodData = data;
@@ -48,7 +95,7 @@ export class WodComponent implements OnInit, OnDestroy {
           this.sortData(this.lastSort);
         } else {
           this.sortedWodData = this.wodData.slice();
-          this.dtTblService.emitDataChanged(this.sortedWodData.slice());
+          this.dtTblService.emitDataChanged([...this.sortedWodData]);
         }
       }
     );
@@ -88,6 +135,7 @@ export class WodComponent implements OnInit, OnDestroy {
       }
     );
 
+
   }
 
 
@@ -98,7 +146,7 @@ export class WodComponent implements OnInit, OnDestroy {
     const data = this.wodData.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedWodData = data;
-      this.dtTblService.emitDataChanged(this.sortedWodData.slice());
+      this.dtTblService.emitDataChanged([...this.sortedWodData]);
       return;
     }
 
@@ -127,17 +175,32 @@ export class WodComponent implements OnInit, OnDestroy {
     });
 
     this.sortedWodData = data.slice();
-    this.dtTblService.emitDataChanged(this.sortedWodData.slice());
+    this.dtTblService.emitDataChanged([...this.sortedWodData]);
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+  handleError(errorRes: HttpErrorResponse) {
+    let errorMessage = 'An unknown error occurred on wod updated';
+    
+    switch (errorRes.error) {
+      case 'UNKNOWN_ERROR':
+        errorMessage = 'An unknown error occurred on wod updated';
 
+      default:
+        errorMessage = 'An unknown error occurred on wod updated';
+        break;
+    }
+    this.woService.setWoError(errorMessage)
+    return throwError(errorMessage);
+  }
   ngOnDestroy() {
     this.woGetSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.wodSub.unsubscribe();
+    this.selectedChanged.unsubscribe();
+    
   }
 
 }

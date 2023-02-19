@@ -8,17 +8,20 @@ export class WoService {
   constructor() {}
   /*lad és wod értékei*/
   woData: Wo[] = [];
-  woDataChanged = new Subject<Wo[]>();
   wodData: Wod[] = [];
-
-  wodDataChanged = new Subject<Wod[]>();
   ladData: Lad[] = [];
+  xwoData: XWo[] =  [];
+  
+  woDataChanged = new Subject<Wo[]>();
+  wodDataChanged = new Subject<Wod[]>();
   ladDataChanged = new Subject<Lad[]>();
   getDataFromTable = new Subject<any>();
+  xwoDataChanged = new Subject<XWo[]>();
+  selectedWoChanged = new Subject<Wo>();
+  errorChanged = new Subject<string>();
+
   selectedWo: Wo = null;
   woError: string = null;
-  xwoData: XWo[] =  [];
-  xwoDataChanged = new Subject<XWo[]>();
 
   addWoData(wo: Wo) {
     this.woData.push(wo);
@@ -30,7 +33,8 @@ export class WoService {
     this.woData.splice(index,1);
   }
   setSelectedWo(wo: Wo) {
-    this.selectedWo = wo;
+    this.selectedWo = {...wo};
+    this.selectedWoChanged.next(this.selectedWo);
   }
   getSelectedWo() {
     return this.selectedWo;
@@ -58,8 +62,11 @@ export class WoService {
   }
 
   setWoData(woData: Wo[]) {
-    this.woData = woData.slice();
-    this.woDataChanged.next(this.woData.slice());
+    const newWoData = [...woData];
+    const updatedWoData = [...this.woData, ...newWoData]
+
+    this.woData = [...updatedWoData];
+    this.woDataChanged.next([...this.woData]);
   }
 
   setLadData(ladData) {
@@ -78,10 +85,7 @@ export class WoService {
     } else {
       return null;
     }
-    /*  else {
-             return this.DataStorageService.fetchWo(woLot);
-         } */
-    /* return apihívás */
+
   }
 
   setXWos(xwos){
@@ -107,10 +111,33 @@ export class WoService {
 
   addWo(wo){
     console.log(wo);
-    
     const newWo = {...wo};
     const newWos = [...this.woData, {...newWo}];
     this.woData = [...newWos]
     this.woDataChanged.next([...this.woData]);
+  }
+
+  updateWod(wod){
+    console.log(wod);
+    
+    let index = this.wodData.findIndex((value)=>{
+      return value.wod_part === wod.wod_part && value.wod_par === wod.wod_par
+    });
+    const newWod = this.wodData[index];
+    const updatedWod= {
+      ...newWod,
+      ...wod
+    }
+    const updatedWods = [...this.wodData]
+    updatedWods[index] = updatedWod;
+    this.wodData = [...updatedWods]
+    this.wodDataChanged.next([...this.wodData]);
+    console.log(this.wodData);
+    
+  }
+
+  setWoError(error){
+    this.woError = error;
+    this.errorChanged.next(error);
   }
 }
