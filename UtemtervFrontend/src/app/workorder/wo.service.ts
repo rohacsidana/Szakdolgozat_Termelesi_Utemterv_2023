@@ -132,7 +132,23 @@ export class WoService {
     updatedWods[index] = updatedWod;
     this.wodData = [...updatedWods]
     this.wodDataChanged.next([...this.wodData]);
-    console.log(this.wodData);
+    
+  }
+  updateLad(lad){
+    
+    
+    let index = this.ladData.findIndex((value)=>{
+      return value.lad_id = lad.lad_id
+    });
+    const newLad= this.ladData[index];
+    const updatedLad= {
+      ...newLad,
+      ...lad
+    }
+    const updatedWods = [...this.ladData]
+    updatedWods[index] = updatedLad;
+    this.ladData = [...updatedWods]
+    this.ladDataChanged.next([...this.ladData]);
     
   }
 

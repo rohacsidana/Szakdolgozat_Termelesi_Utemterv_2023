@@ -41,13 +41,13 @@ namespace UtemtervBackend.Controllers
         {
             try
             {
-                var res = _context.VwWods.FromSqlInterpolated($"updateWod {wodData.WodLot}, {wodData.WodPart}, {wodData.WodPar}, {wodData.WodCompl}, {wodData.WodRjct}");
+                var res = _context.Database.ExecuteSqlInterpolated($"updateWod {wodData.WodLot}, {wodData.WodPart}, {wodData.WodPar}, {wodData.WodCompl}, {wodData.WodRjct}");
                 return Ok(res);
             }
             catch (Exception)
             {
 
-                return StatusCode(500, "UNKNOWN_ERROR");
+                return StatusCode(500, "NOT_VALID_VALUE");
             }
         }
     }

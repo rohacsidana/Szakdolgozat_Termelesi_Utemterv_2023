@@ -71,20 +71,14 @@ export class WodComponent implements OnInit, OnDestroy {
     );
     this.inputDataChanged = this.dtTblService.inputDataChanged.subscribe(
       (data)=>{
-        console.log("input keud végbement");
-        this.DataStorageService.setWod(data)
+        this.DataStorageService.updateWod(data)
         .pipe(
           tap({
-            next: (data)=> this.woService.updateWod(data),
+            next: ()=> this.woService.updateWod(data),
             error: (error)=> this.handleError(error)
           })
         )
-        .subscribe(
-          ()=>{
-            console.log("végbement");
-            
-          }
-        );
+        .subscribe();
       }
     );
     this.wodSub = this.woService.wodDataChanged.subscribe(

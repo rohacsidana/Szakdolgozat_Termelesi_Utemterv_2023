@@ -38,23 +38,26 @@ namespace UtemtervBackend.Controllers
             }
         }
         [HttpPatch("used")]
-        public IActionResult PatchWodEndResult([FromBody] MLadUsed ladUsed)
+        public IActionResult PatchWodEndResult([FromBody] MLadUsed beadat)
         {
+            Console.WriteLine(beadat.LadId);
+            Console.WriteLine(beadat.LadUsed);
+
             try
             {
-                var res = _context.LadDets.FromSqlInterpolated($"updateLad {ladUsed.LadLot}, {ladUsed.LadUsed}");
-                return Ok(res);
+                var res = _context.Database.ExecuteSqlInterpolated($"updateLad {beadat.LadId}, {beadat.LadUsed}");
+                return Ok(res); 
             }
             catch (Exception)
             {
 
-                return StatusCode(500, "UNKNOWN_ERROR");
+                return StatusCode(500, "NOT_VALID_VALUE");
             }
         }
 
     }
 }
 public class MLadUsed{
-    public int LadLot { get; set;}
+    public int LadId { get; set;}
     public decimal LadUsed { get; set;}
 }

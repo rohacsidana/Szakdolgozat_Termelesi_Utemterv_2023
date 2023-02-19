@@ -1064,7 +1064,15 @@ export class DataStorageService {
 
   }
 
+  updateWod(wod){
+    const bodyData = {WodLot: this.woService.selectedWo.wo_lot, WodPart: wod.wod_part, WodPar: wod.wod_par, WodCompl: wod.wod_qty_compl, WodRjct: wod.wod_qty_rjct}
+    return this.http.patch(URL +'/wod/result' , bodyData);
+  }
 
+  updateLad(lad){
+    const bodyData = {ladId: lad.lad_id, ladUsed: lad.lad_qty_used};    
+    return this.http.patch(URL + '/lad/used' , bodyData);
+  }
 }
 
 export const URL = 'https://localhost:7075/api';
