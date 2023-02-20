@@ -1119,7 +1119,15 @@ export class DataStorageService {
       })
     );
   }
+
+  reserve(ladPart, ladPar, ladLot, ladComp, ladExpire, ladAmount){
+    const bodyData = {ladPart: ladPart, ladPar: ladPar, ladLot:ladLot, ladComp: ladComp,ladExpire: ladExpire, ladAmount: ladAmount}
+    return this.http.post(URL + "/lad/reserve",bodyData )
+  }
+
 }
+
+
 
 export const URL = 'https://localhost:7075/api';
 interface WoResponse {

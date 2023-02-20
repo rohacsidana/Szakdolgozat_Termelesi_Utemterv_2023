@@ -18,6 +18,7 @@ import { PtResolver } from './pt.resolver';
 import { LnResolver } from './ln.resolver';
 import { LoginComponent } from './auth/login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LadFormComponent } from './reserve/lad-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -70,6 +71,7 @@ const routes: Routes = [
 
   { path: 'prodsch', component: XWoCoponent },
   { path: 'user', component: UserComponent },
+  { path: 'reserve', component: LadFormComponent },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 

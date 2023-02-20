@@ -47,6 +47,8 @@ import { HungarianPaginator } from './shared/hungarian-paginator';
 import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './auth/logout/logout.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LadFormComponent } from './reserve/lad-form.component';
+import { LdFormComponent } from './reserve/ld-form/ld-form.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +73,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     LoginComponent,
     LogoutComponent,
     PageNotFoundComponent,
+    LadFormComponent,
+    LdFormComponent
   ],
   imports: [
     BrowserModule,

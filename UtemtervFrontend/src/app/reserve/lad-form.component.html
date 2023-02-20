@@ -1,0 +1,110 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 style="text-align: center">Készlet foglalás</h2>
+    </div>
+  </div>
+  <hr />
+
+  <div class="row">
+    <div class="form-group">
+      <div class="col-xs-4">
+        <div class="input-group">
+          <!-- <label for="woLot">Gyr szám:</label> -->
+          <span class="input-group-addon">Melyik tételhez:</span>
+          <input
+            style="z-index: auto"
+            type="number"
+            id="woLot"
+            name="woLot"
+            class="form-control"
+            #ladPart
+          />
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="input-group">
+          <!-- <label for="woLot">Gyr szám:</label> -->
+          <span class="input-group-addon">Tétel szülő eleme:</span>
+          <input
+            style="z-index: auto"
+            type="number"
+            id="woLot"
+            name="woLot"
+            class="form-control"
+            #ladPar
+          />
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="input-group">
+          <!-- <label for="woLot">Gyr szám:</label> -->
+          <span class="input-group-addon">Gyr szám:</span>
+          <input
+            style="z-index: auto"
+            type="number"
+            id="woLot"
+            name="woLot"
+            class="form-control"
+            #LadLot
+          />
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="input-group">
+          <!-- <label for="woLot">Gyr szám:</label> -->
+          <span class="input-group-addon">Beépülő anyag:</span>
+          <input
+            style="z-index: auto"
+            type="number"
+            id="woLot"
+            name="woLot"
+            class="form-control"
+            #ladComp
+          />
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="input-group">
+          <!-- <label for="woLot">Gyr szám:</label> -->
+          <span class="input-group-addon">Beépülő anyag lejárati dátuma:</span>
+          <input
+            style="z-index: auto"
+            type="date"
+            id="woLot"
+            name="woLot"
+            class="form-control"
+            #ladExpire
+          />
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="input-group">
+          <!-- <label for="woLot">Gyr szám:</label> -->
+          <span class="input-group-addon">Foglalt mennyiség</span>
+          <input
+            style="z-index: auto"
+            type="number"
+            id="woLot"
+            name="woLot"
+            class="form-control"
+            #ladAmount
+          />
+        </div>
+      </div>
+
+    </div>
+</div>
+<button class="btn btn-primary" (click)="reserve(+ladPart.value, +ladPar.value, +LadLot.value, +ladComp.value, ladExpire.value, +ladAmount.value)"> Foglalás</button>
+</div>
+<!-- <div class="row">
+        <div class="col-lg-6">
+          <app-data-table
+            [headers]="womHeader"
+            
+          ></app-data-table>
+        </div>
+        <div class="col-lg-6">
+            <app-ld-form></app-ld-form>
+          </div>
+      </div> -->

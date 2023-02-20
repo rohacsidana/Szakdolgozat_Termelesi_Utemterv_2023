@@ -55,9 +55,35 @@ namespace UtemtervBackend.Controllers
             }
         }
 
+        [HttpPost("reserve")]
+        public IActionResult ReserveToWo([FromBody] MReserveToWo lad)
+        {
+            try
+            {
+            var res = _context.Database.ExecuteSqlInterpolated($"newLad {lad.LadPart}, {lad.LadPar},{lad.LadLot}, {lad.LadComp},{lad.LadExpire}, {lad.LadAmount}");
+                return Ok(res);
+            }
+            catch (Exception e)
+            {
+                 
+                return StatusCode(500, e);
+            }
+        
+        }
+
     }
 }
 public class MLadUsed{
     public int LadId { get; set;}
     public decimal LadUsed { get; set;}
+}
+
+public class MReserveToWo
+{
+    public int LadPart { get; set;}
+    public int LadPar { get; set;}
+      public int LadLot { get; set;}
+       public int LadComp { get; set;}
+       public DateTime LadExpire { get; set;}
+       public decimal LadAmount { get; set;}
 }
