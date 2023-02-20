@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using UtemtervBackend.Models;
@@ -25,28 +27,29 @@ namespace UtemtervBackend.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginUser user)
         {
-            var letezik = _context.Users.Where(u => u.Email == user.UserEmail);
-            
+            var letezik = _context.Users.Where(u => u.Email == user.UserEmail).ToArray();
+           
            
             if (letezik.Count() != 1)
             {
                 return StatusCode(401, "NOT_VALID_USERNAME");
             }
             var hashPW = UserController.CreateMD5(user.Password);
-            Console.WriteLine(hashPW);
             var validUser = _context.Users.FromSqlInterpolated($"validateUser {user.UserEmail},{hashPW}").ToArray();
             if (validUser.Count() != 1)
             {
                 return StatusCode(401, "WRONG_PASSWORD");
             }
-            string token = CreateToken(user);
+            string token = CreateToken(letezik[0]);
                 return Ok(token);
         }
 
-        private string CreateToken(LoginUser user) {
+        private string CreateToken(User user) {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.UserEmail)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, ""+user.Post)
+
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ namespace UtemtervBackend.Controllers
 {
     [Route("api/chg")]
     [ApiController]
+    [Authorize(Roles = "1")]
     public class ChgController : ControllerBase
     {
 
