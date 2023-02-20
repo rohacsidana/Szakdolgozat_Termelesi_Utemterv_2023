@@ -42,8 +42,6 @@ public partial class UtemtervContext : DbContext
 
     public virtual DbSet<XwoHist> XwoHists { get; set; }
 
-    //public virtual DbSet<UserList> UserLists { get; set; }
-
     public virtual DbSet<LdList> LdLists { get; set; }
 
     public virtual DbSet<VwWod> VwWods { get; set; }
@@ -583,7 +581,7 @@ public partial class UtemtervContext : DbContext
                 .HasPrecision(0)
                 .HasColumnName("wo_unpld_downtime");
         });
-
+       
 
         OnModelCreatingPartial(modelBuilder);
     }
