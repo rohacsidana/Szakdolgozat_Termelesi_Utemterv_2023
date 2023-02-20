@@ -22,7 +22,6 @@ export class AuthService {
       .pipe(
         tap({
           next: (res) => {
-            console.log(res);
             this.handleAuthentication(res.email, res.id, res.token, res.expire, res.post)
           },
           error: (error) => this.handleError(error),
@@ -31,7 +30,7 @@ export class AuthService {
   }
   
   logout(): void {
-    console.log("logout");
+    this.user.next(null);
     localStorage.removeItem('userData');
   }
 

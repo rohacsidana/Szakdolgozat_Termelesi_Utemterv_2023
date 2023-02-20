@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/ps")]
     [ApiController]
+    [Authorize]
+
     public class PsController : ControllerBase
     {
         UtemtervContext _context;
@@ -17,9 +20,9 @@ namespace UtemtervBackend.Controllers
         {
             _context = context;
         }
-        [EnableCors]
-        [HttpGet("list")]
 
+
+        [HttpGet("list")]
         public IActionResult PsList()
         {
             try
@@ -38,9 +41,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
         [HttpPost("new")]
-
         public IActionResult newPs([FromBody] NewOrUpdatePs ps)
         {
             try
@@ -54,9 +55,8 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
-        [HttpPut("update")]
 
+        [HttpPut("update")]
         public IActionResult updatePs([FromBody] NewOrUpdatePs ps)
         {
             try
@@ -70,10 +70,8 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
+
         [HttpDelete("delete/{par}/{comp}")]
-
-
         public IActionResult deleteUser(int par, int comp)
         {
             try

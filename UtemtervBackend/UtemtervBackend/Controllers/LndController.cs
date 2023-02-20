@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/lnd")]
     [ApiController]
+    [Authorize]
+
     public class LndController : ControllerBase
     {
 
@@ -18,9 +21,7 @@ namespace UtemtervBackend.Controllers
             _context = context;
         }
 
-        [EnableCors]
         [HttpGet("list")]
-
         public IActionResult LndList()
         {
             try
@@ -42,7 +43,6 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPost("new")]
-
         public IActionResult NewLn([FromBody]
         NewLnd_UpdateLnd lnd)
         {
@@ -59,9 +59,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
         [HttpPut("update")]
-
         public IActionResult UpdateLnd([FromBody] NewLnd_UpdateLnd lnd)
         {
             try
@@ -77,9 +75,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
         [HttpDelete("delete/{line}/{part}")]
-
         public IActionResult deleteLnd(string line, int part)
         {
             try

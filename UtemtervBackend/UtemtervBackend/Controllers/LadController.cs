@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UtemtervBackend.Models;
@@ -8,6 +9,8 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/lad")]
     [ApiController]
+    [Authorize]
+
     public class LadController : ControllerBase
     {
         UtemtervContext _context;

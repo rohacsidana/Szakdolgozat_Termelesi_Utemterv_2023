@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/pt")]
     [ApiController]
+    [Authorize]
+
     public class PtController : ControllerBase
     {
         UtemtervContext _context;
@@ -19,9 +22,7 @@ namespace UtemtervBackend.Controllers
             _context = context;
         }
 
-        [EnableCors]
         [HttpGet("list")]
-
         public IActionResult PtList()
         {
             try
@@ -40,9 +41,8 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
-        [HttpPost("new")]
 
+        [HttpPost("new")]
         public IActionResult newPt([FromBody] NewPt pt)
         {
             try
@@ -56,9 +56,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
         [HttpPut("update")]
-
         public IActionResult updatePt([FromBody] UpdatePt pt)
         {
             try
@@ -72,10 +70,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
         [HttpDelete("delete/{part}")]
-
-
         public IActionResult deletePt(int part)
         {
             try

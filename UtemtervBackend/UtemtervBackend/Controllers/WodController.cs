@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/wod")]
     [ApiController]
+    [Authorize]
+
     public class WodController : ControllerBase
     {
         UtemtervContext _context;

@@ -14,7 +14,7 @@ using UtemtervBackend.Views;
 
 namespace UtemtervBackend.Controllers   
 {
-    [Authorize]
+    
     [EnableCors]
     [Route("api/auth")]
     [ApiController]
@@ -58,14 +58,7 @@ namespace UtemtervBackend.Controllers
                 }
                 );
         }
-
-        [HttpGet]
-        public IActionResult GetUserData() { 
-            return Ok(new { id = User.FindFirstValue(ClaimTypes.Name)
-                , post = User.FindFirstValue(ClaimTypes.Role)
-                , email = User.FindFirstValue(ClaimTypes.Email)
-            });
-        }
+      
         private object CreateToken(User user) {
             List<Claim> claims = new List<Claim>
             {

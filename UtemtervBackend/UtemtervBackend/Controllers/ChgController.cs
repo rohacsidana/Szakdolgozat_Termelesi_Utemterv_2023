@@ -8,9 +8,11 @@ using static UtemtervBackend.Controllers.ChgController;
 
 namespace UtemtervBackend.Controllers
 {
+    [EnableCors]
     [Route("api/chg")]
     [ApiController]
-    [Authorize(Roles = "1")]
+    [Authorize]
+
     public class ChgController : ControllerBase
     {
 
@@ -20,7 +22,7 @@ namespace UtemtervBackend.Controllers
             _context = context;
         }
 
-        [EnableCors]
+        
         [HttpGet("list")]
 
         public IActionResult ChgList()
@@ -62,7 +64,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
+        
         [HttpPut("update")]
 
         public IActionResult UpdateChg([FromBody] Chg chg)
@@ -80,7 +82,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
+        
         [HttpDelete("delete/{line}/{from}/{to}")]
 
         public IActionResult deleteChg(string line, int from, int to)

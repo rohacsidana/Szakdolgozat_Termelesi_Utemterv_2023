@@ -19,14 +19,16 @@ import { LnResolver } from './ln.resolver';
 import { LoginComponent } from './auth/login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LadFormComponent } from './reserve/lad-form.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full',},
   { path: 'logout', redirectTo: 'login' },
-  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {
     path: 'part',
+    canActivate: [AuthGuard],
     resolve: [PtResolver],
     children: [
       { path: '', component: PtComponent },
@@ -34,9 +36,10 @@ const routes: Routes = [
     ],
   },
   //{path: 'part/structure', component: PsComponent},
-  { path: 'inventory', component: LdComponent },
+  { path: 'inventory', component: LdComponent ,canActivate: [AuthGuard]},
   {
     path: 'line',
+    canActivate: [AuthGuard],
     resolve: [LnResolver, PtResolver],
     children: [
       { path: '', component: LnComponent },
@@ -47,6 +50,7 @@ const routes: Routes = [
 
   {
     path: 'workorder',
+    canActivate: [AuthGuard],
     children: [
       { path: '', component: WoComponent, pathMatch: 'full' },
       { path: 'new', component: WoComponent },
@@ -69,9 +73,9 @@ const routes: Routes = [
     {path: '',component: LadComponent}
   ]}, */
 
-  { path: 'prodsch', component: XWoCoponent },
-  { path: 'user', component: UserComponent },
-  { path: 'reserve', component: LadFormComponent },
+  { path: 'prodsch', component: XWoCoponent ,canActivate: [AuthGuard]},
+  { path: 'user', component: UserComponent ,canActivate: [AuthGuard]},
+  { path: 'reserve', component: LadFormComponent ,canActivate: [AuthGuard]},
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 

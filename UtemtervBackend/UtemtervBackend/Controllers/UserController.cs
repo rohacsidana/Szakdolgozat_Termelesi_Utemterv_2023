@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -12,6 +13,8 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/user")]
     [ApiController]
+    [Authorize]
+
     public class UserController : ControllerBase
     {
         private UtemtervContext _context;
@@ -20,7 +23,6 @@ namespace UtemtervBackend.Controllers
         {
             _context = context;
         }
-        [EnableCors]
         [HttpGet("list")]
         public IActionResult UserList()
         {
@@ -40,7 +42,6 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(404,e);
             }
         }
-        [EnableCors]
         [HttpPost("new")]
         public IActionResult NewUser([FromBody] CNewUser user)
         {
@@ -55,9 +56,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
         [HttpPut("update")]
-
         public IActionResult UpdateUser([FromBody] CUpdateUser user)
         {
             try
@@ -71,9 +70,8 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
-        [HttpDelete("delete/{id}")]
 
+        [HttpDelete("delete/{id}")]
         public IActionResult deleteUser(int id)
         {
             try

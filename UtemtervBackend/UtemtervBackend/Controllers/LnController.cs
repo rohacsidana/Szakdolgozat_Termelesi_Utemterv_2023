@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/ln")]
     [ApiController]
+    [Authorize]
+
     public class LnController : ControllerBase
     {
         private UtemtervContext _context;
@@ -17,9 +20,8 @@ namespace UtemtervBackend.Controllers
         {
             _context = context;
         }
-        [EnableCors]
+          
         [HttpGet("list")]
-
         public IActionResult GysList()
         {
             try
@@ -42,7 +44,6 @@ namespace UtemtervBackend.Controllers
         }
         
         [HttpPost("new")]
-
         public IActionResult newLn([FromBody]
         NewLn ln)
         {
@@ -58,9 +59,8 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
-        [HttpPut("update")]
 
+        [HttpPut("update")]
         public IActionResult UpdateLn([FromBody] UpdateLn ln)
         {
             try
@@ -76,9 +76,8 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        [EnableCors]
-        [HttpDelete("delete/{line}")]
 
+        [HttpDelete("delete/{line}")]
         public IActionResult deleteLn(string line)
         {
             try

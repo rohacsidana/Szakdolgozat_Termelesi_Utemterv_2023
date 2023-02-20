@@ -24,8 +24,8 @@
     <mat-toolbar></mat-toolbar>
     <mat-nav-list>
       <!-- comp teszt -->
+      <div *ngIf="loggedIn; else log">
       <a mat-list-item routerLink="/home">Kezdőlap</a>
-      <a mat-list-item routerLink="/login">Autentikáció</a>
       <a mat-list-item routerLink="/part">Tételek</a>
       <a mat-list-item routerLink="/part/structure">Tételszerkezet</a>
       <a mat-list-item routerLink="/inventory">Készlet</a>
@@ -40,6 +40,12 @@
       <a mat-list-item routerLink="/login" class="logoutBtn" (click)="logout()"
         ><span class="logoutText">Kijelentkezés</span></a
       >
+    </div>
+    <ng-template #log>
+
+      <a  mat-list-item routerLink="/login">Autentikáció</a>
+    </ng-template>
+
     </mat-nav-list>
   </mat-sidenav>
 </mat-sidenav-container>
