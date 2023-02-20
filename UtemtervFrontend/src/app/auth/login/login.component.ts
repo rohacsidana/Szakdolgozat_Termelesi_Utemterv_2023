@@ -11,8 +11,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent {
   form: FormGroup;
 
-  email: string;
-  password: string;
+ 
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -36,16 +35,14 @@ export class LoginComponent {
   }
 
   onLogin() {
-    this.email = this.form.value.userName;
-    this.password = this.form.value.password;
-
-    console.log('Login page: ' + this.email);
-    console.log('Login page: ' + this.password);
-
-    this.authService.login(this.email, this.password).subscribe((data) => {
-      console.log('Login Success: ' + data);
-
-      if (data) this.router.navigate(['/']);
-    });
+    this.authService.login(this.form.value.email, this.form.value.password).subscribe(
+      data=>{
+        this.router.navigate(["/home"])
+      },
+      error=>{
+        console.error(error);
+        
+      }
+    );
   }
 }

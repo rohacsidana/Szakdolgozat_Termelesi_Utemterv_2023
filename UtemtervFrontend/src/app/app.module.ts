@@ -34,7 +34,7 @@ import { LadComponent } from './workorder/wo/lad/lad.component';
 import { WoListComponent } from './workorder/wo-list/wo-list.component';
 import { WodComponent } from './workorder/wo/wod/wod.component';
 import { WoFormComponent } from './workorder/wo/wo-form/wo-form.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
@@ -45,10 +45,10 @@ import { UserService } from './user/user.service';
 import { AlertComponent } from './shared/alert/alert.component';
 import { HungarianPaginator } from './shared/hungarian-paginator';
 import { LoginComponent } from './auth/login/login.component';
-import { LogoutComponent } from './auth/logout/logout.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LadFormComponent } from './reserve/lad-form.component';
 import { LdFormComponent } from './reserve/ld-form/ld-form.component';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -71,10 +71,9 @@ import { LdFormComponent } from './reserve/ld-form/ld-form.component';
     WoFormComponent,
     AlertComponent,
     LoginComponent,
-    LogoutComponent,
     PageNotFoundComponent,
     LadFormComponent,
-    LdFormComponent
+    LdFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,7 +98,14 @@ import { LdFormComponent } from './reserve/ld-form/ld-form.component';
     MatSelectModule,
     MatInputModule,
   ],
-  providers: [{ provide: MatPaginatorIntl, useClass: HungarianPaginator }],
+  providers: [
+    { provide: MatPaginatorIntl, useClass: HungarianPaginator },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

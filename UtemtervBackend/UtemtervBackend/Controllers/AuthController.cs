@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -13,6 +14,7 @@ using UtemtervBackend.Views;
 
 namespace UtemtervBackend.Controllers   
 {
+    [Authorize]
     [EnableCors]
     [Route("api/auth")]
     [ApiController]
@@ -25,7 +27,7 @@ namespace UtemtervBackend.Controllers
             _context = context;
             _configuration = configuration;
         }
-
+        [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginUser user)
         {
@@ -42,14 +44,34 @@ namespace UtemtervBackend.Controllers
             {
                 return StatusCode(401, "WRONG_PASSWORD");
             }
-            string token = CreateToken(letezik[0]);
-                return Ok(token);
+            object token = CreateToken(letezik[0]);
+                return Ok(new
+                {
+                    id = letezik[0].UserId
+                ,
+                    post = letezik[0].Post
+                ,
+                    email = letezik[0].Email
+                ,
+                    token = token.GetType().GetProperty("token").GetValue(token, null),
+                    exprie = token.GetType().GetProperty("expires").GetValue(token, null)
+                }
+                );
         }
 
-        private string CreateToken(User user) {
+        [HttpGet]
+        public IActionResult GetUserData() { 
+            return Ok(new { id = User.FindFirstValue(ClaimTypes.Name)
+                , post = User.FindFirstValue(ClaimTypes.Role)
+                , email = User.FindFirstValue(ClaimTypes.Email)
+            });
+        }
+        private object CreateToken(User user) {
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, "" + user.UserId),
+                new Claim(ClaimTypes.Email, user.Email),
+
                 new Claim(ClaimTypes.Role, ""+user.Post)
 
             };
@@ -57,14 +79,14 @@ namespace UtemtervBackend.Controllers
                 _configuration.GetSection("AppSettings:Token").Value));
 
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
+            var exp = DateTime.Now.AddDays(0.0416);
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(0.0416),
+                expires: exp,
                 signingCredentials: cred
                 ); ;
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            return jwt;
+            return new {token = jwt, expires = exp};
         }
     }
        
