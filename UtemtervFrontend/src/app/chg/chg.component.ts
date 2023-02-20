@@ -163,10 +163,12 @@ export class ChgComponent {
       this.validForm = false
     }
 
-    if (this.chgService.doesChgExist(l, f, to)) {
+    if (this.chgService.doesChgExist(l, f, to) || this.chgService.doesChgExist(l, to, f)) {
       this.errorMessage = 'Már van ilyen átállás!'
       this.validForm = false;
     }
+
+
 
     if (this.validForm) {
       this.dsService.newChg({
