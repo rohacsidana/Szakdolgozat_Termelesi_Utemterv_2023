@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -10,8 +11,9 @@ using System.Security.Claims;
 using UtemtervBackend.Models;
 using UtemtervBackend.Views;
 
-namespace UtemtervBackend.Controllers
+namespace UtemtervBackend.Controllers   
 {
+    [EnableCors]
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -47,7 +49,7 @@ namespace UtemtervBackend.Controllers
         private string CreateToken(User user) {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, "" + user.UserId),
                 new Claim(ClaimTypes.Role, ""+user.Post)
 
             };

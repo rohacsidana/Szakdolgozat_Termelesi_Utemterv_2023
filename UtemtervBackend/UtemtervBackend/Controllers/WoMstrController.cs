@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text.Json.Serialization;
 using System.Xml.Linq;
 using UtemtervBackend.Models;
@@ -13,6 +15,7 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/workorder")]
     [ApiController]
+    [Authorize]
     public class WoMstrController : ControllerBase
     {
         private UtemtervContext _context;
@@ -66,10 +69,11 @@ namespace UtemtervBackend.Controllers
         [HttpPost("new")]
         public IActionResult newWo([FromBody] NewWo wo)
         {
+            
             try
            {
                 //var vlmi =  _context.Database.ExecuteSqlInterpolated($"newWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}");
-                var vlmi =  _context.WoMstrs.FromSqlInterpolated($"newWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}").ToList();
+                var vlmi =  _context.WoMstrs.FromSqlInterpolated($"newWo {wo.WoNbr}, {wo.WoPart}, {wo.WoQtyOrd}, {wo.WoDueDate}, {User.FindFirstValue(ClaimTypes.Name)}").ToList();
                 if (vlmi.IsNullOrEmpty()) {
                     return StatusCode(500, "UNKNOWN_ERROR");
                 }
