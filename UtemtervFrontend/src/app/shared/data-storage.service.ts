@@ -105,7 +105,7 @@ export class DataStorageService {
         }),
         tap({
           next: (data) => {
-            this.woService.setWoData(data.slice());
+            this.woService.setWoData([...data]);
           },
           error: (error) => console.log(error),
         })
@@ -227,7 +227,7 @@ export class DataStorageService {
   }
 
   fetchPts() {
-    console.log('fetching pt');
+    //console.log('fetching pt');
 
     return this.http
       .get<
@@ -260,9 +260,83 @@ export class DataStorageService {
       )
       .subscribe();
   }
+  newPt(pt: { pt_desc: string; pt_um: string }) {
+    /*  console.log('New Pt: ');
+    console.log(pt); */
+
+    return this.http
+      .post<any>(URL + '/pt/new', {
+        ptDesc: pt.pt_desc,
+        ptUm: pt.pt_um,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            if (res) {
+              console.log(res);
+
+              let newPt = {
+                pt_part: res[0].ptPart,
+                pt_desc: pt.pt_desc,
+                pt_um: pt.pt_um,
+                pt_qty_oh: null,
+              };
+              console.log(newPt);
+
+              this.ptService.newPart(newPt);
+            }
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
+
+  updatePt(pt: Pt) {
+    console.log(pt);
+
+    return this.http
+      .put<number>(URL + '/pt/update', {
+        ptDesc: pt.pt_desc,
+        ptPart: pt.pt_part,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            console.log('update response:');
+            console.log(res);
+
+            if (res > 0) {
+              this.ptService.updatePart(pt);
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      )
+      .subscribe();
+  }
+
+  deletePt(part: number) {
+    return this.http
+      .delete<any>(URL + '/pt/delete/' + part)
+      .pipe(
+        tap({
+          next: (res: number) => {
+            console.log('Number of deleted parts: ' + res);
+            if (res > 0) {
+              this.ptService.deletePart(part);
+            }
+          },
+          error: (error) => console.log(error),
+        })
+      )
+      .subscribe();
+  }
 
   fetchPsS() {
-    console.log('fetching ps');
+    //console.log('fetching ps');
 
     return this.http
       .get<
@@ -510,7 +584,7 @@ export class DataStorageService {
             lad_par: lad.ladPar,
             lad_lot: lad.ladLot,
             lad_comp: lad.ladComp,
-            lad_expire: lad.ladExpire,
+            lad_expire: new Date(lad.ladExpire).toISOString().split('T')[0],
             lad_qty_rsrv: lad.ladQtyRsrv,
             lad_qty_used: lad.ladQtyUsed,
           };
@@ -546,6 +620,8 @@ export class DataStorageService {
     return this.http.post<any>(URL + '/workorder/new', wo).pipe(
       map((res) => {
         const woA = res.map((data) => {
+          console.log(data);
+
           const wo = {
             wo_lot: data.woLot,
             wo_nbr: data.woNbr,
@@ -553,17 +629,26 @@ export class DataStorageService {
             wo_qty_ord: data.woQtyOrd,
             wo_ord_date: data.woOrdDate,
             wo_seq: data.woSeq,
-            wo_due_date: data.woDueDate,
+            wo_due_date:
+              data.woDueDate === null
+                ? null
+                : new Date(data.woDueDate).toISOString().split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
-            wo_start_date: data.woStartDate,
+            wo_start_date:
+              data.woStartDate === null
+                ? null
+                : new Date(data.woStartDate).toISOString().split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
             wo_unpld_downtime: data.woUnpldDowntime,
             wo_activated: data.woActivated,
             wo_status: data.woStatus,
-            wo_rel_date: data.woRelDate,
+            wo_rel_date:
+              data.woRelDate === null
+                ? null
+                : new Date(data.woStartDate).toISOString().split('T')[0],
             wo_user: data.woUser,
           };
           return { ...wo };
@@ -587,17 +672,26 @@ export class DataStorageService {
             wo_qty_ord: data.woQtyOrd,
             wo_ord_date: data.woOrdDate,
             wo_seq: data.woSeq,
-            wo_due_date: data.woDueDate,
+            wo_due_date:
+              data.woDueDate === null
+                ? null
+                : new Date(data.woDueDate).toISOString().split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
-            wo_start_date: data.woStartDate,
+            wo_start_date:
+              data.woStartDate === null
+                ? null
+                : new Date(data.woStartDate).toISOString().split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
             wo_unpld_downtime: data.woUnpldDowntime,
             wo_activated: data.woActivated,
             wo_status: data.woStatus,
-            wo_rel_date: data.woRelDate,
+            wo_rel_date:
+              data.woRelDate === null
+                ? null
+                : new Date(data.woRelDate).toISOString().split('T')[0],
             wo_user: data.woUser,
           };
           return { ...wo };
@@ -927,51 +1021,104 @@ export class DataStorageService {
       .subscribe();
   }
 
-  fetchUtemterv(week: number, line: string){
-     return this.http.get<any>(URL + "/workorder/prodsch/"+line+'/'+week )
-        .pipe(
-          map(
-            (res)=>{
-              
-              
-               const wos = res.map(
-              (data)=>{
-                 const e_wo = {
-                  wo_lot: data.woLot,
-                  wo_nbr: data.woNbr,
-                  wo_part: data.woPart,
-                  pt_desc: data.ptDesc,
-                  wo_qty_ord: data.woQtyOrd,
-                  part_um: data.ptUm,
-                  wo_line: data.woLine,
-                  ln_desc: data.lnDesc,
-                  item_per_hour: data.egys,
-                  wo_est_run: data.estRun,
-                  wo_seq: data.woSeq,
-                  wo_rel_date: data.woRelDate,
-                  wo_start_date: data.woStartDate,
-                  wo_start_time: data.woStartTime,
-                  wo_end_time: data.woEndTime,
-                  wo_pld_downtime: data.woPldDowntime,
-                  wo_unpld_downtime: data.woUnpldDowntime,
-                } 
-                return{...e_wo}
-              } 
-              )
-              console.log(wos);
-              return wos;
-            }
-          )
-        )
-
+  fetchUtemterv(week: number, line: string) {
+    return this.http
+      .get<any>(URL + '/workorder/prodsch/' + line + '/' + week)
+      .pipe(
+        map((res) => {
+          const wos = res.map((data) => {
+            const e_wo = {
+              wo_lot: data.woLot,
+              wo_nbr: data.woNbr,
+              wo_part: data.woPart,
+              pt_desc: data.ptDesc,
+              wo_qty_ord: data.woQtyOrd,
+              part_um: data.ptUm,
+              wo_line: data.woLine,
+              ln_desc: data.lnDesc,
+              item_per_hour: data.egys,
+              wo_est_run: data.estRun,
+              wo_seq: data.woSeq,
+              wo_rel_date:
+                data.woRelDate === null
+                  ? null
+                  : new Date(data.woRelDate).toISOString().split('T')[0],
+              wo_start_date:
+                data.woStartDate === null
+                  ? null
+                  : new Date(data.woStartDate).toISOString().split('T')[0],
+              wo_start_time: data.woStartTime,
+              wo_end_time: data.woEndTime,
+              wo_pld_downtime: data.woPldDowntime,
+              wo_unpld_downtime: data.woUnpldDowntime,
+            };
+            return { ...e_wo };
+          });
+          //console.log(wos);
+          return wos;
+        })
+      );
   }
 
-  updateWoSeq(lot: number, seq: number){
-   return this.http.patch(URL+'/workorder/prodsch/'+lot+'/'+seq, []);
-    
+  updateWoSeq(lot: number, seq: number) {
+    return this.http.patch(URL + '/workorder/prodsch/' + lot + '/' + seq, []);
   }
 
+  updateWod(wod) {
+    const bodyData = {
+      WodLot: this.woService.selectedWo.wo_lot,
+      WodPart: wod.wod_part,
+      WodPar: wod.wod_par,
+      WodCompl: wod.wod_qty_compl,
+      WodRjct: wod.wod_qty_rjct,
+    };
+    return this.http.patch(URL + '/wod/result', bodyData);
+  }
 
+  updateLad(lad) {
+    const bodyData = { ladId: lad.lad_id, ladUsed: lad.lad_qty_used };
+    return this.http.patch(URL + '/lad/used', bodyData);
+  }
+
+  utemez(week, line, start_time) {
+    const bodyData = { Week: week, WoLine: line, StartTime: start_time };
+    console.log(bodyData);
+
+    return this.http.patch<any>(URL + '/workorder/prodsch', bodyData).pipe(
+      map((res) => {
+        const wos = res.map((data) => {
+          const e_wo = {
+            wo_lot: data.woLot,
+            wo_nbr: data.woNbr,
+            wo_part: data.woPart,
+            pt_desc: data.ptDesc,
+            wo_qty_ord: data.woQtyOrd,
+            part_um: data.ptUm,
+            wo_line: data.woLine,
+            ln_desc: data.lnDesc,
+            item_per_hour: data.egys,
+            wo_est_run: data.estRun,
+            wo_seq: data.woSeq,
+            wo_rel_date:
+              data.woRelDate === null
+                ? null
+                : new Date(data.woRelDate).toISOString().split('T')[0],
+            wo_start_date:
+              data.woStartDate === null
+                ? null
+                : new Date(data.woStartDate).toISOString().split('T')[0],
+            wo_start_time: data.woStartTime,
+            wo_end_time: data.woEndTime,
+            wo_pld_downtime: data.woPldDowntime,
+            wo_unpld_downtime: data.woUnpldDowntime,
+          };
+          return { ...e_wo };
+        });
+        //console.log(wos);
+        return wos;
+      })
+    );
+  }
 }
 
 export const URL = 'https://localhost:7075/api';

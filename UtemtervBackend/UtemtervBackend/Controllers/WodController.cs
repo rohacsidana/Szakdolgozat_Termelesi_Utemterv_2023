@@ -18,7 +18,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpGet("{lot}")]
-        public IActionResult allWodSP(int lot)
+        public IActionResult AllWodSP(int lot)
         {
             try
             {
@@ -35,5 +35,30 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(500, "An error has occured.");
             }
         }
+
+        [HttpPatch("result")]
+        public IActionResult PatchWodEndResult([FromBody] WodResult wodData)
+        {
+            try
+            {
+                var res = _context.Database.ExecuteSqlInterpolated($"updateWod {wodData.WodLot}, {wodData.WodPart}, {wodData.WodPar}, {wodData.WodCompl}, {wodData.WodRjct}");
+                return Ok(res);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "NOT_VALID_VALUE");
+            }
+        }
     }
+}
+
+public class WodResult
+{
+    public int WodLot { get; set; }
+    public int WodPart {get; set;}
+    public int WodPar { get; set; }
+    public int WodCompl { get;set; }
+    public int WodRjct { get; set; }
+
 }

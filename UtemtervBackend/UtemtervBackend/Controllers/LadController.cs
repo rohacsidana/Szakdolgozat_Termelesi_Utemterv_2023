@@ -25,7 +25,7 @@ namespace UtemtervBackend.Controllers
 
                 if (lads.Count() == 0)
                 {
-                    
+
                     return NotFound("No lad found to the workorder.");
                 }
                 return Ok(lads);
@@ -37,6 +37,27 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(500, "An error has occured.");
             }
         }
+        [HttpPatch("used")]
+        public IActionResult PatchWodEndResult([FromBody] MLadUsed beadat)
+        {
+            Console.WriteLine(beadat.LadId);
+            Console.WriteLine(beadat.LadUsed);
+
+            try
+            {
+                var res = _context.Database.ExecuteSqlInterpolated($"updateLad {beadat.LadId}, {beadat.LadUsed}");
+                return Ok(res); 
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "NOT_VALID_VALUE");
+            }
+        }
 
     }
+}
+public class MLadUsed{
+    public int LadId { get; set;}
+    public decimal LadUsed { get; set;}
 }

@@ -112,7 +112,11 @@ public partial class UtemtervContext : DbContext
         {
             entity.HasKey(e => e.LadId).HasName("PK__LAD_DET__24E37365A97F565C");
 
-            entity.ToTable("LAD_DET", tb => tb.HasTrigger("Lad_reserve"));
+            entity.ToTable("LAD_DET", tb =>
+            {
+                tb.HasTrigger("Lad_reserve");
+                tb.HasTrigger("lad_update");
+            });
 
             entity.Property(e => e.LadId).HasColumnName("lad_id");
             entity.Property(e => e.LadComp).HasColumnName("lad_comp");
@@ -286,9 +290,9 @@ public partial class UtemtervContext : DbContext
 
         modelBuilder.Entity<WoMstr>(entity =>
         {
-            entity.HasKey(e => e.WoLot).HasName("PK__WO_MSTR__5FD13D21C483C18C");
+            entity.HasKey(e => e.WoLot).HasName("PK__WO_MSTR__5FD13D21F5F5BCBB");
 
-            entity.ToTable("WO_MSTR");
+            entity.ToTable("WO_MSTR", tb => tb.HasTrigger("UpdateStatus"));
 
             entity.Property(e => e.WoLot).HasColumnName("wo_lot");
             entity.Property(e => e.WoActivated).HasColumnName("wo_activated");
@@ -299,7 +303,7 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("wo_end_time");
             entity.Property(e => e.WoEstRun)
-                .HasPrecision(0)
+                .HasComputedColumnSql("(CONVERT([time],CONVERT([varchar],dateadd(second,([wo_qty_ord]/[dbo].[orankentiEgyseg]([wo_part],[wo_line]))*(3600),(0)),(108))))", false)
                 .HasColumnName("wo_est_run");
             entity.Property(e => e.WoLine)
                 .HasMaxLength(8)
@@ -326,7 +330,7 @@ public partial class UtemtervContext : DbContext
                 .HasColumnType("date")
                 .HasColumnName("wo_start_date");
             entity.Property(e => e.WoStartTime)
-                .HasPrecision(0)
+                .HasColumnType("datetime")
                 .HasColumnName("wo_start_time");
             entity.Property(e => e.WoStatus)
                 .HasMaxLength(10)
@@ -339,16 +343,16 @@ public partial class UtemtervContext : DbContext
 
             entity.HasOne(d => d.WoLineNavigation).WithMany(p => p.WoMstrs)
                 .HasForeignKey(d => d.WoLine)
-                .HasConstraintName("FK__WO_MSTR__wo_line__628FA481");
+                .HasConstraintName("FK__WO_MSTR__wo_line__5DCAEF64");
 
             entity.HasOne(d => d.WoPartNavigation).WithMany(p => p.WoMstrs)
                 .HasForeignKey(d => d.WoPart)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WO_MSTR__wo_part__619B8048");
+                .HasConstraintName("FK__WO_MSTR__wo_part__5EBF139D");
 
             entity.HasOne(d => d.WoUserNavigation).WithMany(p => p.WoMstrs)
                 .HasForeignKey(d => d.WoUser)
-                .HasConstraintName("FK__WO_MSTR__wo_user__60A75C0F");
+                .HasConstraintName("FK__WO_MSTR__wo_user__5FB337D6");
         });
 
         modelBuilder.Entity<WodDet>(entity =>
@@ -550,9 +554,7 @@ public partial class UtemtervContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("pt_um");
-            entity.Property(e => e.WoEndTime)
-                .HasColumnType("datetime")
-                .HasColumnName("wo_end_time");
+            entity.Property(e => e.WoEndTime).HasColumnName("wo_end_time");
             entity.Property(e => e.WoLine)
                 .HasMaxLength(8)
                 .IsUnicode(false)

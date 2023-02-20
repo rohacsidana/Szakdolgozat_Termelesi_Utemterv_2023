@@ -18,8 +18,10 @@ export class UserComponent implements OnInit, OnDestroy {
   myGroup: FormGroup;
   userFound: boolean = true;
   emailExists: boolean = false;
+
   searchMode: boolean = true;
   newMode: boolean = false;
+
   getItemSub: Subscription;
   sortSub: Subscription;
   sortedUserData: User[] = [];

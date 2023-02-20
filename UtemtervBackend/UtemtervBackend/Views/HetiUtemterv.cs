@@ -5,17 +5,17 @@ namespace UtemtervBackend.Views;
 
 public partial class HetiUtemterv
 {
-    public int? WoLot { get; set; }
+    public int WoLot { get; set; }
 
-    public string? WoNbr { get; set; }
+    public string WoNbr { get; set; } = null!;
 
-    public int? WoPart { get; set; }
+    public int WoPart { get; set; }
 
-    public string? PtDesc { get; set; }
+    public string PtDesc { get; set; } = null!;
 
-    public int? WoQtyOrd { get; set; }
+    public int WoQtyOrd { get; set; }
 
-    public string? PtUm { get; set; } = null!;
+    public string PtUm { get; set; } = null!;
 
     public string? WoLine { get; set; }
 
@@ -33,7 +33,7 @@ public partial class HetiUtemterv
 
     public TimeSpan? WoStartTime { get; set; }
 
-    public DateTime? WoEndTime { get; set; }
+    public TimeSpan? WoEndTime { get; set; }
 
     public TimeSpan? WoPldDowntime { get; set; }
 
