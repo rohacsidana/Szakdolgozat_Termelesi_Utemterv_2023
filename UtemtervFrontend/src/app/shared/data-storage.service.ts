@@ -80,15 +80,15 @@ export class DataStorageService {
               wo_due_date:
                 data.woDueDate === null
                   ? null
-                  : new Date(data.woDueDate).toISOString().split('T')[0],
+                  : data.woDueDate.split('T')[0],
               wo_start_date:
                 data.woStartDate === null
                   ? null
-                  : new Date(data.woStartDate).toISOString().split('T')[0],
+                  : data.woStartDate.split('T')[0],
               wo_rel_date:
                 data.woRelDate === null
                   ? null
-                  : new Date(data.woRelDate).toISOString().split('T')[0],
+                  : data.woRelDate.split('T')[0],
               wo_est_run: data.woEstRun,
               wo_start_time: data.woStartTime,
               wo_end_time: data.woEndTime,
@@ -543,13 +543,13 @@ export class DataStorageService {
             wo_due_date:
               data.woDueDate === null
                 ? null
-                : new Date(data.woDueDate).toISOString().split('T')[0],
+                : data.woDueDate.split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
             wo_start_date:
               data.woStartDate === null
                 ? null
-                : new Date(data.woStartDate).toISOString().split('T')[0],
+                : data.woStartDate.split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
@@ -559,7 +559,7 @@ export class DataStorageService {
             wo_rel_date:
               data.woRelDate === null
                 ? null
-                : new Date(data.woRelDate).toISOString().split('T')[0],
+                : data.woRelDate.split('T')[0],
             wo_user: data.woUser,
           };
         });
@@ -584,7 +584,7 @@ export class DataStorageService {
             lad_par: lad.ladPar,
             lad_lot: lad.ladLot,
             lad_comp: lad.ladComp,
-            lad_expire: new Date(lad.ladExpire).toISOString().split('T')[0],
+            lad_expire: lad.ladExpire.split('T')[0],
             lad_qty_rsrv: lad.ladQtyRsrv,
             lad_qty_used: lad.ladQtyUsed,
           };
@@ -632,13 +632,13 @@ export class DataStorageService {
             wo_due_date:
               data.woDueDate === null
                 ? null
-                : new Date(data.woDueDate).toISOString().split('T')[0],
+                : data.woDueDate.split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
             wo_start_date:
               data.woStartDate === null
                 ? null
-                : new Date(data.woStartDate).toISOString().split('T')[0],
+                : data.woStartDate.split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
@@ -648,7 +648,7 @@ export class DataStorageService {
             wo_rel_date:
               data.woRelDate === null
                 ? null
-                : new Date(data.woStartDate).toISOString().split('T')[0],
+                : data.woStartDate.split('T')[0],
             wo_user: data.woUser,
           };
           return { ...wo };
@@ -675,13 +675,13 @@ export class DataStorageService {
             wo_due_date:
               data.woDueDate === null
                 ? null
-                : new Date(data.woDueDate).toISOString().split('T')[0],
+                : data.woDueDate.split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
             wo_start_date:
               data.woStartDate === null
                 ? null
-                : new Date(data.woStartDate).toISOString().split('T')[0],
+                : data.woStartDate.split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
@@ -691,7 +691,7 @@ export class DataStorageService {
             wo_rel_date:
               data.woRelDate === null
                 ? null
-                : new Date(data.woRelDate).toISOString().split('T')[0],
+                : data.woRelDate.split('T')[0],
             wo_user: data.woUser,
           };
           return { ...wo };
@@ -1042,11 +1042,11 @@ export class DataStorageService {
               wo_rel_date:
                 data.woRelDate === null
                   ? null
-                  : new Date(data.woRelDate).toISOString().split('T')[0],
+                  : data.woRelDate.split('T')[0],
               wo_start_date:
                 data.woStartDate === null
                   ? null
-                  : new Date(data.woStartDate).toISOString().split('T')[0],
+                  : data.woStartDate.split('T')[0],
               wo_start_time: data.woStartTime,
               wo_end_time: data.woEndTime,
               wo_pld_downtime: data.woPldDowntime,
@@ -1101,11 +1101,11 @@ export class DataStorageService {
             wo_rel_date:
               data.woRelDate === null
                 ? null
-                : new Date(data.woRelDate).toISOString().split('T')[0],
+                : data.woRelDate.split('T')[0],
             wo_start_date:
               data.woStartDate === null
                 ? null
-                : new Date(data.woStartDate).toISOString().split('T')[0],
+                : data.woStartDate.split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,

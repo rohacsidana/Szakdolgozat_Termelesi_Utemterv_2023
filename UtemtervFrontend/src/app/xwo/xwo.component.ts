@@ -40,7 +40,7 @@ export class XWoCoponent implements OnInit, OnDestroy {
     { name: 'wo_est_run', szoveg: 'Várható elkészülési idő' },
     { name: 'wo_seq', szoveg: 'sorrend', input: { type: 'number', step: 10 } },
     { name: 'wo_rel_date', szoveg: 'Kibocsátási dátum' },
-    { name: 'wo_start_date', szoveg: 'Esedékesség dátum' },
+    { name: 'wo_start_date', szoveg: 'Gyártás Esedékességi dátum' },
     { name: 'wo_start_time', szoveg: 'Kezdési idő' },
     { name: 'wo_end_time', szoveg: 'Végzési idő' },
     { name: 'wo_pld_downtime', szoveg: 'Tervezett állási idő' },

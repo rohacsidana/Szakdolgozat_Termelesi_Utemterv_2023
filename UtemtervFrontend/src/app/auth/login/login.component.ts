@@ -31,11 +31,11 @@ export class LoginComponent {
 
   initForm() {
     this.form = new FormGroup({
-      email: new FormControl('admin@admin.hu', [
+      email: new FormControl('', [
         Validators.required,
         Validators.email,
       ]),
-      password: new FormControl('admin', [
+      password: new FormControl('', [
         Validators.required,
         Validators.pattern(
           '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=S+$).{8,}$'
