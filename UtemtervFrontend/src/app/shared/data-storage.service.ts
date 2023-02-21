@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
@@ -1126,6 +1126,9 @@ export class DataStorageService {
 
   changePwByAdmin(email, pw){
     return this.http.post(URL+"/auth/change/password", {UserEmail : email, Password: pw})
+  }
+  changePwByUser(pw){
+    return this.http.post(URL+"/user/change/password", {Password: pw})
   }
 
 }

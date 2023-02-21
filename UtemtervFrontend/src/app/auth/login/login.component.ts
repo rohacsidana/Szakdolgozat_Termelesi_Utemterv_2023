@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -12,10 +14,18 @@ export class LoginComponent {
   form: FormGroup;
   error: string = null;
   isLoading: boolean = false;
-
-  constructor(private authService: AuthService, private router: Router) {}
+  changeNeeded: boolean = false;
+  changeNeededSub: Subscription;
+  err: string = null ;
+  constructor(private authService: AuthService, private router: Router, private DataStorageService: DataStorageService) {}
 
   ngOnInit() {
+    this.changeNeededSub = this.authService.changeNeededChanged.subscribe(
+      (bool)=>{
+        this.changeNeeded = bool;
+      }
+      )
+
     this.initForm();
   }
 
@@ -41,7 +51,13 @@ export class LoginComponent {
       .subscribe(
         (data) => {
           this.isLoading = false;
-          this.router.navigate(['/home']);
+          this.changeNeeded = this.form.value.password === "changeme"
+          if(!this.changeNeeded){
+            this.router.navigate(['/home']);
+            //this.authService
+          }else{
+            this.authService.setChangeNeeded(this.changeNeeded);
+          }
         },
         (error) => {
           this.isLoading = false;
@@ -52,5 +68,19 @@ export class LoginComponent {
 
   onHandleError() {
     this.error = null;
+  }
+  onSave(pw){
+    this.DataStorageService.changePwByUser(pw)
+      .subscribe(
+        ()=>{
+          this.changeNeeded = false;
+          this.authService.setChangeNeeded(this.changeNeeded);
+          this.router.navigate(['/home']);
+
+        },
+        error=>{
+          this.err = error.error;
+        }
+      )
   }
 }

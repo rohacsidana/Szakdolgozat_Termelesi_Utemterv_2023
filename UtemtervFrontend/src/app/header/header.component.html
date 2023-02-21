@@ -27,7 +27,7 @@
     <mat-toolbar></mat-toolbar>
     <mat-nav-list>
       <!-- comp teszt -->
-      <div *ngIf="loggedIn; else log">
+      <div *ngIf="loggedIn && !changeNeeded; else log">
       <a mat-list-item routerLink="/home">Kezdőlap</a>
       <a mat-list-item routerLink="/part">Tételek</a>
       <a mat-list-item routerLink="/part/structure">Tételszerkezet</a>

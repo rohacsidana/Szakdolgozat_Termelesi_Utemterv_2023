@@ -87,7 +87,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPost("change/password")]
-        public IActionResult ChangeMyPassword([FromBody] string password )
+        public IActionResult ChangeMyPassword([FromBody] PwDto password )
         {
             var letezik = _context.Users.Where(u => u.Email == User.FindFirstValue(ClaimTypes.Email)).ToArray();
 
@@ -96,7 +96,7 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(401, "EMAIL_NOT_FOUND");
             }
             var user = User.FindFirstValue(ClaimTypes.Name);
-            var hashPW = UserController.CreateMD5(password);
+            var hashPW = UserController.CreateMD5(password.Password);
             var validUser = _context.Users.FromSqlInterpolated($"validateUser {User.FindFirstValue(ClaimTypes.Email)},{hashPW}").ToArray();
             if (validUser.Count() == 1)
             {
@@ -135,6 +135,9 @@ namespace UtemtervBackend.Controllers
         }
 
     }
-
+    public class PwDto
+    {
+        public string Password { get; set; }
+    }
 
 }

@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { tap, delay } from 'rxjs/operators';
 import { DataStorageService, URL } from '../shared/data-storage.service';
 
@@ -12,55 +12,62 @@ import { DataStorageService, URL } from '../shared/data-storage.service';
 export class AuthService {
   user = new BehaviorSubject<LogedInUser>(null);
   tokenExpirationTimer: any;
+  changeNeeded: boolean = false;
+  changeNeededChanged = new Subject<boolean>();
   constructor(private http: HttpClient, private router: Router) {}
 
+  setChangeNeeded(bool){
+    this.changeNeeded = bool;
+    this.changeNeededChanged.next(this.changeNeeded);
+  }
   login(user, pw) {
     const bodyData = { UserEmail: user, Password: pw };
-    return this.http
-      .post<IUser>(
-        URL + '/auth/login',
-        bodyData
-      )
-      .pipe(
-        tap({
-          next: (res) => {
-
-            this.handleAuthentication(res.email, +res.id, res.token, res.expire, +res.post, res.name)
-          },
-          error: (error) => this.handleError(error),
-        })
-      );
+    return this.http.post<IUser>(URL + '/auth/login', bodyData).pipe(
+      tap({
+        next: (res) => {
+          this.handleAuthentication(
+            res.email,
+            +res.id,
+            res.token,
+            res.expire,
+            +res.post,
+            res.name
+          );
+        },
+        error: (error) => this.handleError(error),
+      })
+    );
   }
-  
 
+  autoLogin() {
+    const userData = JSON.parse(localStorage.getItem('userData'));
 
-  autoLogin(){
-    
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    
-    if(!userData){
-      return
+    if (!userData) {
+      return;
     }
-    const logedInUser = new LogedInUser(userData.email, +userData.id, +userData._post, userData._token, userData._tokenExpirationDate, userData.name);
-   
-    if(logedInUser.token){
-      
-      this.user.next(logedInUser)
+    const logedInUser = new LogedInUser(
+      userData.email,
+      +userData.id,
+      +userData._post,
+      userData._token,
+      userData._tokenExpirationDate,
+      userData.name
+    );
+
+    if (logedInUser.token) {
+      this.user.next(logedInUser);
       const expirationDuration =
-      new Date(userData._tokenExpirationDate).getTime() -
-      new Date().getTime();
+        new Date(userData._tokenExpirationDate).getTime() -
+        new Date().getTime();
       this.autoLogout(+expirationDuration);
     }
   }
-  autoLogout(expirationDuration: number){
+  autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
-
       this.logout();
     }, expirationDuration);
   }
   logout(): void {
-    
-
     this.user.next(null);
     localStorage.removeItem('userData');
 
@@ -88,19 +95,16 @@ export class AuthService {
     userId: number,
     token: string,
     expires: Date,
-    post : number,
+    post: number,
     name: string
   ) {
     const expirationDuration =
-    new Date(expires).getTime() -
-    new Date().getTime();
-    const user = new LogedInUser(email, +userId, +post, token, expires, name)
+      new Date(expires).getTime() - new Date().getTime();
+    const user = new LogedInUser(email, +userId, +post, token, expires, name);
     this.user.next(user);
-    this.autoLogout(expirationDuration)
+    this.autoLogout(expirationDuration);
     localStorage.setItem('userData', JSON.stringify(user));
   }
-
-
 }
 export class LogedInUser {
   constructor(
@@ -118,13 +122,13 @@ export class LogedInUser {
     }
     return this._token;
   }
-  get tokenExpirationDate(){
+  get tokenExpirationDate() {
     if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {
       return null;
     }
     return this._tokenExpirationDate;
   }
-  get post(){
+  get post() {
     if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {
       return null;
     }
