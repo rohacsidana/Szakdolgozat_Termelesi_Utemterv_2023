@@ -60,8 +60,7 @@ export class LadComponent implements OnInit, OnDestroy {
     private dataStorageService: DataStorageService,
     private route: ActivatedRoute
   ) {}
-
-  ngOnInit() {
+  ngOnInit(){
     this.inputDataChanged = this.dtTblService.inputDataChanged.subscribe(
       (data) => {
         this.dataStorageService
@@ -97,6 +96,16 @@ export class LadComponent implements OnInit, OnDestroy {
         }
       }
     );
+    const sel = this.woService.getSelectedWo();
+    if(sel !== null ){
+      const newStatus = sel.wo_status;
+      if (newStatus === 'completed') {
+        this.ladHeaders = this.ladHeadersCompleted;
+      } else {
+        this.ladHeaders = this.ladHeadersNotCompl;
+      }
+    }
+    
     this.ladSub = this.woService.ladDataChanged.subscribe((ladData: Lad[]) => {
       this.ladData = ladData;
       if (!!this.lastSort) {

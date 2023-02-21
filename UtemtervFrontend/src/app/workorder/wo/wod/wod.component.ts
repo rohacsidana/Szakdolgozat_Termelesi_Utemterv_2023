@@ -50,10 +50,9 @@ export class WodComponent implements OnInit, OnDestroy {
   woGetSub: Subscription;
   selectedChanged: Subscription;
   inputDataChanged: Subscription;
-  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private route: ActivatedRoute, private DataStorageService: DataStorageService) {
-  }
-
-  ngOnInit() {
+  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private route: ActivatedRoute, private DataStorageService: DataStorageService) 
+{}
+  ngOnInit(){
     this.selectedChanged = this.woService.selectedWoChanged.subscribe(
       (data)=>{
         
@@ -69,6 +68,21 @@ export class WodComponent implements OnInit, OnDestroy {
         }
       }
     );
+    const sel = this.woService.getSelectedWo();
+    if(sel !== null){
+      const newStatus = sel.wo_status;
+        
+        
+      if(newStatus === "completed"){
+        
+        this.wodHeaders = this.wodHeadersCompleted;
+      }else{
+        this.wodHeaders = this.wodHeadersNotCompl;
+  
+      }
+    }
+    
+
     this.inputDataChanged = this.dtTblService.inputDataChanged.subscribe(
       (data)=>{
         this.DataStorageService.updateWod(data)

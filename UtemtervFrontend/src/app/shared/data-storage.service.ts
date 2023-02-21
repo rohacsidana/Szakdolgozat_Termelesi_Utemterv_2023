@@ -105,7 +105,7 @@ export class DataStorageService {
         }),
         tap({
           next: (data) => {
-            this.woService.setWoData([...data]);
+            this.woService.setWoData(data);
           },
           error: (error) => console.log(error),
         })

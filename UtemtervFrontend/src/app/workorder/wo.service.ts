@@ -34,7 +34,7 @@ export class WoService {
   }
   setSelectedWo(wo: Wo) {
     this.selectedWo = {...wo};
-    this.selectedWoChanged.next(this.selectedWo);
+    this.selectedWoChanged.next({...this.selectedWo});
   }
   getSelectedWo() {
     return this.selectedWo;
