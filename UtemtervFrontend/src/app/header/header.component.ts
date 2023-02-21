@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs-compat';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnDestroy{
+export class HeaderComponent implements OnDestroy, OnInit{
   loggedIn:boolean = false
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -19,17 +19,21 @@ export class HeaderComponent implements OnDestroy{
     );
     userSub: Subscription;
   constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService) {
-    this.userSub = this.authService.user.subscribe((data)=>{
-      if(data != null){
-        this.loggedIn = true;
-      }else{
-        this.loggedIn = false;
-      }
-      
-    })
+    
   }
       logout(){
         this.authService.logout();
+      }
+      ngOnInit(): void {
+        this.userSub = this.authService.user.subscribe((data)=>{
+          if(data != null){
+            this.loggedIn = true;
+          }else{
+            this.loggedIn = false;
+          }
+          
+        })
+        this.authService.autoLogin();
       }
 
       ngOnDestroy(): void {

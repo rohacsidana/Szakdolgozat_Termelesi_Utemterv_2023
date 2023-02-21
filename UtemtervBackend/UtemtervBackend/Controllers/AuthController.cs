@@ -36,13 +36,13 @@ namespace UtemtervBackend.Controllers
            
             if (letezik.Count() != 1)
             {
-                return StatusCode(401, "NOT_VALID_USERNAME");
+                return StatusCode(401, "EMAIL_NOT_FOUND");
             }
             var hashPW = UserController.CreateMD5(user.Password);
             var validUser = _context.Users.FromSqlInterpolated($"validateUser {user.UserEmail},{hashPW}").ToArray();
             if (validUser.Count() != 1)
             {
-                return StatusCode(401, "WRONG_PASSWORD");
+                return StatusCode(401, "INVALID_PASSWORD");
             }
             object token = CreateToken(letezik[0]);
                 return Ok(new
@@ -54,7 +54,7 @@ namespace UtemtervBackend.Controllers
                     email = letezik[0].Email
                 ,
                     token = token.GetType().GetProperty("token").GetValue(token, null),
-                    exprie = token.GetType().GetProperty("expires").GetValue(token, null)
+                    expire = token.GetType().GetProperty("expires").GetValue(token, null)
                 }
                 );
         }
@@ -77,9 +77,9 @@ namespace UtemtervBackend.Controllers
                 claims: claims,
                 expires: exp,
                 signingCredentials: cred
-                ); ;
+                );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            return new {token = jwt, expires = exp};
+            return new {token = jwt, expires = exp };
         }
     }
        
