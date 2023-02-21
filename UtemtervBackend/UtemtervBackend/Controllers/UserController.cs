@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Globalization;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using UtemtervBackend.Models;
 
@@ -84,6 +85,29 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(404, e);
             }
         }
+
+        [HttpPost("change/password")]
+        public IActionResult ChangeMyPassword([FromBody] string password )
+        {
+            var letezik = _context.Users.Where(u => u.Email == User.FindFirstValue(ClaimTypes.Email)).ToArray();
+
+            if (letezik.Count() != 1)
+            {
+                return StatusCode(401, "EMAIL_NOT_FOUND");
+            }
+            var user = User.FindFirstValue(ClaimTypes.Name);
+            var hashPW = UserController.CreateMD5(password);
+            var validUser = _context.Users.FromSqlInterpolated($"validateUser {User.FindFirstValue(ClaimTypes.Email)},{hashPW}").ToArray();
+            if (validUser.Count() == 1)
+            {
+                return StatusCode(401, "SAME_PASSWORD");    
+            }
+            var eredmeny = _context.Database.ExecuteSqlInterpolated($"changePwByNormalUser {user}, {hashPW}");
+
+            return Ok();
+        }
+
+
 
         public class CNewUser
         {

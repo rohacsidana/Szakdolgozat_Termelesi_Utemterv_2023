@@ -29,7 +29,7 @@ namespace UtemtervBackend.Controllers
         }
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginUser user)
+        public IActionResult Login([FromBody] UserDto user)
         {
             var letezik = _context.Users.Where(u => u.Email == user.UserEmail).ToArray();
            
@@ -54,11 +54,44 @@ namespace UtemtervBackend.Controllers
                     email = letezik[0].Email
                 ,
                     token = token.GetType().GetProperty("token").GetValue(token, null),
-                    expire = token.GetType().GetProperty("expires").GetValue(token, null)
+                    expire = token.GetType().GetProperty("expires").GetValue(token, null),
+                    name = letezik[0].Name
                 }
                 );
         }
-      
+        [Authorize(Roles = "3")]
+        [HttpPost("change/password")]
+        public IActionResult ChangeMyPassword([FromBody] UserDto user)
+        {
+            var letezik = _context.Users.Where(u => u.Email == User.FindFirstValue(ClaimTypes.Email)).ToArray();
+
+            if (letezik.Count() != 1)
+            {
+                return StatusCode(401, "EMAIL_NOT_FOUND");
+            }
+            var hashPW = UserController.CreateMD5(user.Password);
+            var validUser = _context.Users.FromSqlInterpolated($"validateUser {user.UserEmail},{hashPW}").ToArray();
+            if (validUser.Count() == 1)
+            {
+                return StatusCode(401, "SAME_PASSWORD");
+            }
+            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Name));
+            var role = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
+            try
+            {
+                var eredmeny = _context.Database.ExecuteSqlInterpolated($"changePwByAdminUser {userId}, {hashPW}, {role}");
+                return Ok();
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(401, "UNKNOWN_ERROR");
+
+            }
+
+        }
+
         private object CreateToken(User user) {
             List<Claim> claims = new List<Claim>
             {
@@ -85,7 +118,7 @@ namespace UtemtervBackend.Controllers
        
 }
 
-public class LoginUser
+public class UserDto
 {
     public string UserEmail { get; set; }
     public string Password { get; set; }
