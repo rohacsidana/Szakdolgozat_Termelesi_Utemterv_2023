@@ -1082,7 +1082,6 @@ export class DataStorageService {
 
   utemez(week, line, start_time) {
     const bodyData = { Week: week, WoLine: line, StartTime: start_time };
-    console.log(bodyData);
 
     return this.http.patch<any>(URL + '/workorder/prodsch', bodyData).pipe(
       map((res) => {
@@ -1123,6 +1122,10 @@ export class DataStorageService {
   reserve(ladPart, ladPar, ladLot, ladComp, ladExpire, ladAmount){
     const bodyData = {ladPart: ladPart, ladPar: ladPar, ladLot:ladLot, ladComp: ladComp,ladExpire: ladExpire, ladAmount: ladAmount}
     return this.http.post(URL + "/lad/reserve",bodyData )
+  }
+
+  changePwByAdmin(email, pw){
+    return this.http.post(URL+"/auth/change/password", {UserEmail : email, Password: pw})
   }
 
 }

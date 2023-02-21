@@ -1,0 +1,65 @@
+<div class="backdrop"></div>
+<div class="alert-box">
+    <p>{{errorMessage}}</p>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon"> Új Jelszó:</span>
+          <input
+            id="pw"
+            name="pw"
+            type="password"
+            maxlength="25"
+            minlength="8"
+            class="form-control"
+            style="width: fit-content"
+            pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=S+$).{8,}$"
+            #pw
+            required
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon" for="pwAgain"
+            >Új Jelszó Megerősítése:</span
+          >
+          <input
+            id="pwAgain"
+            name="pwAgain"
+            type="password"
+            minlength="8"
+            maxlength="25"
+            class="form-control"
+            style="width: fit-content"
+            pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=S+$).{8,}$"
+            #pwAgain
+            required
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <div class="alert-box-actions">
+        <button
+          class="btn btn-primary"
+          (click)="onSave(pwAgain.value)"
+          [disabled]="pw.value !== pwAgain.value"
+          type="button"
+        >
+          Mentés
+        </button>
+        <button class="btn btn-primary" type="button" (click)="onClose()">Mégse</button>
+      </div>
+    </div>
+  </div>
+</div>

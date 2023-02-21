@@ -154,8 +154,8 @@ export class XWoCoponent implements OnInit, OnDestroy {
             error: (error)=>this.handleError(error)
         })
      )
-     .subscribe((data)=>{console.log(data)})
-     console.log(""+start_time);
+     .subscribe()
+     
      
 
   }

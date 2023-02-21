@@ -14,6 +14,8 @@ import { UserService } from './user.service';
   providers: [DataTableService.DataTableService],
 })
 export class UserComponent implements OnInit, OnDestroy {
+  isChanging: boolean = false;
+  pwError: string;
   loadedUser: User;
   myGroup: FormGroup;
   userFound: boolean = true;
@@ -219,7 +221,25 @@ export class UserComponent implements OnInit, OnDestroy {
     this.rowSelectSubscription.unsubscribe();
     this.userDataChangedSub.unsubscribe();
   }
-
+  initPwChg(){
+    this.isChanging = true;
+  }
+  onClosePwChg(){
+    this.isChanging = false;
+  }
+  onSavePwChg(pw){
+    this.dataStorageService.changePwByAdmin(this.loadedUser.email ,pw).subscribe(
+      () =>{
+        
+        this.isChanging = false
+     },
+     error=>{
+      
+      this.pwError = ""+error.error;
+      
+     }
+    )
+  }
   sortData(sort: Sort) {
     this.lastSort = sort;
     const data = this.userService.getUsers();

@@ -24,7 +24,6 @@ export class AuthService {
       .pipe(
         tap({
           next: (res) => {
-            console.log(res);
 
             this.handleAuthentication(res.email, +res.id, res.token, res.expire, +res.post, res.name)
           },
@@ -42,7 +41,7 @@ export class AuthService {
     if(!userData){
       return
     }
-    const logedInUser = new LogedInUser(userData.email, +userData.id, +userData.post, userData._token, userData._tokenExpirationDate, userData.name);
+    const logedInUser = new LogedInUser(userData.email, +userData.id, +userData._post, userData._token, userData._tokenExpirationDate, userData.name);
    
     if(logedInUser.token){
       

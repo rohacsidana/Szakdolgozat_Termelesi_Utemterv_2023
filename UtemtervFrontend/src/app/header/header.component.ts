@@ -33,6 +33,7 @@ export class HeaderComponent implements OnDestroy, OnInit {
   }
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe((data) => {
+      
       if (data != null) {
         this.role= data.post;
         this.userName = data.name;

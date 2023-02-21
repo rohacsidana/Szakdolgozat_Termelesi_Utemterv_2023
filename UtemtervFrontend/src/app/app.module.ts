@@ -50,6 +50,7 @@ import { LadFormComponent } from './reserve/lad-form.component';
 import { LdFormComponent } from './reserve/ld-form/ld-form.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { ChangePwComponent } from './change-pw/change-pw.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     PageNotFoundComponent,
     LadFormComponent,
     LdFormComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    ChangePwComponent
   ],
   imports: [
     BrowserModule,

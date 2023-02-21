@@ -110,7 +110,6 @@ export class WoService {
   }
 
   addWo(wo){
-    console.log(wo);
     const newWo = {...wo};
     const newWos = [...this.woData, {...newWo}];
     this.woData = [...newWos]
@@ -118,7 +117,6 @@ export class WoService {
   }
 
   updateWod(wod){
-    console.log(wod);
     
     let index = this.wodData.findIndex((value)=>{
       return value.wod_part === wod.wod_part && value.wod_par === wod.wod_par

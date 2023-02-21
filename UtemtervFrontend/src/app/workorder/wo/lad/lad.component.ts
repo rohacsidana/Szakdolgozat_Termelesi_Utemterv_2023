@@ -71,7 +71,6 @@ export class LadComponent implements OnInit, OnDestroy {
               next: () => this.woService.updateLad(data),
               error: (error) => {
                 this.handleError(error);
-                console.log(this.ladData);
                 
                 if (!!this.lastSort) {
 
