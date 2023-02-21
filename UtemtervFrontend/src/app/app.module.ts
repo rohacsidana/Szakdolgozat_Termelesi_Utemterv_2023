@@ -49,6 +49,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { LadFormComponent } from './reserve/lad-form.component';
 import { LdFormComponent } from './reserve/ld-form/ld-form.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     PageNotFoundComponent,
     LadFormComponent,
     LdFormComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,

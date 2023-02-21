@@ -26,7 +26,7 @@ export class AuthService {
           next: (res) => {
             console.log(res);
 
-            this.handleAuthentication(res.email, res.id, res.token, res.expire, res.post)
+            this.handleAuthentication(res.email, +res.id, res.token, res.expire, +res.post, res.name)
           },
           error: (error) => this.handleError(error),
         })
@@ -42,7 +42,7 @@ export class AuthService {
     if(!userData){
       return
     }
-    const logedInUser = new LogedInUser(userData.email, +userData.id, +userData.post, userData._token, userData._tokenExpirationDate);
+    const logedInUser = new LogedInUser(userData.email, +userData.id, +userData.post, userData._token, userData._tokenExpirationDate, userData.name);
    
     if(logedInUser.token){
       
@@ -89,12 +89,13 @@ export class AuthService {
     userId: number,
     token: string,
     expires: Date,
-    post : number
+    post : number,
+    name: string
   ) {
     const expirationDuration =
     new Date(expires).getTime() -
     new Date().getTime();
-    const user = new LogedInUser(email, userId, post, token, expires)
+    const user = new LogedInUser(email, +userId, +post, token, expires, name)
     this.user.next(user);
     this.autoLogout(expirationDuration)
     localStorage.setItem('userData', JSON.stringify(user));
@@ -106,9 +107,10 @@ export class LogedInUser {
   constructor(
     public email: string,
     public id: number,
-    public post: number,
+    private _post: number,
     private _token: string,
-    private _tokenExpirationDate: Date
+    private _tokenExpirationDate: Date,
+    public name: string
   ) {}
 
   get token() {
@@ -116,6 +118,18 @@ export class LogedInUser {
       return null;
     }
     return this._token;
+  }
+  get tokenExpirationDate(){
+    if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {
+      return null;
+    }
+    return this._tokenExpirationDate;
+  }
+  get post(){
+    if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {
+      return null;
+    }
+    return this._post;
   }
 }
 
@@ -125,4 +139,5 @@ interface IUser {
   email: string;
   token: string;
   expire: Date;
+  name: string;
 }

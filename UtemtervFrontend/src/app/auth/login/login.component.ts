@@ -10,8 +10,8 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent {
   form: FormGroup;
-
- 
+  error: string = null;
+  isLoading: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -35,14 +35,22 @@ export class LoginComponent {
   }
 
   onLogin() {
-    this.authService.login(this.form.value.email, this.form.value.password).subscribe(
-      data=>{
-        this.router.navigate(["/home"])
-      },
-      error=>{
-        console.error(error);
-        
-      }
-    );
+    this.isLoading = true;
+    this.authService
+      .login(this.form.value.email, this.form.value.password)
+      .subscribe(
+        (data) => {
+          this.isLoading = false;
+          this.router.navigate(['/home']);
+        },
+        (error) => {
+          this.isLoading = false;
+          this.error = error;
+        }
+      );
+  }
+
+  onHandleError() {
+    this.error = null;
   }
 }

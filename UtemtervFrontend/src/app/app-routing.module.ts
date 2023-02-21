@@ -20,6 +20,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LadFormComponent } from './reserve/lad-form.component';
 import { AuthGuard } from './auth/auth.guard';
+import { AdminGuard } from './admin.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full',},
@@ -74,7 +75,7 @@ const routes: Routes = [
   ]}, */
 
   { path: 'prodsch', component: XWoCoponent ,canActivate: [AuthGuard]},
-  { path: 'user', component: UserComponent ,canActivate: [AuthGuard]},
+  { path: 'user', component: UserComponent ,canActivate: [AuthGuard, AdminGuard]},
   { path: 'reserve', component: LadFormComponent ,canActivate: [AuthGuard]},
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
