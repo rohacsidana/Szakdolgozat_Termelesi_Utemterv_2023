@@ -167,7 +167,7 @@ namespace UtemtervBackend.Controllers
         {
             try
             {
-                var res = _context.HetiUtemtervs.FromSqlInterpolated($"scheduleWo {prod.Week}, {prod.WoLine}, {prod.StartTime}");
+                var res = _context.HetiUtemtervs.FromSqlInterpolated($"scheduleWo {prod.Week}, {prod.WoLine}, {prod.StartTime}, {prod.Year}");
                  
                 return Ok(res);
 
@@ -209,4 +209,5 @@ public class ProdSch
     public int Week { get; set; }
     public string WoLine { get; set; }
     public string StartTime { get; set; }
+    public string Year { get; set; }    
 }
