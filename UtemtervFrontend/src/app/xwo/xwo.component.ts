@@ -126,10 +126,10 @@ export class XWoCoponent implements OnInit, OnDestroy {
     return throwError(errorMessage);
   }
 
-  search(line, week) {
+  search(line, week, year: string) {
     this.editing = false;
     this.dataStorageService
-      .fetchUtemterv(week, line)
+      .fetchUtemterv(week, line, year)
       .pipe(
         tap({
           next: (data) => this.woService.setXWos(data),
@@ -143,8 +143,8 @@ export class XWoCoponent implements OnInit, OnDestroy {
     this.editing = !this.editing;
   }
 
-  utemez(line, week, start_time){
-     this.dataStorageService.utemez( week,line, ""+start_time)
+  utemez(line, week, start_time, year){
+     this.dataStorageService.utemez( week,line, ""+start_time, year)
      .pipe(
         tap({
             next: (res)=> {
