@@ -126,12 +126,12 @@ namespace UtemtervBackend.Controllers
         }
 
 
-        [HttpGet("prodsch/{line}/{week}")]
-        public IActionResult GetUtemezhetoWo(string line, int week)
+        [HttpGet("prodsch/{line}/{week}/{year}")]
+        public IActionResult GetUtemezhetoWo(string line, int week, string year)
         {
             try
             {
-                var wos = _context.HetiUtemtervs.FromSqlRaw($"getHetiUtemterv {week}, {line}").ToList();
+                var wos = _context.HetiUtemtervs.FromSqlRaw($"getHetiUtemterv {week}, {line}, {year}").ToList();
                 if (wos.Count() > 0)
                 {
                     return Ok(wos);
