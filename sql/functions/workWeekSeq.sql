@@ -1,12 +1,12 @@
 
-create function workWeekSeq
+alter function workWeekSeq
 (
 	@wo_seq int, @wo_start_date date
 )
 returns int
 as
 begin
-
+	
 	return(
 		select count(*)
 		from WO_MSTR wo
