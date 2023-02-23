@@ -74,8 +74,8 @@ namespace UtemtervBackend.Controllers
         {
             try
             {
-                var newRows = _context.Database.ExecuteSqlInterpolated($"newLd {ld.LdPart}, {ld.LdExpire}, {ld.LdQtyOh}");
-                return Ok(newRows);
+                var updatedRows = _context.Database.ExecuteSqlInterpolated($"updateLd {ld.LdPart}, {ld.LdExpire}, {ld.LdQtyOh}");
+                return Ok(updatedRows);
             }
             catch (Exception e)
             {

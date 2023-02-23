@@ -23,6 +23,7 @@ export class LdComponent implements OnInit, OnDestroy {
 
   myGroup: FormGroup;
   ldFound: boolean = true;
+
   searchMode: boolean = true;
   searchedDataLoaded: boolean = false;
 
@@ -93,8 +94,14 @@ export class LdComponent implements OnInit, OnDestroy {
             disabled: true,
           }),
           ld_qty_oh: new FormControl(data.ld_qty_oh, Validators.required),
-          ld_qty_rsrv: new FormControl(data.ld_qty_rsrv, Validators.required),
-          ld_qty_scrp: new FormControl(data.ld_qty_scrp, Validators.required),
+          ld_qty_rsrv: new FormControl(
+            { value: data.ld_qty_rsrv, disabled: true },
+            Validators.required
+          ),
+          ld_qty_scrp: new FormControl(
+            { value: data.ld_qty_scrp, disabled: true },
+            Validators.required
+          ),
         });
         this.ldFound = true;
         this.editMode = true;
@@ -116,18 +123,18 @@ export class LdComponent implements OnInit, OnDestroy {
         Validators.required
       ),
       ld_qty_rsrv: new FormControl(
-        { value: '', disabled: this.searchMode ? true : false },
+        { value: '', disabled: true },
         Validators.required
       ),
       ld_qty_scrp: new FormControl(
-        { value: '', disabled: this.searchMode ? true : false },
+        { value: '', disabled: true },
         Validators.required
       ),
     });
   }
 
   onSearchLd() {
-    this.filterData(this.myGroup.value.ld_part, this.myGroup.value.ld_expire);
+    this.filterData(this.myGroup.value.ld_part);
   }
 
   onDelete() {
@@ -216,8 +223,9 @@ export class LdComponent implements OnInit, OnDestroy {
     this.dtTblService.emitDataChanged(this.sortedLdData.slice());
   }
 
-  filterData(part: number, expire?: Date) {
-    console.log('filter args: ', part, expire);
+  filterData(part: number) {
+    //partonként keresni készletet
+    console.log('filter args: ', part);
 
     const data = this.sortedLdData.slice();
 
@@ -227,19 +235,10 @@ export class LdComponent implements OnInit, OnDestroy {
         let partFilter = part.toString();
         filteredSearch = value.ld_part.toString() == partFilter;
       }
-      if (
-        /* new Date(expire).toString() != 'Invalid Date' */ expire &&
-        filteredSearch
-      ) {
-        let expDateFilter = new Date(expire).toString();
-        filteredSearch = value.ld_expire.toString() == expDateFilter;
-      }
 
       return filteredSearch;
     });
-    this.editMode = true;
-    this.searchMode = false;
-    this.newMode = false;
+    this.searchedDataLoaded = true;
     this.dtTblService.emitDataChanged(results.slice());
   }
 
