@@ -40,7 +40,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPatch("result")]
-        public IActionResult PatchWodEndResult([FromBody] WodResult wodData)
+        public IActionResult PatchWodEndResult([FromBody] WodResultDto wodData)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace UtemtervBackend.Controllers
     }
 }
 
-public class WodResult
+public class WodResultDto
 {
     public int WodLot { get; set; }
     public int WodPart {get; set;}

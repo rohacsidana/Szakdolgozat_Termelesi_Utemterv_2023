@@ -20,14 +20,26 @@ export class XWoCoponent implements OnInit, OnDestroy {
   error: string = null;
   lastSort: Sort = null;
   editing: boolean = false;
-  xwoHeaders: {
-    name: string;
-    szoveg: string;
-    input?: {
-      type: string;
-      step?: number;
-    };
-  }[] = [
+xwoNotEditingHeader = [
+  { name: 'wo_lot', szoveg: 'GYR azon' },
+  { name: 'wo_nbr', szoveg: 'GYR szám' },
+  { name: 'wo_part', szoveg: 'GYR tételkód' },
+  { name: 'pt_desc', szoveg: 'Megnevezés' },
+  { name: 'wo_qty_ord', szoveg: 'Mennyiség' },
+  { name: 'part_um', szoveg: 'Mértékegység' },
+  { name: 'wo_line', szoveg: 'Gyártósor' },
+  { name: 'ln_desc', szoveg: 'Gyártósor megnevezés' },
+  { name: 'item_per_hour', szoveg: 'Óránkénti elkészülési egység' },
+  { name: 'wo_est_run', szoveg: 'Várható elkészülési idő' },
+  { name: 'wo_seq', szoveg: 'sorrend'},
+  { name: 'wo_rel_date', szoveg: 'Kibocsátási dátum' },
+  { name: 'wo_start_date', szoveg: 'Gyártás Esedékességi dátum' },
+  { name: 'wo_start_time', szoveg: 'Kezdési idő' },
+  { name: 'wo_end_time', szoveg: 'Végzési idő' },
+  { name: 'wo_pld_downtime', szoveg: 'Tervezett állási idő' },
+  { name: 'wo_unpld_downtime', szoveg: 'Nem tervezett állási idő' },
+];
+  xwoEditingHeader = [
     { name: 'wo_lot', szoveg: 'GYR azon' },
     { name: 'wo_nbr', szoveg: 'GYR szám' },
     { name: 'wo_part', szoveg: 'GYR tételkód' },
@@ -46,6 +58,15 @@ export class XWoCoponent implements OnInit, OnDestroy {
     { name: 'wo_pld_downtime', szoveg: 'Tervezett állási idő' },
     { name: 'wo_unpld_downtime', szoveg: 'Nem tervezett állási idő' },
   ];
+
+  xwoHeaders: {
+    name: string;
+    szoveg: string;
+    input?: {
+      type: string;
+      step?: number;
+    };
+  }[] = this.xwoNotEditingHeader;
 
   xwoDataChangedSub: Subscription;
   dtTableInputSub: Subscription;
@@ -128,6 +149,7 @@ export class XWoCoponent implements OnInit, OnDestroy {
 
   search(line, week, year: string) {
     this.editing = false;
+    this.xwoHeaders = this.xwoNotEditingHeader;
     this.dataStorageService
       .fetchUtemterv(week, line, year)
       .pipe(
@@ -141,6 +163,7 @@ export class XWoCoponent implements OnInit, OnDestroy {
 
   cancel(){
     this.editing = !this.editing;
+    this.xwoHeaders = this.editing ? this.xwoEditingHeader :this.xwoNotEditingHeader;
   }
 
   utemez(line, week, start_time, year){
@@ -150,6 +173,7 @@ export class XWoCoponent implements OnInit, OnDestroy {
             next: (res)=> {
                 this.woService.setXWos(res)
                 this.editing = false;
+                this.xwoHeaders = this.xwoNotEditingHeader;
             } ,
             error: (error)=>this.handleError(error)
         })

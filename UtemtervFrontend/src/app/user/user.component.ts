@@ -17,12 +17,13 @@ export class UserComponent implements OnInit, OnDestroy {
   isChanging: boolean = false;
   pwError: string;
   loadedUser: User;
+  notFound: boolean = false;
   myGroup: FormGroup;
-  userFound: boolean = true;
   emailExists: boolean = false;
 
   searchMode: boolean = true;
   newMode: boolean = false;
+  editMode: boolean = false;
 
   getItemSub: Subscription;
   sortSub: Subscription;
@@ -107,29 +108,35 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   returnToSearchMode() {
-    this.newMode = false;
-    this.searchMode = true;
     this.clearForm();
+    this.searchMode = true;
+    this.newMode = false;
+    this.editMode = false;
   }
 
   onChangeToNewMode() {
+    this.clearForm();
     this.newMode = true;
     this.searchMode = false;
-    this.clearForm();
+    this.editMode = false;
+    this.myGroup.enable();
     this.myGroup.get('user_id').disable();
   }
 
   onSearchUser() {
-    if (this.userService.getUser(this.myGroup.getRawValue().user_id)) {
+    this.loadedUser = this.userService.getUser(
+      this.myGroup.getRawValue().user_id
+    );
+    if (this.loadedUser) {
       //lekérem a beirt azonosito szerinti felhasználót
-      this.loadedUser = this.userService.getUser(
-        Number(this.myGroup.getRawValue().user_id)
-      );
       console.log(this.loadedUser.birth_date);
       let tempDate = new Date(this.loadedUser.birth_date);
       tempDate = new Date(tempDate.setDate(tempDate.getDate() + 1));
 
-      this.userFound = true;
+      this.editMode = true;
+      this.newMode = false;
+      this.searchMode = false;
+
       this.myGroup = new FormGroup({
         user_id: new FormControl(this.loadedUser.user_id, Validators.required),
         name: new FormControl(this.loadedUser.name, Validators.required),
@@ -143,10 +150,11 @@ export class UserComponent implements OnInit, OnDestroy {
       this.myGroup.get('user_id').disable();
     } else {
       this.clearForm();
+      this.notFound = true;
       this.searchMode = true;
-      this.userFound = false;
+      this.editMode = false;
+      this.newMode = false;
     }
-    //console.log(this.userFound);
   }
 
   onDelete() {
@@ -204,9 +212,13 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   clearForm() {
+    this.searchMode = true;
+    this.editMode = false;
+    this.newMode = false;
+
     this.initForm();
+    this.notFound = false;
     this.emailExists = false;
-    this.userFound = true;
     this.loadedUser = null;
   }
 
@@ -221,24 +233,23 @@ export class UserComponent implements OnInit, OnDestroy {
     this.rowSelectSubscription.unsubscribe();
     this.userDataChangedSub.unsubscribe();
   }
-  initPwChg(){
+  initPwChg() {
     this.isChanging = true;
   }
-  onClosePwChg(){
+  onClosePwChg() {
     this.isChanging = false;
   }
-  onSavePwChg(pw){
-    this.dataStorageService.changePwByAdmin(this.loadedUser.email ,pw).subscribe(
-      () =>{
-        
-        this.isChanging = false
-     },
-     error=>{
-      
-      this.pwError = ""+error.error;
-      
-     }
-    )
+  onSavePwChg(pw) {
+    this.dataStorageService
+      .changePwByAdmin(this.loadedUser.email, pw)
+      .subscribe(
+        () => {
+          this.isChanging = false;
+        },
+        (error) => {
+          this.pwError = '' + error.error;
+        }
+      );
   }
   sortData(sort: Sort) {
     this.lastSort = sort;

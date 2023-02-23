@@ -67,7 +67,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPost("new")]
-        public IActionResult newWo([FromBody] NewWo wo)
+        public IActionResult newWo([FromBody] NewWoDto wo)
         {
             
             try
@@ -89,7 +89,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult UpdateWo([FromBody] UpdateWo wo)
+        public IActionResult UpdateWo([FromBody] UpdateWoDto wo)
         {
             try
             {
@@ -163,7 +163,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPatch("prodsch")]
-        public IActionResult ScheduleWo([FromBody] ProdSch prod)
+        public IActionResult ScheduleWo([FromBody] ProdSchDto prod)
         {
             try
             {
@@ -184,7 +184,7 @@ namespace UtemtervBackend.Controllers
 
 }
 
-public class NewWo
+public class NewWoDto
 {
     public string WoNbr { get; set; } = ""; 
     public int WoPart { get; set; }
@@ -194,7 +194,7 @@ public class NewWo
 
 }
 
-public class UpdateWo: NewWo
+public class UpdateWoDto: NewWoDto
 {
     public int WoLot { get; set; }
     public string ?WOLine { get; set; } = "";
@@ -204,7 +204,7 @@ public class UpdateWo: NewWo
     public string ?WoStatus {get; set; } = "";
 }
 
-public class ProdSch
+public class ProdSchDto
 {
     public int Week { get; set; }
     public string WoLine { get; set; }
