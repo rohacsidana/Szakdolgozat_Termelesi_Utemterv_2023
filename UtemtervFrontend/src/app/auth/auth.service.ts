@@ -10,13 +10,13 @@ import { DataStorageService, URL } from '../shared/data-storage.service';
   providedIn: 'root',
 })
 export class AuthService {
-  user = new BehaviorSubject<LogedInUser>(null);
+  user = new BehaviorSubject<LoggedInUser>(null);
   tokenExpirationTimer: any;
   changeNeeded: boolean = false;
   changeNeededChanged = new Subject<boolean>();
   constructor(private http: HttpClient, private router: Router) {}
 
-  setChangeNeeded(bool){
+  setChangeNeeded(bool) {
     this.changeNeeded = bool;
     this.changeNeededChanged.next(this.changeNeeded);
   }
@@ -45,7 +45,7 @@ export class AuthService {
     if (!userData) {
       return;
     }
-    const logedInUser = new LogedInUser(
+    const loggedInUser = new LoggedInUser(
       userData.email,
       +userData.id,
       +userData._post,
@@ -54,8 +54,9 @@ export class AuthService {
       userData.name
     );
 
-    if (logedInUser.token) {
-      this.user.next(logedInUser);
+    if (loggedInUser.token) {
+      this.changeNeeded = JSON.parse(localStorage.getItem('changeNeeded'));
+      this.user.next(loggedInUser);
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() -
         new Date().getTime();
@@ -100,13 +101,14 @@ export class AuthService {
   ) {
     const expirationDuration =
       new Date(expires).getTime() - new Date().getTime();
-    const user = new LogedInUser(email, +userId, +post, token, expires, name);
+    const user = new LoggedInUser(email, +userId, +post, token, expires, name);
     this.user.next(user);
     this.autoLogout(expirationDuration);
     localStorage.setItem('userData', JSON.stringify(user));
   }
 }
-export class LogedInUser {
+
+export class LoggedInUser {
   constructor(
     public email: string,
     public id: number,
