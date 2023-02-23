@@ -966,9 +966,8 @@ export class DataStorageService {
           },
           error: (error) => {
             //console.log(error)
-            this.chgService.setErrorMsg('Csak készterméket vihet fel!')
-          }
-
+            this.chgService.setErrorMsg('Csak készterméket vihet fel!');
+          },
         })
       )
       .subscribe();
@@ -1139,6 +1138,9 @@ export class DataStorageService {
   }
 
   changePwByAdmin(email, pw) {
+    console.log(email);
+    console.log(pw);
+
     return this.http.post(URL + '/auth/change/password', {
       UserEmail: email,
       Password: pw,

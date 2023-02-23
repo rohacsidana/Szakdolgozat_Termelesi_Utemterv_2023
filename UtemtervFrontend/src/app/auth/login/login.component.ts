@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   form: FormGroup;
   error: string = null;
   isLoading: boolean = false;
@@ -53,6 +53,7 @@ export class LoginComponent {
         (data) => {
           this.isLoading = false;
           this.changeNeeded = this.form.value.password === 'changeme';
+          localStorage.setItem('changeNeeded', `${this.changeNeeded}`);
           if (!this.changeNeeded) {
             this.router.navigate(['/home']);
             //this.authService
@@ -76,12 +77,21 @@ export class LoginComponent {
     this.DataStorageService.changePwByUser(pw).subscribe(
       () => {
         this.changeNeeded = false;
+        localStorage.removeItem('changeNeeded');
         this.authService.setChangeNeeded(this.changeNeeded);
-        this.router.navigate(['/home']);
+        this.authService.logout();
       },
       (error) => {
         this.err = error.error;
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    console.log('login ng destroy');
+
+    if (this.changeNeeded) {
+      this.authService.logout();
+    }
   }
 }
