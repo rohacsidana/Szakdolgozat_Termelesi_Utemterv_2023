@@ -8,6 +8,8 @@ import { Chg } from '../shared/interfaces';
 })
 export class ChgService {
     chgChanged = new Subject<Chg[]>();
+    errorMsgChanged = new Subject<string>();
+    errorMsg = ''
 
     private changeTimes: Chg[] = [
         /* { chg_line: 'ln_1', chg_from: 1, chg_to: 2, chg_time: '00:15' },
@@ -58,6 +60,18 @@ export class ChgService {
         if (index >= 0) {
             return true
         }
+    }
+
+    setErrorMsg(error: string) {
+        this.errorMsg = error
+        this.errorMsgChanged.next(this.errorMsg)
+        
+    }
+
+    getErrorMsg() {
+        console.log(this.errorMsg);
+        
+        return this.errorMsg
     }
 
 }

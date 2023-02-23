@@ -706,7 +706,7 @@ export class DataStorageService {
   }
 
   fetchGyartosorok() {
-    console.log('fetching gys');
+    //console.log('fetching gys');
 
     this.http
       .get<
@@ -960,7 +960,11 @@ export class DataStorageService {
 
             this.chgService.newChg(c);
           },
-          error: (error) => console.log(error),
+          error: (error) => {
+            //console.log(error)
+            this.chgService.setErrorMsg('Csak készterméket vihet fel!')
+          }
+         
         })
       )
       .subscribe();
