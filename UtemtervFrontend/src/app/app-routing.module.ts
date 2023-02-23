@@ -23,10 +23,10 @@ import { AuthGuard } from './auth/auth.guard';
 import { AdminGuard } from './admin.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full',},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'logout', redirectTo: 'login' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   {
     path: 'part',
     canActivate: [AuthGuard],
@@ -37,7 +37,7 @@ const routes: Routes = [
     ],
   },
   //{path: 'part/structure', component: PsComponent},
-  { path: 'inventory', component: LdComponent ,canActivate: [AuthGuard]},
+  { path: 'inventory', component: LdComponent, canActivate: [AuthGuard] },
   {
     path: 'line',
     canActivate: [AuthGuard],
@@ -74,9 +74,13 @@ const routes: Routes = [
     {path: '',component: LadComponent}
   ]}, */
 
-  { path: 'prodsch', component: XWoCoponent ,canActivate: [AuthGuard]},
-  { path: 'user', component: UserComponent ,canActivate: [AuthGuard, AdminGuard]},
-  { path: 'reserve', component: LadFormComponent ,canActivate: [AuthGuard]},
+  { path: 'prodsch', component: XWoCoponent, canActivate: [AuthGuard] },
+  {
+    path: 'user',
+    component: UserComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  { path: 'reserve', component: LadFormComponent, canActivate: [AuthGuard] },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 

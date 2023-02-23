@@ -16,25 +16,26 @@ export class LoginComponent {
   isLoading: boolean = false;
   changeNeeded: boolean = false;
   changeNeededSub: Subscription;
-  err: string = null ;
-  constructor(private authService: AuthService, private router: Router, private DataStorageService: DataStorageService) {}
+  err: string = null;
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private DataStorageService: DataStorageService
+  ) {}
 
   ngOnInit() {
     this.changeNeededSub = this.authService.changeNeededChanged.subscribe(
-      (bool)=>{
+      (bool) => {
         this.changeNeeded = bool;
       }
-      )
+    );
 
     this.initForm();
   }
 
   initForm() {
     this.form = new FormGroup({
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email,
-      ]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
         Validators.pattern(
@@ -51,16 +52,18 @@ export class LoginComponent {
       .subscribe(
         (data) => {
           this.isLoading = false;
-          this.changeNeeded = this.form.value.password === "changeme"
-          if(!this.changeNeeded){
+          this.changeNeeded = this.form.value.password === 'changeme';
+          if (!this.changeNeeded) {
             this.router.navigate(['/home']);
             //this.authService
-          }else{
+          } else {
             this.authService.setChangeNeeded(this.changeNeeded);
           }
         },
         (error) => {
           this.isLoading = false;
+          console.log(this.error);
+
           this.error = error;
         }
       );
@@ -69,18 +72,16 @@ export class LoginComponent {
   onHandleError() {
     this.error = null;
   }
-  onSave(pw){
-    this.DataStorageService.changePwByUser(pw)
-      .subscribe(
-        ()=>{
-          this.changeNeeded = false;
-          this.authService.setChangeNeeded(this.changeNeeded);
-          this.router.navigate(['/home']);
-
-        },
-        error=>{
-          this.err = error.error;
-        }
-      )
+  onSave(pw) {
+    this.DataStorageService.changePwByUser(pw).subscribe(
+      () => {
+        this.changeNeeded = false;
+        this.authService.setChangeNeeded(this.changeNeeded);
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        this.err = error.error;
+      }
+    );
   }
 }
