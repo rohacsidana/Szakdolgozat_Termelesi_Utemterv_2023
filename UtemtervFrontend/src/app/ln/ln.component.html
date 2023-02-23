@@ -208,18 +208,7 @@
                 Törlés
               </button>
             </div>
-            <!-- "hiba" üzenetek -->
             
-            <div class="row">
-              <div class="col-xs-12">
-                <p *ngIf="!successSearch && !newLn">
-                  {{ errorMessage }}
-                </p>
-                <p *ngIf="!validForm" style="color: red">
-                  {{ errorMessage }}
-                </p>
-              </div>
-            </div>
              
             <div class="row">
               <div class="col-xs-12">
@@ -266,3 +255,4 @@
     </div>
   </div>
 </div>
+<app-alert *ngIf="!validForm" [message]="errorMessage" (close)="validForm = true"></app-alert>

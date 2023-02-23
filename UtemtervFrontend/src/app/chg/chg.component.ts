@@ -176,8 +176,6 @@ export class ChgComponent {
       this.validForm = false;
     }
 
-
-
     if (this.validForm) {
       this.dsService.newChg({
         chg_line: l,
@@ -191,6 +189,8 @@ export class ChgComponent {
         
       }
     }
+
+    
   }
 
   onModositClick() {
