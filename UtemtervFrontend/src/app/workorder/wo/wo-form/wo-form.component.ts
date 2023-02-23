@@ -73,7 +73,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
         this.error = error;
       }
     );
-    /* this.newMode = this.woService.newMode; */
+    
     this.route.params.subscribe((params: Params) => {
       this.selectedWoLot = +params['lot'];
       this.selectedMode = params['lot'] != null;
@@ -166,11 +166,6 @@ export class WoFormComponent implements OnInit, OnDestroy {
   onSubmit() {}
 
   search() {
-    /*   let wo = this.woService.getWo(+this.woFormActData.woLot);
-    if (wo !== null) {
-      this.woService.setSelectedWo({...wo});
-      this.router.navigate(['./', 'workorder', +this.woFormActData.woLot]);
-    } else { */
     this.DataStorageService.fetchWo(this.woFormActData.woLot)
       .pipe(
         tap({
@@ -182,12 +177,12 @@ export class WoFormComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-    //}
+    
   }
 
   new() {
     if (this.newMode) {
-      //this.initForm();
+
       this.editing = !this.editing;
       this.woService.setEditing(this.editing);
     } else {
@@ -209,14 +204,9 @@ export class WoFormComponent implements OnInit, OnDestroy {
     this.initFormData();
     this.editing = true;
     this.woService.setEditing(this.editing);
-    //this.initForm();
-
-    //formot enable
   }
 
   save() {
-    /*Response alapján eldönteni az editinget. */
-    //this.editing = false;
     if (this.selectedMode) {
       this.DataStorageService.updateWo({
         woNbr: this.woFormActData.order,
@@ -260,7 +250,6 @@ export class WoFormComponent implements OnInit, OnDestroy {
           })
         )
         .subscribe();
-      //this.router.navigate(['workorder']);
     }
   }
 
@@ -277,29 +266,6 @@ export class WoFormComponent implements OnInit, OnDestroy {
         this.router.navigate(['../'], { relativeTo: this.route });
       });
 
-    /* 
-    this.editing = false;
-
-
-    let sub1: Subscription;
-    sub1 = this.woService.ladDataChanged.subscribe(
-    ()=> {
-      console.log(this.woService.getLads());
-      sub1.unsubscribe();
-    }
-    );
-
-    let sub2: Subscription;
-    sub2 = this.woService.wodDataChanged.subscribe(
-    ()=> {
-      console.log(this.woService.getWods());
-      sub2.unsubscribe();
-    }
-    );
-    this.woService.getDataFromTable.next();
-    
-      
-     */
   }
 
   ngOnDestroy(): void {

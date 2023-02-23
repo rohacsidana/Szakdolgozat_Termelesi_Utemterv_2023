@@ -41,46 +41,32 @@ export class WodComponent implements OnInit, OnDestroy {
     { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység'},
   ];
   wodHeaders = this.wodHeadersNotCompl;
-  
+  editing = false;
+  editingChangedSub: Subscription;
   sortSub: Subscription;
   wodSub: Subscription;
   sortedWodData: Wod[];
   lastSort: Sort;
   lot: number;
-  woGetSub: Subscription;
   selectedChanged: Subscription;
   inputDataChanged: Subscription;
   constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private route: ActivatedRoute, private DataStorageService: DataStorageService) 
 {}
   ngOnInit(){
+    this.editingChangedSub = this.woService.editingChanged.subscribe(
+      (data)=>{
+        this.editing = data;
+        this.headerCheck(this.woService.getSelectedWo());
+      }
+    );
     this.selectedChanged = this.woService.selectedWoChanged.subscribe(
       (data)=>{
         
-        const newStatus = data.wo_status;
-        
-        
-        if(newStatus === "completed"){
-          
-          this.wodHeaders = this.wodHeadersCompleted;
-        }else{
-          this.wodHeaders = this.wodHeadersNotCompl;
-
-        }
+        this.headerCheck(this.woService.getSelectedWo());
       }
     );
-    const sel = this.woService.getSelectedWo();
-    if(sel !== null){
-      const newStatus = sel.wo_status;
-        
-        
-      if(newStatus === "completed"){
-        
-        this.wodHeaders = this.wodHeadersCompleted;
-      }else{
-        this.wodHeaders = this.wodHeadersNotCompl;
-  
-      }
-    }
+    this.headerCheck(this.woService.getSelectedWo());
+    
     
 
     this.inputDataChanged = this.dtTblService.inputDataChanged.subscribe(
@@ -137,11 +123,7 @@ export class WodComponent implements OnInit, OnDestroy {
 
 
 
-    this.woGetSub = this.woService.getDataFromTable.subscribe(
-      () => {
-       this.woService.setWodData([...this.dtTblService.getChangedData()]);
-      }
-    );
+    
 
 
   }
@@ -203,11 +185,29 @@ export class WodComponent implements OnInit, OnDestroy {
     this.woService.setWoError(errorMessage)
     return throwError(errorMessage);
   }
+
+headerCheck(status){
+ 
+  if(status != null ){
+    if(status.wo_status === "completed" && this.editing){
+          
+      this.wodHeaders = this.wodHeadersCompleted;
+    }else{
+      this.wodHeaders = this.wodHeadersNotCompl;
+  
+    }
+  }else{
+    this.wodHeaders = this.wodHeadersNotCompl;
+    
+  }
+}
+
   ngOnDestroy() {
-    this.woGetSub.unsubscribe();
+   
     this.sortSub.unsubscribe();
     this.wodSub.unsubscribe();
     this.selectedChanged.unsubscribe();
+    this.editingChangedSub .unsubscribe();
     
   }
 

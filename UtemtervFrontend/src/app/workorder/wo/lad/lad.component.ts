@@ -51,7 +51,6 @@ export class LadComponent implements OnInit, OnDestroy {
 
   sortSub: Subscription;
   ladSub: Subscription;
-  woGetSub: Subscription;
   selectedChanged: Subscription;
   inputDataChanged: Subscription;
   editingChangedSub: Subscription;
@@ -67,7 +66,7 @@ export class LadComponent implements OnInit, OnDestroy {
         console.log(data);
         
         this.editing = data;
-        this.headerCheck(this.woService.getSelectedWo().wo_status)
+        this.headerCheck(this.woService.getSelectedWo())
       }
     );
     
@@ -98,15 +97,11 @@ export class LadComponent implements OnInit, OnDestroy {
     );
     this.selectedChanged = this.woService.selectedWoChanged.subscribe(
       (data) => {
-        const newStatus = data.wo_status;
-        this.headerCheck(newStatus);
+        this.headerCheck(data);
       }
     );
-    const sel = this.woService.getSelectedWo();
-    if(sel !== null ){
-      const newStatus = sel.wo_status;
-      this.headerCheck(newStatus);
-    }
+  
+      this.headerCheck(this.woService.getSelectedWo());
     
     this.ladSub = this.woService.ladDataChanged.subscribe((ladData: Lad[]) => {
       this.ladData = ladData;
@@ -141,9 +136,7 @@ export class LadComponent implements OnInit, OnDestroy {
       this.sortData(sort);
     });
 
-    this.woGetSub = this.woService.getDataFromTable.subscribe(() => {
-      this.woService.setLadData([...this.dtTblService.getChangedData()]);
-    });
+   
   }
 
   sortData(sort: Sort) {
@@ -201,7 +194,6 @@ export class LadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.woGetSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.ladSub.unsubscribe();
     this.selectedChanged.unsubscribe();
@@ -209,12 +201,20 @@ export class LadComponent implements OnInit, OnDestroy {
   }
 
   headerCheck(status){
-    if (status === 'completed' && this.editing) {
-      this.ladHeaders = this.ladHeadersCompleted;
-    } else {
-      this.ladHeaders = this.ladHeadersNotCompl;
-    }
-    console.log(this.ladHeaders);
+   
+    if(status != null ){
+      if(status.wo_status === "completed" && this.editing){
+            
+        this.ladHeaders = this.ladHeadersCompleted;
+      }else{
+        this.ladHeaders = this.ladHeadersNotCompl;
     
+      }
+    }else{
+      this.ladHeaders = this.ladHeadersNotCompl;
+      
+    }
   }
+
+ 
 }
