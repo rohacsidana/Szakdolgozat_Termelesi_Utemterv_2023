@@ -9,6 +9,9 @@ import { AuthService } from '../auth/auth.service';
 })
 export class HomeComponent implements OnInit, OnDestroy{
   userName: string = null;
+  splitName: string[]
+  firstName: string
+
   userSub: Subscription;
   constructor(private authService: AuthService) {
     
@@ -22,6 +25,17 @@ export class HomeComponent implements OnInit, OnDestroy{
       }
       
     })
+
+    this.splitName = this.userName.split(/\s+/)
+    
+    if (this.splitName.length > 1) {
+      this.firstName = this.splitName[1]
+    }
+
+    if (this.splitName.length == 1) {
+      this.firstName = this.splitName[0]
+    }
+     
   }
  ngOnDestroy(): void {
    this.userSub.unsubscribe();
