@@ -61,7 +61,6 @@ export class WoFormComponent implements OnInit, OnDestroy {
   };
   error: string = null;
   errorSub: Subscription;
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -107,6 +106,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
       }
     } else if (this.newMode) {
       this.editing = true;
+      this.woService.setEditing(this.editing);
     }
   }
   onHandleError() {
@@ -189,6 +189,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
     if (this.newMode) {
       //this.initForm();
       this.editing = !this.editing;
+      this.woService.setEditing(this.editing);
     } else {
       this.router.navigate(['workorder', 'new']);
     }
@@ -199,6 +200,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
       this.router.navigate(['../'], { relativeTo: this.route });
     } else {
       this.editing = false;
+      this.woService.setEditing(this.editing);
       this.initForm();
     }
   }
@@ -206,6 +208,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
   edit() {
     this.initFormData();
     this.editing = true;
+    this.woService.setEditing(this.editing);
     //this.initForm();
 
     //formot enable
@@ -234,6 +237,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
               this.selectedWo = { ...data };
               this.initFormData();
               this.editing = false;
+              this.woService.setEditing(this.editing);
             },
             error: (error) => this.handleError(error),
           })

@@ -11,7 +11,7 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/chg")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
 
     public class ChgController : ControllerBase
     {

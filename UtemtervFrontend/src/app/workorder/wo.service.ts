@@ -5,13 +5,13 @@ import { Lad, Wo, Wod, XWo } from '../shared/interfaces';
   providedIn: 'root',
 })
 export class WoService {
-  constructor() {}
+  constructor() { }
   /*lad és wod értékei*/
   woData: Wo[] = [];
   wodData: Wod[] = [];
   ladData: Lad[] = [];
-  xwoData: XWo[] =  [];
-  
+  xwoData: XWo[] = [];
+
   woDataChanged = new Subject<Wo[]>();
   wodDataChanged = new Subject<Wod[]>();
   ladDataChanged = new Subject<Lad[]>();
@@ -19,22 +19,24 @@ export class WoService {
   xwoDataChanged = new Subject<XWo[]>();
   selectedWoChanged = new Subject<Wo>();
   errorChanged = new Subject<string>();
+  editingChanged = new Subject<boolean>();
 
   selectedWo: Wo = null;
   woError: string = null;
+  editing: boolean = false;
 
   addWoData(wo: Wo) {
     this.woData.push(wo);
     this.woDataChanged.next(this.woData.slice());
   }
   deleteWo(lot: number) {
-    const delWo = (wo)=> wo.wo_lot === lot;
+    const delWo = (wo) => wo.wo_lot === lot;
     let index = this.woData.findIndex(delWo);
-    this.woData.splice(index,1);
+    this.woData.splice(index, 1);
   }
   setSelectedWo(wo: Wo) {
-    this.selectedWo = {...wo};
-    this.selectedWoChanged.next({...this.selectedWo});
+    this.selectedWo = { ...wo };
+    this.selectedWoChanged.next({ ...this.selectedWo });
   }
   getSelectedWo() {
     return this.selectedWo;
@@ -88,13 +90,13 @@ export class WoService {
 
   }
 
-  setXWos(xwos){
+  setXWos(xwos) {
     this.xwoData = xwos.slice();
     this.xwoDataChanged.next([...this.xwoData]);
   }
-  setXWo(newXwo){
+  setXWo(newXwo) {
 
-    let index = this.xwoData.findIndex((value)=>{
+    let index = this.xwoData.findIndex((value) => {
       return value.wo_lot === newXwo.wo_lot
     });
     const xwo = this.xwoData[index];
@@ -106,23 +108,23 @@ export class WoService {
     updatedXwos[index] = updatedXwo;
     this.xwoData = [...updatedXwos]
     this.xwoDataChanged.next([...this.xwoData]);
-    
+
   }
 
-  addWo(wo){
-    const newWo = {...wo};
-    const newWos = [...this.woData, {...newWo}];
+  addWo(wo) {
+    const newWo = { ...wo };
+    const newWos = [...this.woData, { ...newWo }];
     this.woData = [...newWos]
     this.woDataChanged.next([...this.woData]);
   }
 
-  updateWod(wod){
-    
-    let index = this.wodData.findIndex((value)=>{
+  updateWod(wod) {
+
+    let index = this.wodData.findIndex((value) => {
       return value.wod_part === wod.wod_part && value.wod_par === wod.wod_par
     });
     const newWod = this.wodData[index];
-    const updatedWod= {
+    const updatedWod = {
       ...newWod,
       ...wod
     }
@@ -130,16 +132,16 @@ export class WoService {
     updatedWods[index] = updatedWod;
     this.wodData = [...updatedWods]
     this.wodDataChanged.next([...this.wodData]);
-    
+
   }
-  updateLad(lad){
-    
-    
-    let index = this.ladData.findIndex((value)=>{
+  updateLad(lad) {
+
+
+    let index = this.ladData.findIndex((value) => {
       return value.lad_id = lad.lad_id
     });
-    const newLad= this.ladData[index];
-    const updatedLad= {
+    const newLad = this.ladData[index];
+    const updatedLad = {
       ...newLad,
       ...lad
     }
@@ -147,18 +149,23 @@ export class WoService {
     updatedWods[index] = updatedLad;
     this.ladData = [...updatedWods]
     this.ladDataChanged.next([...this.ladData]);
-    
+
   }
 
-  setWoError(error){
+  setWoError(error) {
     this.woError = error;
     this.errorChanged.next(error);
   }
-  isUtemezheto(){
+  isUtemezheto() {
     let index = 0
-    while(index < this.xwoData.length && !(this.xwoData[index].wo_seq == null)){
+    while (index < this.xwoData.length && !(this.xwoData[index].wo_seq == null)) {
       index++;
     }
     return index >= this.xwoData.length;
+  }
+
+  setEditing(bool: boolean){
+    this.editing = bool;
+    this.editingChanged.next(this.editing);
   }
 }

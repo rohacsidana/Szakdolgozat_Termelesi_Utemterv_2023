@@ -40,6 +40,7 @@ export class LadComponent implements OnInit, OnDestroy {
       input: { type: 'number' },
     },
   ];
+  editing: boolean = false;
 
   ladHeaders: { name: string; szoveg: string; input?: { type: string } }[] =
     this.ladHeadersNotCompl;
@@ -53,7 +54,7 @@ export class LadComponent implements OnInit, OnDestroy {
   woGetSub: Subscription;
   selectedChanged: Subscription;
   inputDataChanged: Subscription;
-
+  editingChangedSub: Subscription;
   constructor(
     private dtTblService: DataTableService.DataTableService,
     private woService: WoService,
@@ -61,6 +62,15 @@ export class LadComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
   ngOnInit(){
+    this.editingChangedSub = this.woService.editingChanged.subscribe(
+      (data)=>{
+        console.log(data);
+        
+        this.editing = data;
+        this.headerCheck(this.woService.getSelectedWo().wo_status)
+      }
+    );
+    
     this.inputDataChanged = this.dtTblService.inputDataChanged.subscribe(
       (data) => {
         this.dataStorageService
@@ -89,21 +99,13 @@ export class LadComponent implements OnInit, OnDestroy {
     this.selectedChanged = this.woService.selectedWoChanged.subscribe(
       (data) => {
         const newStatus = data.wo_status;
-        if (newStatus === 'completed') {
-          this.ladHeaders = this.ladHeadersCompleted;
-        } else {
-          this.ladHeaders = this.ladHeadersNotCompl;
-        }
+        this.headerCheck(newStatus);
       }
     );
     const sel = this.woService.getSelectedWo();
     if(sel !== null ){
       const newStatus = sel.wo_status;
-      if (newStatus === 'completed') {
-        this.ladHeaders = this.ladHeadersCompleted;
-      } else {
-        this.ladHeaders = this.ladHeadersNotCompl;
-      }
+      this.headerCheck(newStatus);
     }
     
     this.ladSub = this.woService.ladDataChanged.subscribe((ladData: Lad[]) => {
@@ -203,5 +205,16 @@ export class LadComponent implements OnInit, OnDestroy {
     this.sortSub.unsubscribe();
     this.ladSub.unsubscribe();
     this.selectedChanged.unsubscribe();
+    this.editingChangedSub.unsubscribe();
+  }
+
+  headerCheck(status){
+    if (status === 'completed' && this.editing) {
+      this.ladHeaders = this.ladHeadersCompleted;
+    } else {
+      this.ladHeaders = this.ladHeadersNotCompl;
+    }
+    console.log(this.ladHeaders);
+    
   }
 }
