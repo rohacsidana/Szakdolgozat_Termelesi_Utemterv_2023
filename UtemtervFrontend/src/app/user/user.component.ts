@@ -119,7 +119,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.newMode = true;
     this.searchMode = false;
     this.editMode = false;
-    this.myGroup.enable()
+    this.myGroup.enable();
     this.myGroup.get('user_id').disable();
   }
 
