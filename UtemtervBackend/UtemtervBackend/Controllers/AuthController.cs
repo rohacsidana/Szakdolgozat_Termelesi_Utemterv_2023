@@ -61,7 +61,7 @@ namespace UtemtervBackend.Controllers
         }
         [Authorize(Roles = "3")]
         [HttpPost("change/password")]
-        public IActionResult ChangeMyPassword([FromBody] UserDto user)
+        public IActionResult ChangePassword([FromBody] UserDto user)
         {
             var letezik = _context.Users.Where(u => u.Email == User.FindFirstValue(ClaimTypes.Email)).ToArray();
 
@@ -79,7 +79,7 @@ namespace UtemtervBackend.Controllers
             var role = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
             try
             {
-                var eredmeny = _context.Database.ExecuteSqlInterpolated($"changePwByAdminUser {userId}, {hashPW}, {role}");
+                var eredmeny = _context.Database.ExecuteSqlInterpolated($"changePwByAdminUser {user.UserEmail}, {hashPW}, {role}");
                 return Ok();
 
             }
