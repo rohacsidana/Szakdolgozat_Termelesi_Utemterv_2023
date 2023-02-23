@@ -41,7 +41,7 @@ namespace UtemtervBackend.Controllers
             }
         }
         [HttpPatch("used")]
-        public IActionResult PatchWodEndResult([FromBody] MLadUsed beadat)
+        public IActionResult PatchWodEndResult([FromBody] LadUsedDto beadat)
         {
             Console.WriteLine(beadat.LadId);
             Console.WriteLine(beadat.LadUsed);
@@ -59,7 +59,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPost("reserve")]
-        public IActionResult ReserveToWo([FromBody] MReserveToWo lad)
+        public IActionResult ReserveToWo([FromBody] ReserveToWoDto lad)
         {
             try
             {
@@ -76,12 +76,13 @@ namespace UtemtervBackend.Controllers
 
     }
 }
-public class MLadUsed{
+public class LadUsedDto
+{
     public int LadId { get; set;}
     public decimal LadUsed { get; set;}
 }
 
-public class MReserveToWo
+public class ReserveToWoDto
 {
     public int LadPart { get; set;}
     public int LadPar { get; set;}
