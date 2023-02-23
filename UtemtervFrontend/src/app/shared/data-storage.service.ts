@@ -1021,9 +1021,9 @@ export class DataStorageService {
       .subscribe();
   }
 
-  fetchUtemterv(week: number, line: string) {
+  fetchUtemterv(week: number, line: string, year: string) {
     return this.http
-      .get<any>(URL + '/workorder/prodsch/' + line + '/' + week)
+      .get<any>(URL + '/workorder/prodsch/' + line + '/' + week + '/' + year)
       .pipe(
         map((res) => {
           const wos = res.map((data) => {
@@ -1080,8 +1080,8 @@ export class DataStorageService {
     return this.http.patch(URL + '/lad/used', bodyData);
   }
 
-  utemez(week, line, start_time) {
-    const bodyData = { Week: week, WoLine: line, StartTime: start_time };
+  utemez(week, line, start_time, year) {
+    const bodyData = { Week: week, WoLine: line, StartTime: start_time, Year: year };
 
     return this.http.patch<any>(URL + '/workorder/prodsch', bodyData).pipe(
       map((res) => {
