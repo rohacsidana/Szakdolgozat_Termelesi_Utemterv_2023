@@ -1,4 +1,8 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
@@ -78,17 +82,13 @@ export class DataStorageService {
               wo_qty_ord: data.woQtyOrd,
               wo_ord_date: data.woOrdDate,
               wo_due_date:
-                data.woDueDate === null
-                  ? null
-                  : data.woDueDate.split('T')[0],
+                data.woDueDate === null ? null : data.woDueDate.split('T')[0],
               wo_start_date:
                 data.woStartDate === null
                   ? null
                   : data.woStartDate.split('T')[0],
               wo_rel_date:
-                data.woRelDate === null
-                  ? null
-                  : data.woRelDate.split('T')[0],
+                data.woRelDate === null ? null : data.woRelDate.split('T')[0],
               wo_est_run: data.woEstRun,
               wo_start_time: data.woStartTime,
               wo_end_time: data.woEndTime,
@@ -260,6 +260,7 @@ export class DataStorageService {
       )
       .subscribe();
   }
+
   newPt(pt: { pt_desc: string; pt_um: string }) {
     /*  console.log('New Pt: ');
     console.log(pt); */
@@ -475,11 +476,8 @@ export class DataStorageService {
       )
       .subscribe();
   }
-  newLd(ld: Ld) {
-    /*
-    console.log('New Ld: ');
-    console.log(ld); */
 
+  newLd(ld: Ld) {
     return this.http
       .post<any>(URL + '/ld/new', {
         ldPart: ld.ld_part,
@@ -509,8 +507,33 @@ export class DataStorageService {
       .subscribe();
   }
 
-  updateLd(ld: Ld) {}
-  par: { ldPart: number; ldExpire: Date };
+  updateLd(ld: Ld) {
+    console.log(ld);
+
+    return this.http
+      .put<number>(URL + '/ld/update', {
+        ldPart: ld.ld_expire,
+        ldExp: this.formatDate(ld.ld_expire),
+        ldQtyOh: ld.ld_qty_oh,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            console.log('update response:');
+            console.log(res);
+
+            if (res > 0) {
+              this.ldService.saveLd(ld, 'edit');
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      )
+      .subscribe();
+  }
+
   deleteLd(part: number, exp: Date) {
     return this.http
       .delete<any>(URL + '/ld/delete/' + part + '/' + this.formatDate(exp))
@@ -541,15 +564,11 @@ export class DataStorageService {
             wo_ord_date: data.woOrdDate,
             wo_seq: data.woSeq,
             wo_due_date:
-              data.woDueDate === null
-                ? null
-                : data.woDueDate.split('T')[0],
+              data.woDueDate === null ? null : data.woDueDate.split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
             wo_start_date:
-              data.woStartDate === null
-                ? null
-                : data.woStartDate.split('T')[0],
+              data.woStartDate === null ? null : data.woStartDate.split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
@@ -557,9 +576,7 @@ export class DataStorageService {
             wo_activated: data.woActivated,
             wo_status: data.woStatus,
             wo_rel_date:
-              data.woRelDate === null
-                ? null
-                : data.woRelDate.split('T')[0],
+              data.woRelDate === null ? null : data.woRelDate.split('T')[0],
             wo_user: data.woUser,
           };
         });
@@ -630,15 +647,11 @@ export class DataStorageService {
             wo_ord_date: data.woOrdDate,
             wo_seq: data.woSeq,
             wo_due_date:
-              data.woDueDate === null
-                ? null
-                : data.woDueDate.split('T')[0],
+              data.woDueDate === null ? null : data.woDueDate.split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
             wo_start_date:
-              data.woStartDate === null
-                ? null
-                : data.woStartDate.split('T')[0],
+              data.woStartDate === null ? null : data.woStartDate.split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
@@ -646,9 +659,7 @@ export class DataStorageService {
             wo_activated: data.woActivated,
             wo_status: data.woStatus,
             wo_rel_date:
-              data.woRelDate === null
-                ? null
-                : data.woStartDate.split('T')[0],
+              data.woRelDate === null ? null : data.woStartDate.split('T')[0],
             wo_user: data.woUser,
           };
           return { ...wo };
@@ -673,15 +684,11 @@ export class DataStorageService {
             wo_ord_date: data.woOrdDate,
             wo_seq: data.woSeq,
             wo_due_date:
-              data.woDueDate === null
-                ? null
-                : data.woDueDate.split('T')[0],
+              data.woDueDate === null ? null : data.woDueDate.split('T')[0],
             wo_line: data.woLine,
             wo_est_run: data.woEstRun,
             wo_start_date:
-              data.woStartDate === null
-                ? null
-                : data.woStartDate.split('T')[0],
+              data.woStartDate === null ? null : data.woStartDate.split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
@@ -689,9 +696,7 @@ export class DataStorageService {
             wo_activated: data.woActivated,
             wo_status: data.woStatus,
             wo_rel_date:
-              data.woRelDate === null
-                ? null
-                : data.woRelDate.split('T')[0],
+              data.woRelDate === null ? null : data.woRelDate.split('T')[0],
             wo_user: data.woUser,
           };
           return { ...wo };
@@ -1044,9 +1049,7 @@ export class DataStorageService {
               wo_est_run: data.estRun,
               wo_seq: data.woSeq,
               wo_rel_date:
-                data.woRelDate === null
-                  ? null
-                  : data.woRelDate.split('T')[0],
+                data.woRelDate === null ? null : data.woRelDate.split('T')[0],
               wo_start_date:
                 data.woStartDate === null
                   ? null
@@ -1085,7 +1088,12 @@ export class DataStorageService {
   }
 
   utemez(week, line, start_time, year) {
-    const bodyData = { Week: week, WoLine: line, StartTime: start_time, Year: year };
+    const bodyData = {
+      Week: week,
+      WoLine: line,
+      StartTime: start_time,
+      Year: year,
+    };
 
     return this.http.patch<any>(URL + '/workorder/prodsch', bodyData).pipe(
       map((res) => {
@@ -1103,13 +1111,9 @@ export class DataStorageService {
             wo_est_run: data.estRun,
             wo_seq: data.woSeq,
             wo_rel_date:
-              data.woRelDate === null
-                ? null
-                : data.woRelDate.split('T')[0],
+              data.woRelDate === null ? null : data.woRelDate.split('T')[0],
             wo_start_date:
-              data.woStartDate === null
-                ? null
-                : data.woStartDate.split('T')[0],
+              data.woStartDate === null ? null : data.woStartDate.split('T')[0],
             wo_start_time: data.woStartTime,
             wo_end_time: data.woEndTime,
             wo_pld_downtime: data.woPldDowntime,
@@ -1123,21 +1127,28 @@ export class DataStorageService {
     );
   }
 
-  reserve(ladPart, ladPar, ladLot, ladComp, ladExpire, ladAmount){
-    const bodyData = {ladPart: ladPart, ladPar: ladPar, ladLot:ladLot, ladComp: ladComp,ladExpire: ladExpire, ladAmount: ladAmount}
-    return this.http.post(URL + "/lad/reserve",bodyData )
+  reserve(ladPart, ladPar, ladLot, ladComp, ladExpire, ladAmount) {
+    const bodyData = {
+      ladPart: ladPart,
+      ladPar: ladPar,
+      ladLot: ladLot,
+      ladComp: ladComp,
+      ladExpire: ladExpire,
+      ladAmount: ladAmount,
+    };
+    return this.http.post(URL + '/lad/reserve', bodyData);
   }
 
-  changePwByAdmin(email, pw){
-    return this.http.post(URL+"/auth/change/password", {UserEmail : email, Password: pw})
+  changePwByAdmin(email, pw) {
+    return this.http.post(URL + '/auth/change/password', {
+      UserEmail: email,
+      Password: pw,
+    });
   }
-  changePwByUser(pw){
-    return this.http.post(URL+"/user/change/password", {Password: pw})
+  changePwByUser(pw) {
+    return this.http.post(URL + '/user/change/password', { Password: pw });
   }
-
 }
-
-
 
 export const URL = 'https://localhost:7075/api';
 interface WoResponse {

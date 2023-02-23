@@ -183,6 +183,23 @@ export class LdComponent implements OnInit, OnDestroy {
     this.clearForm();
   }
 
+  onUpdate() {
+    console.log('update ld');
+
+    this.dataStService.updateLd({
+      ld_part: Number(this.myGroup.getRawValue().ld_part),
+      ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
+      ld_qty_oh: this.myGroup.getRawValue().ld_qty_oh,
+      ld_qty_rsrv: this.myGroup.getRawValue().ld_qty_rsrv,
+      ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp,
+    });
+    this.ldDataChanged();
+    this.searchMode = true;
+    this.editMode = false;
+    this.newMode = false;
+    this.clearForm();
+  }
+
   clearForm() {
     this.initForm();
     this.ldAlreadyExists = false;
@@ -260,6 +277,7 @@ export class LdComponent implements OnInit, OnDestroy {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+
   ngOnDestroy(): void {
     this.getItemSub.unsubscribe();
     this.sortSub.unsubscribe();
