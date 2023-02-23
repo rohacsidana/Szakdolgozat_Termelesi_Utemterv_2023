@@ -1,6 +1,6 @@
 alter proc changePwByAdminUser
 (
-	 @user_id int, @pw varchar(32), @role int
+	 @email varchar(50), @pw varchar(32), @role int
 )
 as
 if(3 = @role)
@@ -8,7 +8,7 @@ begin
 	update u
 	set "password" = @pw
 	from "USER" u
-	where "user_id" = @user_id
+	where email = @email
 end
 else 
 	raiserror('Access denied!',18,1)

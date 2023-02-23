@@ -69,6 +69,13 @@ export class ChgComponent {
 
     })
 
+    this.errorSub = this.chgService.errorMsgChanged.subscribe((errorMsg) => {
+      this.validForm = false
+      this.errorMessage = errorMsg
+      console.log(this.errorMessage);
+      
+    })
+
     this.changeTimes = this.chgService.getChangeTimes()
     this.dtService.emitDataChanged(this.changeTimes.slice())
     /* A data-table-ben figyeli a változást */
@@ -93,6 +100,7 @@ export class ChgComponent {
     this.selectSub.unsubscribe();
     this.lnChangedSub.unsubscribe()
     this.ptChangedSub.unsubscribe()
+    this.errorSub.unsubscribe()
   }
 
   onSubmit(form: NgForm) {
@@ -178,7 +186,10 @@ export class ChgComponent {
         chg_time: time,
       })
 
-      this.clearForm(form);
+      if (this.validForm) {
+        this.clearForm(form);
+        
+      }
     }
   }
 

@@ -11,7 +11,7 @@ export class LnResolver implements Resolve<Ln[]>{
 
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
-        console.log("ln resolver");
+        //console.log("ln resolver");
         
         let data = this.lnService.getLines()
 
