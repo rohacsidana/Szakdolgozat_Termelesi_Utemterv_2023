@@ -25,6 +25,7 @@ namespace UtemtervBackend.Controllers
             _context = context;
         }
         [HttpGet("list")]
+        [Authorize(Roles = "3")]
         public IActionResult UserList()
         {
             try
@@ -43,6 +44,8 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(404,e);
             }
         }
+
+        [Authorize(Roles = "3")]
         [HttpPost("new")]
         public IActionResult NewUser([FromBody] CNewUser user)
         {
@@ -56,7 +59,7 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(404, e);
             }
         }
-
+        [Authorize(Roles = "3")]
         [HttpPut("update")]
         public IActionResult UpdateUser([FromBody] CUpdateUser user)
         {
@@ -71,7 +74,7 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-
+        [Authorize(Roles = "3")]
         [HttpDelete("delete/{id}")]
         public IActionResult deleteUser(int id)
         {
