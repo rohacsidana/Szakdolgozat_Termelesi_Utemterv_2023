@@ -74,9 +74,10 @@
               </button>
               <button
                 class="btn btn-warning"
-                type="submit"
+                type="button"
                 [disabled]="!myGroup.valid"
                 *ngIf="editMode"
+                (click)="onUpdate()"
               >
                 Módosítások mentése
               </button>
