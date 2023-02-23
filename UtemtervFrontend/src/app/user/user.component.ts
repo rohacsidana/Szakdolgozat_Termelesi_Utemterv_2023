@@ -233,12 +233,15 @@ export class UserComponent implements OnInit, OnDestroy {
     this.rowSelectSubscription.unsubscribe();
     this.userDataChangedSub.unsubscribe();
   }
+
   initPwChg() {
     this.isChanging = true;
   }
+
   onClosePwChg() {
     this.isChanging = false;
   }
+
   onSavePwChg(pw) {
     this.dataStorageService
       .changePwByAdmin(this.loadedUser.email, pw)
@@ -251,6 +254,16 @@ export class UserComponent implements OnInit, OnDestroy {
         }
       );
   }
+
+  resetPw() {
+    this.dataStorageService
+      .changePwByAdmin(this.myGroup.value.email, 'changeme')
+      .subscribe(() => {
+        console.log('in sub');
+      });
+    this.clearForm();
+  }
+
   sortData(sort: Sort) {
     this.lastSort = sort;
     const data = this.userService.getUsers();
