@@ -44,7 +44,7 @@
                   style="z-index: auto"
                   type="button"
                   class="btn btn-success"
-                  (click)="newChg = !newChg"
+                  (click)="newChg = !newChg; validForm = true"
                 >
                   Új
                 </button>
@@ -89,19 +89,6 @@
                   Törlés
                 </button>
               </div>
-              <!-- "hiba" üzenetek -->
-              
-              <div class="row">
-                <div class="col-xs-12">
-                  <p *ngIf="!successSearch && !newChg">
-                    {{ errorMessage }}
-                  </p>
-                  <p *ngIf="!validForm" style="color: red">
-                    {{ errorMessage }}
-                  </p>
-                </div>
-              </div>
-               
               <div class="row">
                 <div class="col-xs-12">
                   <!-- chg-kra vonatkozo inputok -->
@@ -173,3 +160,4 @@
       </div>
     </div>
   </div>
+  <app-alert *ngIf="!validForm" [message]="errorMessage" (close)="validForm = true"></app-alert>

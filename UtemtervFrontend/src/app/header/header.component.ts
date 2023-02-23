@@ -35,18 +35,17 @@ export class HeaderComponent implements OnDestroy, OnInit {
   }
   ngOnInit(): void {
     this.changeNeededSub = this.authService.changeNeededChanged.subscribe(
-      (bool)=>{
-        this.changeNeeded = bool;        
+      (bool) => {
+        this.changeNeeded = bool;
       }
     );
     this.userSub = this.authService.user.subscribe((data) => {
-      
       if (data != null) {
-        this.role= data.post;
+        this.role = data.post;
         this.userName = data.name;
         this.loggedIn = true;
         this.exp = data.tokenExpirationDate;
-        
+
         this.timer = setInterval(() => {
           this.time = this.valt(
             new Date(this.exp).getTime() - new Date().getTime()

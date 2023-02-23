@@ -89,10 +89,17 @@
                 class="btn btn-warning"
                 type="button"
                 (click)="initPwChg()"
-                [disabled]="!myGroup.valid || !loadedUser"
                 *ngIf="editMode"
               >
                 Jelszó módosítása
+              </button>
+              <button
+                class="btn btn-info"
+                type="button"
+                (click)="resetPw()"
+                *ngIf="editMode"
+              >
+                Jelszó visszaállítás
               </button>
             </div>
             <!-- "hiba" üzenetek -->

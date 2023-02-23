@@ -3,19 +3,19 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { AuthService } from "./auth/auth.service";
-import { LogedInUser } from "./auth/auth.service";
+import { LoggedInUser } from "./auth/auth.service";
 
 @Injectable({
     providedIn: "root"
 })
 
 export class AdminGuard implements CanActivate{
-   
+
     constructor(
         private authService: AuthService,
         private router: Router
     ) {
-        
+
     }
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
         return this.authService.user.pipe(
