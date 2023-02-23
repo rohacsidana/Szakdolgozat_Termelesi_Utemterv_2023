@@ -184,7 +184,6 @@ export class DataStorageService {
       name: user.name,
       birthDate: this.formatDate(user.birth_date),
       email: user.email,
-      password: '',
       post: user.post,
     };
 
@@ -969,7 +968,7 @@ export class DataStorageService {
             //console.log(error)
             this.chgService.setErrorMsg('Csak készterméket vihet fel!')
           }
-         
+
         })
       )
       .subscribe();
