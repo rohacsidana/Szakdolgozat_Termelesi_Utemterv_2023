@@ -581,7 +581,7 @@ public partial class UtemtervContext : DbContext
                 .HasPrecision(0)
                 .HasColumnName("wo_unpld_downtime");
         });
-       
+
 
         OnModelCreatingPartial(modelBuilder);
     }
