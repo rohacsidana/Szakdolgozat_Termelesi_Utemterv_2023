@@ -67,6 +67,14 @@ export class LoginComponent implements OnDestroy {
             this.router.navigate(['/home']);
             //this.authService
           } else {
+            this.authService.handleAuthentication(
+              data.email,
+              +data.id,
+              data.token,
+              data.expire,
+              +data.post,
+              data.name
+            );
             this.authService.setChangeNeeded(this.changeNeeded);
           }
         },
