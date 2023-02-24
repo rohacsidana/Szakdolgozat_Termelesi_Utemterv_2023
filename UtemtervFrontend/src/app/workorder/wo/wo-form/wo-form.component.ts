@@ -165,8 +165,6 @@ export class WoFormComponent implements OnInit, OnDestroy {
     this.woFormActData.user = this.selectedWo.wo_user;
   }
 
-  onSubmit() {}
-
   search() {
     this.DataStorageService.fetchWo(this.woFormActData.woLot)
       .pipe(

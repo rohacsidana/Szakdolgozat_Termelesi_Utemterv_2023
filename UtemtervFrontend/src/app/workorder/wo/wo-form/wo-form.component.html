@@ -6,7 +6,7 @@
   *ngIf="error"
   (close)="onHandleError()"
 ></app-alert>
-<form #woForm="ngForm" (ngSubmit)="onSubmit()">
+<form #woForm="ngForm" (ngSubmit)="save()">
   <!-- Kereső rész -->
   <div class="row">
     <div class="col-xs-4">
@@ -68,12 +68,7 @@
       Szerkesztés
     </button>
 
-    <button
-      *ngIf="editing"
-      class="btn btn-success"
-      type="button"
-      (click)="save()"
-    >
+    <button *ngIf="editing" class="btn btn-success" type="submit">
       Mentés
     </button>
 
@@ -81,7 +76,8 @@
       *ngIf="
         selectedMode &&
         editing &&
-        selectedWo.wo_status != null && selectedWo.wo_status == 'waiting'
+        selectedWo.wo_status != null &&
+        selectedWo.wo_status == 'waiting'
       "
       class="btn btn-danger"
       type="button"
@@ -134,7 +130,7 @@
           </div>
           <div class="col-xs-4" *ngIf="selectedMode">
             <label for="status">Státusz:</label>
-            <input
+            <!--  <input
               type="text"
               name="status"
               id="status"
@@ -148,9 +144,25 @@
               [(ngModel)]="woFormActData.status"
               value="woFormActData.status"
               maxlength="10"
-            />
-            <!--  ngModel
-              maxlength="10" -->
+            /> -->
+            <select
+              name="status"
+              id="status"
+              class="form-control"
+              [disabled]="
+                !editing ||
+                (selectedWo.wo_status != null
+                  ? selectedWo.wo_status == 'completed'
+                  : false)
+              "
+              [(ngModel)]="woFormActData.status"
+              value="woFormActData.status"
+            >
+              <option value="accepted">accepted</option>
+              <option value="completed">completed</option>
+              <option value="ongoing">ongoing</option>
+              <option value="waiting">waiting</option>
+            </select>
           </div>
           <div class="col-xs-4" *ngIf="selectedMode">
             <label for="line">Gyártósor:</label>
