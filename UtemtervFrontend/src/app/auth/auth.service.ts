@@ -22,21 +22,7 @@ export class AuthService {
   }
   login(user, pw) {
     const bodyData = { UserEmail: user, Password: pw };
-    return this.http.post<IUser>(URL + '/auth/login', bodyData).pipe(
-      tap({
-        next: (res) => {
-          this.handleAuthentication(
-            res.email,
-            +res.id,
-            res.token,
-            res.expire,
-            +res.post,
-            res.name
-          );
-        },
-        /* error: (error) => this.handleError(error), */
-      })
-    );
+    return this.http.post<IUser>(URL + '/auth/login', bodyData);
   }
 
   autoLogin() {
@@ -78,7 +64,7 @@ export class AuthService {
     this.tokenExpirationTimer = null;
     this.router.navigate(['/login']);
   }
-  private handleAuthentication(
+  public handleAuthentication(
     email: string,
     userId: number,
     token: string,
