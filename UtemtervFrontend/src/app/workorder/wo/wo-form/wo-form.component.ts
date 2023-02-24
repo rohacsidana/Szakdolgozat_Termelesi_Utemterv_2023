@@ -68,12 +68,10 @@ export class WoFormComponent implements OnInit, OnDestroy {
     private DataStorageService: DataStorageService
   ) {}
   ngOnInit() {
-    this.errorSub = this.woService.errorChanged.subscribe(
-      (error)=>{
-        this.error = error;
-      }
-    );
-    
+    this.errorSub = this.woService.errorChanged.subscribe((error) => {
+      this.error = error;
+    });
+
     this.route.params.subscribe((params: Params) => {
       this.selectedWoLot = +params['lot'];
       this.selectedMode = params['lot'] != null;
@@ -120,20 +118,24 @@ export class WoFormComponent implements OnInit, OnDestroy {
   }
 
   handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
+    let errorMessage = 'Ismeretlen hiba történt.';
 
     switch (errorRes.error) {
       case 'WO_NOT_FOUND':
-        errorMessage = 'Workorder not found';
+        //errorMessage = 'Workorder not found';
+        errorMessage = 'Gyártási rendelés nem található.';
         break;
       case 'STATUS_ERROR':
-        errorMessage = 'Due of the status value you can not change that.';
+        //errorMessage = 'Due of the status value you can not change that.';
+        errorMessage = 'A státusz értéke miatt ez nem változtatható.';
         break;
       case 'UNKNOWN_ERROR':
-        errorMessage = 'An unknown error occurred';
+        //errorMessage = 'An unknown error occurred';
+        errorMessage = 'Ismeretlen hiba történt.';
 
       default:
-        errorMessage = 'An unknown error occurred';
+        //errorMessage = 'An unknown error occurred';
+        errorMessage = 'Ismeretlen hiba történt.';
         break;
     }
 
@@ -177,12 +179,10 @@ export class WoFormComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-    
   }
 
   new() {
     if (this.newMode) {
-
       this.editing = !this.editing;
       this.woService.setEditing(this.editing);
     } else {
@@ -265,11 +265,9 @@ export class WoFormComponent implements OnInit, OnDestroy {
         this.woService.setSelectedWo(null);
         this.router.navigate(['../'], { relativeTo: this.route });
       });
-
   }
 
   ngOnDestroy(): void {
-    
     this.errorSub.unsubscribe();
   }
 }

@@ -60,16 +60,14 @@ export class LadComponent implements OnInit, OnDestroy {
     private dataStorageService: DataStorageService,
     private route: ActivatedRoute
   ) {}
-  ngOnInit(){
-    this.editingChangedSub = this.woService.editingChanged.subscribe(
-      (data)=>{
-        console.log(data);
-        
-        this.editing = data;
-        this.headerCheck(this.woService.getSelectedWo())
-      }
-    );
-    
+  ngOnInit() {
+    this.editingChangedSub = this.woService.editingChanged.subscribe((data) => {
+      console.log(data);
+
+      this.editing = data;
+      this.headerCheck(this.woService.getSelectedWo());
+    });
+
     this.inputDataChanged = this.dtTblService.inputDataChanged.subscribe(
       (data) => {
         this.dataStorageService
@@ -79,14 +77,16 @@ export class LadComponent implements OnInit, OnDestroy {
               next: () => this.woService.updateLad(data),
               error: (error) => {
                 this.handleError(error);
-                
-                if (!!this.lastSort) {
 
-                  this.sortedLadData = this.ladData.map((value)=>{return {...value}});
+                if (!!this.lastSort) {
+                  this.sortedLadData = this.ladData.map((value) => {
+                    return { ...value };
+                  });
                   this.sortData(this.lastSort);
                 } else {
-
-                  this.sortedLadData = this.ladData.map((value)=>{return {...value}});
+                  this.sortedLadData = this.ladData.map((value) => {
+                    return { ...value };
+                  });
                   this.dtTblService.emitDataChanged([...this.sortedLadData]);
                 }
               },
@@ -100,16 +100,20 @@ export class LadComponent implements OnInit, OnDestroy {
         this.headerCheck(data);
       }
     );
-  
-      this.headerCheck(this.woService.getSelectedWo());
-    
+
+    this.headerCheck(this.woService.getSelectedWo());
+
     this.ladSub = this.woService.ladDataChanged.subscribe((ladData: Lad[]) => {
       this.ladData = ladData;
       if (!!this.lastSort) {
-        this.sortedLadData = this.ladData.map((value)=>{return {...value}});
+        this.sortedLadData = this.ladData.map((value) => {
+          return { ...value };
+        });
         this.sortData(this.lastSort);
       } else {
-        this.sortedLadData = this.ladData.map((value)=>{return {...value}});
+        this.sortedLadData = this.ladData.map((value) => {
+          return { ...value };
+        });
         this.dtTblService.emitDataChanged([...this.sortedLadData]);
       }
     });
@@ -135,12 +139,12 @@ export class LadComponent implements OnInit, OnDestroy {
       this.lastSort = sort;
       this.sortData(sort);
     });
-
-   
   }
 
   sortData(sort: Sort) {
-    const data = this.ladData.map((value)=>{return {...value}});
+    const data = this.ladData.map((value) => {
+      return { ...value };
+    });
     if (!sort.active || sort.direction === '') {
       this.sortedLadData = data;
       this.dtTblService.emitDataChanged([...this.sortedLadData]);
@@ -178,14 +182,19 @@ export class LadComponent implements OnInit, OnDestroy {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred on lad updated';
+    //let errorMessage = 'An unknown error occurred on lad updated';
+    let errorMessage =
+      'Nem megfelelő értéket adott meg, hiba történt felhasznált készlet mennyiség frissítése közben';
 
     switch (errorRes.error) {
       case 'NOT_VALID_VALUE':
-        errorMessage = 'Not valid value, the value must be greater or equal to 0 or smaller or equal to the reserved amount.';
+        //errorMessage = 'Not valid value, the value must be greater or equal to 0 or smaller or equal to the reserved amount.';
+        errorMessage =
+          'Helytelen érték, 0-nál nagyobb vagy egyenlőnek, és a rendelt mennyiségnél kisebb vagy egyenlőnek kell lennie.';
         break;
       default:
-        errorMessage = 'An unknown error occurred on lad updated';
+        //errorMessage = 'An unknown error occurred on lad updated';
+        errorMessage = 'Ismeretlen hiba történt.';
         break;
     }
     this.woService.setWoError(errorMessage);
@@ -200,21 +209,15 @@ export class LadComponent implements OnInit, OnDestroy {
     this.editingChangedSub.unsubscribe();
   }
 
-  headerCheck(status){
-   
-    if(status != null ){
-      if(status.wo_status === "completed" && this.editing){
-            
+  headerCheck(status) {
+    if (status != null) {
+      if (status.wo_status === 'completed' && this.editing) {
         this.ladHeaders = this.ladHeadersCompleted;
-      }else{
+      } else {
         this.ladHeaders = this.ladHeadersNotCompl;
-    
       }
-    }else{
+    } else {
       this.ladHeaders = this.ladHeadersNotCompl;
-      
     }
   }
-
- 
 }

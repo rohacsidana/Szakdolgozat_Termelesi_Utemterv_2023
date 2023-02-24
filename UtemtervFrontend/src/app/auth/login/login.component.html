@@ -1,5 +1,13 @@
-<app-alert *ngIf="error" [message]="error" (close)="onHandleError()"></app-alert>
- <app-change-pw *ngIf="changeNeeded" (save)="onSave($event)" [errorMessage]="error"></app-change-pw>
+<app-alert
+  *ngIf="error"
+  [message]="error"
+  (close)="onHandleError()"
+></app-alert>
+<app-change-pw
+  *ngIf="changeNeeded"
+  (save)="onSave($event)"
+  [errorMessage]="error"
+></app-change-pw>
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
@@ -11,10 +19,11 @@
     <div class="col-lg-12">
       <div class="row">
         <div class="col-xs-12">
-          <div *ngIf="isLoading" style="text-align: center;"  >
+          <div *ngIf="isLoading" style="text-align: center">
             <app-loading-spinner></app-loading-spinner>
           </div>
-          <form *ngIf="!isLoading"
+          <form
+            *ngIf="!isLoading"
             [formGroup]="form"
             (ngSubmit)="onLogin()"
             class="form-horizontal"

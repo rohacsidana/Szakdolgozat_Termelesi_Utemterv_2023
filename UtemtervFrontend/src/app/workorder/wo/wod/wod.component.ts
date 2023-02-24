@@ -1,22 +1,26 @@
-import { HttpErrorResponse } from "@angular/common/http";
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { NgForm } from "@angular/forms";
-import { Sort } from "@angular/material/sort";
-import { ActivatedRoute, ActivatedRouteSnapshot, Params, Route } from "@angular/router";
-import { Subscription, throwError } from "rxjs";
-import { tap } from "rxjs/operators";
-import * as DataTableService from "src/app/data-table/data-table.service";
-import { DataStorageService } from "src/app/shared/data-storage.service";
-import { Wod } from "src/app/shared/interfaces";
-import { WoService } from "../../wo.service";
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Sort } from '@angular/material/sort';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  Params,
+  Route,
+} from '@angular/router';
+import { Subscription, throwError } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import * as DataTableService from 'src/app/data-table/data-table.service';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
+import { Wod } from 'src/app/shared/interfaces';
+import { WoService } from '../../wo.service';
 
 @Component({
   selector: 'app-wod',
   templateUrl: 'wod.component.html',
   styleUrls: ['wod.component.css'],
-  providers: [DataTableService.DataTableService]
+  providers: [DataTableService.DataTableService],
 })
-
 export class WodComponent implements OnInit, OnDestroy {
   wodData: Wod[] = [];
   wodHeadersCompleted = [
@@ -26,8 +30,12 @@ export class WodComponent implements OnInit, OnDestroy {
     { name: 'par_name', szoveg: 'Szülő név' },
     { name: 'wod_qty_req', szoveg: 'Szükséges menny.' },
     { name: 'part_um', szoveg: 'Mértékegység' },
-    { name: 'wod_qty_compl', szoveg: 'Kész egység', input: { type: "number" } },
-    { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység', input: { type: "number" } },
+    { name: 'wod_qty_compl', szoveg: 'Kész egység', input: { type: 'number' } },
+    {
+      name: 'wod_qty_rjct',
+      szoveg: 'Visszautasított egység',
+      input: { type: 'number' },
+    },
   ];
 
   wodHeadersNotCompl = [
@@ -37,8 +45,8 @@ export class WodComponent implements OnInit, OnDestroy {
     { name: 'par_name', szoveg: 'Szülő név' },
     { name: 'wod_qty_req', szoveg: 'Szükséges menny.' },
     { name: 'part_um', szoveg: 'Mértékegység' },
-    { name: 'wod_qty_compl', szoveg: 'Kész egység'},
-    { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység'},
+    { name: 'wod_qty_compl', szoveg: 'Kész egység' },
+    { name: 'wod_qty_rjct', szoveg: 'Visszautasított egység' },
   ];
   wodHeaders = this.wodHeadersNotCompl;
   editing = false;
@@ -50,88 +58,71 @@ export class WodComponent implements OnInit, OnDestroy {
   lot: number;
   selectedChanged: Subscription;
   inputDataChanged: Subscription;
-  constructor(private dtTblService: DataTableService.DataTableService, private woService: WoService, private route: ActivatedRoute, private DataStorageService: DataStorageService) 
-{}
-  ngOnInit(){
-    this.editingChangedSub = this.woService.editingChanged.subscribe(
-      (data)=>{
-        this.editing = data;
-        this.headerCheck(this.woService.getSelectedWo());
-      }
-    );
+  constructor(
+    private dtTblService: DataTableService.DataTableService,
+    private woService: WoService,
+    private route: ActivatedRoute,
+    private DataStorageService: DataStorageService
+  ) {}
+  ngOnInit() {
+    this.editingChangedSub = this.woService.editingChanged.subscribe((data) => {
+      this.editing = data;
+      this.headerCheck(this.woService.getSelectedWo());
+    });
     this.selectedChanged = this.woService.selectedWoChanged.subscribe(
-      (data)=>{
-        
+      (data) => {
         this.headerCheck(this.woService.getSelectedWo());
       }
     );
     this.headerCheck(this.woService.getSelectedWo());
-    
-    
 
     this.inputDataChanged = this.dtTblService.inputDataChanged.subscribe(
-      (data)=>{
+      (data) => {
         this.DataStorageService.updateWod(data)
-        .pipe(
-          tap({
-            next: ()=> this.woService.updateWod(data),
-            error: (error)=> this.handleError(error)
-          })
-        )
-        .subscribe();
-      }
-    );
-    this.wodSub = this.woService.wodDataChanged.subscribe(
-      (data: Wod[]) => {
-        this.wodData = data;
-        if (!!this.lastSort) {
-          this.sortedWodData = this.wodData.slice();
-          this.sortData(this.lastSort);
-        } else {
-          this.sortedWodData = this.wodData.slice();
-          this.dtTblService.emitDataChanged([...this.sortedWodData]);
-        }
-      }
-    );
-    this.route.params.subscribe(
-      (params: Params) => {
-        this.lot = +params["lot"];
-        this.DataStorageService.fetchWod(this.lot)
           .pipe(
             tap({
-              next: data => this.woService.setWodData([...data]),
-              error: error => {
-
-
-                if (this.woService.woError === null) {
-                  this.woService.setWodData([])
-                }
-                return throwError(error.error);
-              }
+              next: () => this.woService.updateWod(data),
+              error: (error) => this.handleError(error),
             })
           )
           .subscribe();
       }
     );
-
-    this.sortSub = this.dtTblService.sortData.subscribe(
-      (sort: Sort) => {
-        this.lastSort = sort;
-        this.sortData(sort);
+    this.wodSub = this.woService.wodDataChanged.subscribe((data: Wod[]) => {
+      this.wodData = data;
+      if (!!this.lastSort) {
+        this.sortedWodData = this.wodData.slice();
+        this.sortData(this.lastSort);
+      } else {
+        this.sortedWodData = this.wodData.slice();
+        this.dtTblService.emitDataChanged([...this.sortedWodData]);
       }
-    );
+    });
+    this.route.params.subscribe((params: Params) => {
+      this.lot = +params['lot'];
+      this.DataStorageService.fetchWod(this.lot)
+        .pipe(
+          tap({
+            next: (data) => this.woService.setWodData([...data]),
+            error: (error) => {
+              if (this.woService.woError === null) {
+                this.woService.setWodData([]);
+              }
+              return throwError(error.error);
+            },
+          })
+        )
+        .subscribe();
+    });
 
-
-
-    
-
-
+    this.sortSub = this.dtTblService.sortData.subscribe((sort: Sort) => {
+      this.lastSort = sort;
+      this.sortData(sort);
+    });
   }
-
 
   sortData(sort: Sort) {
     if (!!!this.lastSort) {
-
     }
     const data = this.wodData.slice();
     if (!sort.active || sort.direction === '') {
@@ -172,43 +163,41 @@ export class WodComponent implements OnInit, OnDestroy {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred on wod updated';
-    
+    //let errorMessage = 'An unknown error occurred on wod updated';
+    let errorMessage =
+      'Ismeretlen hiba történt a gyártási részletek frissítése közben.';
+
     switch (errorRes.error) {
       case 'UNKNOWN_ERROR':
-        errorMessage = 'An unknown error occurred on wod updated';
-
+        //errorMessage = 'An unknown error occurred on wod updated';
+        errorMessage =
+          'Ismeretlen hiba történt a gyártási részletek frissítése közben.';
       default:
-        errorMessage = 'An unknown error occurred on wod updated';
+        //errorMessage = 'An unknown error occurred on wod updated';
+        errorMessage =
+          'Ismeretlen hiba történt a gyártási részletek frissítése közben.';
         break;
     }
-    this.woService.setWoError(errorMessage)
+    this.woService.setWoError(errorMessage);
     return throwError(errorMessage);
   }
 
-headerCheck(status){
- 
-  if(status != null ){
-    if(status.wo_status === "completed" && this.editing){
-          
-      this.wodHeaders = this.wodHeadersCompleted;
-    }else{
+  headerCheck(status) {
+    if (status != null) {
+      if (status.wo_status === 'completed' && this.editing) {
+        this.wodHeaders = this.wodHeadersCompleted;
+      } else {
+        this.wodHeaders = this.wodHeadersNotCompl;
+      }
+    } else {
       this.wodHeaders = this.wodHeadersNotCompl;
-  
     }
-  }else{
-    this.wodHeaders = this.wodHeadersNotCompl;
-    
   }
-}
 
   ngOnDestroy() {
-   
     this.sortSub.unsubscribe();
     this.wodSub.unsubscribe();
     this.selectedChanged.unsubscribe();
-    this.editingChangedSub .unsubscribe();
-    
+    this.editingChangedSub.unsubscribe();
   }
-
 }

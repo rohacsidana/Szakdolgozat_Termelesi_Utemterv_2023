@@ -34,7 +34,7 @@ export class AuthService {
             res.name
           );
         },
-        error: (error) => this.handleError(error),
+        /* error: (error) => this.handleError(error), */
       })
     );
   }
@@ -77,19 +77,6 @@ export class AuthService {
     }
     this.tokenExpirationTimer = null;
     this.router.navigate(['/login']);
-  }
-
-  private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
-    switch (errorRes.error) {
-      case 'EMAIL_NOT_FOUND':
-        errorMessage = 'This email does not exist.';
-        break;
-      case 'INVALID_PASSWORD':
-        errorMessage = 'This password is not correct.';
-        break;
-    }
-    return throwError(errorMessage);
   }
   private handleAuthentication(
     email: string,

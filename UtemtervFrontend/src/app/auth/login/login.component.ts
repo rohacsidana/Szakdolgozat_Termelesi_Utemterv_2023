@@ -63,9 +63,21 @@ export class LoginComponent implements OnDestroy {
         },
         (error) => {
           this.isLoading = false;
-          console.log(this.error);
-
-          this.error = error;
+          console.log(error.error);
+          switch (error.error) {
+            case 'EMAIL_NOT_FOUND': {
+              this.error = 'Az e-mail cím nem található.';
+              break;
+            }
+            case 'INVALID_PASSWORD': {
+              this.error = 'Helytelen jelszó.';
+              break;
+            }
+            default: {
+              this.error = 'Hiba történt a bejelentkezéskor.';
+              break;
+            }
+          }
         }
       );
   }
