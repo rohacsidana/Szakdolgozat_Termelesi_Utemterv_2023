@@ -59,7 +59,7 @@ namespace UtemtervBackend.Controllers
                 }
                 );
         }
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "1")]
         [HttpPost("change/password")]
         public IActionResult ChangePassword([FromBody] UserDto user)
         {
@@ -105,7 +105,7 @@ namespace UtemtervBackend.Controllers
                 _configuration.GetSection("AppSettings:Token").Value));
 
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            var exp = DateTime.Now.AddDays(0.0416);
+            var exp = DateTime.Now.AddDays(0.04166667);
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: exp,

@@ -1,163 +1,167 @@
 <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <h2 style="text-align: center">Átállási sebességek</h2>
-      </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 style="text-align: center">Átállási sebességek</h2>
     </div>
-    <hr />
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="row">
-          <div class="col-xs-12">
-            <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-              <div class="row">
-                <div class="col-xs-4">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <span class="input-group-addon">Gyártósor azonosító:</span>
-                      <!-- -----------------KERESÉS--------------- -->
-                      <input
-                        name="searchInput"
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-xs-12">
+          <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="row">
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon">Gyártósor azonosító:</span>
+                    <!-- -----------------KERESÉS--------------- -->
+                    <input
+                      name="searchInput"
+                      style="z-index: auto"
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="search"
+                      [disabled]="newChg"
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-primary"
+                        type="button"
                         style="z-index: auto"
-                        type="text"
-                        class="form-control"
-                        [(ngModel)]="search"
-                        [disabled]="newChg"
-                      />
-                      <div class="input-group-btn">
-                        <button
-                          class="btn btn-primary"
-                          type="button"
-                          style="z-index: auto"
-                          *ngIf="!newChg"
-                          (click)="onSearch(f)"
-                        >
-                          <i class="glyphicon glyphicon-search"></i>
-                        </button>
-                      </div>
+                        *ngIf="!newChg"
+                        (click)="onSearch(f)"
+                      >
+                        <i class="glyphicon glyphicon-search"></i>
+                      </button>
                     </div>
-                    <!-- ------------------------------- -->
                   </div>
+                  <!-- ------------------------------- -->
                 </div>
-                <button
-                  *ngIf="!newChg && !edit"
-                  style="z-index: auto"
-                  type="button"
-                  class="btn btn-success"
-                  (click)="newChg = !newChg; validForm = true"
-                >
-                  Új
-                </button>
-                <button
-                  *ngIf="newChg && !edit"
-                  type="submit"
-                  class="btn btn-success"
-                  [disabled]="!f.valid"
-                >
-                  Mentés
-                </button>
-                <button
-                  *ngIf="newChg && !edit"
-                  type="button"
-                  class="btn btn-danger"
-                  (click)="clearForm(f)"
-                >
-                  Mégse
-                </button>
-                <button
-                  class="btn btn-success"
-                  type="submit"
-                  [disabled]="!f.valid || !f.dirty"
-                  *ngIf="edit && !newChg"
-                >
-                  Módosítások mentése
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-warning"
-                  (click)="clearForm(f)"
-                  *ngIf="edit && !newChg"
-                >
-                  Mégse
-                </button>
-                <button
-                  class="btn btn-danger"
-                  type="submit"
-                  (click)="deleteChg = true"
-                  *ngIf="edit && !newChg"
-                >
-                  Törlés
-                </button>
               </div>
-              <div class="row">
-                <div class="col-xs-12">
-                  <!-- chg-kra vonatkozo inputok -->
-                  <div class="form-group">
-                    <div class="col-xs-3">
-                      <label for="azon">Gyártósor azonosító:</label>
-                      <input
-                        id="azon"
-                        type="text"
-                        name="lineInput"
-                        class="form-control"
-                        maxlength="8"
-                        [disabled]="!newChg"
-                        [(ngModel)]="line"
-                        required=""
-                      />
-                    </div>
-                    <div class="col-xs-3">
-                      <label for="ujTetelrol">Tételről:</label>
-                      <input
-                        type="number"
-                        id="ujTetelrol"
-                        name="fromInput"
-                        maxlength="24"
-                        class="form-control"
-                        [(ngModel)]="from"
-                        [disabled]="!newChg"
-                        required=""
-                      />
-                    </div>
-                    <div class="col-xs-3">
-                      <label for="ujTetelre">Tételre:</label>
-                      <input
-                        type="number"
-                        id="ujTetelre"
-                        name="toInput"
-                        maxlength="24"
-                        class="form-control"
-                        [(ngModel)]="to"
-                        [disabled]="!newChg"
-                        required=""
-                      />
-                    </div>
-                    <div class="col-xs-3">
-                      <label for="ujIdo">Idő:</label>
-                      <input
-                        type="time"
-                        id="ujIdo"
-                        name="timeInput"
-                        maxlength="24"
-                        class="form-control"
-                        [(ngModel)]="time"
-                        [disabled]="!newChg && !edit"
-                      />
-                    </div>
+              <button
+                *ngIf="!newChg && !edit"
+                style="z-index: auto"
+                type="button"
+                class="btn btn-success"
+                (click)="newChg = !newChg; validForm = true"
+              >
+                Új
+              </button>
+              <button
+                *ngIf="newChg && !edit"
+                type="submit"
+                class="btn btn-success"
+                [disabled]="!f.valid"
+              >
+                Mentés
+              </button>
+              <button
+                *ngIf="newChg && !edit"
+                type="button"
+                class="btn btn-danger"
+                (click)="clearForm(f)"
+              >
+                Mégse
+              </button>
+              <button
+                class="btn btn-success"
+                type="submit"
+                [disabled]="!f.valid || !f.dirty"
+                *ngIf="edit && !newChg"
+              >
+                Módosítások mentése
+              </button>
+              <button
+                type="button"
+                class="btn btn-warning"
+                (click)="clearForm(f)"
+                *ngIf="edit && !newChg"
+              >
+                Mégse
+              </button>
+              <button
+                class="btn btn-danger"
+                type="submit"
+                (click)="deleteChg = true"
+                *ngIf="edit && !newChg"
+              >
+                Törlés
+              </button>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <!-- chg-kra vonatkozo inputok -->
+                <div class="form-group">
+                  <div class="col-xs-3">
+                    <label for="azon">Gyártósor azonosító:</label>
+                    <input
+                      id="azon"
+                      type="text"
+                      name="lineInput"
+                      class="form-control"
+                      maxlength="8"
+                      [disabled]="!newChg"
+                      [(ngModel)]="line"
+                      required=""
+                    />
+                  </div>
+                  <div class="col-xs-3">
+                    <label for="ujTetelrol">Tételről:</label>
+                    <input
+                      type="number"
+                      id="ujTetelrol"
+                      name="fromInput"
+                      maxlength="24"
+                      class="form-control"
+                      [(ngModel)]="from"
+                      [disabled]="!newChg"
+                      required=""
+                    />
+                  </div>
+                  <div class="col-xs-3">
+                    <label for="ujTetelre">Tételre:</label>
+                    <input
+                      type="number"
+                      id="ujTetelre"
+                      name="toInput"
+                      maxlength="24"
+                      class="form-control"
+                      [(ngModel)]="to"
+                      [disabled]="!newChg"
+                      required=""
+                    />
+                  </div>
+                  <div class="col-xs-3">
+                    <label for="ujIdo">Idő:</label>
+                    <input
+                      type="time"
+                      id="ujIdo"
+                      name="timeInput"
+                      maxlength="24"
+                      class="form-control"
+                      [(ngModel)]="time"
+                      [disabled]="!newChg && !edit"
+                    />
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
-        <hr />
-        <!-- chg headerek -->
-        <div class="row">
-          <div class="col-lg-12">
-            <app-data-table [headers]="chgHeaders"></app-data-table>
-          </div>
+      </div>
+      <hr />
+      <!-- chg headerek -->
+      <div class="row">
+        <div class="col-lg-12">
+          <app-data-table [headers]="chgHeaders"></app-data-table>
         </div>
       </div>
     </div>
   </div>
-  <app-alert *ngIf="!validForm" [message]="errorMessage" (close)="validForm = true"></app-alert>
+</div>
+<app-alert
+  *ngIf="!validForm"
+  [message]="errorMessage"
+  (close)="validForm = true"
+></app-alert>

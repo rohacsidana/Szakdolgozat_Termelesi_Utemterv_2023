@@ -1,15 +1,15 @@
 USE [Utemterv]
 GO
 SET IDENTITY_INSERT [dbo].[PT_MSTR] ON
-INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1000, N'asztal', N'db', NULL)
+INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1000, N'Asztal', N'db', NULL)
 GO
-INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1001, N'asztal lap', N'db', NULL)
+INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1001, N'Asztallap', N'db', NULL)
 GO
-INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1002, N'asztallb kész', N'db', NULL)
+INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1002, N'Asztalláb kész', N'db', NULL)
 GO
-INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1003, N'asztal láb', N'db', NULL)
+INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1003, N'Asztalláb', N'db', NULL)
 GO
-INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1004, N'csúszásgátló', N'db', NULL)
+INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1004, N'Csúszásgátló', N'db', NULL)
 SET IDENTITY_INSERT [dbo].[PT_MSTR] ON 
 GO
 INSERT [dbo].[PT_MSTR] ([pt_part], [pt_desc], [pt_um], [pt_qty_oh]) VALUES (1005, N'Műzli szelet', N'db', NULL)

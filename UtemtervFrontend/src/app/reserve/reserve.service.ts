@@ -1,13 +1,12 @@
-import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
-import { Ld } from "../shared/interfaces";
-
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { Ld } from '../shared/interfaces';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReserveService {
-/*     womData: Wom = []
+  /*     womData: Wom = []
     womDataChanged = new Subject<Wom[]>();
     ldData: Ld[] = [];
     ldDataChanged = new Subject<Ld[]>(); */

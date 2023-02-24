@@ -112,7 +112,6 @@ export interface Chg {
   chg_time: string;
 }
 
-
 export type DataTables =
   | Wod
   | User

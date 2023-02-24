@@ -1,8 +1,8 @@
 DBCC CHECKIDENT ('user', RESEED, 0);
-insert into "USER" values('admin', '2001-01-01', 'admin', '21232f297a57a5a743894a0e4a801fc3', 3)
+insert into "USER" values('admin', '2001-01-01', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1)
 
-insert into "USER" values('Rohácsi Daniella', '2002-03-24', 'rohacsi.dana@gmail.com', 'changeme', 3)
-insert into "USER" values('Walaki', '2020-01-01', 'walaki@gmail.com', 'changeme', 3)
+insert into "USER" values('Rohácsi Daniella', '2002-03-24', 'rohacsi.dana@gmail.com', 'changeme', 1)
+insert into "USER" values('Walaki', '2020-01-01', 'walaki@gmail.com', 'changeme', 1)
 insert into "USER" values('Berényi Miklós', '1960-11-14', 'berenyi.miklos@gmail.com', 'changeme', 3)insert into "USER" (name, birth_date, email, password, post) values ('Dori Ready', '3/19/1965', 'dready0@weebly.com', 'byrlasnHJL5x', 2);
 insert into "USER" (name, birth_date, email, password, post) values ('Iggie Gerhts', '11/27/1991', 'igerhts0@jiathis.com', 'changeme', 3);
 insert into "USER" (name, birth_date, email, password, post) values ('Merv Farge', '8/10/1990', 'mfarge1@cdc.gov', 'changeme', 3);

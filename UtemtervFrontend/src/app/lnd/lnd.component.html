@@ -89,8 +89,7 @@
                 Törlés
               </button>
             </div>
-            
-             
+
             <div class="row">
               <div class="col-xs-12">
                 <!-- lnd-kre vonatkozo inputok -->
@@ -148,4 +147,8 @@
     </div>
   </div>
 </div>
-<app-alert *ngIf="!validForm" [message]="errorMessage" (close)="validForm = true"></app-alert>
+<app-alert
+  *ngIf="!validForm"
+  [message]="errorMessage"
+  (close)="validForm = true"
+></app-alert>

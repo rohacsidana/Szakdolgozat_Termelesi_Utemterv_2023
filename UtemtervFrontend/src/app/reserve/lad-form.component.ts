@@ -13,18 +13,21 @@ export class LadFormComponent {
   search(lot) {}
 
   constructor(
-    private DatatableService:DataTableService,
+    private DatatableService: DataTableService,
     private ReserveService: ReserveService,
     private DataStorageService: DataStorageService
   ) {}
 
-
-  reserve(ladPart, ladPar, LadLot, ladComp, ladExpire, ladAmount){
-    this.DataStorageService.reserve(ladPart, ladPar, LadLot, ladComp, ladExpire,ladAmount).subscribe(
-        (res)=>{
-            console.log(res);
-            
-        }
-    )
+  reserve(ladPart, ladPar, LadLot, ladComp, ladExpire, ladAmount) {
+    this.DataStorageService.reserve(
+      ladPart,
+      ladPar,
+      LadLot,
+      ladComp,
+      ladExpire,
+      ladAmount
+    ).subscribe((res) => {
+      console.log(res);
+    });
   }
 }

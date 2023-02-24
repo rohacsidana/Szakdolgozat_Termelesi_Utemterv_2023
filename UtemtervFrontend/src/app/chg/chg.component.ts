@@ -12,21 +12,21 @@ import { PartService } from '../parts/pt/pt.service';
   selector: 'app-chg',
   templateUrl: './chg.component.html',
   styleUrls: ['./chg.component.css'],
-  providers: [DataTableService, DataStorageService]
+  providers: [DataTableService, DataStorageService],
 })
 export class ChgComponent {
   newChg = false;
   edit = false;
   deleteChg = false;
   validForm = true;
-  successSearch = true
+  successSearch = true;
 
   line: string;
   from: number;
   to: number;
   time: string;
-  errorMessage: string
-  search: string = ''
+  errorMessage: string;
+  search: string = '';
 
   chgHeaders = [
     { name: 'chg_line', szoveg: 'Gyártósor azonosító' },
@@ -35,49 +35,47 @@ export class ChgComponent {
     { name: 'chg_time', szoveg: 'Átállási idő' },
   ];
 
-  changeTimes: Chg[]
-  lns: Ln[]
-  lines: string[]
-  parts: Pt[]
-  selectedChg: Chg
-  getSub: Subscription
-  selectSub: Subscription
-  lnChangedSub: Subscription
-  ptChangedSub: Subscription
-  errorSub: Subscription
+  changeTimes: Chg[];
+  lns: Ln[];
+  lines: string[];
+  parts: Pt[];
+  selectedChg: Chg;
+  getSub: Subscription;
+  selectSub: Subscription;
+  lnChangedSub: Subscription;
+  ptChangedSub: Subscription;
+  errorSub: Subscription;
 
-  constructor(private chgService: ChgService,
+  constructor(
+    private chgService: ChgService,
     private dtService: DataTableService,
     private dsService: DataStorageService,
     private lnService: LnService,
     private ptService: PartService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.lns = this.lnService.getLines()
-    this.parts = this.ptService.getParts()
+    this.lns = this.lnService.getLines();
+    this.parts = this.ptService.getParts();
 
-    this.dsService.fetchChgs()
+    this.dsService.fetchChgs();
 
     this.lnChangedSub = this.lnService.lnChanged.subscribe((data: Ln[]) => {
-      this.lns = data.slice()
-
-    })
+      this.lns = data.slice();
+    });
 
     this.ptChangedSub = this.ptService.partDataChanged.subscribe((data) => {
-      this.parts = data.slice()
-
-    })
+      this.parts = data.slice();
+    });
 
     this.errorSub = this.chgService.errorMsgChanged.subscribe((errorMsg) => {
-      this.validForm = false
-      this.errorMessage = errorMsg
+      this.validForm = false;
+      this.errorMessage = errorMsg;
       console.log(this.errorMessage);
-      
-    })
+    });
 
-    this.changeTimes = this.chgService.getChangeTimes()
-    this.dtService.emitDataChanged(this.changeTimes.slice())
+    this.changeTimes = this.chgService.getChangeTimes();
+    this.dtService.emitDataChanged(this.changeTimes.slice());
     /* A data-table-ben figyeli a változást */
     this.getSub = this.chgService.chgChanged.subscribe((data) => {
       this.changeTimes = data.slice();
@@ -92,15 +90,15 @@ export class ChgComponent {
       console.log(this.selectedChg);
     });
 
-    this.errorMessage = 'Ismeretlen hiba történt!'
+    this.errorMessage = 'Ismeretlen hiba történt!';
   }
 
   ngOnDestroy(): void {
     this.getSub.unsubscribe();
     this.selectSub.unsubscribe();
-    this.lnChangedSub.unsubscribe()
-    this.ptChangedSub.unsubscribe()
-    this.errorSub.unsubscribe()
+    this.lnChangedSub.unsubscribe();
+    this.ptChangedSub.unsubscribe();
+    this.errorSub.unsubscribe();
   }
 
   onSubmit(form: NgForm) {
@@ -141,7 +139,7 @@ export class ChgComponent {
   }
 
   onNewChg(form: NgForm) {
-    this.validForm = true
+    this.validForm = true;
     let value = form.value;
     let l = value.lineInput;
     let f = value.fromInput;
@@ -152,27 +150,30 @@ export class ChgComponent {
     console.log(time); */
 
     if (!this.lnService.doesLnExist(l)) {
-      this.errorMessage = 'Nem létezik ilyen gyártósor!'
-      this.validForm = false
+      this.errorMessage = 'Nem létezik ilyen gyártósor!';
+      this.validForm = false;
     }
 
     if (!this.ptService.getPart(f)) {
-      this.errorMessage = `Nem létezik "${f}" tétel!`
-      this.validForm = false
+      this.errorMessage = `Nem létezik "${f}" tétel!`;
+      this.validForm = false;
     }
 
     if (!this.ptService.getPart(to)) {
-      this.errorMessage = `Nem létezik "${to}" tétel!`
-      this.validForm = false
+      this.errorMessage = `Nem létezik "${to}" tétel!`;
+      this.validForm = false;
     }
 
     if (f === to) {
-      this.errorMessage = 'Nem adhat meg két egyforma tételt!'
-      this.validForm = false
+      this.errorMessage = 'Nem adhat meg két egyforma tételt!';
+      this.validForm = false;
     }
 
-    if (this.chgService.doesChgExist(l, f, to) || this.chgService.doesChgExist(l, to, f)) {
-      this.errorMessage = 'Már van ilyen átállás!'
+    if (
+      this.chgService.doesChgExist(l, f, to) ||
+      this.chgService.doesChgExist(l, to, f)
+    ) {
+      this.errorMessage = 'Már van ilyen átállás!';
       this.validForm = false;
     }
 
@@ -182,15 +183,12 @@ export class ChgComponent {
         chg_from: f,
         chg_to: to,
         chg_time: time,
-      })
+      });
 
       if (this.validForm) {
         this.clearForm(form);
-        
       }
     }
-
-    
   }
 
   onModositClick() {
@@ -205,13 +203,12 @@ export class ChgComponent {
     let to = value.toInput;
     let time = value.timeInput;
 
-
     this.dsService.updateChg({
       chg_line: this.selectedChg.chg_line,
       chg_from: this.selectedChg.chg_from,
       chg_to: this.selectedChg.chg_to,
-      chg_time: time + ':00'
-    })
+      chg_time: time + ':00',
+    });
     /* this.chgService.editChg(
       this.selectedChg.chg_line,
       this.selectedChg.chg_from,
@@ -219,12 +216,10 @@ export class ChgComponent {
       { chg_line: l, chg_from: f, chg_to: to, chg_time: time }
     ); */
     this.clearForm(form);
-
-
   }
 
   onDeleteChg(form: NgForm) {
-    this.dsService.deleteChg(this.selectedChg)
+    this.dsService.deleteChg(this.selectedChg);
     /* this.chgService.deleteChg(
       this.selectedChg.chg_line,
       this.selectedChg.chg_from,

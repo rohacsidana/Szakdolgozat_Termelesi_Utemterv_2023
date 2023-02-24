@@ -1,11 +1,11 @@
 <!-- <div class="alert alert-danger" *ngIf="error">
       <p>{{ error }}</p>
     </div>  -->
-     <app-alert
-      [message]="error"
-      *ngIf="error"
-      (close)="onHandleError()"
-    ></app-alert>
+<app-alert
+  [message]="error"
+  *ngIf="error"
+  (close)="onHandleError()"
+></app-alert>
 <form #woForm="ngForm" (ngSubmit)="onSubmit()">
   <!-- Kereső rész -->
   <div class="row">
@@ -78,7 +78,11 @@
     </button>
 
     <button
-      *ngIf="selectedMode && editing && (selectedWo.wo_status != null && selectedWo.wo_status == 'waiting')"
+      *ngIf="
+        selectedMode &&
+        editing &&
+        selectedWo.wo_status != null && selectedWo.wo_status == 'waiting'
+      "
       class="btn btn-danger"
       type="button"
       (click)="delete()"
@@ -99,7 +103,12 @@
               id="order"
               name="order"
               class="form-control"
-              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status != 'waiting' : false)"
+              [disabled]="
+                !editing ||
+                (selectedWo.wo_status != null
+                  ? selectedWo.wo_status != 'waiting'
+                  : false)
+              "
               [(ngModel)]="woFormActData.order"
               value="woFormActData.order"
             />
@@ -113,7 +122,12 @@
               id="part"
               name="part"
               class="form-control"
-              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status != 'waiting' : false)"
+              [disabled]="
+                !editing ||
+                (selectedWo.wo_status != null
+                  ? selectedWo.wo_status != 'waiting'
+                  : false)
+              "
               [(ngModel)]="woFormActData.part"
               value="woFormActData.part"
             />
@@ -125,7 +139,12 @@
               name="status"
               id="status"
               class="form-control"
-              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status == 'completed' : false) "
+              [disabled]="
+                !editing ||
+                (selectedWo.wo_status != null
+                  ? selectedWo.wo_status == 'completed'
+                  : false)
+              "
               [(ngModel)]="woFormActData.status"
               value="woFormActData.status"
               maxlength="10"
@@ -134,18 +153,23 @@
               maxlength="10" -->
           </div>
           <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="line" >Gyártósor:</label>
+            <label for="line">Gyártósor:</label>
             <input
               type="text"
               name="line"
               id="line"
               class="form-control"
-              [disabled]="!editing || (selectedWo.wo_status != null ? (selectedWo.wo_status == 'ongoing' || selectedWo.wo_status == 'completed'):false)"
+              [disabled]="
+                !editing ||
+                (selectedWo.wo_status != null
+                  ? selectedWo.wo_status == 'ongoing' ||
+                    selectedWo.wo_status == 'completed'
+                  : false)
+              "
               [(ngModel)]="woFormActData.line"
               value="woFormActData.line"
               maxlength="8"
             />
-            
           </div>
           <div class="col-xs-4">
             <label for="qtyOrd">Rendelt mennyiség:</label>
@@ -154,7 +178,12 @@
               name="qtyOrd"
               id="qtyOrd"
               class="form-control"
-              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status != 'waiting' : false)"
+              [disabled]="
+                !editing ||
+                (selectedWo.wo_status != null
+                  ? selectedWo.wo_status != 'waiting'
+                  : false)
+              "
               [(ngModel)]="woFormActData.qtyOrd"
               value="woFormActData.qtyOrd"
             />
@@ -169,7 +198,6 @@
               disabled
               [(ngModel)]="woFormActData.ordDate"
               value="woFormActData.ordDate"
-              
             />
           </div>
           <div class="col-xs-4" *ngIf="selectedMode">
@@ -203,7 +231,12 @@
               name="dueDate"
               id="dueDate"
               class="form-control"
-              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status != 'waiting' : false)"
+              [disabled]="
+                !editing ||
+                (selectedWo.wo_status != null
+                  ? selectedWo.wo_status != 'waiting'
+                  : false)
+              "
               [(ngModel)]="woFormActData.dueDate"
               value="woFormActData.dueDate"
             />
@@ -215,8 +248,13 @@
               name="startDate"
               id="startDate"
               class="form-control"
-              [disabled]="!editing || (selectedWo.wo_status != null ? (selectedWo.wo_status == 'ongoing' || selectedWo.wo_status == 'completed') : false)"
-              
+              [disabled]="
+                !editing ||
+                (selectedWo.wo_status != null
+                  ? selectedWo.wo_status == 'ongoing' ||
+                    selectedWo.wo_status == 'completed'
+                  : false)
+              "
               [(ngModel)]="woFormActData.startDate"
               value="woFormActData.startDate"
             />
@@ -270,7 +308,7 @@
             />
           </div>
           <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="activated">Élesítet:</label>
+            <label for="activated">Élesített:</label>
             <input
               type="checkbox"
               name="activated"
@@ -288,7 +326,12 @@
               name="relDate"
               id="relDate"
               class="form-control"
-              [disabled]="!editing || (selectedWo.wo_status != null ? selectedWo.wo_status != 'completed' : false)"
+              [disabled]="
+                !editing ||
+                (selectedWo.wo_status != null
+                  ? selectedWo.wo_status != 'completed'
+                  : false)
+              "
               [(ngModel)]="woFormActData.relDate"
               value="woFormActData.relDate"
             />

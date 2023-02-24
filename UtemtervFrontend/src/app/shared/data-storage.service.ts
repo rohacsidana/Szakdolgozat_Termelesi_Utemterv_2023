@@ -1146,6 +1146,7 @@ export class DataStorageService {
       Password: pw,
     });
   }
+
   changePwByUser(pw) {
     return this.http.post(URL + '/user/change/password', { Password: pw });
   }

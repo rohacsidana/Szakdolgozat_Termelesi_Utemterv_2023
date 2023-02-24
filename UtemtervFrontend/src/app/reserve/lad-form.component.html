@@ -92,16 +92,29 @@
           />
         </div>
       </div>
-
     </div>
-</div>
-<button class="btn btn-primary" (click)="reserve(+ladPart.value, +ladPar.value, +LadLot.value, +ladComp.value, ladExpire.value, +ladAmount.value)"> Foglalás</button>
+  </div>
+  <button
+    class="btn btn-primary"
+    (click)="
+      reserve(
+        +ladPart.value,
+        +ladPar.value,
+        +LadLot.value,
+        +ladComp.value,
+        ladExpire.value,
+        +ladAmount.value
+      )
+    "
+  >
+    Foglalás
+  </button>
 </div>
 <!-- <div class="row">
         <div class="col-lg-6">
           <app-data-table
             [headers]="womHeader"
-            
+
           ></app-data-table>
         </div>
         <div class="col-lg-6">
