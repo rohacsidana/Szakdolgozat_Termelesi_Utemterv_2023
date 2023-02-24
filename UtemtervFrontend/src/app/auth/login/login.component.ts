@@ -51,13 +51,30 @@ export class LoginComponent implements OnDestroy {
       .login(this.form.value.email, this.form.value.password)
       .subscribe(
         (data) => {
+          
           this.isLoading = false;
           this.changeNeeded = this.form.value.password === 'changeme';
-          localStorage.setItem('changeNeeded', `${this.changeNeeded}`);
           if (!this.changeNeeded) {
+            this.authService.handleAuthentication(
+              data.email,
+              +data.id,
+              data.token,
+              data.expire,
+              +data.post,
+              data.name
+            );
+
             this.router.navigate(['/home']);
             //this.authService
           } else {
+            this.authService.handleAuthentication(
+              data.email,
+              +data.id,
+              data.token,
+              data.expire,
+              +data.post,
+              data.name
+            );
             this.authService.setChangeNeeded(this.changeNeeded);
           }
         },
