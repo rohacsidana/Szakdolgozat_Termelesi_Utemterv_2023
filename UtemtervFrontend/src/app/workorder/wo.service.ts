@@ -63,10 +63,8 @@ export class WoService {
   }
 
   setWoData(woData: Wo[]) {
-    const newWoData = [...woData];
-    const updatedWoData = [...this.woData, ...newWoData]
 
-    this.woData = [...updatedWoData];
+    this.woData = [...woData];
     this.woDataChanged.next([...this.woData]);
   }
 
@@ -90,7 +88,7 @@ export class WoService {
   }
 
   setXWos(xwos) {
-    this.xwoData = xwos.slice();
+    this.xwoData = [...xwos];
     this.xwoDataChanged.next([...this.xwoData]);
   }
   setXWo(newXwo) {
@@ -157,7 +155,7 @@ export class WoService {
   }
   isUtemezheto() {
     let index = 0
-    while (index < this.xwoData.length && !(this.xwoData[index].wo_seq == null)) {
+    while (index < this.xwoData.length && !(this.xwoData[index].wo_seq == null) && !(this.xwoData[index].wo_est_run == null)) {
       index++;
     }
     return index >= this.xwoData.length;
