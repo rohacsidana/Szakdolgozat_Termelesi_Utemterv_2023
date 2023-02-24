@@ -3,7 +3,7 @@ alter proc changePwByAdminUser
 	 @email varchar(50), @pw varchar(32), @role int
 )
 as
-if(3 = @role)
+if(1 = @role)
 begin
 	update u
 	set "password" = @pw
@@ -13,4 +13,4 @@ end
 else 
 	raiserror('Access denied!',18,1)
 	
-	--exec changePwByAdminUser 190, 'jelszó', 3
+	--exec changePwByAdminUser 190, 'jelszó', 1

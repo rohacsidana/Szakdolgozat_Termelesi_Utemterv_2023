@@ -83,9 +83,9 @@ namespace UtemtervBackend.Controllers
                 return Ok();
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                Console.WriteLine(e);
                 return StatusCode(401, "UNKNOWN_ERROR");
 
             }
