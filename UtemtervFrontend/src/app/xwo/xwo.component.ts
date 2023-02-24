@@ -20,25 +20,25 @@ export class XWoCoponent implements OnInit, OnDestroy {
   error: string = null;
   lastSort: Sort = null;
   editing: boolean = false;
-xwoNotEditingHeader = [
-  { name: 'wo_lot', szoveg: 'GYR azon' },
-  { name: 'wo_nbr', szoveg: 'GYR szám' },
-  { name: 'wo_part', szoveg: 'GYR tételkód' },
-  { name: 'pt_desc', szoveg: 'Megnevezés' },
-  { name: 'wo_qty_ord', szoveg: 'Mennyiség' },
-  { name: 'part_um', szoveg: 'Mértékegység' },
-  { name: 'wo_line', szoveg: 'Gyártósor' },
-  { name: 'ln_desc', szoveg: 'Gyártósor megnevezés' },
-  { name: 'item_per_hour', szoveg: 'Óránkénti elkészülési egység' },
-  { name: 'wo_est_run', szoveg: 'Várható elkészülési idő' },
-  { name: 'wo_seq', szoveg: 'sorrend'},
-  { name: 'wo_rel_date', szoveg: 'Kibocsátási dátum' },
-  { name: 'wo_start_date', szoveg: 'Gyártás Esedékességi dátum' },
-  { name: 'wo_start_time', szoveg: 'Kezdési idő' },
-  { name: 'wo_end_time', szoveg: 'Végzési idő' },
-  { name: 'wo_pld_downtime', szoveg: 'Tervezett állási idő' },
-  { name: 'wo_unpld_downtime', szoveg: 'Nem tervezett állási idő' },
-];
+  xwoNotEditingHeader = [
+    { name: 'wo_lot', szoveg: 'GYR azon' },
+    { name: 'wo_nbr', szoveg: 'GYR szám' },
+    { name: 'wo_part', szoveg: 'GYR tételkód' },
+    { name: 'pt_desc', szoveg: 'Megnevezés' },
+    { name: 'wo_qty_ord', szoveg: 'Mennyiség' },
+    { name: 'part_um', szoveg: 'Mértékegység' },
+    { name: 'wo_line', szoveg: 'Gyártósor' },
+    { name: 'ln_desc', szoveg: 'Gyártósor megnevezés' },
+    { name: 'item_per_hour', szoveg: 'Óránkénti elkészülési egység' },
+    { name: 'wo_est_run', szoveg: 'Várható elkészülési idő' },
+    { name: 'wo_seq', szoveg: 'sorrend' },
+    { name: 'wo_rel_date', szoveg: 'Kibocsátási dátum' },
+    { name: 'wo_start_date', szoveg: 'Gyártás Esedékességi dátum' },
+    { name: 'wo_start_time', szoveg: 'Kezdési idő' },
+    { name: 'wo_end_time', szoveg: 'Végzési idő' },
+    { name: 'wo_pld_downtime', szoveg: 'Tervezett állási idő' },
+    { name: 'wo_unpld_downtime', szoveg: 'Nem tervezett állási idő' },
+  ];
   xwoEditingHeader = [
     { name: 'wo_lot', szoveg: 'GYR azon' },
     { name: 'wo_nbr', szoveg: 'GYR szám' },
@@ -95,7 +95,7 @@ xwoNotEditingHeader = [
           return { ...xwo };
         }),
       ]);
-     this.utemezheto = this.woService.isUtemezheto();
+      this.utemezheto = this.woService.isUtemezheto();
     });
     this.dtTableInputSub = this.datatableservice.inputDataChanged.subscribe(
       (data: XWo) => {
@@ -126,22 +126,25 @@ xwoNotEditingHeader = [
   }
 
   handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
+    //let errorMessage = 'An unknown error occurred!';
+    let errorMessage = 'Ismeretlen hiba történt.';
 
     switch (errorRes.error) {
       case 'SEQ_ERROR':
-        errorMessage = 'There are more then one workorder with the same seq';
+        //errorMessage = 'There are more then one workorder with the same seq';
+        errorMessage = 'Több mint egy gyártási rendelés van azonos sorrenddel.';
         break;
 
       case 'UNKNOWN_ERROR':
-        errorMessage = 'An unknown error occurred';
+        //errorMessage = 'An unknown error occurred';
+        errorMessage = 'Ismeretlen hiba történt.';
 
       default:
-        errorMessage = 'An unknown error occurred';
+        //errorMessage = 'An unknown error occurred';
+        errorMessage = 'Ismeretlen hiba történt.';
         break;
     }
 
-    
     this.error = errorMessage;
     this.woService.woError = this.error;
     return throwError(errorMessage);
@@ -161,30 +164,28 @@ xwoNotEditingHeader = [
       .subscribe();
   }
 
-  cancel(){
+  cancel() {
     this.editing = !this.editing;
-    this.xwoHeaders = this.editing ? this.xwoEditingHeader :this.xwoNotEditingHeader;
+    this.xwoHeaders = this.editing
+      ? this.xwoEditingHeader
+      : this.xwoNotEditingHeader;
   }
 
-  utemez(line, week, start_time, year){
-     this.dataStorageService.utemez( week,line, ""+start_time, year)
-     .pipe(
+  utemez(line, week, start_time, year) {
+    this.dataStorageService
+      .utemez(week, line, '' + start_time, year)
+      .pipe(
         tap({
-            next: (res)=> {
-                this.woService.setXWos(res)
-                this.editing = false;
-                this.xwoHeaders = this.xwoNotEditingHeader;
-            } ,
-            error: (error)=>this.handleError(error)
+          next: (res) => {
+            this.woService.setXWos(res);
+            this.editing = false;
+            this.xwoHeaders = this.xwoNotEditingHeader;
+          },
+          error: (error) => this.handleError(error),
         })
-     )
-     .subscribe()
-     
-     
-
+      )
+      .subscribe();
   }
-
-
 
   ngOnDestroy(): void {
     this.xwoDataChangedSub.unsubscribe();
