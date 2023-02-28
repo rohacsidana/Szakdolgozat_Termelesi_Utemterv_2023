@@ -160,6 +160,7 @@ export class LnComponent implements OnInit, OnDestroy {
       this.onEditStarted()
     } else {
       this.successSearch = false
+      this.validForm = false
       this.errorMessage = 'Nem található ilyen gyártósor'
     }
   }

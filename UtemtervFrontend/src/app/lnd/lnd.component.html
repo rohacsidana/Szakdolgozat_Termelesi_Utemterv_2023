@@ -11,17 +11,27 @@
         <div class="col-xs-12">
           <form (ngSubmit)="onSubmit(f)" #f="ngForm">
             <div class="row">
-              <div class="col-xs-4">
+              <div class="col-xs-8">
                 <div class="form-group">
                   <div class="input-group">
                     <span class="input-group-addon">Gyártósor azonosító:</span>
                     <!-- -----------------KERESÉS--------------- -->
                     <input
-                      name="searchInput"
+                      name="searchInputLine"
                       style="z-index: auto"
                       type="text"
                       class="form-control"
-                      [(ngModel)]="search"
+                      [(ngModel)]="searchLine"
+                      [disabled]="newLnd"
+                    />
+                    <span class="input-group-addon">Termék azonosító:</span>
+                    <!-- -----------------KERESÉS--------------- -->
+                    <input
+                      name="searchInputPart"
+                      style="z-index: auto"
+                      type="number"
+                      class="form-control"
+                      [(ngModel)]="searchPart"
                       [disabled]="newLnd"
                     />
                     <div class="input-group-btn">
