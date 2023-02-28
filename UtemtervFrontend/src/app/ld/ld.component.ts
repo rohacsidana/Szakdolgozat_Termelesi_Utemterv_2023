@@ -59,6 +59,8 @@ export class LdComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.ldDataChangedSub = this.ldService.ldDataChanged.subscribe(
       (ldData: Ld[]) => {
+       
+
         this.ldData = ldData;
         this.sortedLdData = this.ldData.slice();
         if (!!this.lastSort) {
@@ -142,7 +144,7 @@ export class LdComponent implements OnInit, OnDestroy {
       new Date(this.myGroup.getRawValue().ld_expire)
     );
     console.log(
-      'ld with ids: ' + Number(this.myGroup.getRawValue().ld_part),
+      'delete ld with ids: ' + Number(this.myGroup.getRawValue().ld_part),
       new Date(this.myGroup.getRawValue().ld_expire) + ' deleted'
     );
 
@@ -190,8 +192,6 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onUpdate() {
-    console.log('update ld');
-
     this.dataStService.updateLd({
       ld_part: Number(this.myGroup.getRawValue().ld_part),
       ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
@@ -224,7 +224,6 @@ export class LdComponent implements OnInit, OnDestroy {
 
   filterData(part: number) {
     //partonként keresni készletet
-    console.log('filter args: ', part);
 
     const data = this.sortedLdData.slice();
 
