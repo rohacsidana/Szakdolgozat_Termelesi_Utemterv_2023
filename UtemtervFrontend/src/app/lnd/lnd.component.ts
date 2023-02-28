@@ -24,7 +24,8 @@ export class LndComponent implements OnInit, OnDestroy {
   part: number;
   rate: number;
   errorMessage: string;
-  search: string = '';
+  searchLine: string = '';
+  searchPart: string = '';
 
   lndHeaders = [
     { name: 'lnd_line', szoveg: 'Gyártósor azonosító' },
@@ -48,7 +49,7 @@ export class LndComponent implements OnInit, OnDestroy {
     private dsService: DataStorageService,
     private lnService: LnService,
     private ptService: PartService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     /* console.log(this.lnService.doesLnExist('ln_1'));
@@ -116,6 +117,7 @@ export class LndComponent implements OnInit, OnDestroy {
     this.line = '';
     this.part = null;
     this.rate = null;
+    this.successSearch = true
     form.resetForm();
   }
 
@@ -190,5 +192,18 @@ export class LndComponent implements OnInit, OnDestroy {
     this.clearForm(form);
   }
 
-  onSearch(form: NgForm) {}
+  onSearch(form: NgForm) {
+    let i = this.lndService.getLndIndex(form.value.searchInputLine, form.value.searchInputPart)
+    //let i = this.lndService.getLndIndex('line_01', 1000)
+    
+    if (i >= 0) {
+      this.selectedLnd = this.rates[i]
+      this.successSearch = true
+      this.editStarted()
+    } else {
+      this.successSearch = false
+      this.validForm = false
+      this.errorMessage = 'Nem található ilyen gyártási sebesség!'
+    }
+  }
 }
