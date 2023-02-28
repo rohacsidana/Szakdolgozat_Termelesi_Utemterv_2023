@@ -34,6 +34,8 @@ export class LnComponent implements OnInit, OnDestroy {
   selectedLine: Ln;
   getSub: Subscription;
   selectSub: Subscription;
+  errorSub: Subscription;
+
 
   constructor(
     private lnService: LnService,
@@ -54,6 +56,12 @@ export class LnComponent implements OnInit, OnDestroy {
       this.dtService.emitDataChanged(this.lines.slice());
     });
 
+    this.errorSub = this.lnService.errorMsgChanged.subscribe((errorMsg) => {
+      this.validForm = false;
+      this.errorMessage = errorMsg;
+      console.log(this.errorMessage);
+    });
+
     /* Visszaadja a kiválasztott sort kattintásra */
     this.selectSub = this.dtService.selectRow.subscribe((data: Ln) => {
       this.selectedLine = data;
@@ -67,6 +75,7 @@ export class LnComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.getSub.unsubscribe();
     this.selectSub.unsubscribe();
+    this.errorSub.unsubscribe();
   }
 
   onSubmit(form: NgForm) {

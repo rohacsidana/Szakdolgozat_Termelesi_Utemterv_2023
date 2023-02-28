@@ -38,6 +38,7 @@ export class LndComponent implements OnInit, OnDestroy {
   selectSub: Subscription;
   lnChangedSub: Subscription;
   ptChangedSub: Subscription;
+  errorSub: Subscription;
   rates: Lnd[];
   lns: Ln[];
   lines: string[];
@@ -69,6 +70,12 @@ export class LndComponent implements OnInit, OnDestroy {
       this.parts = data.slice();
     });
 
+    this.errorSub = this.lndService.errorMsgChanged.subscribe((errorMsg) => {
+      this.validForm = false;
+      this.errorMessage = errorMsg;
+      console.log(this.errorMessage);
+    });
+
     this.rates = this.lndService.getRates();
     this.dtService.emitDataChanged(this.rates.slice());
     /* A data-table-ben figyeli a változást */
@@ -93,6 +100,7 @@ export class LndComponent implements OnInit, OnDestroy {
     this.selectSub.unsubscribe();
     this.lnChangedSub.unsubscribe();
     this.ptChangedSub.unsubscribe();
+    this.errorSub.unsubscribe();
   }
 
   onSubmit(form: NgForm) {

@@ -6,8 +6,10 @@ import { LnService } from '../ln/ln.service';
 @Injectable({ providedIn: 'root' })
 export class LndService {
   lndChanged = new Subject<Lnd[]>();
-
-  constructor(private lnService: LnService) {}
+  errorMsgChanged = new Subject<string>();
+  errorMsg = '';
+  
+  constructor() {}
 
   private rates: Lnd[] = [
     /* {lnd_line: 'lnd_1', lnd_part: 1, lnd_rate: 20},
@@ -57,5 +59,16 @@ export class LndService {
     if (index >= 0) {
       return true;
     }
+  }
+
+  setErrorMsg(error: string) {
+    this.errorMsg = error;
+    this.errorMsgChanged.next(this.errorMsg);
+  }
+
+  getErrorMsg() {
+    console.log(this.errorMsg);
+
+    return this.errorMsg;
   }
 }

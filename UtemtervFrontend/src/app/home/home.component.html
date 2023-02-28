@@ -1,3 +1,27 @@
+
 <div class="jumbotron text-center">
     <h1>Üdvözöljük, {{ firstName }}!</h1>
+</div>
+<div class="container">
+<div class="row">
+    <div style="display: flex; align-items: center; flex-direction: column;">
+        <label>Felhasználó adatai:</label>
+        <table class="table table-striped" style="width: 70%;">
+            <thead>
+              <tr>
+                <th scope="col">Azonosító</th>
+                <th scope="col">Név</th>
+                <th scope="col">Poszt</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{id}}</td>
+                <td>{{userName}}</td>
+                <td>{{postName}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
 </div>

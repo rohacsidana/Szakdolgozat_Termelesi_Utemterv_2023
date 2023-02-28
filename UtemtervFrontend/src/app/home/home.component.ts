@@ -11,6 +11,9 @@ export class HomeComponent implements OnInit, OnDestroy{
   userName: string = null;
   splitName: string[]
   firstName: string
+  post: number
+  postName: string
+  id: number
 
   userSub: Subscription;
   constructor(private authService: AuthService) {
@@ -23,7 +26,8 @@ export class HomeComponent implements OnInit, OnDestroy{
       }else{
         this.userName = null
       }
-      
+      this.post = data.post
+      this.id = data.id
     })
 
     this.splitName = this.userName.split(/\s+/)
@@ -35,6 +39,23 @@ export class HomeComponent implements OnInit, OnDestroy{
     if (this.splitName.length == 1) {
       this.firstName = this.splitName[0]
     }
+
+    switch(this.post) { 
+      case 1: { 
+         this.postName = 'Termelés vezető beosztott'
+         break; 
+      } 
+      case 2: { 
+        this.postName = 'Készletgazda beosztott'
+         break; 
+      } 
+      case 3: { 
+        this.postName = 'Admin'
+         break; 
+      } 
+   } 
+    
+    
      
   }
  ngOnDestroy(): void {

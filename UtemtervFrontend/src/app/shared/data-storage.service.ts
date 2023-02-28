@@ -799,10 +799,12 @@ export class DataStorageService {
               this.lnService.deleteLine(line);
               console.log('töröltem');
             } else {
-              console.log('nem töröltem');
+              this.lnService.setErrorMsg('Hiba történt a gyártósor törlésekor. Győződjön meg róla, hogy nem hivatkoznak sehol a gyártósorra!')
             }
           },
-          error: (error) => console.log(error),
+          error: (error) => {
+            console.log(error)
+            }
         })
       )
       .subscribe();
@@ -859,7 +861,10 @@ export class DataStorageService {
 
             this.lndService.newRate(l);
           },
-          error: (error) => console.log(error),
+          error: (error) => {
+            console.log(error)
+            this.lndService.setErrorMsg('Hiba történt a felvitelkor. Ellenőrizze, hogy biztosan kész, vagy félkész terméket vitt-e fel!');
+          },
         })
       )
       .subscribe();
@@ -905,7 +910,10 @@ export class DataStorageService {
               console.log(res);
             }
           },
-          error: (error) => console.log(error),
+          error: (error) => {
+            console.log(error)
+            
+          },
         })
       )
       .subscribe();
@@ -966,7 +974,7 @@ export class DataStorageService {
           },
           error: (error) => {
             //console.log(error)
-            this.chgService.setErrorMsg('Csak készterméket vihet fel!');
+            this.chgService.setErrorMsg('Hiba történt a felvitelkor. Ellenőrizze, hogy biztosan készterméket vitt-e fel!');
           },
         })
       )
