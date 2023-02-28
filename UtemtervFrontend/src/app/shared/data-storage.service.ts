@@ -178,7 +178,6 @@ export class DataStorageService {
   }
 
   updateUser(user: User) {
-    //console.log("Updated User: "+user);
     let changedUser = {
       userID: user.user_id,
       name: user.name,
@@ -186,6 +185,7 @@ export class DataStorageService {
       email: user.email,
       post: user.post,
     };
+    console.log(changedUser);
 
     return this.http
       .put(URL + '/user/update', changedUser)
