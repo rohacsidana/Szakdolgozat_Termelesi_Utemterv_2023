@@ -9,7 +9,6 @@ import { Ln } from '../shared/interfaces';
 @Component({
   selector: 'app-ln',
   templateUrl: './ln.component.html',
-  styleUrls: ['./ln.component.css'],
   providers: [DataTableService, DataStorageService],
 })
 export class LnComponent implements OnInit, OnDestroy {
@@ -48,7 +47,7 @@ export class LnComponent implements OnInit, OnDestroy {
 
     this.lines = this.lnService.getLines();
     //console.log(this.lines);
-    
+
     this.dtService.emitDataChanged(this.lines.slice());
     /* A data-table-ben figyeli a változást */
     this.getSub = this.lnService.lnChanged.subscribe((data) => {
@@ -114,7 +113,7 @@ export class LnComponent implements OnInit, OnDestroy {
     //this.lnService.deleteLine(this.selectedLine.ln_line);
     this.dsService.deleteLn(this.selectedLine.ln_line)
     this.clearForm(form)
-    
+
 
     //this.lnExistsError(form)
     /* console.log(this.selectedLine.ln_line);

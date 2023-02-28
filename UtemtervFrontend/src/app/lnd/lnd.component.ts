@@ -11,7 +11,6 @@ import { PartService } from '../parts/pt/pt.service';
 @Component({
   selector: 'app-lnd',
   templateUrl: './lnd.component.html',
-  styleUrls: ['./lnd.component.css'],
   providers: [DataTableService, DataStorageService],
 })
 export class LndComponent implements OnInit, OnDestroy {

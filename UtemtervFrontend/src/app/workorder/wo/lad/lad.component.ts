@@ -12,7 +12,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-lad',
   templateUrl: 'lad.component.html',
-  styleUrls: ['lad.component.css'],
   providers: [DataTableService.DataTableService],
 })
 export class LadComponent implements OnInit, OnDestroy {

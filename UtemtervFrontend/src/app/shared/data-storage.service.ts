@@ -178,7 +178,6 @@ export class DataStorageService {
   }
 
   updateUser(user: User) {
-    //console.log("Updated User: "+user);
     let changedUser = {
       userID: user.user_id,
       name: user.name,
@@ -186,6 +185,7 @@ export class DataStorageService {
       email: user.email,
       post: user.post,
     };
+    console.log(changedUser);
 
     return this.http
       .put(URL + '/user/update', changedUser)
@@ -440,7 +440,7 @@ export class DataStorageService {
   }
 
   fetchLds() {
-    console.log('fetching lds');
+    //console.log('fetching lds');
 
     this.http
       .get<
@@ -507,21 +507,26 @@ export class DataStorageService {
   }
 
   updateLd(ld: Ld) {
-    console.log(ld);
+    /* console.log({
+      ldPart: ld.ld_part,
+      ldExp: this.formatDate(ld.ld_expire),
+      ldQtyOh: ld.ld_qty_oh,
+    }); */
 
     return this.http
       .put<number>(URL + '/ld/update', {
-        ldPart: ld.ld_expire,
-        ldExp: this.formatDate(ld.ld_expire),
+        ldPart: ld.ld_part,
+        ldExpire: this.formatDate(ld.ld_expire),
         ldQtyOh: ld.ld_qty_oh,
       })
       .pipe(
         tap({
           next: (res) => {
-            console.log('update response:');
-            console.log(res);
+            //console.log('update response:');
+            //console.log(res);
 
-            if (res > 0) {
+            if (res != 0) {
+              //console.log('updateLd() -- datastorage');
               this.ldService.saveLd(ld, 'edit');
             }
           },
