@@ -4,8 +4,7 @@ import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit, OnDestroy{
   userName: string = null;
@@ -14,7 +13,7 @@ export class HomeComponent implements OnInit, OnDestroy{
 
   userSub: Subscription;
   constructor(private authService: AuthService) {
-    
+
   }
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe((data)=>{
@@ -23,11 +22,11 @@ export class HomeComponent implements OnInit, OnDestroy{
       }else{
         this.userName = null
       }
-      
+
     })
 
     this.splitName = this.userName.split(/\s+/)
-    
+
     if (this.splitName.length > 1) {
       this.firstName = this.splitName[1]
     }
@@ -35,7 +34,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     if (this.splitName.length == 1) {
       this.firstName = this.splitName[0]
     }
-     
+
   }
  ngOnDestroy(): void {
    this.userSub.unsubscribe();

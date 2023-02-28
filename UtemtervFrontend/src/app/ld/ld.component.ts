@@ -15,7 +15,6 @@ import { LdService } from './ld.service';
 @Component({
   selector: 'app-ld',
   templateUrl: './ld.component.html',
-  styleUrls: ['./ld.component.css'],
   providers: [DataTableService.DataTableService],
 })
 export class LdComponent implements OnInit, OnDestroy {

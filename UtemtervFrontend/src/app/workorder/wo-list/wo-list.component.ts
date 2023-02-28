@@ -11,7 +11,6 @@ import { WoService } from '../wo.service';
 @Component({
   selector: 'app-wo-list',
   templateUrl: 'wo-list.component.html',
-  styleUrls: ['wo-list.component.css'],
   providers: [DataTableService.DataTableService],
 })
 export class WoListComponent implements OnInit, OnDestroy {

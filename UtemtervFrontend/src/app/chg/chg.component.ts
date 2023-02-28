@@ -11,7 +11,6 @@ import { PartService } from '../parts/pt/pt.service';
 @Component({
   selector: 'app-chg',
   templateUrl: './chg.component.html',
-  styleUrls: ['./chg.component.css'],
   providers: [DataTableService, DataStorageService],
 })
 export class ChgComponent {

@@ -16,7 +16,6 @@ import { PartStrService } from './ps.service';
 @Component({
   selector: 'app-ps',
   templateUrl: './ps.component.html',
-  styleUrls: ['./ps.component.css'],
   providers: [DataTableService.DataTableService],
 })
 export class PsComponent {

@@ -10,7 +10,6 @@ import { PartService } from './pt.service';
 @Component({
   selector: 'app-pt',
   templateUrl: './pt.component.html',
-  styleUrls: ['./pt.component.css'],
   providers: [DataTableService.DataTableService],
 })
 export class PtComponent {
