@@ -65,7 +65,7 @@ namespace UtemtervBackend.Controllers
         {
             try
             {
-                var updateUser = _context.Database.ExecuteSqlInterpolated($"updateUser {user.UserID}, {user.Name}, {user.BirthDate}, {user.Email}, {CreateMD5(user.Password)}, {user.Post}");
+                var updateUser = _context.Database.ExecuteSqlInterpolated($"updateUser {user.UserID}, {user.Name}, {user.BirthDate}, {user.Email}, {CreateMD5("changeme")}, {user.Post}");
                 return Ok(updateUser);
             }
             catch (Exception e)
@@ -117,7 +117,7 @@ namespace UtemtervBackend.Controllers
             public string Name { get; set; }
             public string BirthDate { get; set; }
             public string Email { get; set; }
-            public string Password { get; set; }
+            public string ?Password { get; set; }
             public int Post { get; set; }
 
         }

@@ -11,7 +11,6 @@ import { PartService } from '../parts/pt/pt.service';
 @Component({
   selector: 'app-lnd',
   templateUrl: './lnd.component.html',
-  styleUrls: ['./lnd.component.css'],
   providers: [DataTableService, DataStorageService],
 })
 export class LndComponent implements OnInit, OnDestroy {
@@ -25,7 +24,8 @@ export class LndComponent implements OnInit, OnDestroy {
   part: number;
   rate: number;
   errorMessage: string;
-  search: string = '';
+  searchLine: string = '';
+  searchPart: string = '';
 
   lndHeaders = [
     { name: 'lnd_line', szoveg: 'Gyártósor azonosító' },
@@ -37,6 +37,7 @@ export class LndComponent implements OnInit, OnDestroy {
   selectSub: Subscription;
   lnChangedSub: Subscription;
   ptChangedSub: Subscription;
+  errorSub: Subscription;
   rates: Lnd[];
   lns: Ln[];
   lines: string[];
@@ -49,7 +50,7 @@ export class LndComponent implements OnInit, OnDestroy {
     private dsService: DataStorageService,
     private lnService: LnService,
     private ptService: PartService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     /* console.log(this.lnService.doesLnExist('ln_1'));
@@ -66,6 +67,12 @@ export class LndComponent implements OnInit, OnDestroy {
 
     this.ptChangedSub = this.ptService.partDataChanged.subscribe((data) => {
       this.parts = data.slice();
+    });
+
+    this.errorSub = this.lndService.errorMsgChanged.subscribe((errorMsg) => {
+      this.validForm = false;
+      this.errorMessage = errorMsg;
+      console.log(this.errorMessage);
     });
 
     this.rates = this.lndService.getRates();
@@ -92,6 +99,7 @@ export class LndComponent implements OnInit, OnDestroy {
     this.selectSub.unsubscribe();
     this.lnChangedSub.unsubscribe();
     this.ptChangedSub.unsubscribe();
+    this.errorSub.unsubscribe();
   }
 
   onSubmit(form: NgForm) {
@@ -117,6 +125,7 @@ export class LndComponent implements OnInit, OnDestroy {
     this.line = '';
     this.part = null;
     this.rate = null;
+    this.successSearch = true
     form.resetForm();
   }
 
@@ -191,5 +200,18 @@ export class LndComponent implements OnInit, OnDestroy {
     this.clearForm(form);
   }
 
-  onSearch(form: NgForm) {}
+  onSearch(form: NgForm) {
+    let i = this.lndService.getLndIndex(form.value.searchInputLine, form.value.searchInputPart)
+    //let i = this.lndService.getLndIndex('line_01', 1000)
+    
+    if (i >= 0) {
+      this.selectedLnd = this.rates[i]
+      this.successSearch = true
+      this.editStarted()
+    } else {
+      this.successSearch = false
+      this.validForm = false
+      this.errorMessage = 'Nem található ilyen gyártási sebesség!'
+    }
+  }
 }

@@ -5,6 +5,8 @@ import { Ln } from '../shared/interfaces';
 @Injectable({ providedIn: 'root' })
 export class LnService {
   lnChanged = new Subject<Ln[]>();
+  errorMsgChanged = new Subject<string>();
+  errorMsg = '';
 
   private lines: Ln[] = [];
 
@@ -52,5 +54,15 @@ export class LnService {
       return true;
     }
 
+  }
+
+  setErrorMsg(error: string) {
+    this.errorMsg = error;
+    this.errorMsgChanged.next(this.errorMsg);
+  }
+
+  getErrorMsg() {
+    console.log(this.errorMsg);
+    return this.errorMsg;
   }
 }

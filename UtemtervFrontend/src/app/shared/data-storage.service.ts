@@ -178,7 +178,6 @@ export class DataStorageService {
   }
 
   updateUser(user: User) {
-    //console.log("Updated User: "+user);
     let changedUser = {
       userID: user.user_id,
       name: user.name,
@@ -186,6 +185,7 @@ export class DataStorageService {
       email: user.email,
       post: user.post,
     };
+    console.log(changedUser);
 
     return this.http
       .put(URL + '/user/update', changedUser)
@@ -440,7 +440,7 @@ export class DataStorageService {
   }
 
   fetchLds() {
-    console.log('fetching lds');
+    //console.log('fetching lds');
 
     this.http
       .get<
@@ -507,21 +507,26 @@ export class DataStorageService {
   }
 
   updateLd(ld: Ld) {
-    console.log(ld);
+    /* console.log({
+      ldPart: ld.ld_part,
+      ldExp: this.formatDate(ld.ld_expire),
+      ldQtyOh: ld.ld_qty_oh,
+    }); */
 
     return this.http
       .put<number>(URL + '/ld/update', {
-        ldPart: ld.ld_expire,
-        ldExp: this.formatDate(ld.ld_expire),
+        ldPart: ld.ld_part,
+        ldExpire: this.formatDate(ld.ld_expire),
         ldQtyOh: ld.ld_qty_oh,
       })
       .pipe(
         tap({
           next: (res) => {
-            console.log('update response:');
-            console.log(res);
+            //console.log('update response:');
+            //console.log(res);
 
-            if (res > 0) {
+            if (res != 0) {
+              //console.log('updateLd() -- datastorage');
               this.ldService.saveLd(ld, 'edit');
             }
           },
@@ -799,10 +804,12 @@ export class DataStorageService {
               this.lnService.deleteLine(line);
               console.log('töröltem');
             } else {
-              console.log('nem töröltem');
+              this.lnService.setErrorMsg('Hiba történt a gyártósor törlésekor. Győződjön meg róla, hogy nem hivatkoznak sehol a gyártósorra!')
             }
           },
-          error: (error) => console.log(error),
+          error: (error) => {
+            console.log(error)
+            }
         })
       )
       .subscribe();
@@ -859,7 +866,10 @@ export class DataStorageService {
 
             this.lndService.newRate(l);
           },
-          error: (error) => console.log(error),
+          error: (error) => {
+            console.log(error)
+            this.lndService.setErrorMsg('Hiba történt a felvitelkor. Ellenőrizze, hogy biztosan kész, vagy félkész terméket vitt-e fel!');
+          },
         })
       )
       .subscribe();
@@ -905,7 +915,10 @@ export class DataStorageService {
               console.log(res);
             }
           },
-          error: (error) => console.log(error),
+          error: (error) => {
+            console.log(error)
+            
+          },
         })
       )
       .subscribe();
@@ -966,7 +979,7 @@ export class DataStorageService {
           },
           error: (error) => {
             //console.log(error)
-            this.chgService.setErrorMsg('Csak készterméket vihet fel!');
+            this.chgService.setErrorMsg('Hiba történt a felvitelkor. Ellenőrizze, hogy biztosan készterméket vitt-e fel!');
           },
         })
       )

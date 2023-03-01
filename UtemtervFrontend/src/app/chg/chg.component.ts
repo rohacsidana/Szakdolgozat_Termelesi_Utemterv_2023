@@ -11,7 +11,6 @@ import { PartService } from '../parts/pt/pt.service';
 @Component({
   selector: 'app-chg',
   templateUrl: './chg.component.html',
-  styleUrls: ['./chg.component.css'],
   providers: [DataTableService, DataStorageService],
 })
 export class ChgComponent {
@@ -26,7 +25,9 @@ export class ChgComponent {
   to: number;
   time: string;
   errorMessage: string;
-  search: string = '';
+  searchLine: string = '';
+  searchFrom: string = '';
+  searchTo: string = '';
 
   chgHeaders = [
     { name: 'chg_line', szoveg: 'Gyártósor azonosító' },
@@ -226,5 +227,20 @@ export class ChgComponent {
       this.selectedChg.chg_to
     ); */
     this.clearForm(form);
+  }
+
+  onSearch(form: NgForm) {
+    let i = this.chgService.getChgIndex(form.value.searchInputLine, 
+      form.value.searchInputFrom, form.value.searchInputTo)
+    console.log(i);
+    if (i >= 0) {
+      this.selectedChg = this.changeTimes[i]
+      this.successSearch = true
+      this.editStarted()
+    } else {
+      this.successSearch = false
+      this.validForm = false
+      this.errorMessage = 'Nem található ilyen átállás!'
+    }
   }
 }

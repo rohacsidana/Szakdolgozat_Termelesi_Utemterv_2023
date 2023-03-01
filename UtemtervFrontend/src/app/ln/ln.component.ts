@@ -9,7 +9,6 @@ import { Ln } from '../shared/interfaces';
 @Component({
   selector: 'app-ln',
   templateUrl: './ln.component.html',
-  styleUrls: ['./ln.component.css'],
   providers: [DataTableService, DataStorageService],
 })
 export class LnComponent implements OnInit, OnDestroy {
@@ -34,6 +33,8 @@ export class LnComponent implements OnInit, OnDestroy {
   selectedLine: Ln;
   getSub: Subscription;
   selectSub: Subscription;
+  errorSub: Subscription;
+
 
   constructor(
     private lnService: LnService,
@@ -46,12 +47,18 @@ export class LnComponent implements OnInit, OnDestroy {
 
     this.lines = this.lnService.getLines();
     //console.log(this.lines);
-    
+
     this.dtService.emitDataChanged(this.lines.slice());
     /* A data-table-ben figyeli a változást */
     this.getSub = this.lnService.lnChanged.subscribe((data) => {
       this.lines = data.slice();
       this.dtService.emitDataChanged(this.lines.slice());
+    });
+
+    this.errorSub = this.lnService.errorMsgChanged.subscribe((errorMsg) => {
+      this.validForm = false;
+      this.errorMessage = errorMsg;
+      console.log(this.errorMessage);
     });
 
     /* Visszaadja a kiválasztott sort kattintásra */
@@ -67,6 +74,7 @@ export class LnComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.getSub.unsubscribe();
     this.selectSub.unsubscribe();
+    this.errorSub.unsubscribe();
   }
 
   onSubmit(form: NgForm) {
@@ -105,7 +113,7 @@ export class LnComponent implements OnInit, OnDestroy {
     //this.lnService.deleteLine(this.selectedLine.ln_line);
     this.dsService.deleteLn(this.selectedLine.ln_line)
     this.clearForm(form)
-    
+
 
     //this.lnExistsError(form)
     /* console.log(this.selectedLine.ln_line);
@@ -160,6 +168,7 @@ export class LnComponent implements OnInit, OnDestroy {
       this.onEditStarted()
     } else {
       this.successSearch = false
+      this.validForm = false
       this.errorMessage = 'Nem található ilyen gyártósor'
     }
   }

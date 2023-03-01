@@ -7,9 +7,8 @@ import { WoService } from '../wo.service';
 @Component({
   selector: 'app-wo',
   templateUrl: 'wo.component.html',
-  styleUrls: ['wo.component.css'],
   providers: [DataTableService.DataTableService],
 })
 export class WoComponent /* implements OnInit, OnDestroy */ {
-  
+
 }

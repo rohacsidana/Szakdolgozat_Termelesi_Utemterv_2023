@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { LnResolver } from '../ln.resolver';
+import { LdFormComponent } from '../reserve/ld-form/ld-form.component';
 import { Ld } from '../shared/interfaces';
 
 @Injectable({
@@ -10,8 +12,6 @@ export class LdService {
   ldDataChanged: Subject<Ld[]> = new Subject<Ld[]>();
 
   setLds(lds: Ld[]) {
-    console.log('setting lds');
-    //console.log(lds);
     this.ldData = lds;
     this.ldDataChanged.next(this.ldData.slice());
   }
@@ -21,48 +21,38 @@ export class LdService {
   }
 
   getLd(part: number, expire_d: Date): Ld {
-    for (let i = 0; i < this.ldData.length; i++) {
-      if (
+    let ld: Ld = null;
+    let i: number = 0;
+    while (
+      i < this.ldData.length &&
+      !(
         this.ldData[i].ld_part == part &&
-        this.ldData[i].ld_expire.toString() == expire_d.toString()
-      ) {
-        //console.log('getLd: ' + this.ldData[i]);
-        return this.ldData[i];
-      }
+        this.ldData[i].ld_expire.toDateString() == expire_d.toDateString()
+      )
+    ) {
+      i++;
     }
+    return i < this.ldData.length ? this.ldData[i] : null;
   }
 
-  saveLd(ld: Ld, mode: String): boolean {
-    //console.log(ld);
-
+  saveLd(ld: Ld, mode: string): boolean {
     switch (mode) {
       case 'new':
-        if (this.getLd(ld.ld_part, ld.ld_expire)) {
-          console.log('ilyen ld már létezik');
-          return false;
-        } else {
-          //ha létezik ilyen ld_part-ű ld, updateljuk
-          console.log('ilyen Ld nem létezik, hozzáadom');
-          this.ldData.push(ld);
-          return true;
-        }
+        //ha létezik ilyen ld_part-ű ld, updateljuk
+        ld.ld_qty_rsrv = 0;
+        ld.ld_qty_scrp = 0;
+        this.ldData.push(ld);
+        this.ldDataChanged.next(this.ldData.slice());
+        return true;
+
       case 'edit':
-        console.log('ilyen Ld már létezik, updatelem');
         this.ldData[this.ldData.indexOf(this.getLd(ld.ld_part, ld.ld_expire))] =
           ld;
-        for (let i = 0; i < this.ldData.length; i++) {
-          if (
-            this.ldData[i].ld_part == ld.ld_part &&
-            this.ldData[i].ld_expire.toString() == ld.ld_expire.toString()
-          ) {
-            this.ldData[i] = ld;
-          }
-        }
+        this.ldDataChanged.next(this.ldData.slice());
         return true;
       default:
         break;
     }
-    this.ldDataChanged.next(this.ldData.slice());
   }
 
   deleteLd(part: number, expire: Date) {
