@@ -5,6 +5,18 @@ exec newLd 1004,'20300101',100
 exec newLd 1036,'20300101',100
 exec newLd 1014,'20300101',100
 
+exec newWo 'lad_teszt_wo', 1000, 10, '2023-01-01', 0
+exec newLd 1001, '20300102',1
+exec newLd 1004, '20300101',120
+exec newLd 1006, '20300101',120
+select * from wom_det
+select * from LD_DET
+select * from LAD_DET
+select * from PT_MSTR
+exec newLad 1000,	1000,	10000,	1001, '20300101',10.00000
+exec newLad 1002,	1000,	10000,	1004, '20300101', 40.00000
+exec newLad 1003,	1002,	10000,	1006, '20300101', 120.00000
+exec newLad 1000,	1000,	10000,	1001, '20300102',1.00000
 
 exec newLad 1007,	1007,	10030,	1011, '20300101',	30.00000
 exec newLad 1009,	1007,	10030,	1015, '20300101',	30.00000
