@@ -44,8 +44,8 @@ begin
 							elso.elotte as elotte,
 							elso.seq as seq,
 							elso.wo_part as wo_part,
-							dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), cast('00:00' as time)) as wo_start_time,
-							dbo.segedDatumIdoSum(dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), cast('00:00' as time)), elso.est_run),
+							dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), cast(@start_time as time)) as wo_start_time,
+							dbo.segedDatumIdoSum(dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), cast(@start_time as time)), elso.est_run),
 							iif(elso.utana is not null,iif(elso.wo_part <> elso.utana_part, (select chg_time from CHG_MSTR where (elso.wo_part = chg_from and elso.utana_part = chg_to) or (elso.wo_part = chg_to and elso.utana_part = chg_from) ), '00:00' ), null) as wo_pld_downtime
 							,elso.wo_unpld_downtime as wo_pld_down_time
 			
