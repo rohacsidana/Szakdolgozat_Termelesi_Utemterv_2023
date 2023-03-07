@@ -157,4 +157,7 @@ export class WoListComponent implements OnInit, OnDestroy {
     );
     this.dtTblService.emitDataChanged(results.slice());
   }
+  newWo(){
+    this.router.navigate(['./workorder/new'])
+  }
 }
