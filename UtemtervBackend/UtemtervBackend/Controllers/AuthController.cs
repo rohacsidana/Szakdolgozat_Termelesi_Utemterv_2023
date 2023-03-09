@@ -91,6 +91,11 @@ namespace UtemtervBackend.Controllers
             }
 
         }
+        //[Authorize]
+        //public IActionResult TokenRefresh()
+        //{
+
+        //}
 
         private object CreateToken(User user) {
             List<Claim> claims = new List<Claim>
