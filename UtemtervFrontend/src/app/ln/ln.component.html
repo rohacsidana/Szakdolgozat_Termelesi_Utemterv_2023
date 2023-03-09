@@ -60,14 +60,6 @@
                 Mentés
               </button>
               <button
-                *ngIf="newLn && !edit"
-                type="button"
-                class="btn btn-danger"
-                (click)="clearForm(f)"
-              >
-                Mégse
-              </button>
-              <button
                 class="btn btn-success"
                 type="submit"
                 [disabled]="!f.valid || !f.dirty"
@@ -76,10 +68,10 @@
                 Módosítások mentése
               </button>
               <button
+                *ngIf="newLn || edit"
                 type="button"
-                class="btn btn-warning"
+                class="btn btn-primary"
                 (click)="clearForm(f)"
-                *ngIf="edit && !newLn"
               >
                 Mégse
               </button>
