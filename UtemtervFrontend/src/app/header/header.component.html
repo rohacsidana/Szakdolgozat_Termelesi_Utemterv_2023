@@ -35,7 +35,7 @@
           *ngIf="role === 1 || role === 3"
           mat-list-item
           routerLink="/part/structure"
-          >Tételszerkezet</a
+          >Tételszerkezetek</a
         >
         <a
           *ngIf="role === 1 || role === 3"
@@ -43,12 +43,12 @@
           routerLink="/inventory"
           >Készlet</a
         >
-        <a mat-list-item routerLink="/line">Gyártósor</a>
-        <a mat-list-item routerLink="/line/change">Átállásidő</a>
-        <a mat-list-item routerLink="/line/rate">Gyártási sebesség</a>
+        <a mat-list-item routerLink="/line">Gyártósorok</a>
+        <a mat-list-item routerLink="/line/change">Átállásidők</a>
+        <a mat-list-item routerLink="/line/rate">Gyártási sebességek</a>
         <a mat-list-item routerLink="../workorder/list">Gyártási rendelések</a>
         <a mat-list-item routerLink="../workorder">Gyártási rendelés</a>
-        <a mat-list-item routerLink="../reserve">Készlet foglalás</a>
+        <a mat-list-item routerLink="../reserve">Készletfoglalás</a>
         <a mat-list-item routerLink="/prodsch">Termelési ütemterv</a>
         <a *ngIf="role === 1 || role === 3" mat-list-item routerLink="/user"
           >Felhasználók</a
