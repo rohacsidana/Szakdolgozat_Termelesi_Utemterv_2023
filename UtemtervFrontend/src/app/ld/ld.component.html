@@ -73,7 +73,7 @@
                 Törlés
               </button>
               <button
-                class="btn btn-warning"
+                class="btn btn-success"
                 type="button"
                 [disabled]="!myGroup.valid"
                 *ngIf="editMode"
@@ -83,7 +83,7 @@
               </button>
               <!-- új, módosítás módnál mégse, vissza keresés módra -->
               <button
-                class="btn btn-danger"
+                class="btn btn-primary"
                 (click)="
                   searchMode = true;
                   newMode = false;

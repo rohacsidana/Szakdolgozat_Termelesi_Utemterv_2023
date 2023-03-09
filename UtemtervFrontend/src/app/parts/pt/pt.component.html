@@ -47,7 +47,7 @@
                 Mentés
               </button>
               <button
-                [className]="searchMode ? 'btn btn-success' : 'btn btn-danger'"
+                class="btn btn-success"
                 type="button"
                 (click)="onNewMode()"
                 *ngIf="searchMode"
@@ -63,7 +63,7 @@
                 Törlés
               </button>
               <button
-                class="btn btn-warning"
+                class="btn btn-success"
                 type="submit"
                 [disabled]="!myGroup.valid"
                 *ngIf="editMode"
@@ -71,7 +71,7 @@
                 Módosítások mentése
               </button>
               <button
-                class="btn btn-warning"
+                class="btn btn-primary"
                 type="button"
                 (click)="clearForm()"
                 e
