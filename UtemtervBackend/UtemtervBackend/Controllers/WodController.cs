@@ -10,7 +10,7 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/wod")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles ="1, 2")]
 
     public class WodController : ControllerBase
     {

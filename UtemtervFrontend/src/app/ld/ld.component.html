@@ -22,7 +22,6 @@
                       name="ld_part"
                       class="form-control"
                       formControlName="ld_part"
-                      (change)="checkLdAlreadyExists()"
                     /><span class="input-group-addon">Felhasználhatóság:</span>
                     <input
                       style="z-index: auto"
@@ -31,7 +30,6 @@
                       name="ld_expire"
                       class="form-control"
                       formControlName="ld_expire"
-                      (change)="checkLdAlreadyExists()"
                     />
                     <div class="input-group-btn">
                       <button
@@ -51,7 +49,7 @@
                 class="btn btn-success"
                 type="submit"
                 style="z-index: auto"
-                [disabled]="!myGroup.valid || ldAlreadyExists"
+                [disabled]="!myGroup.valid"
                 *ngIf="newMode"
               >
                 Mentés
@@ -81,13 +79,21 @@
               >
                 Módosítások mentése
               </button>
+              <button
+                class="btn btn-warning"
+                (click)="onScrap()"
+                type="button"
+                *ngIf="editMode"
+              >
+                Készlet selejtezése
+              </button>
               <!-- új, módosítás módnál mégse, vissza keresés módra -->
               <button
                 class="btn btn-primary"
                 (click)="
                   searchMode = true;
                   newMode = false;
-                  editMode = fakse;
+                  editMode = false;
                   clearForm()
                 "
                 type="button"
@@ -96,15 +102,7 @@
                 Mégse
               </button>
             </div>
-            <!-- "hiba" üzenetek -->
-            <div class="row">
-              <div class="col-xs-12">
-                <p *ngIf="ldAlreadyExists && newMode">
-                  Már létezik ilyen azonosítójú tétellel és lejárati dátummal
-                  készlet!
-                </p>
-              </div>
-            </div>
+
             <div class="row">
               <div class="col-xs-12">
                 <!-- ps-re vonatkozo inputok -->

@@ -13,9 +13,7 @@ import { Subscription } from 'rxjs-compat';
 export class HeaderComponent implements OnDestroy, OnInit {
   loggedIn: boolean = false;
   userName: string;
-  timer: any;
   exp: Date;
-  time: string;
   role: number;
   loggingOut: boolean = false;
 
@@ -47,44 +45,27 @@ export class HeaderComponent implements OnDestroy, OnInit {
     );
     this.userSub = this.authService.user.subscribe((data) => {
       if (data != null) {
+        
         this.role = data.post;
         this.userName = data.name;
         this.loggedIn = true;
         this.exp = data.tokenExpirationDate;
-
-        this.timer = setInterval(() => {
-          this.time = this.valt(
-            new Date(this.exp).getTime() - new Date().getTime()
-          );
-        }, 1000);
       } else {
-        clearInterval(this.timer);
+
         this.loggedIn = false;
         this.userName = null;
         this.role = null;
         this.exp = null;
-        this.time = null;
+        
       }
     });
     this.authService.autoLogin();
   }
-  valt(sec) {
-    sec = Math.floor(sec / 1000);
-    let hours = Math.floor(sec / 3600);
 
-    let minutes = Math.floor(sec / 60) % 60;
-
-    let seconds = sec % 60;
-
-    return [hours, minutes, seconds]
-      .map((v) => (v < 10 ? '0' + v : v))
-      .filter((v, i) => v !== '00' || i > 0)
-      .join(':');
-  }
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
     this.changeNeededSub.unsubscribe();
-    clearInterval(this.timer);
+ 
   }
 }

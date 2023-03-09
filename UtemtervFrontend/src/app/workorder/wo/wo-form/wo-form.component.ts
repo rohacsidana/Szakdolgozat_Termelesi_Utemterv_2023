@@ -110,9 +110,7 @@ export class WoFormComponent implements OnInit, OnDestroy {
   onHandleError() {
     this.error = null;
     this.woService.woError = null;
-    if (this.woFormActData.woLot === null) {
-      this.router.navigate(['../'], { relativeTo: this.route });
-    } else {
+    if (this.woFormActData.woLot != null) {
       this.woFormActData.woLot = this.selectedWo.wo_lot;
     }
   }

@@ -77,7 +77,7 @@ namespace UtemtervBackend.Controllers
         {
             try
             {
-                var updatedRows = _context.Database.ExecuteSqlInterpolated($"updateLd {ld.LdPart}, {ld.LdExpire}, {ld.LdQtyOh}");
+                var updatedRows = _context.Database.ExecuteSqlInterpolated($"updateLd {ld.LdPart}, {ld.LdExpire}, {ld.LdQtyOh}, {ld.LdQtyScrp}");
                 return Ok(updatedRows);
             }
             catch (Exception e)
@@ -94,6 +94,8 @@ namespace UtemtervBackend.Controllers
         public class NewOrUpdateLd : Ld
         {
             public float LdQtyOh { get; set; }
+
+            public float LdQtyScrp { get; set; }
 
         }
     }

@@ -48,7 +48,7 @@
                 </div>
               </div>
               <button
-                *ngIf="!searchMode"
+                *ngIf="newMode"
                 class="btn btn-success"
                 type="submit"
                 style="z-index: auto"
@@ -57,18 +57,18 @@
                 Mentés
               </button>
               <button
-                [className]="searchMode ? 'btn btn-success' : 'btn btn-primary'"
-                (click)="onChangeMode()"
+                class="btn btn-success"
                 type="button"
-                (click)="!searchMode ? onNew(true) : onNew(false)"
+                *ngIf="searchMode"
+                (click)="onNew()"
               >
-                {{ searchMode ? "Új" : "Mégse" }}
+                Új
               </button>
               <button
                 class="btn btn-danger"
                 (click)="onDelete()"
                 type="button"
-                *ngIf="searchMode && loadedPartStr"
+                *ngIf="editMode"
               >
                 Törlés
               </button>
@@ -77,22 +77,20 @@
                 type="button"
                 (click)="onUpdate()"
                 [disabled]="!myGroup.valid || !loadedPartStr"
-                *ngIf="searchMode && loadedPartStr"
+                *ngIf="editMode"
               >
                 Módosítások mentése
               </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="clearForm()"
+                *ngIf="editMode || newMode"
+              >
+                Mégse
+              </button>
             </div>
-            <!-- "hiba" üzenetek -->
-            <div class="row">
-              <div class="col-xs-12">
-                <p *ngIf="!partStrFound && searchMode">
-                  Nem található ilyen beépülés!
-                </p>
-                <p *ngIf="partStrAlreadyExists && !searchMode">
-                  Már létezik ilyen azonosítójú beépülés!
-                </p>
-              </div>
-            </div>
+
             <div class="row">
               <div class="col-xs-12">
                 <!-- ps-re vonatkozo inputok -->
@@ -124,3 +122,8 @@
     </div>
   </div>
 </div>
+<app-alert
+  *ngIf="error"
+  [message]="errorMessage"
+  (close)="onHandleError()"
+></app-alert>
