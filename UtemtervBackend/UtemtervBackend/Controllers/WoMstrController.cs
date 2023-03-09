@@ -178,10 +178,22 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(500, "SEQ_ERROR");
             }
         }
+        [HttpPost("activate")]
+        public IActionResult ActivateWeek([FromBody] ActivateDto act)
+        {
+            try
+            {
+                var res = _context.Database.ExecuteSqlInterpolated($"activateWeek {act.Year}, {act.Week}, {act.WoLine}");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(400, e);
+            }
+        }
     }
 
-    
-
+   
 }
 
 public class NewWoDto
@@ -203,11 +215,13 @@ public class UpdateWoDto: NewWoDto
     public bool ?WoActivated { get; set; } 
     public string ?WoStatus {get; set; } = "";
 }
-
-public class ProdSchDto
+public class ActivateDto
 {
     public int Week { get; set; }
     public string WoLine { get; set; }
+    public string Year { get; set; }
+}
+public class ProdSchDto: ActivateDto
+{
     public string StartTime { get; set; }
-    public string Year { get; set; }    
 }
