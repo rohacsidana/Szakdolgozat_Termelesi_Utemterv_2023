@@ -28,7 +28,6 @@ export class LdComponent implements OnInit, OnDestroy {
 
   newMode: boolean = false;
   editMode: boolean = false;
-  ldAlreadyExists: boolean = false;
   getItemSub: Subscription;
   sortSub: Subscription;
   sortedLdData: Ld[];
@@ -59,8 +58,6 @@ export class LdComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.ldDataChangedSub = this.ldService.ldDataChanged.subscribe(
       (ldData: Ld[]) => {
-       
-
         this.ldData = ldData;
         this.sortedLdData = this.ldData.slice();
         if (!!this.lastSort) {
@@ -155,19 +152,6 @@ export class LdComponent implements OnInit, OnDestroy {
     this.clearForm();
   }
 
-  checkLdAlreadyExists() {
-    if (
-      this.ldService.getLd(
-        Number(this.myGroup.getRawValue().ld_part),
-        new Date(this.myGroup.getRawValue().ld_expire)
-      )
-    ) {
-      this.ldAlreadyExists = true;
-    } else {
-      this.ldAlreadyExists = false;
-    }
-  }
-
   onNewMode() {
     this.newMode = true;
     this.searchMode = false;
@@ -176,13 +160,12 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.checkLdAlreadyExists();
     this.dataStService.newLd({
       ld_part: Number(this.myGroup.getRawValue().ld_part),
       ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
       ld_qty_oh: this.myGroup.getRawValue().ld_qty_oh,
-      ld_qty_rsrv: this.myGroup.getRawValue().ld_qty_rsrv,
-      ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp,
+      ld_qty_rsrv: 0,
+      ld_qty_scrp: 0,
     });
     this.ldDataChanged();
     this.searchMode = true;
@@ -206,9 +189,25 @@ export class LdComponent implements OnInit, OnDestroy {
     this.clearForm();
   }
 
+  onScrap() {
+    this.dataStService.updateLd({
+      ld_part: Number(this.myGroup.getRawValue().ld_part),
+      ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
+      ld_qty_oh: 0,
+      ld_qty_rsrv: this.myGroup.getRawValue().ld_qty_rsrv,
+      ld_qty_scrp:
+        this.myGroup.getRawValue().ld_qty_oh +
+        this.myGroup.getRawValue().ld_qty_scrp,
+    });
+    this.ldDataChanged();
+    this.searchMode = true;
+    this.editMode = false;
+    this.newMode = false;
+    this.clearForm();
+  }
+
   clearForm() {
     this.initForm();
-    this.ldAlreadyExists = false;
     this.ldFound = false;
     this.loadedLd = null;
     this.searchedDataLoaded = false;

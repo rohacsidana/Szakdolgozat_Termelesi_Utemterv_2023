@@ -23,6 +23,7 @@ namespace UtemtervBackend.Controllers
 
 
         [HttpGet("list")]
+        [Authorize(Roles = "1,3")]
         public IActionResult PsList()
         {
             try
@@ -42,6 +43,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPost("new")]
+        [Authorize(Roles = "1,3")]
         public IActionResult newPs([FromBody] NewOrUpdatePs ps)
         {
             try
@@ -57,6 +59,7 @@ namespace UtemtervBackend.Controllers
 
 
         [HttpPut("update")]
+        [Authorize(Roles = "1,3")]
         public IActionResult updatePs([FromBody] NewOrUpdatePs ps)
         {
             try
@@ -72,6 +75,7 @@ namespace UtemtervBackend.Controllers
 
 
         [HttpDelete("delete/{par}/{comp}")]
+        [Authorize(Roles = "1,3")]
         public IActionResult deleteUser(int par, int comp)
         {
             try

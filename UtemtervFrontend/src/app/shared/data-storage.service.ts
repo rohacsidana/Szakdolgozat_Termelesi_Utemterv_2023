@@ -477,12 +477,13 @@ export class DataStorageService {
   }
 
   newLd(ld: Ld) {
+    console.log(ld);
+
     return this.http
       .post<any>(URL + '/ld/new', {
         ldPart: ld.ld_part,
         ldExpire: this.formatDate(ld.ld_expire),
         ldQtyOh: ld.ld_qty_oh,
-        ldQtyRsrv: ld.ld_qty_rsrv,
         ldQtyScrp: ld.ld_qty_scrp,
       })
       .pipe(
@@ -507,17 +508,12 @@ export class DataStorageService {
   }
 
   updateLd(ld: Ld) {
-    /* console.log({
-      ldPart: ld.ld_part,
-      ldExp: this.formatDate(ld.ld_expire),
-      ldQtyOh: ld.ld_qty_oh,
-    }); */
-
     return this.http
       .put<number>(URL + '/ld/update', {
         ldPart: ld.ld_part,
         ldExpire: this.formatDate(ld.ld_expire),
         ldQtyOh: ld.ld_qty_oh,
+        ldQtyScrp: ld.ld_qty_scrp,
       })
       .pipe(
         tap({
@@ -804,12 +800,14 @@ export class DataStorageService {
               this.lnService.deleteLine(line);
               console.log('töröltem');
             } else {
-              this.lnService.setErrorMsg('Hiba történt a gyártósor törlésekor. Győződjön meg róla, hogy nem hivatkoznak sehol a gyártósorra!')
+              this.lnService.setErrorMsg(
+                'Hiba történt a gyártósor törlésekor. Győződjön meg róla, hogy nem hivatkoznak sehol a gyártósorra!'
+              );
             }
           },
           error: (error) => {
-            console.log(error)
-            }
+            console.log(error);
+          },
         })
       )
       .subscribe();
@@ -867,8 +865,10 @@ export class DataStorageService {
             this.lndService.newRate(l);
           },
           error: (error) => {
-            console.log(error)
-            this.lndService.setErrorMsg('Hiba történt a felvitelkor. Ellenőrizze, hogy biztosan kész, vagy félkész terméket vitt-e fel!');
+            console.log(error);
+            this.lndService.setErrorMsg(
+              'Hiba történt a felvitelkor. Ellenőrizze, hogy biztosan kész, vagy félkész terméket vitt-e fel!'
+            );
           },
         })
       )
@@ -916,8 +916,7 @@ export class DataStorageService {
             }
           },
           error: (error) => {
-            console.log(error)
-            
+            console.log(error);
           },
         })
       )
@@ -979,7 +978,9 @@ export class DataStorageService {
           },
           error: (error) => {
             //console.log(error)
-            this.chgService.setErrorMsg('Hiba történt a felvitelkor. Ellenőrizze, hogy biztosan készterméket vitt-e fel!');
+            this.chgService.setErrorMsg(
+              'Hiba történt a felvitelkor. Ellenőrizze, hogy biztosan készterméket vitt-e fel!'
+            );
           },
         })
       )
