@@ -15,7 +15,7 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/workorder")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "1, 2")]
     public class WoMstrController : ControllerBase
     {
         private UtemtervContext _context;

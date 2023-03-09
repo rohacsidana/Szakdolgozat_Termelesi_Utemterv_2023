@@ -3,7 +3,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
-import { tap, delay } from 'rxjs/operators';
+import { take } from 'rxjs-compat/operator/take';
+import { tap, delay, retry } from 'rxjs/operators';
 import { DataStorageService, URL } from '../shared/data-storage.service';
 
 @Injectable({
@@ -12,6 +13,7 @@ import { DataStorageService, URL } from '../shared/data-storage.service';
 export class AuthService {
   user = new BehaviorSubject<LoggedInUser>(null);
   tokenExpirationTimer: any;
+  tokenRefreshTimer: any;
   changeNeeded: boolean = false;
   changeNeededChanged = new Subject<boolean>();
   constructor(private http: HttpClient, private router: Router) {}
@@ -47,6 +49,10 @@ export class AuthService {
         new Date(userData._tokenExpirationDate).getTime() -
         new Date().getTime();
       this.autoLogout(+expirationDuration);
+      const ido = new Date();
+            ido.setMinutes(ido.getMinutes() + 1);
+            const refreshTime = new Date(userData._tokenExpirationDate).getTime() - ido.getTime();
+    this.autoRefreshToken(refreshTime);
     }
   }
   autoLogout(expirationDuration: number) {
@@ -77,7 +83,49 @@ export class AuthService {
     const user = new LoggedInUser(email, +userId, +post, token, expires, name);
     this.user.next(user);
     this.autoLogout(expirationDuration);
+    const ido = new Date();
+            ido.setMinutes(ido.getMinutes() + 1);
+            const refreshTime = new Date(expires).getTime() - ido.getTime();
+    this.autoRefreshToken(refreshTime);
     localStorage.setItem('userData', JSON.stringify(user));
+  }
+
+  autoRefreshToken(reTime: number) {
+    this.tokenRefreshTimer = setTimeout(() => {
+      this.http
+        .get<any>(URL + '/auth/refresh')
+        .pipe(retry(5))
+        .subscribe((data) => {
+          console.log(data.name);
+
+          clearTimeout(this.tokenExpirationTimer);
+          clearTimeout(this.tokenRefreshTimer);
+          const loggedInUser = new LoggedInUser(
+            data.email,
+            +data.id,
+            +data.post,
+            data.token,
+            data.expire,
+            data.name
+          );
+          if (loggedInUser.token) {
+            this.changeNeeded = JSON.parse(
+              localStorage.getItem('changeNeeded')
+            );
+            this.user.next(loggedInUser);
+            const expirationDuration =
+              new Date(data.expire).getTime() - new Date().getTime();
+
+            const ido = new Date();
+            ido.setMinutes(ido.getMinutes() + 1);
+            const refreshTime = new Date(data.expire).getTime() - ido.getTime();
+
+            this.autoLogout(+expirationDuration);
+            localStorage.setItem('userData', JSON.stringify(loggedInUser));
+            this.autoRefreshToken(refreshTime);
+          }
+        });
+    }, reTime);
   }
 }
 

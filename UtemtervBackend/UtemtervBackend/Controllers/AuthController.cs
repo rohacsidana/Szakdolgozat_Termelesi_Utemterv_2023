@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol;
+using System.ComponentModel.DataAnnotations;
+using System.Composition;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -91,11 +94,24 @@ namespace UtemtervBackend.Controllers
             }
 
         }
-        //[Authorize]
-        //public IActionResult TokenRefresh()
-        //{
 
-        //}
+        [HttpGet("refresh")]
+        [Authorize]
+        public IActionResult TokenRefresh()
+        {
+            var elem = _context.Users.Where(u => u.Email == User.FindFirstValue(ClaimTypes.Email)).ToArray();
+            User user = new() { UserId = elem[0].UserId, Email = elem[0].Email, Post = elem[0].Post};
+            object token = CreateToken(user);
+            return Ok(new
+            {
+                id = user.UserId,
+                post = elem[0].Post,
+                email = user.Email,
+                token = token.GetType().GetProperty("token").GetValue(token, null),
+                expire = token.GetType().GetProperty("expires").GetValue(token, null),
+                name = elem[0].Name
+            });
+        }
 
         private object CreateToken(User user) {
             List<Claim> claims = new List<Claim>

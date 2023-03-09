@@ -9,7 +9,7 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/lad")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "1, 2")]
 
     public class LadController : ControllerBase
     {

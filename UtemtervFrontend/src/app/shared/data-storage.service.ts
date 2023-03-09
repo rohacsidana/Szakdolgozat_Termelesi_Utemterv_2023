@@ -1163,6 +1163,8 @@ export class DataStorageService {
   changePwByUser(pw) {
     return this.http.post(URL + '/user/change/password', { Password: pw });
   }
+
+ 
 }
 
 export const URL = 'https://localhost:7075/api';

@@ -19,4 +19,6 @@ public partial class User
     public string Post { get; set; } = null!;
     [JsonIgnore]
     public virtual ICollection<WoMstr> WoMstrs { get; } = new List<WoMstr>();
+
+
 }
