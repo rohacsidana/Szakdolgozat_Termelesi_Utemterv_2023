@@ -23,7 +23,7 @@ namespace UtemtervBackend.Controllers
 
         [EnableCors]
         [HttpGet("list")]
-
+        [Authorize(Roles = "1,3")]
         public IActionResult LdList()
         {
             try
@@ -42,6 +42,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPost("new")]
+        [Authorize(Roles = "1,3")]
         public IActionResult newLd([FromBody] NewOrUpdateLd ld)
         {
             try
@@ -55,6 +56,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpDelete("delete/{part}/{exp}")]
+        [Authorize(Roles = "1,3")]
 
         public IActionResult deleteLd(int part, int exp)
         {
@@ -69,6 +71,7 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(Roles = "1,3")]
 
         public IActionResult updateLd([FromBody] NewOrUpdateLd ld)
         {
