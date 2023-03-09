@@ -6,13 +6,13 @@
   </div>
   <hr />
   <div class="row">
-    <div class="col-lg-12">
-      <div class="row">
-        <div class="col-xs-12">
-          <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
             <div class="row">
-              <div class="col-xs-8">
-                <div class="form-group">
+              <div class="form-group">
+                <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-addon">Gyártósor azonosító:</span>
                     <!-- -----------------KERESÉS--------------- -->
@@ -21,11 +21,15 @@
                       style="z-index: auto"
                       type="text"
                       class="form-control"
+                      maxlength="8"
                       [(ngModel)]="searchLine"
                       [disabled]="newLnd"
                     />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group">
                     <span class="input-group-addon">Termék azonosító:</span>
-                    <!-- -----------------KERESÉS--------------- -->
                     <input
                       name="searchInputPart"
                       style="z-index: auto"
@@ -34,21 +38,25 @@
                       [(ngModel)]="searchPart"
                       [disabled]="newLnd"
                     />
-                    <div class="input-group-btn">
-                      <button
-                        class="btn btn-primary"
-                        type="button"
-                        style="z-index: auto"
-                        *ngIf="!newLnd"
-                        (click)="onSearch(f)"
-                      >
-                        <i class="glyphicon glyphicon-search"></i>
-                      </button>
-                    </div>
                   </div>
-                  <!-- ------------------------------- -->
                 </div>
               </div>
+            </div>
+          </div>
+          <!-- ------------------------------- -->
+
+          <div class="col-md-5">
+            <div class="form-group">
+              <button
+                class="btn btn-primary"
+                type="button"
+                style="z-index: auto"
+                *ngIf="!newLnd"
+                (click)="onSearch(f)"
+              >
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+
               <button
                 *ngIf="!newLnd && !edit"
                 style="z-index: auto"
@@ -66,14 +74,7 @@
               >
                 Mentés
               </button>
-              <button
-                *ngIf="newLnd && !edit"
-                type="button"
-                class="btn btn-danger"
-                (click)="clearForm(f)"
-              >
-                Mégse
-              </button>
+
               <button
                 class="btn btn-success"
                 type="submit"
@@ -83,10 +84,10 @@
                 Módosítások mentése
               </button>
               <button
+                *ngIf="newLnd || edit"
                 type="button"
                 class="btn btn-warning"
                 (click)="clearForm(f)"
-                *ngIf="edit && !newLnd"
               >
                 Mégse
               </button>
@@ -99,61 +100,61 @@
                 Törlés
               </button>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="row">
-              <div class="col-xs-12">
-                <!-- lnd-kre vonatkozo inputok -->
-                <div class="form-group">
-                  <div class="col-xs-4">
-                    <label for="azon">Gyártósor azonosító:</label>
-                    <input
-                      id="azon"
-                      type="text"
-                      name="lineInput"
-                      class="form-control"
-                      maxlength="8"
-                      [disabled]="!newLnd"
-                      [(ngModel)]="line"
-                      required=""
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="ujPart">Tétel kód:</label>
-                    <input
-                      type="number"
-                      id="ujPart"
-                      name="partInput"
-                      maxlength="24"
-                      class="form-control"
-                      [(ngModel)]="part"
-                      [disabled]="!newLnd"
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="ujRate">Gyártási sebesség:</label>
-                    <input
-                      type="number"
-                      id="ujRate"
-                      name="rateInput"
-                      maxlength="24"
-                      class="form-control"
-                      [(ngModel)]="rate"
-                      [disabled]="!newLnd && !edit"
-                    />
-                  </div>
-                </div>
-              </div>
+      <div class="container">
+        <div class="row">
+          <!-- lnd-kre vonatkozo inputok -->
+          <div class="form-group">
+            <div class="col-md-3">
+              <label for="azon">Gyártósor azonosító:</label>
+              <input
+                id="azon"
+                type="text"
+                name="lineInput"
+                class="form-control"
+                maxlength="8"
+                [disabled]="!newLnd"
+                [(ngModel)]="line"
+                required=""
+              />
             </div>
-          </form>
+            <div class="col-md-3">
+              <label for="ujPart">Tétel kód:</label>
+              <input
+                type="number"
+                id="ujPart"
+                name="partInput"
+                maxlength="24"
+                class="form-control"
+                [(ngModel)]="part"
+                [disabled]="!newLnd"
+              />
+            </div>
+            <div class="col-md-3">
+              <label for="ujRate">Gyártási sebesség:</label>
+              <input
+                type="number"
+                id="ujRate"
+                name="rateInput"
+                maxlength="24"
+                class="form-control"
+                [(ngModel)]="rate"
+                [disabled]="!newLnd && !edit"
+              />
+            </div>
+          </div>
         </div>
       </div>
-      <hr />
-      <!-- lnd headerek -->
-      <div class="row">
-        <div class="col-lg-12">
-          <app-data-table [headers]="lndHeaders"></app-data-table>
-        </div>
-      </div>
+    </form>
+  </div>
+  <hr />
+  <!-- lnd headerek -->
+  <div class="row">
+    <div class="col-lg-12">
+      <app-data-table [headers]="lndHeaders"></app-data-table>
     </div>
   </div>
 </div>

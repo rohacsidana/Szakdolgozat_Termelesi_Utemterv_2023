@@ -58,14 +58,7 @@
                 type="button"
                 *ngIf="searchMode"
               >
-                Új</button
-              ><button
-                class="btn btn-success"
-                (click)="clearForm()"
-                type="button"
-                *ngIf="editMode || newMode"
-              >
-                Mégse
+                Új
               </button>
               <button
                 class="btn btn-danger"
@@ -77,7 +70,7 @@
                 Törlés
               </button>
               <button
-                class="btn btn-warning"
+                class="btn btn-success"
                 type="button"
                 (click)="onUpdateUser()"
                 [disabled]="!myGroup.valid || !loadedUser"
@@ -100,6 +93,14 @@
                 *ngIf="editMode"
               >
                 Jelszó visszaállítás
+              </button>
+              <button
+                class="btn btn-primary"
+                (click)="clearForm()"
+                type="button"
+                *ngIf="editMode || newMode"
+              >
+                Mégse
               </button>
             </div>
             <!-- "hiba" üzenetek -->

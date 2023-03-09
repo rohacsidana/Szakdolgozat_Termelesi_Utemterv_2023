@@ -52,15 +52,6 @@
     </button>
 
     <button
-      *ngIf="editing"
-      class="btn btn-danger"
-      type="button"
-      (click)="cancel()"
-    >
-      Mégse
-    </button>
-
-    <button
       *ngIf="selectedMode && !editing"
       class="btn btn-primary"
       type="button"
@@ -84,7 +75,14 @@
       type="button"
       (click)="delete()"
     >
-      Törlés
+      Törlés</button
+    ><button
+      *ngIf="editing"
+      class="btn btn-primary"
+      type="button"
+      (click)="cancel()"
+    >
+      Mégse
     </button>
   </div>
 
@@ -367,3 +365,4 @@
     </div>
   </div>
 </form>
+

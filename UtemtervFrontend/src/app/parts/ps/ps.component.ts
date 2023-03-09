@@ -22,9 +22,14 @@ export class PsComponent {
   loadedPartStr: Ps;
 
   myGroup: FormGroup;
-  partStrFound: boolean = true;
+
+  editMode: boolean = false;
   searchMode: boolean = true;
   newMode: boolean = false;
+
+  errorMessage: string = '';
+  error: boolean = false;
+
   partStrAlreadyExists: boolean = false;
 
   sortSub: Subscription;
@@ -152,11 +157,6 @@ export class PsComponent {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  onChangeMode() {
-    this.clearForm();
-    this.searchMode = !this.searchMode;
-  }
-
   onSearchPartStr() {
     this.checkPartAlreadyExists();
 
@@ -175,7 +175,9 @@ export class PsComponent {
       );
       console.log(this.loadedPartStr);
 
-      this.partStrFound = true;
+      this.editMode = true;
+      this.searchMode = false;
+      this.newMode = false;
 
       this.myGroup = new FormGroup({
         ps_par: new FormControl(
@@ -195,9 +197,8 @@ export class PsComponent {
       this.myGroup.get('ps_comp').disable();
     } else {
       this.clearForm();
-      this.partStrFound = false;
     }
-    console.log('PartStr found: ' + this.partStrFound);
+    console.log('PartStr found: ' + this.editMode);
   }
 
   onDelete() {
@@ -223,14 +224,10 @@ export class PsComponent {
     }
   }
 
-  onNew(isNewMode: boolean) {
-    /* if (isNewMode) {
-      console.log('New Mode on');
-      this.newMode = true;
-    } else {
-      console.log('New Mode on');
-      this.newMode = false;
-    } */
+  onNew() {
+    this.newMode = true;
+    this.editMode = false;
+    this.searchMode = false;
   }
 
   onSubmit() {
@@ -265,7 +262,10 @@ export class PsComponent {
     this.myGroup.enable();
     this.myGroup.reset();
     this.partStrAlreadyExists = false;
-    this.partStrFound = true;
+
+    this.searchMode = true;
+    this.newMode = false;
+    this.editMode = false;
     this.loadedPartStr = null;
   }
 
@@ -277,8 +277,8 @@ export class PsComponent {
   }
 
   ngOnDestroy(): void {
-    this.ptDataChangedSub.unsubscribe()
-    this.partStrDataChangedSub.unsubscribe()
+    this.ptDataChangedSub.unsubscribe();
+    this.partStrDataChangedSub.unsubscribe();
     this.sortSub.unsubscribe();
     this.rowSelectSubscription.unsubscribe();
   }
