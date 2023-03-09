@@ -92,21 +92,21 @@
               >
                 Módosítások mentése
               </button>
-              <button
-                type="button"
-                class="btn btn-warning"
-                (click)="clearForm(f)"
-                *ngIf="edit && !newChg"
-              >
-                Mégse
-              </button>
+
               <button
                 class="btn btn-danger"
                 type="submit"
                 (click)="deleteChg = true"
                 *ngIf="edit && !newChg"
               >
-                Törlés
+                Törlés</button
+              ><button
+                type="button"
+                class="btn btn-warning"
+                (click)="clearForm(f)"
+                *ngIf="edit && !newChg"
+              >
+                Mégse
               </button>
             </div>
             <div class="row">

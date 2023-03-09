@@ -15,8 +15,10 @@
   width: 60vw;
   padding: 16px;
   z-index: 100;
-  background: white;
+  background: rgb(255, 220, 220);
   box-shadow: 0 2px 8px rbga(0, 0, 0, 0.26);
+  border: 1px solid red;
+
 }
 
 .alert-box-actions {
