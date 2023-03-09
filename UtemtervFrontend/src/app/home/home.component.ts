@@ -43,11 +43,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         break;
       }
       case 2: {
-        this.postName = 'Készletgazda beosztott';
+        this.postName = 'Termelés vezető';
         break;
       }
       case 3: {
-        this.postName = 'Termelés vezető beosztott';
+        this.postName = 'Készletgazda';
         break;
       }
     }

@@ -10,7 +10,7 @@ namespace UtemtervBackend.Controllers
     [EnableCors]
     [Route("api/lnd")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "1, 2")]
 
     public class LndController : ControllerBase
     {
