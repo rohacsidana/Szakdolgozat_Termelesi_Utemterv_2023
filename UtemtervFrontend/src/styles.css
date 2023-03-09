@@ -27,3 +27,11 @@ button {
 h2 {
   padding-top: 30px;
 }
+
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+
+

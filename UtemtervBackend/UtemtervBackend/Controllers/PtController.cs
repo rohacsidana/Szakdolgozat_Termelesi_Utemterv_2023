@@ -16,13 +16,12 @@ namespace UtemtervBackend.Controllers
     public class PtController : ControllerBase
     {
         UtemtervContext _context;
-
         public PtController(UtemtervContext context)
         {
             _context = context;
         }
-
         [HttpGet("list")]
+        [Authorize(Roles = "1,3")]
         public IActionResult PtList()
         {
             try
@@ -43,6 +42,8 @@ namespace UtemtervBackend.Controllers
 
 
         [HttpPost("new")]
+        [Authorize(Roles = "1,3")]
+
         public IActionResult newPt([FromBody] NewPt pt)
         {
             try
@@ -57,6 +58,8 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(Roles = "1,3")]
+
         public IActionResult updatePt([FromBody] UpdatePt pt)
         {
             try
@@ -71,6 +74,8 @@ namespace UtemtervBackend.Controllers
         }
 
         [HttpDelete("delete/{part}")]
+        [Authorize(Roles = "1,3")]
+
         public IActionResult deletePt(int part)
         {
             try

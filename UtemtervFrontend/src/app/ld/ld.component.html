@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h2 style="text-align: center">Készlet</h2>
+      <h2 style="text-align: center">Készletek</h2>
     </div>
   </div>
   <hr />
@@ -73,7 +73,7 @@
                 Törlés
               </button>
               <button
-                class="btn btn-warning"
+                class="btn btn-success"
                 type="button"
                 [disabled]="!myGroup.valid"
                 *ngIf="editMode"
@@ -83,7 +83,7 @@
               </button>
               <!-- új, módosítás módnál mégse, vissza keresés módra -->
               <button
-                class="btn btn-danger"
+                class="btn btn-primary"
                 (click)="
                   searchMode = true;
                   newMode = false;

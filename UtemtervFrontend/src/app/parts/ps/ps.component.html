@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h2 style="text-align: center">Tétel szerkezetek</h2>
+      <h2 style="text-align: center">Tételszerkezetek</h2>
     </div>
   </div>
   <hr />
@@ -57,7 +57,7 @@
                 Mentés
               </button>
               <button
-                [className]="searchMode ? 'btn btn-success' : 'btn btn-danger'"
+                [className]="searchMode ? 'btn btn-success' : 'btn btn-primary'"
                 (click)="onChangeMode()"
                 type="button"
                 (click)="!searchMode ? onNew(true) : onNew(false)"
@@ -73,7 +73,7 @@
                 Törlés
               </button>
               <button
-                class="btn btn-warning"
+                class="btn btn-success"
                 type="button"
                 (click)="onUpdate()"
                 [disabled]="!myGroup.valid || !loadedPartStr"

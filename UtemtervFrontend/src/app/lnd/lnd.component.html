@@ -74,14 +74,7 @@
               >
                 Mentés
               </button>
-              <button
-                *ngIf="newLnd && !edit"
-                type="button"
-                class="btn btn-danger"
-                (click)="clearForm(f)"
-              >
-                Mégse
-              </button>
+
               <button
                 class="btn btn-success"
                 type="submit"
@@ -90,14 +83,7 @@
               >
                 Módosítások mentése
               </button>
-              <button
-                type="button"
-                class="btn btn-warning"
-                (click)="clearForm(f)"
-                *ngIf="edit && !newLnd"
-              >
-                Mégse
-              </button>
+
               <button
                 class="btn btn-danger"
                 type="submit"
@@ -105,6 +91,14 @@
                 *ngIf="edit && !newLnd"
               >
                 Törlés
+              </button>
+              <button
+                *ngIf="newLnd || edit"
+                type="button"
+                class="btn btn-primary"
+                (click)="clearForm(f)"
+              >
+                Mégse
               </button>
             </div>
           </div>

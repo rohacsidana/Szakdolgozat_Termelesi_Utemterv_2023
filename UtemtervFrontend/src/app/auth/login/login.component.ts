@@ -35,13 +35,8 @@ export class LoginComponent implements OnDestroy {
 
   initForm() {
     this.form = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.pattern(
-          /^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=[^!#%]*[!#%])[A-Za-z0-9!#%]{8,32}$/
-        ),
-      ]),
+      email: new FormControl(''),
+      password: new FormControl(''),
     });
   }
 
@@ -51,7 +46,7 @@ export class LoginComponent implements OnDestroy {
       .login(this.form.value.email, this.form.value.password)
       .subscribe(
         (data) => {
-          
+
           this.isLoading = false;
           this.changeNeeded = this.form.value.password === 'changeme';
           if (!this.changeNeeded) {

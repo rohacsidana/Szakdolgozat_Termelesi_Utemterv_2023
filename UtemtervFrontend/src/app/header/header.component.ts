@@ -17,6 +17,8 @@ export class HeaderComponent implements OnDestroy, OnInit {
   exp: Date;
   time: string;
   role: number;
+  loggingOut: boolean = false;
+
   changeNeeded: boolean = false;
   changeNeededSub: Subscription;
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -32,6 +34,10 @@ export class HeaderComponent implements OnDestroy, OnInit {
   ) {}
   logout() {
     this.authService.logout();
+    this.loggingOut = false;
+  }
+  onLogout() {
+    this.loggingOut = true;
   }
   ngOnInit(): void {
     this.changeNeededSub = this.authService.changeNeededChanged.subscribe(
