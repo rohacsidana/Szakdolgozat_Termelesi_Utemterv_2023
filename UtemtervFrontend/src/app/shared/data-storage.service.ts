@@ -1165,6 +1165,10 @@ export class DataStorageService {
     return this.http.post(URL + '/user/change/password', { Password: pw });
   }
 
+  activateWorkWeek(week: number, line: string, year: string){
+    this.http.get<any>(URL + '/workorder/activate')
+    
+  }
  
 }
 
