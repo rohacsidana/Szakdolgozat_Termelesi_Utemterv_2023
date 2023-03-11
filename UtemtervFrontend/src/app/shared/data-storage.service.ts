@@ -1166,7 +1166,7 @@ export class DataStorageService {
   }
 
   activateWorkWeek(week: number, line: string, year: string){
-    this.http.get<any>(URL + '/workorder/activate')
+   return this.http.post<any>(URL + '/workorder/activate', {Year: year, Week: week, WoLine: line})
     
   }
  

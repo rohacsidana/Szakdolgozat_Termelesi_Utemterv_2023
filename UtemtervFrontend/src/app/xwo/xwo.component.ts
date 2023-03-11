@@ -187,6 +187,19 @@ export class XWoCoponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
+  onActivateWeek(week: number, line: string, year: string){
+    this.dataStorageService.activateWorkWeek(week, line, year)
+    .pipe(
+      tap({
+        next: (data)=>{
+          console.log(data);
+          
+        },
+        error: (error)=>this.handleError(error)
+      })
+    )
+  }
+
   ngOnDestroy(): void {
     this.xwoDataChangedSub.unsubscribe();
   }

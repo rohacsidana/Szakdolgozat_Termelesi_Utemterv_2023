@@ -63,7 +63,6 @@ namespace UtemtervBackend.Controllers
 
                 return StatusCode(404, "UNKNOWN_ERROR");
             }
-            return Ok();
         }
 
         [HttpPost("new")]
