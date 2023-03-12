@@ -43,14 +43,14 @@
           routerLink="/inventory"
           >Készlet</a
         >
-        <a mat-list-item routerLink="/line">Gyártósorok</a>
-        <a mat-list-item routerLink="/line/change">Átállásidők</a>
-        <a mat-list-item routerLink="/line/rate">Gyártási sebességek</a>
-        <a mat-list-item routerLink="../workorder/list">Gyártási rendelések</a>
-        <a mat-list-item routerLink="../workorder">Gyártási rendelés</a>
-        <a mat-list-item routerLink="../reserve">Készletfoglalás</a>
-        <a mat-list-item routerLink="/prodsch">Termelési ütemterv</a>
-        <a *ngIf="role === 1 || role === 3" mat-list-item routerLink="/user"
+          <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="/line">Gyártósorok</a>
+        <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="/line/change">Átállásidők</a>
+        <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="/line/rate">Gyártási sebességek</a>
+        <a mat-list-item *ngIf="role === 1 || role === 2"  routerLink="../workorder/list">Gyártási rendelések</a>
+        <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="../workorder">Gyártási rendelés</a>
+        <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="../reserve">Készletfoglalás</a>
+        <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="/prodsch">Termelési ütemterv</a>
+        <a *ngIf="role === 1" mat-list-item routerLink="/user"
           >Felhasználók</a
         >
         <a mat-list-item class="logoutBtn" (click)="onLogout()"

@@ -21,15 +21,18 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { LadFormComponent } from './reserve/lad-form.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AdminGuard } from './admin.guard';
+import { ProdManGuard } from './prod-man.guard';
+import { InvManGuard } from './inv-man.guard';
+import { LoginGuard } from './login.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'logout', redirectTo: 'login' },
-  { path: 'login', component: LoginComponent },
+  { path: 'logout', redirectTo: 'login'},
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   {
     path: 'part',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, InvManGuard],
     resolve: [PtResolver],
     children: [
       { path: '', component: PtComponent },
@@ -37,10 +40,14 @@ const routes: Routes = [
     ],
   },
   //{path: 'part/structure', component: PsComponent},
-  { path: 'inventory', component: LdComponent, canActivate: [AuthGuard] },
+  {
+    path: 'inventory',
+    component: LdComponent,
+    canActivate: [AuthGuard, InvManGuard],
+  },
   {
     path: 'line',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, ProdManGuard],
     resolve: [LnResolver, PtResolver],
     children: [
       { path: '', component: LnComponent },
@@ -51,7 +58,7 @@ const routes: Routes = [
 
   {
     path: 'workorder',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, ProdManGuard],
     children: [
       { path: '', component: WoComponent, pathMatch: 'full' },
       { path: 'new', component: WoComponent },
@@ -67,20 +74,22 @@ const routes: Routes = [
       },
     ],
   },
-  /* { path: 'workorder/new', component: WoComponent}, */
-  /* { path: 'workorder/list', component: WoListComponent, pathMatch: 'full' }, */
-  /* { path: ':part', component: WoComponent , children:[
-    {path: '', component: WodComponent},
-    {path: '',component: LadComponent}
-  ]}, */
 
-  { path: 'prodsch', component: XWoCoponent, canActivate: [AuthGuard] },
+  {
+    path: 'prodsch',
+    component: XWoCoponent,
+    canActivate: [AuthGuard, ProdManGuard],
+  },
   {
     path: 'user',
     component: UserComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
-  { path: 'reserve', component: LadFormComponent, canActivate: [AuthGuard] },
+  {
+    path: 'reserve',
+    component: LadFormComponent,
+    canActivate: [AuthGuard, ProdManGuard],
+  },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
