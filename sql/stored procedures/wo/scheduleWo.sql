@@ -8,19 +8,31 @@ begin
 	insert into #seged 
 	select wo_lot, wo_seq,wo_part, wo_est_run,wo_start_date, wo_start_time, wo_end_time, wo_pld_downtime, wo_unpld_downtime
 	, (
-		select max(wo_seq) from dbo.hetiUtemterv where wo_seq < most.wo_seq  and datepart(week, wo_start_date) = @week and cast(datepart(YYYY, wo_start_date) as char(4)) = @year
+		select max(wo_seq) from dbo.hetiUtemterv where wo_seq is not null and wo_seq < most.wo_seq  and datepart(week, wo_start_date) = @week and cast(datepart(YYYY, wo_start_date) as char(4)) = @year and wo_status <> 'waiting'
 	) as elotte
 	, (
-		select min(wo_seq) from dbo.hetiUtemterv where wo_seq > most.wo_seq  and datepart(week, wo_start_date) = @week and cast(datepart(YYYY, wo_start_date) as char(4)) = @year
+		select min(wo_seq) from dbo.hetiUtemterv where wo_seq is not null and wo_seq > most.wo_seq  and datepart(week, wo_start_date) = @week and cast(datepart(YYYY, wo_start_date) as char(4)) = @year and wo_status <> 'waiting'
 	) as utana,
 	 (
-		select wo_part from dbo.hetiUtemterv where wo_seq = (select min(wo_seq) from dbo.hetiUtemterv where wo_seq > most.wo_seq  and datepart(week, wo_start_date) = @week and cast(datepart(YYYY, wo_start_date) as char(4)) = @year) and datepart(week, wo_start_date) = @week and cast(datepart(YYYY, wo_start_date) as char(4)) = @year
+		select wo_part from dbo.hetiUtemterv where wo_seq is not null and wo_seq = (select min(wo_seq) from dbo.hetiUtemterv where wo_seq > most.wo_seq  and datepart(week, wo_start_date) = @week and cast(datepart(YYYY, wo_start_date) as char(4)) = @year) and datepart(week, wo_start_date) = @week and cast(datepart(YYYY, wo_start_date) as char(4)) = @year and wo_status <> 'waiting'
 	 )as utana_part
 
 	from wo_mstr most
 	where most.wo_line = @line
 	and datepart(week, most.wo_start_date) = @week
-	and cast(datepart(YYYY, most.wo_start_date) as char(4)) = @year;
+	and cast(datepart(YYYY, most.wo_start_date) as char(4)) = @year
+	and wo_status = 'accepted';
+
+	declare @elotteLot int;
+	update WO_MSTR
+	set wo_pld_downtime = iif(wo.wo_part = s.wo_part,'00:00' ,(select chg_time from CHG_MSTR where (s.wo_part = chg_from and wo.wo_part = chg_to) or (wo.wo_part = chg_from and s.wo_part = chg_to)) )
+		,@elotteLot = wo.wo_lot
+	from WO_MSTR wo, #seged s 
+	where wo_line = @line
+	and datepart(week, wo.wo_start_date) = @week
+	and cast(datepart(YYYY, wo.wo_start_date) as char(4)) = @year
+	and s.seq = (select min(seq) from #seged)
+	and wo.wo_seq = (select max(wo_seq) from WO_MSTR where wo_line = @line and datepart(week, wo_start_date) = @week and cast(datepart(YYYY, wo_start_date) as char(4)) = @year and wo_seq < s.seq)
 
 	declare @chghiba int;
 	set @chghiba = (select count(*)
@@ -44,8 +56,12 @@ begin
 							elso.elotte as elotte,
 							elso.seq as seq,
 							elso.wo_part as wo_part,
-							dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), cast(@start_time as time)) as wo_start_time,
-							dbo.segedDatumIdoSum(dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), cast(@start_time as time)), elso.est_run),
+							IIF( @elotteLot is not null,
+							(select  dbo.segedDatumIdoSum(dbo.segedDatumIdoSum(wo_end_time, wo_pld_downtime),wo_unpld_downtime) from wo_mstr where wo_lot = @elotteLot)
+							,dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), cast(@start_time as time))) as wo_start_time,
+							dbo.segedDatumIdoSum(IIF( @elotteLot is not null,
+							(select  dbo.segedDatumIdoSum(dbo.segedDatumIdoSum(wo_end_time, wo_pld_downtime),wo_unpld_downtime) from wo_mstr where wo_lot = @elotteLot)
+							,dbo.segedDatumIdoSum(cast(elso.wo_start_date as datetime), cast(@start_time as time))), elso.est_run),
 							iif(elso.utana is not null,iif(elso.wo_part <> elso.utana_part, (select chg_time from CHG_MSTR where (elso.wo_part = chg_from and elso.utana_part = chg_to) or (elso.wo_part = chg_to and elso.utana_part = chg_from) ), '00:00' ), null) as wo_pld_downtime
 							,elso.wo_unpld_downtime as wo_pld_down_time
 			

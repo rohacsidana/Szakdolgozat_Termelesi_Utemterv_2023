@@ -56,26 +56,32 @@
     </div>
     <div class="col-xs-2" *ngIf="xwoData.length != 0">
       <button
-        class="{{ editing ? 'btn btn-primary' : 'btn btn-primary' }}"
+        class="{{ editing ? 'btn btn-danger' : 'btn btn-primary' }}"
         type="button"
         (click)="cancel()"
       >
         {{ editing ? "Mégse" : "Szerkesztés" }}
       </button>
-
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">
       <div *ngIf="editing && utemezheto" class="input-group">
         <!-- <label for="woLot">Gyr szám:</label> -->
-        <span class="input-group-addon">Kezdési idő</span>
-        <!-- req -->
-        <input
-          style="z-index: auto"
-          type="time"
-          id="woLot"
-          name="woLot"
-          class="form-control"
-          #start_time
-        />
-
+       
+          <span class="input-group-addon">Kezdési idő</span>
+          <!-- req -->
+          <input
+            style="z-index: auto"
+            type="time"
+            id="woLot"
+            name="woLot"
+            class="form-control"
+            #start_time
+          />
+        
+       
+  
         <div class="input-group-btn">
           <button
             *ngIf="editing && utemezheto"
@@ -94,15 +100,25 @@
             Ütemez
           </button>
         </div>
-
       </div>
-
+      <div class="col-xs-1">
+        <button
+          class="btn btn-primary"
+          *ngIf="editing && canActivateWeek()"
+          (click)="onActivateWeek(+week.value, line.value, year.value)"
+        >
+          Élesítés
+        </button>
+      </div>
     </div>
-    <button class="btn btn-primary" (click)="onActivateWeek(+week.value,line.value,year.value)">Élesítés</button>
+    
+    
+    
   </div>
   <hr />
   <!-- Xwo table -->
   <div class="table-responsive">
     <app-data-table [headers]="xwoHeaders"></app-data-table>
   </div>
+  
 </div>

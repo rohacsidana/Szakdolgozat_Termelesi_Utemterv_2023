@@ -190,6 +190,21 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(400, e);
             }
         }
+
+        //[HttpGet("canActivate/{year}/{week}/{line}")]
+        //public IActionResult CanActivateWeek(String year,int week, string line)
+        //{
+        //    try
+        //    {
+        //        var res = _context.
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        return StatusCode(401, "UNKOWN_ERROR");
+        //    }
+        //}
+
     }
 
    
