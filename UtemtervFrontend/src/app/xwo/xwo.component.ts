@@ -188,7 +188,6 @@ export class XWoCoponent implements OnInit, OnDestroy {
   }
 
   onActivateWeek(week: number, line: string, year: string){
-    console.log("CIGÁNYOK");
     this.dataStorageService.activateWorkWeek(week, line, year)
     .pipe(
       tap({
@@ -199,7 +198,7 @@ export class XWoCoponent implements OnInit, OnDestroy {
         },
         error: (error)=>this.handleError(error)
       })
-    )
+    ).subscribe();
   }
   canActivateWeek(){
     if(this.xwoData !== null){
