@@ -85,6 +85,24 @@ namespace UtemtervBackend.Controllers
                 return StatusCode(404, e);
             }
         }
+
+        [HttpGet("scrap")]
+        [Authorize(Roles = "1,3")]
+
+        public IActionResult scarpLd()
+        {
+            try
+            {
+                var res = _context.Database.ExecuteSql($"scrap");
+                 return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e);
+            }
+        }
+
+
         public class Ld
         {
             public int LdPart { get; set; }
