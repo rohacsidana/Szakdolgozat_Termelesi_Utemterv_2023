@@ -19,6 +19,7 @@ import { LdService } from './ld.service';
 })
 export class LdComponent implements OnInit, OnDestroy {
   loadedLd: Ld;
+  error: string;
 
   myGroup: FormGroup;
   ldFound: boolean = true;
@@ -190,20 +191,7 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onScrap() {
-    this.dataStService.updateLd({
-      ld_part: Number(this.myGroup.getRawValue().ld_part),
-      ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
-      ld_qty_oh: 0,
-      ld_qty_rsrv: this.myGroup.getRawValue().ld_qty_rsrv,
-      ld_qty_scrp:
-        this.myGroup.getRawValue().ld_qty_oh +
-        this.myGroup.getRawValue().ld_qty_scrp,
-    });
-    this.ldDataChanged();
-    this.searchMode = true;
-    this.editMode = false;
-    this.newMode = false;
-    this.clearForm();
+   
   }
 
   clearForm() {

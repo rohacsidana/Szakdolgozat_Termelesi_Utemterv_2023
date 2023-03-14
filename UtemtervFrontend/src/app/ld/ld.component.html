@@ -39,6 +39,9 @@
               >
                 <i class="glyphicon glyphicon-search"></i>
               </button>
+              <button class="btn btn-warning" (click)="onScrap()" type="button">
+                Készletselejtezés
+              </button>
               <button
                 class="btn btn-success"
                 type="submit"
@@ -73,14 +76,7 @@
               >
                 Módosítások mentése
               </button>
-              <button
-                class="btn btn-warning"
-                (click)="onScrap()"
-                type="button"
-                *ngIf="editMode"
-              >
-                Készlet selejtezése
-              </button>
+
               <!-- új, módosítás módnál mégse, vissza keresés módra -->
               <button
                 class="btn btn-primary"
@@ -169,3 +165,8 @@
     </div>
   </div>
 </div>
+<app-alert
+  *ngIf="error"
+  [message]="error"
+  (close)="onHandleError()"
+></app-alert>
