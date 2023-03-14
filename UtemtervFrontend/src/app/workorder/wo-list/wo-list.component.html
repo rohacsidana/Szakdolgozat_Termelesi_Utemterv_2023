@@ -6,7 +6,7 @@
   </div>
   <hr />
   <div class="row">
-    <div class="col-xs-4">
+    <div class="col-sm-4">
       <div class="form-group">
         <div class="input-group">
           <!-- <label for="woLot">Gyr szám:</label> -->
@@ -19,17 +19,18 @@
             class="form-control"
             #filter
             />
-          <div class="input-group-btn">
-            <button class="btn btn-primary" type="button" (click)="filterData(filter.value)" style="z-index: auto">
-              <i class="glyphicon glyphicon-search"></i>
-            </button>
-          </div>
+          
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-success" (click)="newWo()">Új</button>
+    <div class="col-sm-8">
+        <button class="btn btn-primary" type="button" (click)="filterData(filter.value)" style="z-index: auto">
+          <i class="glyphicon glyphicon-search"></i>
+        </button>
+      <button type="button" class="btn btn-success" (click)="newWo()">Új</button>
+    </div>
   </div>
-
+<hr>
   <div class="row">
     <div class="col-lg-12">
       <app-data-table

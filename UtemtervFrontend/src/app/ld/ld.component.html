@@ -6,13 +6,13 @@
   </div>
   <hr />
   <div class="row">
-    <div class="col-lg-12">
-      <div class="row">
-        <div class="col-xs-12">
-          <form [formGroup]="myGroup" (ngSubmit)="onSubmit()">
+    <form [formGroup]="myGroup" (ngSubmit)="onSubmit()">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
             <div class="row">
-              <div class="col-xs-8">
-                <div class="form-group">
+              <div class="form-group">
+                <div class="col-md-12">
                   <div class="input-group">
                     <span class="input-group-addon">Tétel:</span>
                     <input
@@ -22,29 +22,23 @@
                       name="ld_part"
                       class="form-control"
                       formControlName="ld_part"
-                    /><span class="input-group-addon">Felhasználhatóság:</span>
-                    <input
-                      style="z-index: auto"
-                      type="date"
-                      id="ld_expire"
-                      name="ld_expire"
-                      class="form-control"
-                      formControlName="ld_expire"
                     />
-                    <div class="input-group-btn">
-                      <button
-                        class="btn btn-primary"
-                        type="button"
-                        style="z-index: auto"
-                        (click)="onSearchLd()"
-                        *ngIf="searchMode"
-                      >
-                        <i class="glyphicon glyphicon-search"></i>
-                      </button>
-                    </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <button
+                class="btn btn-primary"
+                type="button"
+                style="z-index: auto"
+                (click)="onSearchLd()"
+                *ngIf="searchMode"
+              >
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
               <button
                 class="btn btn-success"
                 type="submit"
@@ -102,65 +96,75 @@
                 Mégse
               </button>
             </div>
-
-            <div class="row">
-              <div class="col-xs-12">
-                <!-- ps-re vonatkozo inputok -->
-                <div class="form-group">
-                  <div class="col-xs-4">
-                    <label for="name">Készleten lévő mennyiség:</label>
-                    <input
-                      type="number"
-                      id="ld_qty_oh"
-                      name="ld_qty_oh"
-                      class="form-control"
-                      formControlName="ld_qty_oh"
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="name">Foglalt mennyiség:</label>
-                    <input
-                      type="number"
-                      id="ld_qty_rsrv"
-                      name="ld_qty_rsrv"
-                      class="form-control"
-                      formControlName="ld_qty_rsrv"
-                    />
-                  </div>
-                  <div class="col-xs-4">
-                    <label for="name">Selejt mennyiség:</label>
-                    <input
-                      type="number"
-                      id="ld_qty_scrp"
-                      name="ld_qty_scrp"
-                      class="form-control"
-                      formControlName="ld_qty_scrp"
-                    />
-                  </div>
-                </div>
-              </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <!-- ps-re vonatkozo inputok -->
+          <div class="form-group">
+            <div class="col-md-3">
+              <label for="name">Felhasználhatóság:</label>
+              <input
+                style="z-index: auto"
+                type="date"
+                id="ld_expire"
+                name="ld_expire"
+                class="form-control"
+                formControlName="ld_expire"
+              />
             </div>
-          </form>
+            <div class="col-md-3">
+              <label for="name">Készleten lévő mennyiség:</label>
+              <input
+                type="number"
+                id="ld_qty_oh"
+                name="ld_qty_oh"
+                class="form-control"
+                formControlName="ld_qty_oh"
+              />
+            </div>
+            <div class="col-md-3">
+              <label for="name">Foglalt mennyiség:</label>
+              <input
+                type="number"
+                id="ld_qty_rsrv"
+                name="ld_qty_rsrv"
+                class="form-control"
+                formControlName="ld_qty_rsrv"
+              />
+            </div>
+            <div class="col-md-3">
+              <label for="name">Selejt mennyiség:</label>
+              <input
+                type="number"
+                id="ld_qty_scrp"
+                name="ld_qty_scrp"
+                class="form-control"
+                formControlName="ld_qty_scrp"
+              />
+            </div>
+          </div>
         </div>
       </div>
-      <hr />
-      <div class="row">
-        <div class="col-lg-12">
-          <button
-            class="btn btn-default"
-            *ngIf="searchedDataLoaded"
-            (click)="clearForm()"
-          >
-            <i class="glyphicon glyphicon-chevron-left"></i>
-            Vissza az összeshez
-          </button>
-        </div>
+    </form>
+    <hr />
+    <div class="row">
+      <div class="col-lg-12">
+        <button
+          class="btn btn-default"
+          *ngIf="searchedDataLoaded"
+          (click)="clearForm()"
+        >
+          <i class="glyphicon glyphicon-chevron-left"></i>
+          Vissza az összeshez
+        </button>
       </div>
-      <!--  ps headerek -->
-      <div class="row">
-        <div class="col-lg-12">
-          <app-data-table [headers]="ldHeaders"></app-data-table>
-        </div>
+    </div>
+    <!--  ps headerek -->
+    <div class="row">
+      <div class="col-lg-12">
+        <app-data-table [headers]="ldHeaders"></app-data-table>
       </div>
     </div>
   </div>

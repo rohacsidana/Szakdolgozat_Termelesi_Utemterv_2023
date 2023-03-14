@@ -6,130 +6,130 @@
   *ngIf="error"
   (close)="onHandleError()"
 ></app-alert>
-<form #woForm="ngForm" (ngSubmit)="save()">
-  <!-- Kereső rész -->
-  <div class="row">
-    <div class="col-xs-4">
-      <div class="form-group">
-        <div class="input-group">
-          <!-- <label for="woLot">Gyr szám:</label> -->
-          <span class="input-group-addon">Gyr szám:</span>
-          <!-- req -->
-          <input
-            style="z-index: auto"
-            step="10"
-            min="10000"
-            type="number"
-            id="woLot"
-            name="woLot"
-            class="form-control"
-            [disabled]="editing"
-            [(ngModel)]="woFormActData.woLot"
-            value="woFormActData.woLot"
-          />
-
-          <div class="input-group-btn">
-            <button
-              class="btn btn-primary"
-              type="button"
-              style="z-index: auto"
-              (click)="search()"
-            >
-              <i class="glyphicon glyphicon-search"></i>
-            </button>
+<div class="row">
+  <form #woForm="ngForm" (ngSubmit)="save()">
+    <!-- Kereső rész -->
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <div class="input-group">
+              <!-- <label for="woLot">Gyr szám:</label> -->
+              <span class="input-group-addon">Gyr szám:</span>
+              <!-- req -->
+              <input
+                style="z-index: auto"
+                step="10"
+                min="10000"
+                type="number"
+                id="woLot"
+                name="woLot"
+                class="form-control"
+                [disabled]="editing"
+                [(ngModel)]="woFormActData.woLot"
+                value="woFormActData.woLot"
+              />
+            </div>
           </div>
+        </div>
+        <div class="col-sm-8">
+          <button
+            class="btn btn-primary"
+            type="button"
+            style="z-index: auto"
+            (click)="search()"
+          >
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+          <button
+            *ngIf="!editing"
+            class="btn btn-success"
+            type="button"
+            (click)="new()"
+          >
+            Új
+          </button>
+
+          <button
+            *ngIf="selectedMode && !editing"
+            class="btn btn-primary"
+            type="button"
+            (click)="edit()"
+          >
+            Szerkesztés
+          </button>
+
+          <button *ngIf="editing" class="btn btn-success" type="submit">
+            Mentés
+          </button>
+
+          <button
+            *ngIf="
+              selectedMode &&
+              editing &&
+              selectedWo.wo_status != null &&
+              selectedWo.wo_status == 'waiting'
+            "
+            class="btn btn-danger"
+            type="button"
+            (click)="delete()"
+          >
+            Törlés</button
+          ><button
+            *ngIf="editing"
+            class="btn btn-primary"
+            type="button"
+            (click)="cancel()"
+          >
+            Mégse
+          </button>
         </div>
       </div>
     </div>
-
-    <button
-      *ngIf="!editing"
-      class="btn btn-success"
-      type="button"
-      (click)="new()"
-    >
-      Új
-    </button>
-
-    <button
-      *ngIf="selectedMode && !editing"
-      class="btn btn-primary"
-      type="button"
-      (click)="edit()"
-    >
-      Szerkesztés
-    </button>
-
-    <button *ngIf="editing" class="btn btn-success" type="submit">
-      Mentés
-    </button>
-
-    <button
-      *ngIf="
-        selectedMode &&
-        editing &&
-        selectedWo.wo_status != null &&
-        selectedWo.wo_status == 'waiting'
-      "
-      class="btn btn-danger"
-      type="button"
-      (click)="delete()"
-    >
-      Törlés</button
-    ><button
-      *ngIf="editing"
-      class="btn btn-primary"
-      type="button"
-      (click)="cancel()"
-    >
-      Mégse
-    </button>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-12">
-      <div ngModelGroup="" #woDataForm>
-        <!-- GYR részletei -->
-        <div class="form-group">
-          <div class="col-xs-4">
-            <label for="order">Rendelés:</label>
-            <input
-              type="text"
-              id="order"
-              name="order"
-              class="form-control"
-              [disabled]="
-                !editing ||
-                (selectedWo.wo_status != null
-                  ? selectedWo.wo_status != 'waiting'
-                  : false)
-              "
-              [(ngModel)]="woFormActData.order"
-              value="woFormActData.order"
-            />
-            <!-- ngModel
+    <div class="container">
+      <div class="row">
+        <div ngModelGroup="" #woDataForm>
+          <!-- GYR részletei -->
+          <div class="form-group">
+            <div class="col-lg-4">
+              <label for="order">Rendelés:</label>
+              <input
+                type="text"
+                id="order"
+                name="order"
+                class="form-control"
+                [disabled]="
+                  !editing ||
+                  (selectedWo.wo_status != null
+                    ? selectedWo.wo_status != 'waiting'
+                    : false)
+                "
+                [(ngModel)]="woFormActData.order"
+                value="woFormActData.order"
+              />
+              <!-- ngModel
               maxlength="18" -->
-          </div>
-          <div class="col-xs-4">
-            <label for="part">Tétel:</label>
-            <input
-              type="number"
-              id="part"
-              name="part"
-              class="form-control"
-              [disabled]="
-                !editing ||
-                (selectedWo.wo_status != null
-                  ? selectedWo.wo_status != 'waiting'
-                  : false)
-              "
-              [(ngModel)]="woFormActData.part"
-              value="woFormActData.part"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="status">Státusz:</label>
-            <!--  <input
+            </div>
+            <div class="col-lg-4">
+              <label for="part">Tétel:</label>
+              <input
+                type="number"
+                id="part"
+                name="part"
+                class="form-control"
+                [disabled]="
+                  !editing ||
+                  (selectedWo.wo_status != null
+                    ? selectedWo.wo_status != 'waiting'
+                    : false)
+                "
+                [(ngModel)]="woFormActData.part"
+                value="woFormActData.part"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="status">Státusz:</label>
+              <!--  <input
               type="text"
               name="status"
               id="status"
@@ -144,225 +144,225 @@
               value="woFormActData.status"
               maxlength="10"
             /> -->
-            <select
-              name="status"
-              id="status"
-              class="form-control"
-              [disabled]="
-                !editing ||
-                (selectedWo.wo_status != null
-                  ? selectedWo.wo_status == 'completed'
-                  : false)
-              "
-              [(ngModel)]="woFormActData.status"
-              value="woFormActData.status"
-            >
-              <option>accepted</option>
-              <option>completed</option>
-              <option>ongoing</option>
-              <option>waiting</option>
-            </select>
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="line">Gyártósor:</label>
-            <input
-              type="text"
-              name="line"
-              id="line"
-              class="form-control"
-              [disabled]="
-                !editing ||
-                (selectedWo.wo_status != null
-                  ? selectedWo.wo_status == 'ongoing' ||
-                    selectedWo.wo_status == 'completed'
-                  : false)
-              "
-              [(ngModel)]="woFormActData.line"
-              value="woFormActData.line"
-              maxlength="8"
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="qtyOrd">Rendelt mennyiség:</label>
-            <input
-              type="number"
-              name="qtyOrd"
-              id="qtyOrd"
-              class="form-control"
-              [disabled]="
-                !editing ||
-                (selectedWo.wo_status != null
-                  ? selectedWo.wo_status != 'waiting'
-                  : false)
-              "
-              [(ngModel)]="woFormActData.qtyOrd"
-              value="woFormActData.qtyOrd"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="ordDate">Rendelési dátum:</label>
-            <input
-              type="datetime-local"
-              name="ordDate"
-              id="ordDate"
-              class="form-control"
-              disabled
-              [(ngModel)]="woFormActData.ordDate"
-              value="woFormActData.ordDate"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="estTime">Várható elk. idő:</label>
-            <input
-              type="time"
-              name="estTime"
-              id="estTime"
-              class="form-control"
-              disabled
-              [(ngModel)]="woFormActData.estTime"
-              value="woFormActData.estTime"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="seq">Sorszám:</label>
-            <input
-              type="number"
-              name="seq"
-              id="seq"
-              class="form-control"
-              disabled
-              [(ngModel)]="woFormActData.seq"
-              value="woFormActData.seq"
-            />
-          </div>
-          <div class="col-xs-4">
-            <label for="dueDate">Határidő:</label>
-            <input
-              type="date"
-              name="dueDate"
-              id="dueDate"
-              class="form-control"
-              [disabled]="
-                !editing ||
-                (selectedWo.wo_status != null
-                  ? selectedWo.wo_status != 'waiting'
-                  : false)
-              "
-              [(ngModel)]="woFormActData.dueDate"
-              value="woFormActData.dueDate"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="startDate">Gyártás kezdet:</label>
-            <input
-              type="date"
-              name="startDate"
-              id="startDate"
-              class="form-control"
-              [disabled]="
-                !editing ||
-                (selectedWo.wo_status != null
-                  ? selectedWo.wo_status == 'ongoing' ||
-                    selectedWo.wo_status == 'completed'
-                  : false)
-              "
-              [(ngModel)]="woFormActData.startDate"
-              value="woFormActData.startDate"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="startTime">Kezdési idő:</label>
-            <input
-              type="datetime"
-              name="startTime"
-              id="startTime"
-              class="form-control"
-              disabled
-              [(ngModel)]="woFormActData.startTime"
-              value="woFormActData.startTime"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="endTime">Végzési idő:</label>
-            <input
-              type="datetime"
-              name="endTime"
-              id="endTime"
-              class="form-control"
-              disabled
-              [(ngModel)]="woFormActData.endTime"
-              value="woFormActData.endTime"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="pldDown">Tervezett állási idő:</label>
-            <input
-              type="time"
-              name="pldDown"
-              id="pldDown"
-              class="form-control"
-              disabled
-              [(ngModel)]="woFormActData.pldDown"
-              value="woFormActData.pldDown"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="unpldDown">Nem tervezett állási idő:</label>
-            <input
-              type="time"
-              name="unpldDown"
-              id="unpldDown"
-              class="form-control"
-              disabled
-              [(ngModel)]="woFormActData.unpldDown"
-              value="woFormActData.unpldDown"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="activated">Élesített:</label>
-            <input
-              type="checkbox"
-              name="activated"
-              id="activated"
-              class="form-control"
-              disabled
-              [(ngModel)]="woFormActData.activated"
-              value="woFormActData.activated"
-            />
-          </div>
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="relDate">Kib. dátum:</label>
-            <input
-              type="date"
-              name="relDate"
-              id="relDate"
-              class="form-control"
-              [disabled]="
-                !editing ||
-                (selectedWo.wo_status != null
-                  ? selectedWo.wo_status != 'completed'
-                  : false)
-              "
-              [(ngModel)]="woFormActData.relDate"
-              value="woFormActData.relDate"
-            />
-          </div>
-          <!-- User csak akkor ha nem új GYR-t  veszünk fel -->
-          <div class="col-xs-4" *ngIf="selectedMode">
-            <label for="user">User:</label>
-            <input
-              type="number"
-              name="user"
-              id="user"
-              class="form-control"
-              disabled
-              [(ngModel)]="woFormActData.user"
-              value="woFormActData.user"
-            />
+              <select
+                name="status"
+                id="status"
+                class="form-control"
+                [disabled]="
+                  !editing ||
+                  (selectedWo.wo_status != null
+                    ? selectedWo.wo_status == 'completed'
+                    : false)
+                "
+                [(ngModel)]="woFormActData.status"
+                value="woFormActData.status"
+              >
+                <option>accepted</option>
+                <option>completed</option>
+                <option>ongoing</option>
+                <option>waiting</option>
+              </select>
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="line">Gyártósor:</label>
+              <input
+                type="text"
+                name="line"
+                id="line"
+                class="form-control"
+                [disabled]="
+                  !editing ||
+                  (selectedWo.wo_status != null
+                    ? selectedWo.wo_status == 'ongoing' ||
+                      selectedWo.wo_status == 'completed'
+                    : false)
+                "
+                [(ngModel)]="woFormActData.line"
+                value="woFormActData.line"
+                maxlength="8"
+              />
+            </div>
+            <div class="col-lg-4">
+              <label for="qtyOrd">Rendelt mennyiség:</label>
+              <input
+                type="number"
+                name="qtyOrd"
+                id="qtyOrd"
+                class="form-control"
+                [disabled]="
+                  !editing ||
+                  (selectedWo.wo_status != null
+                    ? selectedWo.wo_status != 'waiting'
+                    : false)
+                "
+                [(ngModel)]="woFormActData.qtyOrd"
+                value="woFormActData.qtyOrd"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="ordDate">Rendelési dátum:</label>
+              <input
+                type="datetime-local"
+                name="ordDate"
+                id="ordDate"
+                class="form-control"
+                disabled
+                [(ngModel)]="woFormActData.ordDate"
+                value="woFormActData.ordDate"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="estTime">Várható elk. idő:</label>
+              <input
+                type="time"
+                name="estTime"
+                id="estTime"
+                class="form-control"
+                disabled
+                [(ngModel)]="woFormActData.estTime"
+                value="woFormActData.estTime"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="seq">Sorszám:</label>
+              <input
+                type="number"
+                name="seq"
+                id="seq"
+                class="form-control"
+                disabled
+                [(ngModel)]="woFormActData.seq"
+                value="woFormActData.seq"
+              />
+            </div>
+            <div class="col-lg-4">
+              <label for="dueDate">Határidő:</label>
+              <input
+                type="date"
+                name="dueDate"
+                id="dueDate"
+                class="form-control"
+                [disabled]="
+                  !editing ||
+                  (selectedWo.wo_status != null
+                    ? selectedWo.wo_status != 'waiting'
+                    : false)
+                "
+                [(ngModel)]="woFormActData.dueDate"
+                value="woFormActData.dueDate"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="startDate">Gyártás kezdet:</label>
+              <input
+                type="date"
+                name="startDate"
+                id="startDate"
+                class="form-control"
+                [disabled]="
+                  !editing ||
+                  (selectedWo.wo_status != null
+                    ? selectedWo.wo_status == 'ongoing' ||
+                      selectedWo.wo_status == 'completed'
+                    : false)
+                "
+                [(ngModel)]="woFormActData.startDate"
+                value="woFormActData.startDate"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="startTime">Kezdési idő:</label>
+              <input
+                type="datetime"
+                name="startTime"
+                id="startTime"
+                class="form-control"
+                disabled
+                [(ngModel)]="woFormActData.startTime"
+                value="woFormActData.startTime"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="endTime">Végzési idő:</label>
+              <input
+                type="datetime"
+                name="endTime"
+                id="endTime"
+                class="form-control"
+                disabled
+                [(ngModel)]="woFormActData.endTime"
+                value="woFormActData.endTime"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="pldDown">Tervezett állási idő:</label>
+              <input
+                type="time"
+                name="pldDown"
+                id="pldDown"
+                class="form-control"
+                disabled
+                [(ngModel)]="woFormActData.pldDown"
+                value="woFormActData.pldDown"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="unpldDown">Nem tervezett állási idő:</label>
+              <input
+                type="time"
+                name="unpldDown"
+                id="unpldDown"
+                class="form-control"
+                disabled
+                [(ngModel)]="woFormActData.unpldDown"
+                value="woFormActData.unpldDown"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="activated">Élesített:</label>
+              <input
+                type="checkbox"
+                name="activated"
+                id="activated"
+                class="form-control"
+                disabled
+                [(ngModel)]="woFormActData.activated"
+                value="woFormActData.activated"
+              />
+            </div>
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="relDate">Kib. dátum:</label>
+              <input
+                type="date"
+                name="relDate"
+                id="relDate"
+                class="form-control"
+                [disabled]="
+                  !editing ||
+                  (selectedWo.wo_status != null
+                    ? selectedWo.wo_status != 'completed'
+                    : false)
+                "
+                [(ngModel)]="woFormActData.relDate"
+                value="woFormActData.relDate"
+              />
+            </div>
+            <!-- User csak akkor ha nem új GYR-t  veszünk fel -->
+            <div class="col-lg-4" *ngIf="selectedMode">
+              <label for="user">User:</label>
+              <input
+                type="number"
+                name="user"
+                id="user"
+                class="form-control"
+                disabled
+                [(ngModel)]="woFormActData.user"
+                value="woFormActData.user"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</form>
-
+  </form>
+</div>
