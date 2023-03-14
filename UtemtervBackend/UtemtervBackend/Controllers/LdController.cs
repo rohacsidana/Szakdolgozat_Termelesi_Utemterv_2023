@@ -118,6 +118,4 @@ namespace UtemtervBackend.Controllers
         }
     }
 
-
-
 }

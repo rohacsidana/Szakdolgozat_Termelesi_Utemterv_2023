@@ -10,55 +10,65 @@
     </div>
   </div>
   <hr />
-
   <div class="row">
-    <div class="col-lg-6">
-      <div class="form-group">
-        <div class="input-group">
-          <span class="input-group-addon">Gyártósor:</span>
-          <input
-            style="z-index: auto"
-            type="text"
-            id="woLine"
-            class="form-control"
-            min="1"
-            max="53"
-            #line
-          />
-          <span class="input-group-addon">Hét:</span>
-          <input
-            style="z-index: auto"
-            type="number"
-            id="week"
-            class="form-control"
-            min="1"
-            max="53"
-            #week
-          />
-          <span class="input-group-addon">Év:</span>
-          <input
-            style="z-index: auto"
-            type="number"
-            id="year"
-            class="form-control"
-            #year
-          />
+    <div class="col-md-7">
+      <div class="row">
+        <div class="form-group">
+          <div class="col-lg-4">
+            <div class="input-group">
+              <span class="input-group-addon">Gyártósor:</span>
+              <input
+                style="z-index: auto"
+                type="text"
+                id="woLine"
+                class="form-control"
+                min="1"
+                max="53"
+                #line
+              />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="input-group">
+              <span class="input-group-addon">Hét:</span>
+              <input
+                style="z-index: auto"
+                type="number"
+                id="week"
+                class="form-control"
+                min="1"
+                max="53"
+                #week
+              />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="input-group">
+              <span class="input-group-addon">Év:</span>
+              <input
+                style="z-index: auto"
+                type="number"
+                id="year"
+                class="form-control"
+                #year
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-xs-2">
+    <div class="col-md-5">
       <button
         class="btn btn-primary"
         (click)="search(line.value, +week.value, year.value)"
       >
         Keresés
       </button>
-    </div>
-    <div class="col-xs-2" *ngIf="xwoData.length != 0">
       <button
         class="{{ editing ? 'btn btn-danger' : 'btn btn-primary' }}"
         type="button"
         (click)="cancel()"
+        *ngIf="xwoData.length != 0"
       >
         {{ editing ? "Mégse" : "Szerkesztés" }}
       </button>
@@ -68,20 +78,18 @@
     <div class="col-xs-3">
       <div *ngIf="editing && utemezheto" class="input-group">
         <!-- <label for="woLot">Gyr szám:</label> -->
-       
-          <span class="input-group-addon">Kezdési idő</span>
-          <!-- req -->
-          <input
-            style="z-index: auto"
-            type="time"
-            id="woLot"
-            name="woLot"
-            class="form-control"
-            #start_time
-          />
-        
-       
-  
+
+        <span class="input-group-addon">Kezdési idő</span>
+        <!-- req -->
+        <input
+          style="z-index: auto"
+          type="time"
+          id="woLot"
+          name="woLot"
+          class="form-control"
+          #start_time
+        />
+
         <div class="input-group-btn">
           <button
             *ngIf="editing && utemezheto"
@@ -111,14 +119,10 @@
         </button>
       </div>
     </div>
-    
-    
-    
   </div>
   <hr />
   <!-- Xwo table -->
   <div class="table-responsive">
     <app-data-table [headers]="xwoHeaders"></app-data-table>
   </div>
-  
 </div>
