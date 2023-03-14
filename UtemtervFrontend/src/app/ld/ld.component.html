@@ -10,6 +10,9 @@
       <div class="row">
         <div class="col-xs-12">
           <form [formGroup]="myGroup" (ngSubmit)="onSubmit()">
+            <button class="btn btn-warning" (click)="onScrap()" type="button">
+              Készletselejtezés
+            </button>
             <div class="row">
               <div class="col-xs-8">
                 <div class="form-group">
@@ -79,14 +82,7 @@
               >
                 Módosítások mentése
               </button>
-              <button
-                class="btn btn-warning"
-                (click)="onScrap()"
-                type="button"
-                *ngIf="editMode"
-              >
-                Készlet selejtezése
-              </button>
+
               <!-- új, módosítás módnál mégse, vissza keresés módra -->
               <button
                 class="btn btn-primary"
@@ -165,3 +161,8 @@
     </div>
   </div>
 </div>
+<app-alert
+  *ngIf="error"
+  [message]="error"
+  (close)="onHandleError()"
+></app-alert>
