@@ -94,7 +94,7 @@ namespace UtemtervBackend.Controllers
             try
             {
                 var res = _context.Database.ExecuteSql($"scrap");
-                 return Ok();
+                 return Ok(res);
             }
             catch (Exception e)
             {

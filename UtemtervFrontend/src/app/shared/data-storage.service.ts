@@ -1169,6 +1169,10 @@ export class DataStorageService {
    return this.http.post<any>(URL + '/workorder/activate', {Year: year, Week: week, WoLine: line})
     
   }
+
+  scrapLd(){
+    return this.http.get(URL+ '/ld/scrap')
+  }
  
 }
 

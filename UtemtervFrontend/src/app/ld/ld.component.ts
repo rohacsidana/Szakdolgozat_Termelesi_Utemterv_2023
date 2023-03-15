@@ -11,6 +11,7 @@ import * as DataTableService from '../data-table/data-table.service';
 import { DataStorageService } from '../shared/data-storage.service';
 import { Ld } from '../shared/interfaces';
 import { LdService } from './ld.service';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-ld',
@@ -191,7 +192,19 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onScrap() {
-   
+   this.dataStService.scrapLd()
+   .pipe(
+    tap({
+      next: ()=>{
+        this.dataStService.fetchLds();
+      },
+      error: (error)=>{
+        console.error(error.error);
+        
+      }
+    })
+   )
+   .subscribe();
   }
 
   clearForm() {

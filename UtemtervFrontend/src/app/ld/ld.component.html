@@ -39,7 +39,7 @@
               >
                 <i class="glyphicon glyphicon-search"></i>
               </button>
-              <button class="btn btn-warning" (click)="onScrap()" type="button">
+              <button class="btn btn-warning" (click)="onScrap()" type="button" *ngIf="!editMode && !newMode">
                 Készletselejtezés
               </button>
               <button
