@@ -502,7 +502,12 @@ export class DataStorageService {
               console.log(res);
             }
           },
-          error: (error) => console.log(error),
+          error: (error) => {
+            console.log(error);
+            this.ldService.error.next(
+              'Hiba történt felvitelkor. Csak anyagokat lehet felvinni.'
+            );
+          },
         })
       )
       .subscribe();
@@ -1166,21 +1171,26 @@ export class DataStorageService {
     return this.http.post(URL + '/user/change/password', { Password: pw });
   }
 
-  activateWorkWeek(week: number, line: string, year: string){
-   return this.http.post<any>(URL + '/workorder/activate', {Year: year, Week: week, WoLine: line})
-    
+  activateWorkWeek(week: number, line: string, year: string) {
+    return this.http.post<any>(URL + '/workorder/activate', {
+      Year: year,
+      Week: week,
+      WoLine: line,
+    });
   }
 
-  scrapLd(){
-    return this.http.get(URL+ '/ld/scrap')
+  scrapLd() {
+    return this.http.get(URL + '/ld/scrap');
   }
 
-  unpldDowntime(lot, time){
+  unpldDowntime(lot, time) {
     console.log(lot, time);
-    
-    return this.http.post<any>(URL + '/workorder/unpld', {lot: lot, unpldTime: time})
+
+    return this.http.post<any>(URL + '/workorder/unpld', {
+      lot: lot,
+      unpldTime: time,
+    });
   }
- 
 }
 
 export const URL = 'https://localhost:7075/api';

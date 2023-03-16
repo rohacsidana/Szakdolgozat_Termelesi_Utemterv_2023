@@ -39,7 +39,12 @@
               >
                 <i class="glyphicon glyphicon-search"></i>
               </button>
-              <button class="btn btn-warning" (click)="onScrap()" type="button" *ngIf="!editMode && !newMode">
+              <button
+                class="btn btn-warning"
+                (click)="onScrap()"
+                type="button"
+                *ngIf="!editMode && !newMode"
+              >
                 Készletselejtezés
               </button>
               <button
@@ -165,8 +170,4 @@
     </div>
   </div>
 </div>
-<app-alert
-  *ngIf="error"
-  [message]="error"
-  (close)="onHandleError()"
-></app-alert>
+<app-alert *ngIf="error" [message]="error" (close)="error = null"></app-alert>

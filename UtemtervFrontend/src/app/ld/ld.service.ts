@@ -10,6 +10,11 @@ import { Ld } from '../shared/interfaces';
 export class LdService {
   private ldData: Ld[] = [];
   ldDataChanged: Subject<Ld[]> = new Subject<Ld[]>();
+  error: Subject<string> = new Subject<string>();
+
+  setError(error: string) {
+    this.error.next(error);
+  }
 
   setLds(lds: Ld[]) {
     this.ldData = lds;

@@ -11,7 +11,7 @@ import * as DataTableService from '../data-table/data-table.service';
 import { DataStorageService } from '../shared/data-storage.service';
 import { Ld } from '../shared/interfaces';
 import { LdService } from './ld.service';
-import {tap} from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ld',
@@ -21,6 +21,7 @@ import {tap} from 'rxjs/operators';
 export class LdComponent implements OnInit, OnDestroy {
   loadedLd: Ld;
   error: string;
+  errorSub: Subscription;
 
   myGroup: FormGroup;
   ldFound: boolean = true;
@@ -58,6 +59,10 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.errorSub = this.ldService.error.subscribe((error: string) => {
+      this.error = error;
+    });
+
     this.ldDataChangedSub = this.ldService.ldDataChanged.subscribe(
       (ldData: Ld[]) => {
         this.ldData = ldData;
@@ -192,19 +197,19 @@ export class LdComponent implements OnInit, OnDestroy {
   }
 
   onScrap() {
-   this.dataStService.scrapLd()
-   .pipe(
-    tap({
-      next: ()=>{
-        this.dataStService.fetchLds();
-      },
-      error: (error)=>{
-        console.error(error.error);
-        
-      }
-    })
-   )
-   .subscribe();
+    this.dataStService
+      .scrapLd()
+      .pipe(
+        tap({
+          next: () => {
+            this.dataStService.fetchLds();
+          },
+          error: (error) => {
+            console.error(error.error);
+          },
+        })
+      )
+      .subscribe();
   }
 
   clearForm() {
@@ -280,5 +285,6 @@ export class LdComponent implements OnInit, OnDestroy {
     this.sortSub.unsubscribe();
     this.rowSelectSubscription.unsubscribe();
     this.ldDataChangedSub.unsubscribe();
+    this.errorSub.unsubscribe();
   }
 }
