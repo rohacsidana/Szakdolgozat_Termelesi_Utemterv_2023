@@ -21,6 +21,7 @@
                       style="z-index: auto"
                       type="text"
                       class="form-control"
+                      maxlength="8"
                       [(ngModel)]="searchLine"
                       [disabled]="newChg"
                     />
@@ -35,6 +36,7 @@
                       style="z-index: auto"
                       type="number"
                       class="form-control"
+                      min="0"
                       [(ngModel)]="searchFrom"
                       [disabled]="newChg"
                     />
@@ -49,6 +51,7 @@
                       style="z-index: auto"
                       type="number"
                       class="form-control"
+                      min="0"
                       [(ngModel)]="searchTo"
                       [disabled]="newChg"
                     />
@@ -141,6 +144,7 @@
                 maxlength="24"
                 class="form-control"
                 [(ngModel)]="from"
+                min="0"
                 [disabled]="!newChg"
                 required=""
               />
@@ -154,6 +158,7 @@
                 maxlength="24"
                 class="form-control"
                 [(ngModel)]="to"
+                min="0"
                 [disabled]="!newChg"
                 required=""
               />
@@ -166,6 +171,7 @@
                 name="timeInput"
                 maxlength="24"
                 class="form-control"
+                min="0"
                 [(ngModel)]="time"
                 [disabled]="!newChg && !edit"
               />
