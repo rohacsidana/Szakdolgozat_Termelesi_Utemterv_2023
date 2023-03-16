@@ -86,21 +86,26 @@
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="editing && selectedWo.wo_status === 'completed'">
-      <div class="col-xs-1">
-        <div class="input-group">
-          <span class="input-group-addon">Nem tervezett átállás </span>
-          <input type="time" value="" class="form-control" #time />
+    <div class="container" *ngIf="editing && selectedWo.wo_status === 'completed'">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon">Nem tervezett átállás </span>
+              <input type="time" value="" class="form-control" #time />
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div class="col-xs-1">
-        <button
-          (click)="onRepUnpldDowntime(time.value)"
-          class="btn btn-primary"
-        >
-          leadás
-        </button>
+        <div class="col-sm-8">
+          <div class="form-group">
+            <button
+              (click)="onRepUnpldDowntime(time.value)"
+              class="btn btn-primary"
+            >
+              leadás
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="container">
