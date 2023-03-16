@@ -219,6 +219,37 @@ export class WoFormComponent implements OnInit, OnDestroy {
         .pipe(
           tap({
             next: (data) => {
+              if (
+                this.selectedWo.wo_status == 'waiting' &&
+                this.woFormActData.status == 'accepted'
+              ) {
+                this.DataStorageService.fetchLad(this.selectedWo.wo_lot)
+                  .pipe(
+                    tap({
+                      next: (data) => this.woService.setWodData([...data]),
+                      error: (error) => {
+                        if (this.woService.woError === null) {
+                          this.woService.setWodData([]);
+                        }
+                        return;
+                      },
+                    })
+                  )
+                  .subscribe();
+                this.DataStorageService.fetchWod(this.selectedWo.wo_lot)
+                  .pipe(
+                    tap({
+                      next: (data) => this.woService.setWodData([...data]),
+                      error: (error) => {
+                        if (this.woService.woError === null) {
+                          this.woService.setWodData([]);
+                        }
+                        return;
+                      },
+                    })
+                  )
+                  .subscribe();
+              }
               this.woService.setSelectedWo({ ...data });
               this.selectedWo = { ...data };
               this.initFormData();
