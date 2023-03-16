@@ -28,6 +28,7 @@ import {
 import { PartService } from '../parts/pt/pt.service';
 import { throwError } from 'rxjs';
 import { PartStrService } from '../parts/ps/ps.service';
+import { Time } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -1172,6 +1173,12 @@ export class DataStorageService {
 
   scrapLd(){
     return this.http.get(URL+ '/ld/scrap')
+  }
+
+  unpldDowntime(lot, time){
+    console.log(lot, time);
+    
+    return this.http.post<any>(URL + '/workorder/unpld', {lot: lot, unpldTime: time})
   }
  
 }

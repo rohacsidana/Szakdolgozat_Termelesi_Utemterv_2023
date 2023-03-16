@@ -7,6 +7,7 @@ import { map, tap } from 'rxjs/operators';
 import { Wo } from '../../../shared/interfaces';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { WoService } from '../../wo.service';
+import { Time } from '@angular/common';
 
 @Component({
   selector: 'app-wo-form',
@@ -127,10 +128,14 @@ export class WoFormComponent implements OnInit, OnDestroy {
         //errorMessage = 'Due of the status value you can not change that.';
         errorMessage = 'A státusz értéke miatt ez nem változtatható.';
         break;
+      case 'WO_NOT_COMPLETED':
+        //errorMessage = 'Due of the status value you can not change that.';
+        errorMessage = 'Csak \"completed\" státuszal rendelkező gyártási rendelésre lehet nem tervezett átállási időt leadni.';
+        break;
       case 'UNKNOWN_ERROR':
         //errorMessage = 'An unknown error occurred';
         errorMessage = 'Ismeretlen hiba történt.';
-
+        break;
       default:
         //errorMessage = 'An unknown error occurred';
         errorMessage = 'Ismeretlen hiba történt.';
@@ -292,6 +297,21 @@ export class WoFormComponent implements OnInit, OnDestroy {
         this.woService.setSelectedWo(null);
         this.router.navigate(['../'], { relativeTo: this.route });
       });
+  }
+
+  onRepUnpldDowntime(time){
+    this.DataStorageService.unpldDowntime(this.selectedWoLot, time)
+    .pipe(
+      tap({
+        next: (res)=>{
+          console.log(res);
+        },
+        error: (err)=>{
+          this.handleError(err)
+        }
+      })
+    )
+    .subscribe()
   }
 
   ngOnDestroy(): void {

@@ -35,6 +35,7 @@
                       style="z-index: auto"
                       type="number"
                       class="form-control"
+                      min="0"
                       [(ngModel)]="searchPart"
                       [disabled]="newLnd"
                     />
@@ -129,6 +130,7 @@
                 name="partInput"
                 maxlength="24"
                 class="form-control"
+                min="0"
                 [(ngModel)]="part"
                 [disabled]="!newLnd"
               />
@@ -141,6 +143,7 @@
                 name="rateInput"
                 maxlength="24"
                 class="form-control"
+                min="1"
                 [(ngModel)]="rate"
                 [disabled]="!newLnd && !edit"
               />
