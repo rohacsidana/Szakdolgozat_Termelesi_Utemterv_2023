@@ -1,5 +1,5 @@
 
-create TRIGGER UpdateStatus 
+alter TRIGGER UpdateStatus 
    on WO_MSTR
    AFTER UPDATE
 AS 
@@ -20,6 +20,7 @@ BEGIN
 			when @oldStatus = 'waiting' and @newStatus <> 'accepted' then 1
 			when @oldStatus = 'accepted' and @newStatus <> 'ongoing' then 1
 			when @oldStatus = 'ongoing' and @newStatus <> 'completed' then 1
+			when @oldStatus = 'completed' and @newStatus <> 'completed' then 1
 			else 0
 		end;
 	end
