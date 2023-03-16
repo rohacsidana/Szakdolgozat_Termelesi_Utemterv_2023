@@ -86,6 +86,23 @@
         </div>
       </div>
     </div>
+    <div class="row" *ngIf="editing && selectedWo.wo_status === 'completed'">
+      <div class="col-xs-1">
+        <div class="input-group">
+          <span class="input-group-addon">Nem tervezett átállás </span>
+          <input type="time" value="" class="form-control" #time />
+        </div>
+      </div>
+
+      <div class="col-xs-1">
+        <button
+          (click)="onRepUnpldDowntime(time.value)"
+          class="btn btn-primary"
+        >
+          leadás
+        </button>
+      </div>
+    </div>
     <div class="container">
       <div class="row">
         <div ngModelGroup="" #woDataForm>

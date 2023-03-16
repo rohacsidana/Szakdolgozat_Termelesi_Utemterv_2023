@@ -191,25 +191,29 @@ namespace UtemtervBackend.Controllers
             }
         }
 
-        //[HttpGet("canActivate/{year}/{week}/{line}")]
-        //public IActionResult CanActivateWeek(String year,int week, string line)
-        //{
-        //    try
-        //    {
-        //        var res = _context.
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        return StatusCode(401, "UNKOWN_ERROR");
-        //    }
-        //}
+        [HttpPost("unpld")]
+        public IActionResult UnpldDowntime([FromBody] UnpldDto unpld)
+        {
+            try
+            {
+                var res = _context.Database.ExecuteSqlInterpolated($"updateUnpld {unpld.Lot},{unpld.UnpldTime}");
+                return Ok(res);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(400, "WO_NOT_COMPLETED");
+            }
+        }
 
     }
 
    
 }
-
+public class UnpldDto
+{
+    public int Lot { get; set; }
+    public String UnpldTime { get; set; }
+}
 public class NewWoDto
 {
     public string WoNbr { get; set; } = ""; 
