@@ -499,6 +499,7 @@ export class DataStorageService {
                 ld_qty_scrp: ld.ld_qty_scrp,
               };
               this.ldService.saveLd(newLd, 'new');
+              this.fetchLds();
               console.log(res);
             }
           },

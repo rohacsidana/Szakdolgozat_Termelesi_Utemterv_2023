@@ -174,7 +174,7 @@ export class LdComponent implements OnInit, OnDestroy {
       ld_qty_rsrv: 0,
       ld_qty_scrp: 0,
     });
-    this.ldDataChanged();
+    //this.ldDataChanged();
     this.searchMode = true;
     this.editMode = false;
     this.newMode = false;
