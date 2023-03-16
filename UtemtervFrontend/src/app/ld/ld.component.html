@@ -149,24 +149,24 @@
         </div>
       </div>
     </form>
-    <hr />
-    <div class="row">
-      <div class="col-lg-12">
-        <button
-          class="btn btn-default"
-          *ngIf="searchedDataLoaded"
-          (click)="clearForm()"
-        >
-          <i class="glyphicon glyphicon-chevron-left"></i>
-          Vissza az összeshez
-        </button>
-      </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-lg-12">
+      <button
+        class="btn btn-default"
+        *ngIf="searchedDataLoaded"
+        (click)="clearForm()"
+      >
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Vissza az összeshez
+      </button>
     </div>
-    <!--  ps headerek -->
-    <div class="row">
-      <div class="col-lg-12">
-        <app-data-table [headers]="ldHeaders"></app-data-table>
-      </div>
+  </div>
+  <!--  ps headerek -->
+  <div class="row">
+    <div class="col-lg-12">
+      <app-data-table [headers]="ldHeaders"></app-data-table>
     </div>
   </div>
 </div>
