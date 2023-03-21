@@ -88,6 +88,6 @@ public class ReserveToWoDto
     public int LadPar { get; set;}
       public int LadLot { get; set;}
        public int LadComp { get; set;}
-       public DateTime LadExpire { get; set;}
+       public String LadExpire { get; set;}
        public decimal LadAmount { get; set;}
 }
