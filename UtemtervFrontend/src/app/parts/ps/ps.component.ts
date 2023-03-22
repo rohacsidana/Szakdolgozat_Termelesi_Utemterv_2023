@@ -123,7 +123,10 @@ export class PsComponent {
     this.myGroup = this.formBuilder.group({
       ps_par: new FormControl('', Validators.required),
       ps_comp: new FormControl('', Validators.required),
-      ps_qty_per: new FormControl('', Validators.required),
+      ps_qty_per: new FormControl(
+        { disabled: true, value: '' },
+        Validators.required
+      ),
     });
   }
 
@@ -261,6 +264,7 @@ export class PsComponent {
   clearForm() {
     this.myGroup.enable();
     this.myGroup.reset();
+    this.initForm();
     this.partStrAlreadyExists = false;
 
     this.searchMode = true;
