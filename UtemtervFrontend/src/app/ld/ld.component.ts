@@ -104,7 +104,7 @@ export class LdComponent implements OnInit, OnDestroy {
             Validators.required
           ),
           ld_qty_scrp: new FormControl(
-            { value: data.ld_qty_scrp, disabled: true },
+            { value: data.ld_qty_scrp, disabled: false },
             Validators.required
           ),
         });
@@ -172,7 +172,7 @@ export class LdComponent implements OnInit, OnDestroy {
       ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
       ld_qty_oh: this.myGroup.getRawValue().ld_qty_oh,
       ld_qty_rsrv: 0,
-      ld_qty_scrp: 0,
+      ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp,
     });
     //this.ldDataChanged();
     this.searchMode = true;
