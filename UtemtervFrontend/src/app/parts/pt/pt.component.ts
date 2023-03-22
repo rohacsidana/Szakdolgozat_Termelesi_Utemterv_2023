@@ -86,7 +86,10 @@ export class PtComponent {
         { value: '', disabled: this.searchMode ? false : true },
         Validators.required
       ),
-      pt_desc: new FormControl('', Validators.required),
+      pt_desc: new FormControl(
+        { disabled: true, value: '' },
+        Validators.required
+      ),
       pt_um: new FormControl(
         {
           value: '',
