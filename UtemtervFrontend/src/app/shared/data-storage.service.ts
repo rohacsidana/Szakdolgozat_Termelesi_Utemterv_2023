@@ -478,8 +478,6 @@ export class DataStorageService {
   }
 
   newLd(ld: Ld) {
-    console.log(ld);
-
     return this.http
       .post<any>(URL + '/ld/new', {
         ldPart: ld.ld_part,

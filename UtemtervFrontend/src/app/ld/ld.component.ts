@@ -172,7 +172,9 @@ export class LdComponent implements OnInit, OnDestroy {
       ld_expire: new Date(this.myGroup.getRawValue().ld_expire),
       ld_qty_oh: this.myGroup.getRawValue().ld_qty_oh,
       ld_qty_rsrv: 0,
-      ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp,
+      ld_qty_scrp: this.myGroup.getRawValue().ld_qty_scrp
+        ? this.myGroup.getRawValue().ld_qty_scrp
+        : 0,
     });
     //this.ldDataChanged();
     this.searchMode = true;
