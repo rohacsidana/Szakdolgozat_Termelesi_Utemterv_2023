@@ -87,8 +87,12 @@ export class LdComponent implements OnInit, OnDestroy {
 
     this.rowSelectSubscription = this.dtTblService.selectRow.subscribe(
       (data: Ld) => {
-        let tempDate = new Date(data.ld_expire);
-        tempDate = new Date(tempDate.setDate(tempDate.getDate() + 1));
+        let tempDate = new Date(
+          data.ld_expire.getTime() - data.ld_expire.getTimezoneOffset() * 60000
+        );
+        tempDate = new Date(tempDate.setDate(tempDate.getDate()));
+        console.log('new date: ' + tempDate.toISOString());
+
         this.myGroup = this.formBuilder.group({
           ld_part: new FormControl(
             { value: data.ld_part, disabled: true },
@@ -108,6 +112,7 @@ export class LdComponent implements OnInit, OnDestroy {
             Validators.required
           ),
         });
+
         this.ldFound = true;
         this.editMode = true;
         this.searchMode = false;
