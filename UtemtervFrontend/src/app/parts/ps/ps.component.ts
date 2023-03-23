@@ -228,6 +228,7 @@ export class PsComponent {
   }
 
   onNew() {
+    this.myGroup.enable();
     this.newMode = true;
     this.editMode = false;
     this.searchMode = false;

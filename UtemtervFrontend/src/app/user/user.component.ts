@@ -128,9 +128,12 @@ export class UserComponent implements OnInit, OnDestroy {
     );
     if (this.loadedUser) {
       //lekérem a beirt azonosito szerinti felhasználót
-      console.log(this.loadedUser.birth_date);
-      let tempDate = new Date(this.loadedUser.birth_date);
-      tempDate = new Date(tempDate.setDate(tempDate.getDate() + 1));
+      let tempDate = new Date(
+        this.loadedUser.birth_date.getTime() -
+          this.loadedUser.birth_date.getTimezoneOffset() * 60000
+      );
+      tempDate = new Date(tempDate.setDate(tempDate.getDate()));
+      console.log('new date: ' + tempDate.toISOString());
 
       this.editMode = true;
       this.newMode = false;
