@@ -86,7 +86,10 @@
         </div>
       </div>
     </div>
-    <div class="container" *ngIf="editing && selectedWo.wo_status === 'completed'">
+    <div
+      class="container"
+      *ngIf="editing && selectedWo.wo_status === 'completed'"
+    >
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
@@ -172,9 +175,8 @@
                 class="form-control"
                 [disabled]="
                   !editing ||
-                  (selectedWo.wo_status != null
-                    ? selectedWo.wo_status == 'completed'
-                    : false)
+                  (selectedWo.wo_status != null &&
+                    selectedWo.wo_status == 'completed')
                 "
                 [(ngModel)]="woFormActData.status"
                 value="woFormActData.status"
