@@ -91,7 +91,7 @@ export class LdComponent implements OnInit, OnDestroy {
           data.ld_expire.getTime() - data.ld_expire.getTimezoneOffset() * 60000
         );
         tempDate = new Date(tempDate.setDate(tempDate.getDate()));
-        console.log('new date: ' + tempDate.toISOString());
+        //console.log('new date: ' + tempDate.toISOString());
 
         this.myGroup = this.formBuilder.group({
           ld_part: new FormControl(
