@@ -1,10 +1,54 @@
 {
     "client": "Thunder Client",
     "collectionName": "SzakdolgozatAPI",
-    "dateExported": "2023-03-27T14:09:39.108Z",
+    "dateExported": "2023-03-27T14:53:49.454Z",
     "version": "1.1",
-    "folders": [],
+    "folders": [
+        {
+            "_id": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "api test",
+            "containerId": "",
+            "created": "2023-03-27T14:41:09.849Z",
+            "sortNum": 20000
+        }
+    ],
     "requests": [
+        {
+            "_id": "b7115a6c-394a-41b3-addf-209b0bd304ca",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "Admin login",
+            "url": "https://localhost:7075/api/auth/login",
+            "method": "POST",
+            "sortNum": 5000,
+            "created": "2023-03-27T14:37:51.471Z",
+            "modified": "2023-03-27T14:43:40.581Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userEmail\": \"admin\",\n  \"password\": \"admin\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{token}}"
+                }
+            ]
+        },
         {
             "_id": "5a65f26c-fda1-43bf-959d-1c40da045e0a",
             "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
@@ -14,12 +58,11 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-03-27T14:09:29.773Z",
-            "modified": "2023-03-27T14:09:29.773Z",
+            "modified": "2023-03-27T14:30:50.343Z",
             "headers": [
                 {
                     "name": "Accept",
-                    "value": "*/*",
-                    "isDisabled": true
+                    "value": "application/json"
                 },
                 {
                     "name": "User-Agent",
@@ -33,7 +76,135 @@
                 "raw": "{\n  \"userEmail\": \"string\",\n  \"password\": \"string\"\n}",
                 "form": []
             },
-            "tests": []
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{token}}"
+                }
+            ]
+        },
+        {
+            "_id": "56fa7d25-8097-4e86-8b09-6869c8c77b60",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "Új GYR",
+            "url": "https://localhost:7075/api/workorder/new",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-03-27T14:40:22.736Z",
+            "modified": "2023-03-27T14:52:01.724Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "bearer {{token}}"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n  \"woNbr\": \"teszt\",\r\n  \"woPart\": 1038,\r\n  \"woQtyOrd\": 1,\r\n  \"woDueDate\": \"2023-03-27\"\r\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "b7115a6c-394a-41b3-addf-209b0bd304ca",
+                        "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+                        "triggerCondition": "run-var-empty",
+                        "triggerValue": "{{token}}"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "c527848d-e928-4782-9e37-9d755c64d2de",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "",
+            "name": "GYR összes",
+            "url": "https://localhost:7075/api/workorder/list",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-03-27T14:25:36.598Z",
+            "modified": "2023-03-27T14:30:43.778Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "bearer {{token}}"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "5a65f26c-fda1-43bf-959d-1c40da045e0a",
+                        "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+                        "triggerCondition": "run-once",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "877d1b23-c6b1-4cec-aaa6-0b299edce6f9",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "TEST GYR összes",
+            "url": "https://localhost:7075/api/workorder/list",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-03-27T14:43:13.952Z",
+            "modified": "2023-03-27T14:53:26.235Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "bearer {{token}}"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "56fa7d25-8097-4e86-8b09-6869c8c77b60",
+                        "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
         }
     ]
 }

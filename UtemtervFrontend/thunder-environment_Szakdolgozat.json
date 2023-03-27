@@ -1,12 +1,12 @@
 {
     "client": "Thunder Client",
     "environmentName": "Szakdolgozat",
-    "dateExported": "2023-03-27T14:33:20.468Z",
+    "dateExported": "2023-03-27T14:53:58.962Z",
     "version": "1.0",
     "variables": [
         {
             "name": "token",
-            "value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMTAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJzdHJpbmciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIyIiwiZXhwIjoxNjc5OTMxMTcyfQ.9s8Dz1OhM7s_u6NbV5Vx_sv8Qb54qAEOXmJCUUMmQZ_DzqCm9DrqDygJ4IM2dOyUBzbNHcOiPZBFZj6QTezwqQ"
+            "value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiMSIsImV4cCI6MTY3OTkzMjQwNn0.3wZbgx06j5DccOuJgeDE_FtzI29DxMt27PrXk3EBFrALdKeipi2hu9rqUeemuPGfkIue3U4A6PdRwuywy9M9RQ"
         }
     ]
 }
