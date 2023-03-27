@@ -1,0 +1,12 @@
+{
+    "client": "Thunder Client",
+    "environmentName": "Szakdolgozat",
+    "dateExported": "2023-03-27T14:33:20.468Z",
+    "version": "1.0",
+    "variables": [
+        {
+            "name": "token",
+            "value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMTAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJzdHJpbmciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIyIiwiZXhwIjoxNjc5OTMxMTcyfQ.9s8Dz1OhM7s_u6NbV5Vx_sv8Qb54qAEOXmJCUUMmQZ_DzqCm9DrqDygJ4IM2dOyUBzbNHcOiPZBFZj6QTezwqQ"
+        }
+    ]
+}
