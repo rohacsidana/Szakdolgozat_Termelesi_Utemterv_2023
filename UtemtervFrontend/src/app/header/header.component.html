@@ -43,9 +43,9 @@
           routerLink="/inventory"
           >Készlet</a
         >
-          <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="/line">Gyártósorok</a>
-        <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="/line/change">Átállásidők</a>
+        <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="/line">Gyártósorok</a>
         <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="/line/rate">Gyártási sebességek</a>
+        <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="/line/change">Gyártósor átállásidők</a>
         <a mat-list-item *ngIf="role === 1 || role === 2"  routerLink="../workorder/list">Gyártási rendelések</a>
         <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="../workorder">Gyártási rendelés</a>
         <a mat-list-item *ngIf="role === 1 || role === 2" routerLink="../reserve">Készletfoglalás</a>
