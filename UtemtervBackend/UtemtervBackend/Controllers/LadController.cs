@@ -69,7 +69,7 @@ namespace UtemtervBackend.Controllers
             catch (Exception e)
             {
                  
-                return StatusCode(500, e);
+                return StatusCode(500, "INCORRECT_PARAM");
             }
         
         }
