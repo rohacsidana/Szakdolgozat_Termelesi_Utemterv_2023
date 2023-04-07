@@ -1,3 +1,4 @@
+<app-alert *ngIf="error" [message]="error" (close)="onHandleError()"></app-alert>
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
@@ -94,21 +95,29 @@
       </div>
     </div>
   </div>
-  <button
-    class="btn btn-primary"
-    (click)="
-      reserve(
-        +ladPart.value,
-        +ladPar.value,
-        +LadLot.value,
-        +ladComp.value,
-        ladExpire.value,
-        +ladAmount.value
-      )
-    "
-  >
-    Foglalás
-  </button>
+    
+      <button
+      class="btn btn-primary"
+      (click)="
+        reserve(
+          +ladPart.value,
+          +ladPar.value,
+          +LadLot.value,
+          +ladComp.value,
+          ladExpire.value,
+          +ladAmount.value
+        )
+      "
+    >
+      Foglalás
+    </button>
+    
+    
+  
+  <div *ngIf="isLoading" style="text-align: center">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+
 </div>
 <!-- <div class="row">
         <div class="col-lg-6">
