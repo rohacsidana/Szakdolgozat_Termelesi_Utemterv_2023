@@ -361,6 +361,8 @@
                 name="relDate"
                 id="relDate"
                 class="form-control"
+                min="{{woFormActData.endTime.split('T')[0]}}"
+                
                 [disabled]="
                   !editing ||
                   (selectedWo.wo_status != null
