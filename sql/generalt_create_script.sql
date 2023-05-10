@@ -2904,6 +2904,8 @@ END
 GO
 ALTER TABLE [dbo].[WO_MSTR] ENABLE TRIGGER [UpdateStatus]
 GO
+insert into "USER" values('admin', '2001-01-01', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1);
+GO
 USE [master]
 GO
 ALTER DATABASE [Utemterv] SET  READ_WRITE 
