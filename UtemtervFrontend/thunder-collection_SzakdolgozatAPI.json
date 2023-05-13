@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "SzakdolgozatAPI",
-    "dateExported": "2023-03-27T14:53:49.454Z",
+    "dateExported": "2023-05-13T09:51:40.467Z",
     "version": "1.1",
     "folders": [
         {
@@ -199,6 +199,293 @@
                 "runRequests": [
                     {
                         "reqId": "56fa7d25-8097-4e86-8b09-6869c8c77b60",
+                        "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "ca96c421-fc10-4b1d-a1af-0f019783a21d",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "CHG list",
+            "url": "https://localhost:7075/api/chg/list",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-05-13T09:34:12.132Z",
+            "modified": "2023-05-13T09:38:55.444Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "bearer {{token}}"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "b7115a6c-394a-41b3-addf-209b0bd304ca",
+                        "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "95588cdc-bd8e-455c-9381-7cdc577a6fd8",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "LD list",
+            "url": "https://localhost:7075/api/ld/list",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-05-13T09:39:40.286Z",
+            "modified": "2023-05-13T09:40:08.500Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "bearer {{token}}"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "b7115a6c-394a-41b3-addf-209b0bd304ca",
+                        "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "a18b8f60-5416-4395-8647-2c669ae2c429",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "LN list",
+            "url": "https://localhost:7075/api/ln/list",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2023-05-13T09:40:53.396Z",
+            "modified": "2023-05-13T09:41:11.127Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "bearer {{token}}"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "b7115a6c-394a-41b3-addf-209b0bd304ca",
+                        "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "fef520b2-2315-4ff4-b93a-ffb6d68d8be9",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "LND list",
+            "url": "https://localhost:7075/api/lnd/list",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2023-05-13T09:41:36.972Z",
+            "modified": "2023-05-13T09:41:46.341Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "bearer {{token}}"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "b7115a6c-394a-41b3-addf-209b0bd304ca",
+                        "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "58173b14-6d10-43dd-85a6-fc0b943e42af",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "PS list",
+            "url": "https://localhost:7075/api/ps/list",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2023-05-13T09:42:00.658Z",
+            "modified": "2023-05-13T09:42:16.734Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "bearer {{token}}"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "b7115a6c-394a-41b3-addf-209b0bd304ca",
+                        "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "bf052854-79eb-4949-b09d-0da1c9713201",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "PT list",
+            "url": "https://localhost:7075/api/pt/list",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2023-05-13T09:43:12.083Z",
+            "modified": "2023-05-13T09:43:28.925Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "bearer {{token}}"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "b7115a6c-394a-41b3-addf-209b0bd304ca",
+                        "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "00a64621-87a4-488e-bdbc-98c6bb2dc115",
+            "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
+            "containerId": "6fab3f84-123c-489a-9988-d2acbd9b914a",
+            "name": "USER list",
+            "url": "https://localhost:7075/api/user/list",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2023-05-13T09:43:45.773Z",
+            "modified": "2023-05-13T09:44:01.568Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "bearer {{token}}"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "b7115a6c-394a-41b3-addf-209b0bd304ca",
                         "colId": "c8990451-8f88-4046-936e-d291ee7362f3",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
